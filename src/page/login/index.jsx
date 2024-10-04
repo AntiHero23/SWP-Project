@@ -10,12 +10,12 @@ function Login() {
     const navigate = useNavigate();
     const handleSubmit = async (values) =>{
         try{
-const reponse = await api.post("login",values);
-console.log(reponse.data)
-alert("dang nhap thanh cong")
-navigate("/");
-    const {token} = reponse.data;
-localStorage.setItem("token",token);
+            const reponse = await api.post("login",values);
+            console.log(reponse.data)
+            alert("dang nhap thanh cong")
+            navigate("/");
+            const {token} = reponse.data;
+            localStorage.setItem("token",token);
         }catch(err){
             alert("Dang nhap that bai")
         }
@@ -38,8 +38,6 @@ localStorage.setItem("token",token);
                 <div className="loginForm-register">
                     <p>Don't have an account? <a onClick={() => navigate("/Register")}>Register</a> </p>
                 </div>
-
-                
             </div>
         </div>
     );
