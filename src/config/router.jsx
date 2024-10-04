@@ -7,7 +7,8 @@ import Home from "../page/home";
 import Login from "../page/login";
 import Resgiter from "../page/register";
 import ManagerKoi from "../page/koifish/manager-koi";
-
+import Dashboard from "../page/dashboard/Dashboard";
+import Manage from "../page/admin/Manage";
 
 // const ProtectedRouteAuth = ({ children }) => {
 //   const user = useSelector(selectUser);
@@ -42,22 +43,27 @@ import ManagerKoi from "../page/koifish/manager-koi";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
-      element: <Layout />,
-      children: [
-        { path : "/Home", element: <Home /> },
-        { path : "/Login", element: <Login /> },
-        { path : "/Register", element: <Resgiter /> },
-        { path : "/MyKoi", element: <ManagerKoi  /> },
-
-      ],
+    path: "/",
+    element: <Layout />,
+    children: [
+      { path: "/Home", element: <Home /> },
+      { path: "/Login", element: <Login /> },
+      { path: "/Register", element: <Resgiter /> },
+      { path: "/MyKoi", element: <ManagerKoi /> },
+    ],
   },
   {
-    path: "/zustand",
-    element: <Zustand />,
-  },
-  {
-    path: "/a",
-    element: <UseReactQuerry />,
+    path: "/dashboard",
+    element: <Dashboard />,
+    children: [
+      {
+        path: "manage",
+        element: <Manage />,
+      },
+      {
+        path: "koi",
+        element: <h1>Koi</h1>,
+      },
+    ],
   },
 ]);
