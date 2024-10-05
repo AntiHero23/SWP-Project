@@ -1,4 +1,5 @@
-import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
+import React from "react";
+import { Navigate, Outlet, createBrowserRouter, Route } from "react-router-dom";
 // import Test from "../component/Test";
 import Zustand from "../Zustand";
 import UseReactQuerry from "../component/UseReactQuerry";
@@ -7,50 +8,32 @@ import Home from "../page/home";
 import Login from "../page/login";
 import Resgiter from "../page/register";
 import ManagerKoi from "../page/koifish/manager-koi";
-
-
-// const ProtectedRouteAuth = ({ children }) => {
-//   const user = useSelector(selectUser);
-//   if (!user) {
-//     alertFail("You need to login first!!");
-//     return <Navigate to="/login" replace />;
-//   }
-//   return children;
-// };
-
-// const ProtectedRouteCreator = ({ children }) => {
-//   const user = useSelector(selectUser);
-//   console.log(user);
-//   if (user?.role === "AUDIENCE") {
-//     alertFail("You do not have permissions to access");
-//     return <Navigate to="/go-pro" replace />;
-//   }
-//   return children;
-// };
-
-// const ProtectedADMIN = ({ children }) => {
-//   const user = useSelector(selectUser);
-//   console.log(user);
-//   if (user?.role !== "ADMIN") {
-//     if (user?.role !== "MOD") {
-//       alertFail("You do not have permissions to access");
-//       return <Navigate to="/" replace />;
-//     }
-//   }
-//   return children;
-// };
+import AddingKoi from "../page/koifish/adding-koi";
+import ManagerPond from "../page/pond/manager-pond";
+import AddingPond from "../page/pond/adding-pond";
+import PondInfo from "../page/pond/pond-info";
+import Profile from "../page/profile";
+import CalculateFood from "../page/calculate/calculateFood";
+import CalculateSalt from "../page/calculate/calculateSalt";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
-      element: <Layout />,
-      children: [
-        { path : "/Home", element: <Home /> },
-        { path : "/Login", element: <Login /> },
-        { path : "/Register", element: <Resgiter /> },
-        { path : "/MyKoi", element: <ManagerKoi  /> },
-
-      ],
+    path: "/",
+    element: <Layout />,
+    children: [
+      { path: "/", element: <Home /> },
+      { path: "/profile", element: <Profile /> },
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Resgiter /> },
+      { path: "/managerKoi", element: <ManagerKoi /> },
+      { path: "/addKoi", element: <AddingKoi /> },
+      { path: "/koi-info/:id", element: <PondInfo /> },
+      { path: "/managerPond", element: <ManagerPond /> },
+      { path: "/addPond", element: <AddingPond /> },
+      { path: "/pond-info/:id", element: <PondInfo /> },
+      { path: "/calculateFood", element: <CalculateFood /> },
+      { path: "/calculateSalt", element: <CalculateSalt /> },
+    ],
   },
   {
     path: "/zustand",
