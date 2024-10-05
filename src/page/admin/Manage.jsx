@@ -1,59 +1,102 @@
-import { Button, Form, Input, Modal, Table } from "antd";
+import { Button, Form, Image, Input, Modal, Table, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import api from "../../config/axios";
 import { useForm } from "antd/es/form/Form";
+import dayjs from "dayjs";
+import { render } from "react-dom";
 
 function Manage() {
-  const [dataSource, setDataSource] = useState([]);
+  const [dataSourcePending, setDataSourcePending] = useState([]);
+  const [dataSourceApproved, setDataSourceApproved] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [form] = useForm();
-  const fetchData = async () => {
+  const fetchDataPending = async () => {
     try {
-      const response = await api.get("");
-      setDataSource([response.data]);
+      const responsePeding = await api.get("admin/post/view/pending");
+      setDataSourcePending(responsePeding.data);
+      console.log(responsePeding.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchDataApproved = async () => {
+    try {
+      const responseApproved = await api.get("admin/post/view/approved");
+      setDataSourceApproved(responseApproved.data);
+      console.log(responseApproved.data);
     } catch (error) {
       console.log(error);
     }
   };
   const handleFinish = (value) => {
-    setDataSource([...dataSource, value]);
     form.resetFields();
     setIsOpen(false);
     console.log(value);
   };
   useEffect(() => {
-    fetchData();
+    fetchDataApproved();
+    fetchDataPending();
   }, []);
+  function handleUpdate(value) {
+    setIsOpen(true);
+    form.setFieldsValue(value);
+  }
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Product Name",
+      dataIndex: "productName",
+      key: "productName",
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "Product Price",
+      dataIndex: "productPrice",
+      key: "productPrice",
+    },
+    {
+      title: "Image",
+      dataIndex: "image",
+      key: "image",
+      render: (value) => <Image src={value} />,
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
+      title: "Link",
+      dataIndex: "link",
+      key: "link",
+    },
+    {
+      title: "Post Date",
+      dataIndex: "postDate",
+      key: "postDate",
+      render: (value) => <p>{dayjs().format("MMMM D, YYYY h:mm A")}</p>,
+    },
+    {
+      title: "Post Status",
+      dataIndex: "postStatus",
+      key: "postStatus",
+      render: (value) => (
+        <Tag color={value ? "green" : "red"}>{value + ""}</Tag>
+      ),
+    },
+    {
+      title: "Approve",
+      dataIndex: "postStatus",
+      key: "postStatus",
+      render: (value) => (
+        <Tag color={value ? "green" : "red"}>{value + ""}</Tag>
+      ),
     },
   ];
   return (
     <>
-      <Modal
-        open={isOpen}
-        onCancel={() => setIsOpen(false)}
-        onOk={() => form.submit()}
-      >
-        <Form form={form} onFinish={handleFinish}>
-          <Form.Item label="Name " name="name">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Age " name="age">
-            <Input />
-          </Form.Item>
-        </Form>
-      </Modal>
-      <Button onClick={() => setIsOpen(true)}>Add staff</Button>
-      <Table dataSource={dataSource} columns={columns} />;
+      <h1>Post Pending Table</h1>
+      <Table dataSource={dataSourcePending} columns={columns} />
+      <h1>Post Approved Table</h1>
+      <Table dataSource={dataSourceApproved} columns={columns} />
     </>
   );
 }

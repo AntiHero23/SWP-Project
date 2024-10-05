@@ -9,6 +9,8 @@ import Resgiter from "../page/register";
 import ManagerKoi from "../page/koifish/manager-koi";
 import Dashboard from "../page/dashboard/Dashboard";
 import Manage from "../page/admin/Manage";
+import { selectUser } from "../redux/features/counterSlice";
+import { useSelector } from "react-redux";
 
 // const ProtectedRouteAuth = ({ children }) => {
 //   const user = useSelector(selectUser);
@@ -33,10 +35,8 @@ import Manage from "../page/admin/Manage";
 //   const user = useSelector(selectUser);
 //   console.log(user);
 //   if (user?.role !== "ADMIN") {
-//     if (user?.role !== "MOD") {
-//       alertFail("You do not have permissions to access");
-//       return <Navigate to="/" replace />;
-//     }
+//     alert("You do not have permissions to access");
+//     return <Navigate to="/" replace />;
 //   }
 //   return children;
 // };
@@ -57,7 +57,7 @@ export const router = createBrowserRouter([
     element: <Dashboard />,
     children: [
       {
-        path: "manage",
+        path: "postManager",
         element: <Manage />,
       },
       {

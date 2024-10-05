@@ -18,7 +18,7 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem("Manage", "manage", <FileOutlined />),
+  getItem("Post Manager", "postManager", <FileOutlined />),
   getItem("Koi", "koi", <FileOutlined />),
 ];
 const Dashboard = () => {
@@ -62,8 +62,8 @@ const Dashboard = () => {
               margin: "16px 0",
             }}
           >
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
+            <Breadcrumb.Item>Shop</Breadcrumb.Item>
+            <Breadcrumb.Item>Post</Breadcrumb.Item>
           </Breadcrumb>
           <div
             style={{
