@@ -1,14 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./index.scss"
+import "./index.scss";
 import { useNavigate } from "react-router-dom";
+import { Button } from "antd";
+import api from "../../config/axios";
 
-
-function PondCard({ pond : { pondID, pondName, pondImage, area, depth, volume, drainCount, skimmerCount, pumpingCapacity, amountFish } }) {
+function PondCard({ pond }) {
+  const {
+    pondID,
+    pondName,
+    pondImage,
+    area,
+    depth,
+    volume,
+    drainCount,
+    skimmerCount,
+    pumpingCapacity,
+    amountFish,
+  } = pond;
   const navigate = useNavigate();
   return (
     <div className="card-pond">
       <p>Pond Name: {pondName}</p>
+      <p>PondID : {pondID}</p>
       <img src={pondImage} alt="pond" className="pond-image" />
       <p>Area: {area} m2</p>
       <p>Depth: {depth} m</p>
@@ -17,7 +31,14 @@ function PondCard({ pond : { pondID, pondName, pondImage, area, depth, volume, d
       <p>Skimmer Count: {skimmerCount}</p>
       <p>Pumping Capacity: {pumpingCapacity} m3/h</p>
       <p>Amount of Fish: {amountFish}</p>
-      <button onClick={() => navigate(`/pond-info/${pondID}`)}>Detail</button>
+      <Button
+        onClick={() => {
+          console.log(pondID);
+          navigate(`/pondInfo/${pondID}`);
+        }}
+      >
+        Detail
+      </Button>
     </div>
   );
 }

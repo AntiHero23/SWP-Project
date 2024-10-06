@@ -24,14 +24,9 @@ function AddPond() {
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
   const uploadButton = (
-    <button
-      className="upload-button"
-      type="button"
-    >
+    <button className="upload-button" type="button">
       <PlusOutlined />
-      <div className="upload-text">
-        Upload
-      </div>
+      <div className="upload-text">Upload</div>
     </button>
   );
 
@@ -49,7 +44,7 @@ function AddPond() {
       values.image = url;
       const response = await api.post("pond/create", values);
       alert("Pond added successfully");
-      // navigate("/managerPond");
+      navigate("/managerPond");
     } catch (error) {
       console.log("Pond adding failed", error);
     }
@@ -141,7 +136,9 @@ function AddPond() {
           <Form.Item
             label="Pumping Capacity"
             name="pumpingCapacity"
-            rules={[{ required: true, message: "Please input pumping capacity!" }]}
+            rules={[
+              { required: true, message: "Please input pumping capacity!" },
+            ]}
             className="form-item"
           >
             <Input type="number" className="form-input" />
