@@ -9,6 +9,7 @@
     align-items: left;
     text-align: left;
     max-width: 300px;
+    gap: 10px; 
   
     &:hover {
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -46,4 +47,3 @@
       }
     }
   }
-  
