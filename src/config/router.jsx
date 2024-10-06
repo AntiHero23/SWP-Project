@@ -7,10 +7,13 @@ import Home from "../page/home";
 import Login from "../page/login";
 import Resgiter from "../page/register";
 import ManagerKoi from "../page/koifish/manager-koi";
-import Dashboard from "../page/dashboard/Dashboard";
+// import Dashboard from "../page/dashboard/Dashboard";
 import Manage from "../page/admin/Manage";
 import { selectUser } from "../redux/features/counterSlice";
 import { useSelector } from "react-redux";
+import AdminDashboard from "../page/dashboard/AdminDashboard";
+import ShopDashboard from "../page/dashboard/ShopDashboard";
+import PostPackage from "../page/shop/PostPackage";
 
 // const ProtectedRouteAuth = ({ children }) => {
 //   const user = useSelector(selectUser);
@@ -53,8 +56,8 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/dashboard",
-    element: <Dashboard />,
+    path: "/dashboard/admin",
+    element: <AdminDashboard />,
     children: [
       {
         path: "postManager",
@@ -63,6 +66,16 @@ export const router = createBrowserRouter([
       {
         path: "koi",
         element: <h1>Koi</h1>,
+      },
+    ],
+  },
+  {
+    path: "/dashboard/shop",
+    element: <ShopDashboard />,
+    children: [
+      {
+        path: "postManager",
+        element: <PostPackage />,
       },
     ],
   },

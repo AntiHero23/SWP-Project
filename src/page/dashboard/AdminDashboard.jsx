@@ -18,10 +18,10 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem("Post Manager", "postManager", <FileOutlined />),
-  getItem("Koi", "koi", <FileOutlined />),
+  getItem("Post Manager", "admin/postManager", <FileOutlined />),
+  getItem("Koi", "admin/koi", <FileOutlined />),
 ];
-const Dashboard = () => {
+const AdminDashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -62,7 +62,7 @@ const Dashboard = () => {
               margin: "16px 0",
             }}
           >
-            <Breadcrumb.Item>Shop</Breadcrumb.Item>
+            <Breadcrumb.Item>Manage</Breadcrumb.Item>
             <Breadcrumb.Item>Post</Breadcrumb.Item>
           </Breadcrumb>
           <div
@@ -87,4 +87,4 @@ const Dashboard = () => {
     </Layout>
   );
 };
-export default Dashboard;
+export default AdminDashboard;
