@@ -49,7 +49,7 @@ function AddPond() {
       values.image = url;
       const response = await api.post("pond/create", values);
       alert("Pond added successfully");
-      navigate("/managerPond");
+      // navigate("/managerPond");
     } catch (error) {
       console.log("Pond adding failed", error);
     }

@@ -43,10 +43,13 @@ const testPonds = [
   },
 ];
 */
+import { Button } from "antd";
 
 function ManagerPond() {
   const [ponds, setPonds] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,25 +59,69 @@ function ManagerPond() {
      
     // Uncomment the following lines to use the real API:
     const fetchPonds = async () => {
+    const checkLoginAndFetchPonds = async () => {
+      setIsLoading(true);
       try {
-        const response = await api.get("pond");
-        setPonds(response.data);
-        console.log(response.data);
+        const loginResponse = await api.get("currentAccount");
+        if (!loginResponse.data || !loginResponse.data.isLoggedIn) {
+          alert("You must be logged in to view this page.");
+          navigate("/login");
+          return;
+        }
+        const pondsResponse = await api.get("pond");
+        setPonds(
+          Array.isArray(pondsResponse.data.result)
+            ? pondsResponse.data.result
+            : []
+        );
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        if (error.response && error.response.status === 401) {
+          alert("You must be logged in to view this page.");
+          navigate("/login");
+        }
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchPonds();
-    
+ 
   }, []);
+    checkLoginAndFetchPonds();
+  }, [navigate]);
 
-  const filteredPonds = ponds.filter((pond) =>
-    pond.pondName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleDeletePond = async (pondID) => {
+    try {
+      const pond = ponds.find((pond) => pond.pondID === pondID);
+      if (pond.amountFish > 0) {
+        alert(`This pond has ${pond.amountFish} fish. You cannot delete it.`);
+        return;
+      }
+      await api.delete(`pond/${pondID}`);
+      setPonds(ponds.filter((pond) => pond.pondID !== pondID));
+    } catch (error) {
+      console.error(error);
+      setError("Failed to delete pond. Please try again.");
+    }
+  };
 
   const handleSearch = (value) => {
     setSearchTerm(value);
   };
+
+  const filteredPonds = Array.isArray(ponds)
+    ? ponds.filter((pond) =>
+        pond.pondName.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="ManagerPond-container">
@@ -93,11 +140,21 @@ function ManagerPond() {
       </div>
 
       {filteredPonds.length === 0 ? (
-        <p style={{ textAlign: "center" }}>You have no pond, Please add one</p>
+        <p style={{ textAlign: "center" }}>
+          You have no ponds. Please add one.
+        </p>
       ) : (
         <div className="pond-dashboard">
           {filteredPonds.map((pond) => (
-            <PondCard key={pond.id} pond={pond} />
+            <div
+              key={pond.pondID}
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <PondCard pond={pond} />
+              <Button onClick={() => handleDeletePond(pond.pondID)}>
+                Delete
+              </Button>
+            </div>
           ))}
         </div>
       )}

@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthStore } from "../../zustand/useAuthStore";
 import { Avatar, Button, Card, Col, Row, Space, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
+import api from "../../config/axios";
 
 function Profile() {
   const navigate = useNavigate();
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
+  const [userInfo, setUserInfo] = useState({});
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await api.get("currentAccount");
+        setUserInfo(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    logout();
+    localStorage.removeItem("token");
     navigate("/login");
   };
 
@@ -17,10 +32,20 @@ function Profile() {
       <Col span={8}>
         <Card title="Profile" style={{ marginTop: 16 }}>
           <Space direction="vertical" size="large">
-            <Avatar size={100} src={user?.avatar} />
-            <Typography.Title level={3}>{user?.name}</Typography.Title>
-            <Typography.Text>{user?.email}</Typography.Text>
-            <Typography.Text>{user?.phone}</Typography.Text>
+            <Avatar size={100} src={userInfo?.avatar} />
+            <Typography.Title level={3}>{userInfo?.username}</Typography.Title>
+            <Typography.Text>Name: {userInfo?.name}</Typography.Text>
+            <Typography.Text>Email: {userInfo?.email}</Typography.Text>
+            <Typography.Text>Phone: {userInfo?.phone}</Typography.Text>
+            <Typography.Text>Role: {userInfo?.role}</Typography.Text>
+            <Typography.Text>
+              Premium:{" "}
+              {userInfo?.premiumStatus === 0
+                ? "Basic"
+                : userInfo?.premiumStatus === 1
+                ? "Premium"
+                : "Unknown"}
+            </Typography.Text>
             <Button type="primary" danger onClick={handleLogout}>
               Logout
             </Button>
