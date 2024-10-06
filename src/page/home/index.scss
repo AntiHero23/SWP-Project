@@ -1,97 +1,65 @@
+.home-container {
+  background: url("../../assets/background.png") no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-
-.title{
-    justify-content: center;
-    text-align: center;
-    color: #ff1100;
-    align-items: center;
-    margin: 50px;
-    font-family: 'Book Man Old Styles';
-    font-size: 3rem;
+  .home-content-container {
+    background-color: rgba(255, 255, 255, 0.9); /* Adding a semi-transparent background for readability */
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    max-width: 1200px;
+    margin: 20px;
+  }
 }
 
-.home-container-1 {
-    padding: 20px;
-    text-align: left;
-  
-    .ant-col {
-      justify-content: center;
-      align-items: center;
-    }
-  
-    img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 20px;
-    }
-  
-    h1 {
-      font-size: 2rem;
-      color: #333;
-      margin-bottom: 15px;
-    }
-  
-    p {
-      font-size: 1rem;
-      color: #555;
-      line-height: 1.6;
-    }
-  }
-  
+.title {
+  justify-content: center;
+  text-align: center;
+  color: #ff1100;
+  align-items: center;
+  margin: 50px;
+  font-family: "Book Man Old Styles";
+  font-size: 3rem;
+}
 
-  .home-container-2 {
-    padding: 20px;
-    text-align: left;
-  
-    .ant-col {
-      justify-content: center;
-      align-items: center;
-    }
-  
-    img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 20px;
-    }
-  
-    h1 {
-      font-size: 2rem;
-      color: #333;
-      margin-bottom: 15px;
-    }
-  
-    p {
-      font-size: 1rem;
-      color: #555;
-      line-height: 1.6;
-    }
+.home-container-1,
+.home-container-2,
+.home-container-3 {
+  padding: 20px;
+  text-align: left;
+
+  .ant-col {
+    justify-content: center;
+    align-items: center;
   }
-  
-  .home-container-3 {
-    padding: 20px;
-    text-align: left;
-  
-    .ant-col {
-      justify-content: center;
-      align-items: center;
-    }
-  
-    img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 20px;
-    }
-  
-    h1 {
-      font-size: 2rem;
-      color: #333;
-      margin-bottom: 15px;
-    }
-  
-    p {
-      font-size: 1rem;
-      color: #555;
-      line-height: 1.6;
-    }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adding subtle shadow for the images */
   }
-  
+
+  h1 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2); /* Adding a shadow to make text stand out */
+  }
+
+  p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: rgba(255, 255, 255, 0.8); /* Adding a light background to text */
+    padding: 10px;
+    border-radius: 10px;
+  }
+}
+
