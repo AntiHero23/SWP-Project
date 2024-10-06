@@ -3,7 +3,7 @@ import { useAuthStore } from "../../zustand/useAuthStore";
 import { Avatar, Button, Card, Col, Row, Space, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import api from "../../config/axios";
-import "./Profile.scss"; // Import the SCSS file
+import "./index.scss";
 
 function Profile() {
   const navigate = useNavigate();
