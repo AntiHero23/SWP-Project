@@ -1,14 +1,35 @@
-import React from "react";
+
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "../../../config/axios";
+import { Button } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQueryClient } from "react-query";
 import "./index.scss"
-import api from "../../../config/axios"; // Commenting out real API calls
 
 function PondInfo() {
   const { id } = useParams();
+  const [pond, setPond] = useState({});
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
+  useEffect(() => {
+    const fetchPond = async () => {
+      try {
+        const response = await api.get(`pond/${id}`);
+        setPond(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchPond();
+  }, [id]);
+
+  return (
+    <div className="pond-info">
+      <div>
+        <img src={pond.pondImage} alt="pond" className="pond-image" />
+        <p>Area: {pond.area} m2</p>
+=======
 /*  // Simulated data for pond and water report
   const simulatedPond = {
     pondName: "Lotus Pond",
@@ -80,6 +101,10 @@ function PondInfo() {
         <p>Volume: {pond.volume} m³</p>
         <p>Drain Count: {pond.drainCount}</p>
         <p>Skimmer Count: {pond.skimmerCount}</p>
+        <p>Pumping Capacity: {pond.pumpingCapacity} m3/h</p>
+        <p>Amount of Fish: {pond.amountFish}</p>
+      </div>
+      <Button onClick={() => navigate("/managerPond")}>Back</Button>
         <p>Amount of Fish: {pond.amountFish}</p>
         <p>Pumping Capacity: {pond.pumpingCapacity} m³/h</p>
       </div>

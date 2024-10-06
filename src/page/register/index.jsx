@@ -9,6 +9,10 @@ function Register() {
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
+    if (values.password.length < 6) {
+      alert("Password must be at least 6 characters long");
+      return;
+    }
     if (values.password !== values.confirmPassword) {
       form.setFields([
         {
@@ -16,6 +20,14 @@ function Register() {
           errors: ["Password and confirm password do not match"],
         },
       ]);
+      return;
+    }
+    if (!values.email.endsWith("@gmail.com")) {
+      alert("Email must end with '@gmail.com'");
+      return;
+    }
+    if (!values.phone.startsWith("0") || values.phone.length !== 10) {
+      alert("Phone must start with 0 and have 10 numbers");
       return;
     }
 
@@ -26,6 +38,7 @@ function Register() {
       navigate("/login");
     } catch (error) {
       alert("Register failed");
+      console.log(values);
     }
   };
 
@@ -71,7 +84,10 @@ function Register() {
           <Form.Item
             label="Phone"
             name="phone"
-            rules={[{ required: true, message: "Please input your phone!" }]}
+            rules={[
+              { required: true, message: "Please input your phone!" },
+              { pattern: /^0[0-9]{9}$/, message: "Phone must start with 0 and have 10 numbers" },
+            ]}
           >
             <Input />
           </Form.Item>

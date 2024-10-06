@@ -15,7 +15,7 @@ import PondInfo from "../page/pond/pond-info";
 import Profile from "../page/profile";
 import CalculateFood from "../page/calculate/calculateFood";
 import CalculateSalt from "../page/calculate/calculateSalt";
-
+import Recommendation from "../page/recommendation/recommendation";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -33,6 +33,7 @@ export const router = createBrowserRouter([
       { path: "/pond-info/:id", element: <PondInfo /> },
       { path: "/calculateFood", element: <CalculateFood /> },
       { path: "/calculateSalt", element: <CalculateSalt /> },
+      { path: "/recommendation", element: <Recommendation /> },
     ],
   },
   {
