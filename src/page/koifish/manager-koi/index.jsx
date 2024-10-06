@@ -65,7 +65,7 @@ function ManagerKoi() {
           You have no koi fish, Please add one
         </p>
       ) : (
-        <div className="koi-fish-dashboard">  
+        <div className="koi-fish-dashboard">
           {filteredKoiFish.map((koi) => (
             <KoiCard key={koi.koiFishID} koi={koi} />
           ))}

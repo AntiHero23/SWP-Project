@@ -14,10 +14,10 @@ function getItem(label, key, icon, children) {
     key,
     icon,
     children,
-    label: <Link to={`/dashboard/${key}`}>{label}</Link>,
+    label: <Link to={`/shop/${key}`}>{label}</Link>,
   };
 }
-const items = [getItem("Post Manager", "shop/postManager", <FileOutlined />)];
+const items = [getItem("Post Manager", "postManager", <FileOutlined />)];
 const ShopDashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {

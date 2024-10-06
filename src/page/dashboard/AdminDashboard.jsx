@@ -14,12 +14,12 @@ function getItem(label, key, icon, children) {
     key,
     icon,
     children,
-    label: <Link to={`/dashboard/${key}`}>{label}</Link>,
+    label: <Link to={`/admin/${key}`}>{label}</Link>,
   };
 }
 const items = [
-  getItem("Post Manager", "admin/postManager", <FileOutlined />),
-  getItem("Koi", "admin/koi", <FileOutlined />),
+  getItem("Post Manager", "postManager", <FileOutlined />),
+  getItem("Koi", "koi", <FileOutlined />),
 ];
 const AdminDashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
