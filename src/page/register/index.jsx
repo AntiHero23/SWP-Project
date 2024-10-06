@@ -32,7 +32,7 @@ function Register() {
   return (
     <div className="register">
       <div className="register-form-container">
-        <Form form={form} onFinish={onFinish}>
+        <Form layout="vertical" form={form} onFinish={onFinish}>
           <div className="register-title">Register</div>
           <Form.Item
             className="register-form-inputbox"

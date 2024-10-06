@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Select, InputNumber, Button } from 'antd'
 import api from '../../../config/axios'
+import "./index.scss"
 
 
 function CalculateFood() {
@@ -44,7 +45,8 @@ function CalculateFood() {
   }
 
   return (
-    <div>
+    <div className="calculate-food-container">
+      <div className="form-row">
       <Select
         style={{ width: 200 }}
         placeholder="Select pond"
@@ -64,6 +66,7 @@ function CalculateFood() {
       <Button type="primary" onClick={calculateFood}>
         Calculate
       </Button>
+      </div>
       <p>Total weight: {totalWeight} kg</p>
       <p>Total type: {totalType}</p>
 
