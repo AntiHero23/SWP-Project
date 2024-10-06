@@ -1,5 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import "./index.scss"
 import { useNavigate } from "react-router-dom";
+
 
 function PondCard({ pond : { pondID, pondName, pondImage, area, depth, volume, drainCount, skimmerCount, pumpingCapacity, amountFish } }) {
   const navigate = useNavigate();
