@@ -5,23 +5,24 @@ import { MdAccountCircle } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { Dropdown, Menu } from "antd";
 import { useEffect, useState } from "react";
+import { useAuthStore } from "../../zustand/useAuthStore";
 import api from "../../config/axios";
 
 function Header() {
   const navigate = useNavigate();
-
+  const { logout } = useAuthStore();
   const [user, setUser] = useState({});
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    setUser({});
+    logout();
+    localStorage.removeItem("token"); 
     navigate("/login");
-  }
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await api.get("account");
+        const response = await api.get("currentAccount");
         setUser(response.data);
       } catch (error) {
         console.log(error);
@@ -29,20 +30,14 @@ function Header() {
     };
     fetchUser();
   }, []);
-  
+
   const menu = (
     <Menu>
       <Menu.Item onClick={() => navigate("/managerKoi")}>My Koi</Menu.Item>
       <Menu.Item onClick={() => navigate("/managerPond")}>My Pond</Menu.Item>
-      <Menu.Item onClick={() => navigate("/calculateSalt")}>
-        Calculate Salt
-      </Menu.Item>
-      <Menu.Item onClick={() => navigate("/calculateFood")}>
-        Calculate Food
-      </Menu.Item>
-      <Menu.Item onClick={() => navigate("/shoppingRecommendation")}>
-        Shopping Recommendation
-      </Menu.Item>
+      <Menu.Item onClick={() => navigate("/calculateSalt")}>Calculate Salt</Menu.Item>
+      <Menu.Item onClick={() => navigate("/calculateFood")}>Calculate Food</Menu.Item>
+      <Menu.Item onClick={() => navigate("/recommendation")}>Shopping Recommendation</Menu.Item>
       <Menu.Item onClick={() => navigate("/statistics")}>Statistics</Menu.Item>
     </Menu>
   );
@@ -53,6 +48,7 @@ function Header() {
       <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
     </Menu>
   );
+  
   return (
     <div className="header">
       <div className="header-left">
@@ -103,4 +99,3 @@ function Header() {
 }
 
 export default Header;
-
