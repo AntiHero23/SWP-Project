@@ -1,19 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function PondCard({ pond }) {
-  const {
-    pondID,
-    pondName,
-    pondImage,
-    area,
-    depth,
-    volume,
-    drainCount,
-    skimmerCount,
-    pumpingCapacity,
-    amountFish,
-  } = pond;
+function PondCard({ pond : { pondID, pondName, pondImage, area, depth, volume, drainCount, skimmerCount, pumpingCapacity, amountFish } }) {
+  const navigate = useNavigate();
   return (
     <div className="card-pond">
       <p>Pond Name: {pondName}</p>
@@ -25,7 +14,7 @@ function PondCard({ pond }) {
       <p>Skimmer Count: {skimmerCount}</p>
       <p>Pumping Capacity: {pumpingCapacity} m3/h</p>
       <p>Amount of Fish: {amountFish}</p>
-      <Link to={`/pond-info/${pondID}`}>Detail</Link>
+      <button onClick={() => navigate(`/pond-info/${pondID}`)}>Detail</button>
     </div>
   );
 }

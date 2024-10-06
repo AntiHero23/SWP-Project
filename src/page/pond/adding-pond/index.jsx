@@ -58,7 +58,7 @@ function AddPond() {
       const response = await api.post("pond/create", values);
       console.log(response.data);
       alert("Pond added successfully");
-      navigate("/managerPond");
+      // navigate("/managerPond");
     } catch (error) {
       console.log("pond adding failed");
     }
