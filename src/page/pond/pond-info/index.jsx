@@ -30,7 +30,7 @@ function PondInfo() {
         <img src={pond.pondImage} alt="pond" className="pond-image" />
         <p>Area: {pond.area} m2</p>
 =======
-/*  // Simulated data for pond and water report
+{/* /* Simulated data for pond and water report
   const simulatedPond = {
     pondName: "Lotus Pond",
     area: 500,
@@ -56,7 +56,7 @@ function PondInfo() {
     waterReportSalt: 0.25,
     waterReportCarbonDioxide: 1.2,
     pondID: id,
-  };*/
+  };*/ }
 
   // Simulating API response (commented real API call)
   const {

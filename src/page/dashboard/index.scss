@@ -1,0 +1,30 @@
+.dashboard {
+  &__sider {
+    .demo-logo-vertical {
+      height: 32px;
+      margin: 16px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &__header {
+    padding: 0;
+  }
+
+  &__content {
+    margin: 0 16px;
+
+    &-breadcrumb {
+      margin: 16px 0;
+    }
+
+    &-main {
+      padding: 24px;
+      min-height: 360px;
+    }
+  }
+
+  &__footer {
+    text-align: center;
+  }
+}
