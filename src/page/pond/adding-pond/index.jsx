@@ -4,6 +4,7 @@ import api from "../../../config/axios";
 import { useNavigate } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../../assets/hook/useUpload";
+import "./index.scss";
 
 
 function AddPond() {
@@ -24,6 +25,7 @@ function AddPond() {
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
   const uploadButton = (
+
     <button
       style={{
         border: 0,
@@ -66,89 +68,111 @@ function AddPond() {
   };
 
   return (
-    <div>
-      <Form
-        form={form}
-        name="add-pond-form"
-        onFinish={handleSubmit}
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-      >
-        <h1 style={{ textAlign: "center" }}>Add Pond</h1>
-        <Form.Item
-          label="Pond Name"
-          name="pondName"
-          rules={[{ required: true, message: "Please input pond name!" }]}
+    <div className="addPond-container">
+      <div className="addPond-form-container">
+        <Form
+          layout="vertical"
+          form={form}
+          name="add-pond-form"
+          onFinish={handleSubmit}
+          className="addPond-form"
         >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Image"
-          name="image"
-          rules={[{ required: true, message: "Please upload pond image!" }]}
-        >
-          <Upload
-            action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-            listType="picture-card"
-            fileList={fileList}
-            onPreview={handlePreview}
-            onChange={handleChange}
+          <h1 className="addPond-title">Add Pond</h1>
+
+          <Form.Item
+            label="Pond Name"
+            name="pondName"
+            rules={[{ required: true, message: "Please input pond name!" }]}
+            className="form-item"
           >
-            {fileList.length >= 8 ? null : uploadButton}
-          </Upload>
-        </Form.Item>
-        <Form.Item
-          label="Area"
-          name="area"
-          rules={[{ required: true, message: "Please input area!" }]}
-        >
-          <Input type="number" />
-        </Form.Item>
-        <Form.Item
-          label="Depth"
-          name="depth"
-          rules={[{ required: true, message: "Please input depth!" }]}
-        >
-          <Input type="number" />
-        </Form.Item>
-        <Form.Item
-          label="Volume"
-          name="volume"
-          rules={[{ required: true, message: "Please input volume!" }]}
-        >
-          <Input type="number" />
-        </Form.Item>
-        <Form.Item
-          label="Drain Count"
-          name="drainCount"
-          rules={[{ required: true, message: "Please input drain count!" }]}
-        >
-          <Input type="number" />
-        </Form.Item>
-        <Form.Item
-          label="Skimmer Count"
-          name="skimmerCount"
-          rules={[{ required: true, message: "Please input skimmer count!" }]}
-        >
-          <Input type="number" />
-        </Form.Item>
-        <Form.Item
-          label="Pumping Capacity"
-          name="pumpingCapacity"
-          rules={[
-            { required: true, message: "Please input pumping capacity!" },
-          ]}
-        >
-          <Input type="number" />
-        </Form.Item>
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
-            Add Pond
-          </Button>
-        </Form.Item>
-      </Form>
+            <Input className="form-input" />
+          </Form.Item>
+
+          <Form.Item
+            label="Image"
+            name="image"
+            rules={[{ required: true, message: "Please upload pond image!" }]}
+            className="form-item"
+          >
+            <Upload
+              action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+              className="upload-container"
+            >
+              {fileList.length >= 8 ? null : uploadButton}
+            </Upload>
+          </Form.Item>
+
+          <Form.Item
+            label="Area"
+            name="area"
+            rules={[{ required: true, message: "Please input area!" }]}
+            className="form-item"
+          >
+            <Input type="number" className="form-input" />
+          </Form.Item>
+
+          <Form.Item
+            label="Depth"
+            name="depth"
+            rules={[{ required: true, message: "Please input depth!" }]}
+            className="form-item"
+          >
+            <Input type="number" className="form-input" />
+          </Form.Item>
+
+          <Form.Item
+            label="Volume"
+            name="volume"
+            rules={[{ required: true, message: "Please input volume!" }]}
+            className="form-item"
+          >
+            <Input type="number" className="form-input" />
+          </Form.Item>
+
+          <Form.Item
+            label="Drain Count"
+            name="drainCount"
+            rules={[{ required: true, message: "Please input drain count!" }]}
+            className="form-item"
+          >
+            <Input type="number" className="form-input" />
+          </Form.Item>
+
+          <Form.Item
+            label="Skimmer Count"
+            name="skimmerCount"
+            rules={[{ required: true, message: "Please input skimmer count!" }]}
+            className="form-item"
+          >
+            <Input type="number" className="form-input" />
+          </Form.Item>
+
+          <Form.Item
+            label="Pumping Capacity"
+            name="pumpingCapacity"
+            rules={[
+              { required: true, message: "Please input pumping capacity!" },
+            ]}
+            className="form-item"
+          >
+            <Input type="number" className="form-input" />
+          </Form.Item>
+
+          <Form.Item className="submit-button-container">
+            <Button type="primary" htmlType="submit" className="submit-button">
+              Add Pond
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+
       {previewImage && (
         <Image
+          className="image-preview"
           wrapperStyle={{ display: "none" }}
           preview={{
             visible: previewOpen,

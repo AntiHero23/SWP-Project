@@ -1,9 +1,11 @@
 import React from 'react'
 
-function CalculateFood() {
+
+function CalculateSalt() {
   return (
-    <div>CalculateFood</div>
+    <div>Calculate Salt</div>
   )
 }
 
-export default CalculateFood
+export default CalculateSalt
+

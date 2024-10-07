@@ -1,0 +1,87 @@
+.addPond-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('../../../assets/LoginBg.png'); // Same background image as Add Koi
+    background-size: cover;
+    background-attachment: fixed;
+    padding: 20px;
+
+    .addPond-form-container {
+      background-color: #fff;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+
+      h1 {
+        font-family: 'Oswald', sans-serif;
+        font-weight: 500;
+        text-align: center;
+        color: #1890ff;
+        margin-bottom: 20px;
+      }
+  
+      .ant-form-item {
+        margin-bottom: 20px;
+      }
+  
+      .ant-form-item-label > label {
+        font-weight: 600;
+      }
+  
+      .ant-input,
+      .ant-upload-list-picture-card-container,
+      .ant-input-number {
+        height: 40px;
+        border-radius: 4px;
+      }
+  
+      .ant-upload-list-item {
+        border-radius: 8px;
+      }
+  
+      .ant-btn {
+        width: 100%;
+        height: 45px;
+        background-color: #1890ff;
+        border: none;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+  
+        &:hover {
+          background-color: #40a9ff;
+        }
+      }
+  
+      .ant-upload-picture-card-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+  
+        .ant-upload {
+          border-radius: 8px;
+          border: 1px dashed #d9d9d9;
+          width: 100px;
+          height: 100px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+        }
+  
+        .ant-upload-list {
+          display: flex;
+          justify-content: center;
+        }
+      }
+    }
+  }
+  

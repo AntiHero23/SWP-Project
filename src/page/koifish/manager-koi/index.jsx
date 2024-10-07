@@ -1,76 +1,87 @@
-import React, { useEffect, useState } from "react";
-import "./index.scss";
-import api from "../../../config/axios";
+
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../../../config/axios";
+import { PlusCircleOutlined } from "@ant-design/icons";
 import KoiCard from "../../../component/koi-card";
 
 function ManagerKoi() {
-  const navigate = useNavigate();
-  const [koiFish, setKoiFish] = useState([]);
-  const [filteredKoiFish, setFilteredKoiFish] = useState([]);
+  const [koiFishs, setKoiFishs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedVariety, setSelectedVariety] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    api
-      .get("koifish")
-      .then((response) => {
-        setKoiFish(response.data);
-        setFilteredKoiFish(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    const fetchKoiFish = async () => {
+      try {
+        const response = await api.get("koifish");
+        setKoiFishs(response.data);
+      } catch (error) {
+        console.error(error);
+        if (error.response && error.response.status === 400) {
+          alert("You must be logged in to view this page.");
+          navigate("/login");
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchKoiFish();
+  }, [navigate]);
 
-  useEffect(() => {
-    const filtered = koiFish.filter((koi) =>
-      koi.koiName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    if (selectedVariety) {
-      setFilteredKoiFish(
-        filtered.filter((koi) => koi.koiVarietyID === selectedVariety)
-      );
-    } else {
-      setFilteredKoiFish(filtered);
-    }
-  }, [searchTerm, selectedVariety, koiFish]);
+  const filteredKoiFishs = Array.isArray(koiFishs)
+    ? koiFishs.filter((koi) =>
+        koi.koiName.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (selectedVariety ? koi.koiVarietyID === selectedVariety : true)
+      )
+    : [];
 
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+  };
+
+  const handleVarietyChange = (value) => {
+    setSelectedVariety(value);
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  
   return (
-    <div className="manager-koi-container">
-      <h1 className="koi-fish-title">My Koi Fish Dashboard</h1>
+    <div className="ManagerKoi-container">
+      <h1 style={{ textAlign: "center" }}>Manager Koi Fish</h1>
       <div className="filter-search">
         <input
           type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => handleSearch(e.target.value)}
           placeholder="Search by name..."
           className="search-input"
         />
         <select
           value={selectedVariety}
-          onChange={(e) => setSelectedVariety(e.target.value)}
+
+          onChange={(e) => handleVarietyChange(e.target.value)}
           className="filter-select"
         >
           <option value="">All Varieties</option>
-          <option value="Kohaku">Kohaku</option>
-          <option value="Sanke">Sanke</option>
-          <option value="Showa">Showa</option>
+          <option value="1">Kohaku</option>
+          <option value="2">Golden</option>
         </select>
-        <button onClick={() => navigate("/addKoi")}>+</button>
+        <PlusCircleOutlined
+          style={{ fontSize: "24px" }}
+          onClick={() => navigate("/addKoi")}
+        />
       </div>
 
-      {filteredKoiFish.length === 0 ? (
-        <p style={{ textAlign: "center" }}>
-          You have no koi fish, Please add one
-        </p>
-      ) : (
-        <div className="koi-fish-dashboard">
-          {filteredKoiFish.map((koi) => (
-            <KoiCard key={koi.koiFishID} koi={koi} />
-          ))}
-        </div>
-      )}
+      <div className="koi-fish-dashboard">
+        {filteredKoiFishs.map((koi) => (
+          <div key={koi.koiFishID} style={{ display: "flex" }}>
+            <KoiCard koi={koi} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
