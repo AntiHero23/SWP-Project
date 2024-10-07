@@ -21,7 +21,6 @@ function Home() {
           </p>
         </Col>
       </Row>
-
       <Row className="home-container-2" align="middle" gutter={30}>
         <Col span={12}>
           <h1>Monitor Your Pond Health</h1>

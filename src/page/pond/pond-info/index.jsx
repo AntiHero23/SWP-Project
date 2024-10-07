@@ -32,12 +32,8 @@ function PondInfo() {
     };
     const fetchWaterReport = async () => {
       try {
-        const waterReportResponse = await api.get(`waterreport/${pondId}`);
-        if (waterReportResponse.data.message) {
-          alert("Please create a water report.");
-          return;
-        }
-        setWaterReport(waterReportResponse.data.result);
+        const waterReportResponse = await api.get(`waterreport/view/${pondId}`);
+        setWaterReport(waterReportResponse.data);
       } catch (error) {
         console.error("Failed to fetch water report:", error);
         setError("Failed to fetch water report.");

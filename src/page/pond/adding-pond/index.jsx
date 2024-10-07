@@ -41,7 +41,8 @@ function AddPond() {
   const handleSubmit = async (values) => {
     try {
       const url = await uploadFile(fileList[0].originFileObj);
-      values.image = url;
+      console.log(url);
+      values.pondImage = url;
       const response = await api.post("pond/create", values);
       alert("Pond added successfully");
       navigate("/managerPond");
@@ -73,7 +74,7 @@ function AddPond() {
 
           <Form.Item
             label="Image"
-            name="image"
+            name="pondImage"
             rules={[{ required: true, message: "Please upload pond image!" }]}
             className="form-item"
           >

@@ -24,6 +24,20 @@ function KoiInfo() {
         setLoading(false);
       }
     };
+    const fetchKoiReport = async () => {
+      setLoading(true);
+      try {
+        const koiReportResponse = await api.get(`koireport/${KoiId}`);
+        if (koiReportResponse.status === 400) {
+          console.log(koiReportResponse.data.message);
+        }
+        // setKoiReport(koiReportResponse.data.result);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchKoi();
   }, [KoiId]);
 
@@ -34,11 +48,16 @@ function KoiInfo() {
         {!loading && (
           <>
             <p>Name: {koi?.koiName}</p>
-            <p>Image: {koi?.image}</p>
+            <img src={koi?.image} alt="koi" />
             <p>Sex: {koi?.koiSex}</p>
             <p>Birthday: {koi?.birthday}</p>
             <p>Pond ID: {koi?.pondID}</p>
             <p>Variety ID: {koi?.koiVarietyID}</p>
+
+            <h2>Koi Report</h2>
+            <p>Length : {koiReport?.length}</p>
+            <p>Weight : {koiReport?.weight}</p>
+
             <button onClick={() => navigate(-1)}>Go Back</button>
           </>
         )}
