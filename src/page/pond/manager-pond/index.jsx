@@ -79,7 +79,11 @@ function ManagerPond() {
           {filteredPonds.map((pond) => (
             <div
               key={pond.pondID}
-              style={{ display: "flex", justifyContent: "space-between" }}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              
+              }}
             >
               <PondCard pond={pond} />
             </div>
