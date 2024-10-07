@@ -91,12 +91,13 @@ function Manage() {
       ),
     },
   ];
+
   return (
     <>
       <h1>Post Pending Table</h1>
       <Table dataSource={dataSourcePending} columns={columns} />
-      <h1>Post Approved Table</h1>
-      <Table dataSource={dataSourceApproved} columns={columns} />
+      {/* <h1>Post Approved Table</h1>
+      <Table dataSource={dataSourceApproved} columns={columns} /> */}
     </>
   );
 }

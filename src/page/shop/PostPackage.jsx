@@ -1,4 +1,4 @@
-import { Button, Image, Table, Tag } from "antd";
+import { Button, Image, Input, Modal, Table, Tag } from "antd";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import api from "../../config/axios";
@@ -7,7 +7,17 @@ function PostPackage() {
   const [postPackage, setPostPackage] = useState([]);
   const [dataSourcePending, setDataSourcePending] = useState([]);
   const [dataSourceApproved, setDataSourceApproved] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const fetchDataPending = async () => {
     try {
       const responsePeding = await api.get("admin/post/view/pending");
@@ -83,11 +93,21 @@ function PostPackage() {
 
   return (
     <>
-      <Button>New Post</Button>
+      <Button onClick={showModal}>New Post</Button>
+      <Modal
+        title="Basic Modal"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
       <h1>Post Pending Table</h1>
       <Table dataSource={dataSourcePending} columns={columns} />
-      <h1>Post Approved Table</h1>
-      <Table dataSource={dataSourceApproved} columns={columns} />
+      {/* <h1>Post Approved Table</h1>
+      <Table dataSource={dataSourceApproved} columns={columns} /> */}
     </>
   );
 }
