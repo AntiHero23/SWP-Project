@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../config/axios";
-import { Button } from "antd";
+import { Button, Form, Input, InputNumber } from "antd";
 import { useQueryClient } from "react-query";
 import "./index.scss";
 
@@ -78,24 +77,63 @@ function PondInfo() {
   return (
     <div className="pond-water-container">
       <div className="pond-info">
-        <h2>Pond Info</h2>
-        <h3>Name: {pond.pondName}</h3>
-        <img src={pond.pondImage} alt="Pond Image" />
-        <p>Area: {pond.area} m²</p>
-        <p>Depth: {pond.depth} m</p>
-        <p>Volume: {pond.volume} m³</p>
-        <p>Drain Count: {pond.drainCount}</p>
-        <p>Skimmer Count: {pond.skimmerCount}</p>
-        <p>Pumping Capacity: {pond.pumpingCapacity} m³/h</p>
-        <p>Amount of Fish: {pond.amountFish}</p>
-        <div>
-          <Button onClick={() => navigate(`/editPond/${pondId}`)}>Edit</Button>
-        </div>
-        <div>
-          <Button danger onClick={handleDelete}>
-            Delete
-          </Button>
-        </div>
+        <Form
+          layout="vertical"
+          initialValues={pond}
+          onFinish={(values) => {
+            const updatePond = async () => {
+              try {
+                await api.put(`pond/${pondId}`, values);
+                alert("Pond updated successfully");
+                navigate("/managerPond");
+              } catch (error) {
+                console.error("Failed to update pond:", error);
+              }
+            };
+            updatePond();
+          }}
+        >
+          <Form.Item label="Name" name="pondName">
+            <Input />
+          </Form.Item>
+          <Form.Item label="Pond Image" name="pondImage">
+            <Input />
+            <img
+              src={pond.pondImage}
+              alt="pond"
+              style={{ width: "100%", height: 200 }}
+            />
+          </Form.Item>
+          <Form.Item label="Area" name="area">
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item label="Depth" name="depth">
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item label="Volume" name="volume">
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item label="Drain Count" name="drainCount">
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item label="Skimmer Count" name="skimmerCount">
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item label="Pumping Capacity" name="pumpingCapacity">
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item label="Amount of Fish" name="amountFish">
+            <InputNumber disabled min={0} />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Update
+            </Button>
+            <Button danger style={{ marginLeft: 8 }} onClick={handleDelete}>
+              Delete
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
       <div className="pond-waterreport">
         <h2>Water Report</h2>

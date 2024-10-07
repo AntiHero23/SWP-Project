@@ -21,7 +21,7 @@ function PondCard({ pond }) {
   const navigate = useNavigate();
   return (
     <div className="card-pond">
-      <p>Pond Name: {pondName}</p>
+      <h2>Pond Name: {pondName}</h2>
       <p>PondID : {pondID}</p>
       <img src={pondImage} alt="pond" className="pond-image" />
       <p>Area: {area} m2</p>
