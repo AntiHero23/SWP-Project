@@ -35,18 +35,23 @@ function Profile() {
           <Space direction="vertical" size="large">
             <Avatar size={100} icon={<UserOutlined />} />
             <Typography.Title level={3}>{userInfo?.username}</Typography.Title>
-            <Typography.Text>Name: {userInfo?.name}</Typography.Text>
-            <Typography.Text>Email: {userInfo?.email}</Typography.Text>
-            <Typography.Text>Phone: {userInfo?.phone}</Typography.Text>
-            <Typography.Text>Role: {userInfo?.role}</Typography.Text>
+            <Typography.Text>Name: {userInfo?.name || "-"}</Typography.Text>
+            <Typography.Text>Email: {userInfo?.email || "-"}</Typography.Text>
+            <Typography.Text>Phone: {userInfo?.phone || "-"}</Typography.Text>
+            <Typography.Text>Role: {userInfo?.role || "-"}</Typography.Text>
             <Typography.Text>
-              Premium:{" "}
+              Your Current Plan:{" "}
               {userInfo?.premiumStatus === 0
-                ? "Basic"
+                ? "Basic "
                 : userInfo?.premiumStatus === 1
                 ? "Premium"
                 : "Unknown"}
             </Typography.Text>
+            {userInfo?.premiumStatus === 0 && (
+              <Button type="primary" onClick={() => navigate("/buyPlan")}>
+                Upgrade to Premium
+              </Button>
+            )}
             <Button type="primary" danger onClick={handleLogout}>
               Logout
             </Button>

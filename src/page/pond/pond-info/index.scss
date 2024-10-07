@@ -64,3 +64,13 @@
       }
     }
   }
+  .pond-dashboard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+    background-size: cover;
+    background-attachment: fixed;
+  }

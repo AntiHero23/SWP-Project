@@ -16,6 +16,9 @@ import Profile from "../page/profile";
 import CalculateFood from "../page/calculate/calculateFood";
 import CalculateSalt from "../page/calculate/calculateSalt";
 import Recommendation from "../page/recommendation/recommendation";
+import Plan from "../page/plan";
+import KoiInfo from "../page/koifish/koi-info";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -27,13 +30,14 @@ export const router = createBrowserRouter([
       { path: "/register", element: <Resgiter /> },
       { path: "/managerKoi", element: <ManagerKoi /> },
       { path: "/addKoi", element: <AddingKoi /> },
-      { path: "/koiInfo/:id", element: <PondInfo /> },
+      { path: "/koiInfo/:id", element: <KoiInfo /> },
       { path: "/managerPond", element: <ManagerPond /> },
       { path: "/addPond", element: <AddingPond /> },
       { path: "/pondInfo/:id", element: <PondInfo /> },
       { path: "/calculateFood", element: <CalculateFood /> },
       { path: "/calculateSalt", element: <CalculateSalt /> },
       { path: "/recommendation", element: <Recommendation /> },
+      { path: "/buyPlan", element: <Plan /> },
     ],
   },
   {
