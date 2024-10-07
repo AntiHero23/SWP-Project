@@ -33,18 +33,21 @@ function Home() {
         </Col>
       </Row>
 
-      <Row className="home-container-3" align="middle" gutter={30}>
-        <Col span={12}>
-          <img src={KoiFeed} alt="Koi Feeding" />
-        </Col>
-        <Col span={12}>
-          <h1>Automated Feeding and Care Scheduling</h1>
-          <p>
-            Set up feeding schedules tailored to the needs of your koi. Our system ensures that your fish are getting the right amount of food at the right time, promoting healthy growth and vibrant color.
-          </p>
-        </Col>
-      </Row>
-    </div>
+
+        <Row className="home-container-3" align="middle" gutter={30}>
+          <Col span={12}>
+            <img src={KoiFeed} alt="Koi Feeding" />
+          </Col>
+          <Col span={12}>
+            <h1>Automated Feeding and Care Scheduling</h1>
+            <p>
+              Set up feeding schedules tailored to the needs of your koi. Our
+              system ensures that your fish are getting the right amount of food
+              at the right time, promoting healthy growth and vibrant color.
+            </p>
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 }

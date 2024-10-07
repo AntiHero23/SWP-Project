@@ -6,6 +6,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../../assets/hook/useUpload";
 import "./index.scss";
 
+
 function AddPond() {
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -24,9 +25,23 @@ function AddPond() {
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
   const uploadButton = (
-    <button className="upload-button" type="button">
+
+    <button
+      style={{
+        border: 0,
+        background: "none",
+        color: "black",
+      }}
+      type="button"
+    >
       <PlusOutlined />
-      <div className="upload-text">Upload</div>
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
     </button>
   );
 
@@ -43,11 +58,13 @@ function AddPond() {
       const url = await uploadFile(fileList[0].originFileObj);
       console.log(url);
       values.pondImage = url;
+
       const response = await api.post("pond/create", values);
+      console.log(response.data);
       alert("Pond added successfully");
       navigate("/managerPond");
     } catch (error) {
-      console.log("Pond adding failed", error);
+      console.log("pond adding failed");
     }
   };
 
@@ -79,6 +96,7 @@ function AddPond() {
             className="form-item"
           >
             <Upload
+              action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
               listType="picture-card"
               fileList={fileList}
               onPreview={handlePreview}
@@ -170,3 +188,4 @@ function AddPond() {
 }
 
 export default AddPond;
+

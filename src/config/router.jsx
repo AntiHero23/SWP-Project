@@ -8,6 +8,13 @@ import Home from "../page/home";
 import Login from "../page/login";
 import Resgiter from "../page/register";
 import ManagerKoi from "../page/koifish/manager-koi";
+// import Dashboard from "../page/dashboard/Dashboard";
+import Manage from "../page/admin/Manage";
+import { selectUser } from "../redux/features/counterSlice";
+import { useSelector } from "react-redux";
+import AdminDashboard from "../page/dashboard/AdminDashboard";
+import ShopDashboard from "../page/dashboard/ShopDashboard";
+import PostPackage from "../page/shop/PostPackage";
 import AddingKoi from "../page/koifish/adding-koi";
 import ManagerPond from "../page/pond/manager-pond";
 import AddingPond from "../page/pond/adding-pond";
@@ -24,6 +31,10 @@ export const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
+      { path: "/Home", element: <Home /> },
+      { path: "/Login", element: <Login /> },
+      { path: "/Register", element: <Resgiter /> },
+      { path: "/MyKoi", element: <ManagerKoi /> },
       { path: "/", element: <Home /> },
       { path: "/profile", element: <Profile /> },
       { path: "/login", element: <Login /> },
@@ -41,11 +52,27 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/zustand",
-    element: <Zustand />,
+    path: "/admin",
+    element: <AdminDashboard />,
+    children: [
+      {
+        path: "postManager",
+        element: <Manage />,
+      },
+      {
+        path: "koi",
+        element: <h1>Koi</h1>,
+      },
+    ],
   },
   {
-    path: "/a",
-    element: <UseReactQuerry />,
+    path: "/shop",
+    element: <ShopDashboard />,
+    children: [
+      {
+        path: "postManager",
+        element: <PostPackage />,
+      },
+    ],
   },
 ]);

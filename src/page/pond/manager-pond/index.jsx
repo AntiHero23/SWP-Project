@@ -31,6 +31,7 @@ function ManagerPond() {
     checkLoginAndFetchPonds();
   }, [navigate]);
 
+
   const handleSearch = (value) => {
     setSearchTerm(value);
   };
