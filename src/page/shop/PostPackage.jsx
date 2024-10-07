@@ -1,13 +1,29 @@
-import { Button, Image, Table, Tag } from "antd";
+import { Button, Form, Image, Input, Modal, Table, Tag } from "antd";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import api from "../../config/axios";
+import { useForm } from "antd/es/form/Form";
 
 function PostPackage() {
   const [postPackage, setPostPackage] = useState([]);
   const [dataSourcePending, setDataSourcePending] = useState([]);
   const [dataSourceApproved, setDataSourceApproved] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = useForm();
+  const [productName, setProductName] = useState([]);
+  const [description, setDescription] = useState([]);
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    form.resetFields();
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    form.resetFields();
+    setIsModalOpen(false);
+  };
   const fetchDataPending = async () => {
     try {
       const responsePeding = await api.get("admin/post/view/pending");
@@ -83,11 +99,32 @@ function PostPackage() {
 
   return (
     <>
-      <Button>New Post</Button>
+      <Button onClick={showModal}>New Post</Button>
+      <Modal
+        title="Add New Post"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <Form>
+          <Form.Item label="Product Name: " name="productName">
+            <Input
+              value={productName}
+              onChange={(e) => setProductName(e.target.value)}
+            />
+          </Form.Item>
+          <Form.Item label="Description: " name="description">
+            <Input
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
       <h1>Post Pending Table</h1>
       <Table dataSource={dataSourcePending} columns={columns} />
-      <h1>Post Approved Table</h1>
-      <Table dataSource={dataSourceApproved} columns={columns} />
+      {/* <h1>Post Approved Table</h1>
+      <Table dataSource={dataSourceApproved} columns={columns} /> */}
     </>
   );
 }
