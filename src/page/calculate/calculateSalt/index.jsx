@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 function CalculateSalt() {
   return (
     <div>Calculate Salt</div>
@@ -7,3 +8,4 @@ function CalculateSalt() {
 }
 
 export default CalculateSalt
+
