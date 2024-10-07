@@ -35,20 +35,18 @@ function Profile() {
           <Space direction="vertical" size="large">
             <Avatar size={100} icon={<UserOutlined />} />
             <Typography.Title level={3}>{userInfo?.username}</Typography.Title>
-            <div className="profile-info">
-              <Typography.Text>Name: {userInfo?.name}</Typography.Text>
-              <Typography.Text>Email: {userInfo?.email}</Typography.Text>
-              <Typography.Text>Phone: {userInfo?.phone}</Typography.Text>
-              <Typography.Text>Role: {userInfo?.role}</Typography.Text>
-              <Typography.Text>
-                Premium:{" "}
-                {userInfo?.premiumStatus === 0
-                  ? "Basic"
-                  : userInfo?.premiumStatus === 1
-                  ? "Premium"
-                  : "Unknown"}
-              </Typography.Text>
-            </div>
+            <Typography.Text>Name: {userInfo?.name}</Typography.Text>
+            <Typography.Text>Email: {userInfo?.email}</Typography.Text>
+            <Typography.Text>Phone: {userInfo?.phone}</Typography.Text>
+            <Typography.Text>Role: {userInfo?.role}</Typography.Text>
+            <Typography.Text>
+              Premium:{" "}
+              {userInfo?.premiumStatus === 0
+                ? "Basic"
+                : userInfo?.premiumStatus === 1
+                ? "Premium"
+                : "Unknown"}
+            </Typography.Text>
             <Button type="primary" danger onClick={handleLogout}>
               Logout
             </Button>

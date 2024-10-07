@@ -36,13 +36,7 @@ function PondInfo() {
       }
     };
     fetchPond();
-  }, [id]);
-
-  return (
-    <div className="pond-info">
-      <div>
-        <img src={pond.pondImage} alt="pond" className="pond-image" />
-        <p>Area: {pond.area} m2</p>
+  }, [pondId]);
 
   const handleDelete = async () => {
     try {
