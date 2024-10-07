@@ -1,24 +1,38 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../config/axios";
 import { Button } from "antd";
-import { useParams, useNavigate } from "react-router-dom";
 import { useQueryClient } from "react-query";
-import "./index.scss"
+import "./index.scss";
 
 function PondInfo() {
+  const queryClient = useQueryClient();
   const { id } = useParams();
+  const pondId = Number(id);
   const [pond, setPond] = useState({});
+  const [waterReport, setWaterReport] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPond = async () => {
+      setLoading(true);
       try {
-        const response = await api.get(`pond/${id}`);
-        setPond(response.data);
+        const pondResponse = await api.get(`pond/${pondId}`);
+        setPond(pondResponse.data);
+        const waterReportResponse = await api.get(`waterreport/${pondId}`);
+        if (waterReportResponse.data) {
+          setWaterReport(waterReportResponse.data);
+        } else {
+          console.error("WaterReport not existed");
+        }
+        console.log(pondId);
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        setError("Failed to fetch pond data.");
+      } finally {
+        setLoading(false);
       }
     };
     fetchPond();
@@ -29,66 +43,35 @@ function PondInfo() {
       <div>
         <img src={pond.pondImage} alt="pond" className="pond-image" />
         <p>Area: {pond.area} m2</p>
-=======
-{/* /* Simulated data for pond and water report
-  const simulatedPond = {
-    pondName: "Lotus Pond",
-    area: 500,
-    depth: 2.5,
-    volume: 1250,
-    drainCount: 3,
-    skimmerCount: 2,
-    amountFish: 40,
-    pumpingCapacity: 15,
-  };
-
-  const simulatedWaterReport = {
-    waterReportId: 101,
-    waterReportUpdatedDate: "2024-10-05",
-    waterReportTemperature: 26,
-    waterReportOxygen: 8.5,
-    waterReport_pH: 7.2,
-    waterReportHardness: 10,
-    waterReportAmmonia: 0.01,
-    waterReportNitrite: 0.05,
-    waterReportNitrate: 10,
-    waterReportCarbonate: 100,
-    waterReportSalt: 0.25,
-    waterReportCarbonDioxide: 1.2,
-    pondID: id,
-  };*/ }
-
-  // Simulating API response (commented real API call)
-  const {
-    data: pond,
-    error: pondError,
-    isLoading: pondIsLoading,
-  } = useQuery(["pond", id], () => api.get(`pond?id=${id}`), {
-    enabled: !!id,
-    staleTime: Infinity,
-  });
-
-  const {
-    data: waterReport,
-    error: waterReportError,
-    isLoading: waterReportIsLoading,
-  } = useQuery(
-    ["waterReport", id],
-    () => api.get(`waterReport?id=${id}`),
-    {
-      enabled: !!id,
-      staleTime: Infinity,
-     }
-   );
-
-//  const pond = simulatedPond; // Use simulated data
-//  const waterReport = simulatedWaterReport; // Use simulated data
 
   const handleDelete = async () => {
-     await api.delete(`pond/${id}`); // Commented real API call
-    queryClient.invalidateQueries("ponds");
-    navigate("/managerPond");
+    try {
+      await api.delete(`pond/${pondId}`);
+      queryClient.invalidateQueries("ponds");
+      navigate("/managerPond");
+    } catch (error) {
+      console.error("Failed to delete pond:", error);
+    }
   };
+
+  const handleAddWaterReport = async () => {
+    try {
+      const response = await api.post(`waterreport`, { pondID: pondId });
+      if (response.data.message === "WaterReport not existed") {
+        alert("Please create a water report.");
+      } else {
+        alert("Water report created successfully.");
+        const waterReportResponse = await api.get(`waterreport/${pondId}`);
+        setWaterReport(waterReportResponse.data);
+      }
+    } catch (error) {
+      console.error("Failed to create water report:", error);
+      alert("An error occurred while creating the water report.");
+    }
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="pond-water-container">
@@ -101,32 +84,34 @@ function PondInfo() {
         <p>Volume: {pond.volume} m³</p>
         <p>Drain Count: {pond.drainCount}</p>
         <p>Skimmer Count: {pond.skimmerCount}</p>
-        <p>Pumping Capacity: {pond.pumpingCapacity} m3/h</p>
-        <p>Amount of Fish: {pond.amountFish}</p>
-      </div>
-      <Button onClick={() => navigate("/managerPond")}>Back</Button>
-        <p>Amount of Fish: {pond.amountFish}</p>
         <p>Pumping Capacity: {pond.pumpingCapacity} m³/h</p>
+        <p>Amount of Fish: {pond.amountFish}</p>
       </div>
-      <div className="water-report">
+      <div className="pond-waterreport">
         <h2>Water Report</h2>
         <p>Water Report ID: {waterReport.waterReportId}</p>
-        <p>Updated: {waterReport.waterReportUpdatedDate}</p>
-        <p>Temperature: {waterReport.waterReportTemperature} °C</p>
-        <p>Oxygen: {waterReport.waterReportOxygen} ppm</p>
-        <p>pH: {waterReport.waterReport_pH}</p>
-        <p>Hardness: {waterReport.waterReportHardness} dGH</p>
-        <p>Ammonia: {waterReport.waterReportAmmonia} ppm</p>
-        <p>Nitrite: {waterReport.waterReportNitrite} ppm</p>
-        <p>Nitrate: {waterReport.waterReportNitrate} ppm</p>
-        <p>Carbonate: {waterReport.waterReportCarbonate} ppm</p>
-        <p>Salt: {waterReport.waterReportSalt} ppm</p>
-        <p>Carbon Dioxide: {waterReport.waterReportCarbonDioxide} ppm</p>
+        <p>Water Report Updated Date: {waterReport.waterReportUpdatedDate}</p>
+        <p>Water Report Temperature: {waterReport.waterReportTemperature}</p>
+        <p>Water Report Oxygen: {waterReport.waterReportOxygen}</p>
+        <p>Water Report pH: {waterReport.waterReport_pH}</p>
+        <p>Water Report Hardness: {waterReport.waterReportHardness}</p>
+        <p>Water Report Ammonia: {waterReport.waterReportAmmonia}</p>
+        <p>Water Report Nitrite: {waterReport.waterReportNitrite}</p>
+        <p>Water Report Nitrate: {waterReport.waterReportNitrate}</p>
+        <p>Water Report Carbonate: {waterReport.waterReportCarbonate}</p>
+        <p>Water Report Salt: {waterReport.waterReportSalt}</p>
+        <p>
+          Water Report Carbon Dioxide: {waterReport.waterReportCarbonDioxide}
+        </p>
         <p>Pond ID: {waterReport.pondID}</p>
       </div>
+      <Button onClick={() => navigate("/managerPond")}>Back</Button>
       <button className="delete-button" onClick={handleDelete}>
         Delete
       </button>
+      <Button onClick={handleAddWaterReport} type="primary">
+        Add Water Report
+      </Button>
     </div>
   );
 }

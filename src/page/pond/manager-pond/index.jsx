@@ -3,46 +3,6 @@ import { useNavigate } from "react-router-dom";
 import api from "../../../config/axios";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import PondCard from "../../../component/pond-card";
-import "./index.scss";
-
-/* Test Data to simulate API response
-const testPonds = [
-  {
-    id: 1,
-    pondName: "Sunshine Pond",
-    pondImage: "../../../LoginBg.png",
-    area: 150,
-    depth: 3,
-    volume: 450,
-    drainCount: 2,
-    skimmerCount: 3,
-    amountFish: 25,
-    pumpingCapacity: 500,
-  },
-  {
-    id: 2,
-    pondName: "Blue Lagoon",
-    area: 200,
-    depth: 2.5,
-    volume: 500,
-    drainCount: 1,
-    skimmerCount: 2,
-    amountFish: 40,
-    pumpingCapacity: 750,
-  },
-  {
-    id: 3,
-    pondName: "Emerald Waters",
-    area: 100,
-    depth: 3.2,
-    volume: 320,
-    drainCount: 3,
-    skimmerCount: 4,
-    amountFish: 15,
-    pumpingCapacity: 300,
-  },
-];
-*/
 import { Button } from "antd";
 
 function ManagerPond() {
@@ -53,27 +13,11 @@ function ManagerPond() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulate fetching ponds from an API by setting test data
-    //setPonds(testPonds);
-
-     
-    // Uncomment the following lines to use the real API:
-    const fetchPonds = async () => {
     const checkLoginAndFetchPonds = async () => {
       setIsLoading(true);
       try {
-        const loginResponse = await api.get("currentAccount");
-        if (!loginResponse.data || !loginResponse.data.isLoggedIn) {
-          alert("You must be logged in to view this page.");
-          navigate("/login");
-          return;
-        }
         const pondsResponse = await api.get("pond");
-        setPonds(
-          Array.isArray(pondsResponse.data.result)
-            ? pondsResponse.data.result
-            : []
-        );
+        setPonds(pondsResponse.data);
       } catch (error) {
         console.error(error);
         if (error.response && error.response.status === 401) {
@@ -84,26 +28,8 @@ function ManagerPond() {
         setIsLoading(false);
       }
     };
-    fetchPonds();
- 
-  }, []);
     checkLoginAndFetchPonds();
   }, [navigate]);
-
-  const handleDeletePond = async (pondID) => {
-    try {
-      const pond = ponds.find((pond) => pond.pondID === pondID);
-      if (pond.amountFish > 0) {
-        alert(`This pond has ${pond.amountFish} fish. You cannot delete it.`);
-        return;
-      }
-      await api.delete(`pond/${pondID}`);
-      setPonds(ponds.filter((pond) => pond.pondID !== pondID));
-    } catch (error) {
-      console.error(error);
-      setError("Failed to delete pond. Please try again.");
-    }
-  };
 
   const handleSearch = (value) => {
     setSearchTerm(value);
@@ -126,9 +52,13 @@ function ManagerPond() {
   return (
     <div className="ManagerPond-container">
       <h1 style={{ textAlign: "center" }}>Manager Pond</h1>
-      <div className="filter-search">
+      <div
+        className="filter-search"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
         <input
           type="text"
+          style={{ width: "20%" }}
           onChange={(e) => handleSearch(e.target.value)}
           placeholder="Search by name..."
           className="search-input"
@@ -151,9 +81,6 @@ function ManagerPond() {
               style={{ display: "flex", justifyContent: "space-between" }}
             >
               <PondCard pond={pond} />
-              <Button onClick={() => handleDeletePond(pond.pondID)}>
-                Delete
-              </Button>
             </div>
           ))}
         </div>

@@ -3,64 +3,51 @@ import { useNavigate } from "react-router-dom";
 import api from "../../../config/axios";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import KoiCard from "../../../component/koi-card";
-import { Button } from "antd";
 
 function ManagerKoi() {
-  const [koiFish, setKoiFish] = useState([]);
-  const [filteredKoiFish, setFilteredKoiFish] = useState([]);
+  const [koiFishs, setKoiFishs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedVariety, setSelectedVariety] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchKoiFish = async () => {
       try {
         const response = await api.get("koifish");
-        if (!response.data || !response.data.result) {
-          alert("You must be logged in to view this page.");
-          navigate("/login"); // Redirect to login page
-          return;
-        }
-        setKoiFish(Array.isArray(response.data.result) ? response.data.result : []);
-        setFilteredKoiFish(response.data.result);
-        setIsLoading(false);
+        setKoiFishs(response.data);
       } catch (error) {
         console.error(error);
-        alert("You must be logged in to view this page.");
-        navigate("/login"); // Redirect to login page
+        if (error.response && error.response.status === 400) {
+          alert("You must be logged in to view this page.");
+          navigate("/login");
+        }
+      } finally {
         setIsLoading(false);
       }
     };
     fetchKoiFish();
   }, [navigate]);
 
-  useEffect(() => {
-    const filtered = koiFish.filter((koi) =>
-      koi.koiName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    if (selectedVariety) {
-      setFilteredKoiFish(
-        filtered.filter((koi) => koi.koiVarietyID === selectedVariety)
-      );
-    } else {
-      setFilteredKoiFish(filtered);
-    }
-  }, [searchTerm, selectedVariety, koiFish]);
+  const filteredKoiFishs = Array.isArray(koiFishs)
+    ? koiFishs.filter((koi) =>
+        koi.koiName.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (selectedVariety ? koi.koiVarietyID === selectedVariety : true)
+      )
+    : [];
 
   const handleSearch = (value) => {
     setSearchTerm(value);
   };
 
+  const handleVarietyChange = (value) => {
+    setSelectedVariety(value);
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
+  
   return (
     <div className="ManagerKoi-container">
       <h1 style={{ textAlign: "center" }}>Manager Koi Fish</h1>
@@ -73,13 +60,12 @@ function ManagerKoi() {
         />
         <select
           value={selectedVariety}
-          onChange={(e) => setSelectedVariety(e.target.value)}
+          onChange={(e) => handleVarietyChange(e.target.value)}
           className="filter-select"
         >
           <option value="">All Varieties</option>
-          <option value="Kohaku">Kohaku</option>
-          <option value="Sanke">Sanke</option>
-          <option value="Showa">Showa</option>
+          <option value="1">Kohaku</option>
+          <option value="2">Golden</option>
         </select>
         <PlusCircleOutlined
           style={{ fontSize: "24px" }}
@@ -87,15 +73,13 @@ function ManagerKoi() {
         />
       </div>
 
-      {filteredKoiFish.length === 0 ? (
-        <p style={{ textAlign: "center" }}>You have no koi fish, Please add one</p>
-      ) : (
-        <div className="koi-fish-dashboard">
-          {filteredKoiFish.map((koi) => (
-            <KoiCard key={koi.koiFishID} koi={koi} />
-          ))}
-        </div>
-      )}
+      <div className="koi-fish-dashboard">
+        {filteredKoiFishs.map((koi) => (
+          <div key={koi.koiFishID} style={{ display: "flex" }}>
+            <KoiCard koi={koi} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

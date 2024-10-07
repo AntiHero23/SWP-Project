@@ -3,7 +3,7 @@ import { useAuthStore } from "../../zustand/useAuthStore";
 import { Avatar, Button, Card, Col, Row, Space, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import api from "../../config/axios";
-import "./Profile.scss"; // Import the SCSS file
+import { UserOutlined } from "@ant-design/icons";
 
 function Profile() {
   const navigate = useNavigate();
@@ -29,11 +29,11 @@ function Profile() {
   };
 
   return (
-    <Row justify="center" className="profile-container">
-      <Col xs={20} sm={16} md={12} lg={8}>
-        <Card title="Profile">
-          <div className="profile-content">
-            <Avatar size={100} src={userInfo?.avatar} />
+    <Row justify="center">
+      <Col span={8}>
+        <Card title="Profile" style={{ marginTop: 16 }}>
+          <Space direction="vertical" size="large">
+            <Avatar size={100} icon={<UserOutlined />} />
             <Typography.Title level={3}>{userInfo?.username}</Typography.Title>
             <div className="profile-info">
               <Typography.Text>Name: {userInfo?.name}</Typography.Text>
@@ -52,7 +52,7 @@ function Profile() {
             <Button type="primary" danger onClick={handleLogout}>
               Logout
             </Button>
-          </div>
+          </Space>
         </Card>
       </Col>
     </Row>
