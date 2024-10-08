@@ -1,4 +1,4 @@
-
+import "./index.scss"
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../../config/axios";
@@ -50,8 +50,9 @@ function ManagerKoi() {
   }
   
   return (
+    <div className="manager-koi">
     <div className="ManagerKoi-container">
-      <h1 style={{ textAlign: "center" }}>Manager Koi Fish</h1>
+      <h1 style={{ textAlign: "center" }}>Manage Koi Fish</h1>
       <div className="filter-search">
         <input
           type="text"
@@ -82,6 +83,7 @@ function ManagerKoi() {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 }

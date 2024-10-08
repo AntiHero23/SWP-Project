@@ -1,6 +1,5 @@
 import React from "react";
 import "./index.scss";
-
 import { Button, Form, Input } from "antd";
 import api from "../../config/axios";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   const navigate = useNavigate();
   const [error, setError] = React.useState(null);
-
   const handleSubmit = async ({ username, password }) => {
     try {
       const { data } = await api.post("login", { username, password });
