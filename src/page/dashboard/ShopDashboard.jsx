@@ -8,7 +8,9 @@ import {
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import { Link, Outlet } from "react-router-dom";
-const { Header, Content, Footer, Sider } = Layout;
+import Footer from "../../component/footer";
+
+const { Header, Content, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
     key,
@@ -24,64 +26,60 @@ const ShopDashboard = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   return (
-    <Layout
-      style={{
-        minHeight: "100vh",
-      }}
-    >
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
+    <>
+      <Layout
+        style={{
+          minHeight: "100vh",
+        }}
       >
-        <div className="demo-logo-vertical" />
-        <Menu
-          theme="dark"
-          defaultSelectedKeys={["1"]}
-          mode="inline"
-          items={items}
-        />
-      </Sider>
-      <Layout>
-        <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        />
-        <Content
-          style={{
-            margin: "0 16px",
-          }}
+        <Sider
+          collapsible
+          collapsed={collapsed}
+          onCollapse={(value) => setCollapsed(value)}
         >
-          <Breadcrumb
+          <div className="demo-logo-vertical" />
+          <Menu
+            theme="dark"
+            defaultSelectedKeys={["1"]}
+            mode="inline"
+            items={items}
+          />
+        </Sider>
+        <Layout>
+          <Header
             style={{
-              margin: "16px 0",
-            }}
-          >
-            <Breadcrumb.Item>Manage</Breadcrumb.Item>
-            <Breadcrumb.Item>Post</Breadcrumb.Item>
-          </Breadcrumb>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
+              padding: 0,
               background: colorBgContainer,
-              borderRadius: borderRadiusLG,
+            }}
+          />
+          <Content
+            style={{
+              margin: "0 16px",
             }}
           >
-            <Outlet />
-          </div>
-        </Content>
-        <Footer
-          style={{
-            textAlign: "center",
-          }}
-        >
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
-        </Footer>
+            <Breadcrumb
+              style={{
+                margin: "16px 0",
+              }}
+            >
+              <Breadcrumb.Item>Manage</Breadcrumb.Item>
+              <Breadcrumb.Item>Post</Breadcrumb.Item>
+            </Breadcrumb>
+            <div
+              style={{
+                padding: 24,
+                minHeight: 360,
+                background: colorBgContainer,
+                borderRadius: borderRadiusLG,
+              }}
+            >
+              <Outlet />
+            </div>
+          </Content>
+          <Footer />
+        </Layout>
       </Layout>
-    </Layout>
+    </>
   );
 };
 export default ShopDashboard;
