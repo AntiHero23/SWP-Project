@@ -1,0 +1,44 @@
+
+
+.profile-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.profile-avatar {
+  background-color: #f56a00;
+  vertical-align: middle;
+}
+
+.profile-title {
+  color: #f56a00;
+  text-align: center;
+}
+
+.profile-text {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.profile-button {
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.profile-button-upgrade {
+  background-color: #1890ff;
+  color: #fff;
+}
+
+.profile-button-logout {
+  background-color: #ff4d4f;
+  color: #fff;
+}

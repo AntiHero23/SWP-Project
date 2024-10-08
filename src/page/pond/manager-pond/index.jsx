@@ -4,6 +4,7 @@ import api from "../../../config/axios";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import PondCard from "../../../component/pond-card";
 import { Button } from "antd";
+import "./index.scss";
 
 function ManagerPond() {
   const [ponds, setPonds] = useState([]);
@@ -52,6 +53,7 @@ function ManagerPond() {
 
   return (
     <div className="ManagerPond-container">
+      <div className="pond-card-container">
       <h1 style={{ textAlign: "center" }}>Manager Pond</h1>
       <div
         className="filter-search"
@@ -79,13 +81,18 @@ function ManagerPond() {
           {filteredPonds.map((pond) => (
             <div
               key={pond.pondID}
-              style={{ display: "flex", justifyContent: "space-between" }}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              
+              }}
             >
               <PondCard pond={pond} />
             </div>
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 }

@@ -119,7 +119,7 @@ function Manage() {
     },
     {
       title: "Description",
-      dataIndex: "description",
+https://github.com/AntiHero23/SWP-Project/pull/8/conflict?name=src%252Fpage%252Fhome%252Findex.jsx&ancestor_oid=cf647f6c273293ccc43034d121cf95e1c79d73fd&base_oid=8352c4e6a46655830c92d0f6b4d11a6edd8a30f8&head_oid=7cea98b67b48b731f2999c2a0e4ba91bdbad901a      dataIndex: "description",
       key: "description",
     },
     {
@@ -142,6 +142,7 @@ function Manage() {
       ),
     },
   ];
+
   return (
     <>
       <h1>Post Pending Table</h1>

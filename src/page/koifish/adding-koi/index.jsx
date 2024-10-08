@@ -7,7 +7,6 @@ import { Option } from "antd/es/mentions";
 import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../../assets/hook/useUpload";
 
-
 function AddKoi() {
   const [koiName, setKoiName] = useState("");
   const [birthday, setBirthday] = useState(new Date().toISOString());
@@ -87,15 +86,15 @@ function AddKoi() {
     fetchVarieties();
   }, []);
 
-  const handleSubmit = async (event) => {
-    console.log(event);
+  const handleSubmit = async (values) => {
+    console.log(values);
     try {
       const url = await uploadFile(fileList[0].originFileObj);
-      console.log(url);
-      event.image = url;
-      const response = await api.post("koifish/create", event);
+      values.image = url;
+      const response = await api.post("koifish/create", values);
       console.log(response.data);
-      navigate("/managerKoi", { replace: true });
+      alert("Koi added successfully");
+      navigate("/managerKoi");
     } catch (error) {
       console.error("koi adding failed", error);
     }
@@ -104,66 +103,72 @@ function AddKoi() {
   return (
     <div className="addKoi">
       <div className="addKoi-form-container">
-      <h1 className="addKoi-title">Add Koi</h1>
-      <Form layout="vertical" onFinish={handleSubmit}>
-        <Form.Item label="Name" name="koiName">
-          <Input value={koiName} onChange={(e) => setKoiName(e.target.value)} />
-        </Form.Item>
-        <Form.Item label="Birthday" name="birthday">
-          <Input
-            type="date"
-            value={birthday}
-            onChange={(e) => setBirthday(e.target.value)}
+        <h1 className="addKoi-title">Add Koi</h1>
+        <Form layout="vertical" onFinish={handleSubmit}>
+          <Form.Item label="Name" name="koiName">
+            <Input
+              value={koiName}
+              onChange={(e) => setKoiName(e.target.value)}
+            />
+          </Form.Item>
+          <Form.Item label="Birthday" name="birthday">
+            <Input
+              type="date"
+              value={birthday}
+              onChange={(e) => setBirthday(e.target.value)}
+            />
+          </Form.Item>
+          <Form.Item label="Sex" name="koiSex">
+            <Select
+              options={[
+                { label: "male", value: "Male" },
+                { label: "female", value: "Female" },
+              ]}
+              value={koiSex}
+              onChange={(e) => setKoiSex(e)}
+            />
+          </Form.Item>
+          <Form.Item label="Image" name="image">
+            <Upload
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+            >
+              {fileList.length >= 8 ? null : uploadButton}
+            </Upload>
+          </Form.Item>
+          <Form.Item label="Pond" name="pondID">
+            <Select
+              value={pondID}
+              onChange={(value) => setPondID(value)}
+              options={pondOptions}
+            ></Select>
+          </Form.Item>
+          <Form.Item label="Variety ID" name="koiVarietyID">
+            <Select
+              value={koiVarietyID}
+              onChange={(value) => setKoiVarietyID(value)}
+              options={varietyOptions}
+            ></Select>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" onClick={handleSubmit}>
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+        {previewImage && (
+          <Image
+            wrapperStyle={{ display: "none" }}
+            preview={{
+              visible: previewOpen,
+              onVisibleChange: (visible) => setPreviewOpen(visible),
+              afterOpenChange: (visible) => !visible && setPreviewImage(""),
+            }}
+            src={previewImage}
           />
-        </Form.Item>
-        <Form.Item label="Sex" name="koiSex">
-          <Radio.Group value={koiSex} onChange={(e) => setKoiSex(e.target.value)}>
-            <Radio value="Male">Male</Radio>
-            <Radio value="Female">Female</Radio>
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item label="Image" name="image">
-          <Upload
-            action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-            listType="picture-card"
-            fileList={fileList}
-            onPreview={handlePreview}
-            onChange={handleChange}
-          >
-            {fileList.length >= 8 ? null : uploadButton}
-          </Upload>
-        </Form.Item>
-        <Form.Item label="Pond" name="pondID">
-          <Select
-            value={pondID}
-            onChange={(value) => setPondID(value)}
-            options={pondOptions}
-          ></Select>
-        </Form.Item>
-        <Form.Item label="Variety ID" name="koiVarietyID">
-          <Select
-            value={koiVarietyID}
-            onChange={(value) => setKoiVarietyID(value)}
-            options={varietyOptions}
-          ></Select>
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" onClick={handleSubmit}>
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
-      {previewImage && (
-        <Image
-          wrapperStyle={{ display: "none" }}
-          preview={{
-            visible: previewOpen,
-            onVisibleChange: (visible) => setPreviewOpen(visible),
-            afterOpenChange: (visible) => !visible && setPreviewImage(""),
-          }}
-          src={previewImage}
-        />
-      )}
+        )}
       </div>
     </div>
   );

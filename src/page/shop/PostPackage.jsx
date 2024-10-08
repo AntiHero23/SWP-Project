@@ -1,4 +1,6 @@
+
 import { Button, Form, Image, Input, Modal, Table, Tag } from "antd";
+
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import api from "../../config/axios";
@@ -9,19 +11,23 @@ function PostPackage() {
   const [dataSourcePending, setDataSourcePending] = useState([]);
   const [dataSourceApproved, setDataSourceApproved] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [form] = useForm();
   const [productName, setProductName] = useState([]);
   const [description, setDescription] = useState([]);
+
 
   const showModal = () => {
     setIsModalOpen(true);
   };
   const handleOk = () => {
+
     form.resetFields();
     setIsModalOpen(false);
   };
   const handleCancel = () => {
     form.resetFields();
+
     setIsModalOpen(false);
   };
   const fetchDataPending = async () => {
@@ -93,11 +99,14 @@ function PostPackage() {
     <>
       <Button onClick={showModal}>New Post</Button>
       <Modal
+
         title="Add New Post"
+
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
       >
+
         <Form>
           <Form.Item label="Product Name: " name="productName">
             <Input
@@ -112,11 +121,12 @@ function PostPackage() {
             />
           </Form.Item>
         </Form>
+
       </Modal>
       <h1>Post Pending Table</h1>
       <Table dataSource={dataSourcePending} columns={columns} />
-      <h1>Post Approved Table</h1>
-      <Table dataSource={dataSourceApproved} columns={columns} />
+      {/* <h1>Post Approved Table</h1>
+      <Table dataSource={dataSourceApproved} columns={columns} /> */}
     </>
   );
 }

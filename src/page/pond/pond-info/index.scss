@@ -50,7 +50,6 @@
     }
   
     .delete-button {
-      width: 150px;
       padding: 10px;
       background-color: #ff4d4f;
       border: none;
@@ -65,5 +64,15 @@
       }
     }
 
+  }
+  .pond-dashboard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+    background-size: cover;
+    background-attachment: fixed;
   }
 

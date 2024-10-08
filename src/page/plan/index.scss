@@ -1,0 +1,54 @@
+.pricing-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+
+  h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 20px;
+  }
+
+  .pricing-plans {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+
+    .pricing-plan {
+      width: 300px;
+      margin: 20px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+
+      h2 {
+        font-size: 24px;
+        font-weight: bold;
+        color: #000000;
+        margin-bottom: 10px;
+      }
+
+      p {
+        font-size: 18px;
+        color: #000000;
+        margin-bottom: 10px;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          font-size: 16px;
+          color: #000000;
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}

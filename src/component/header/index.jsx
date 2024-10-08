@@ -7,37 +7,41 @@ import { Dropdown, Menu } from "antd";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../../zustand/useAuthStore";
 import api from "../../config/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "../../redux/features/counterSlice";
 
 function Header() {
   const navigate = useNavigate();
-  const { logout } = useAuthStore();
-  const [user, setUser] = useState({});
-
+  const dispath = useDispatch(logout);
+  const [avatar, setAvatar] = useState({});
+  const user = useSelector(selectUser);
   const handleLogout = () => {
     logout();
-    localStorage.removeItem("token"); 
+    localStorage.removeItem("token");
+    setAvatar(dispath(logout()));
     navigate("/login");
   };
-
+  // console.log(avatar);
+  function getAvatar() {
+    setAvatar(user);
+  }
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await api.get("currentAccount");
-        setUser(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchUser();
-  }, []);
+    getAvatar();
+  }, [user]);
 
   const menu = (
     <Menu>
       <Menu.Item onClick={() => navigate("/managerKoi")}>My Koi</Menu.Item>
       <Menu.Item onClick={() => navigate("/managerPond")}>My Pond</Menu.Item>
-      <Menu.Item onClick={() => navigate("/calculateSalt")}>Calculate Salt</Menu.Item>
-      <Menu.Item onClick={() => navigate("/calculateFood")}>Calculate Food</Menu.Item>
-      <Menu.Item onClick={() => navigate("/recommendation")}>Shopping Recommendation</Menu.Item>
+      <Menu.Item onClick={() => navigate("/calculateSalt")}>
+        Calculate Salt
+      </Menu.Item>
+      <Menu.Item onClick={() => navigate("/calculateFood")}>
+        Calculate Food
+      </Menu.Item>
+      <Menu.Item onClick={() => navigate("/recommendation")}>
+        Shopping Recommendation
+      </Menu.Item>
       <Menu.Item onClick={() => navigate("/statistics")}>Statistics</Menu.Item>
     </Menu>
   );
@@ -48,7 +52,7 @@ function Header() {
       <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
     </Menu>
   );
-  
+
   return (
     <div className="header">
       <div className="header-left">
@@ -79,11 +83,25 @@ function Header() {
 
       <div className="header-right">
         <IoIosNotifications className="header-right-notification-icon" />
-        {user.username ? (
+        {/* {user.username ? (
           <div className="dropdown">
             <Dropdown overlay={menu_user} trigger={["click"]}>
               <a className="dropdown-link" onClick={(e) => e.preventDefault()}>
                 {user.username}
+              </a>
+            </Dropdown>
+          </div>
+        ) : (
+          <MdAccountCircle
+            className="header-right-account-icon"
+            onClick={() => navigate("/login")}
+          />
+        )} */}
+        {avatar?.username ? (
+          <div className="dropdown">
+            <Dropdown overlay={menu_user} trigger={["click"]}>
+              <a className="dropdown-link" onClick={(e) => e.preventDefault()}>
+                {user?.username}
               </a>
             </Dropdown>
           </div>
