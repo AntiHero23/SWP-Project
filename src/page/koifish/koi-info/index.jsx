@@ -5,9 +5,10 @@ import { useQueryClient } from "react-query";
 function KoiInfo() {
   const { id } = useParams();
   const KoiId = Number(id);
-  const queryClient = useQueryClient();
   const [koi, setKoi] = useState(null);
-  const [koiReport, setKoiReport] = useState(null);
+  const [koiReport, setKoiReport] = useState([]);
+  const [koiReportError, setKoiReportError] = useState(null);
+  const [koiReportLatest, setKoiReportLatest] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -27,17 +28,33 @@ function KoiInfo() {
     const fetchKoiReport = async () => {
       setLoading(true);
       try {
-        const koiReportResponse = await api.get(`koireport/${KoiId}`);
-        if (koiReportResponse.status === 400) {
-          console.log(koiReportResponse.data.message);
-        }
-        // setKoiReport(koiReportResponse.data.result);
+        const koiReportResponse = await api.get(
+          `koireport/koiReports/${KoiId}`
+        );
+        setKoiReport(koiReportResponse.data.result);
       } catch (error) {
-        setError(error);
+        console.log(error);
+        setKoiReportError("You dont have any koi report yet");
       } finally {
         setLoading(false);
       }
     };
+    const fetchKoiLatestReport = async () => {
+      setLoading(true);
+      try {
+        const koiReportLatestResponse = await api.get(
+          `koireport/latestKoiReport/${KoiId}`
+        );
+        setKoiReportLatest(koiReportLatestResponse.data.result);
+      } catch (error) {
+        console.log(error);
+        setKoiReportError("You dont have any koi report yet");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchKoiLatestReport();
+    fetchKoiReport();
     fetchKoi();
   }, [KoiId]);
 
@@ -53,10 +70,22 @@ function KoiInfo() {
             <p>Birthday: {koi?.birthday}</p>
             <p>Pond ID: {koi?.pondID}</p>
             <p>Variety ID: {koi?.koiVarietyID}</p>
-
-            <h2>Koi Report</h2>
-            <p>Length : {koiReport?.length}</p>
-            <p>Weight : {koiReport?.weight}</p>
+            <h2>Koi Report History </h2>
+            {koiReportError && <p style={{ color: "red" }}>{koiReportError}</p>}
+            {!koiReportError && (
+              <>
+                {koiReport
+                  .sort((a, b) => b.koiReportID - a.koiReportID)
+                  .map((report) => (
+                    <>
+                      <p>Date : {report.updateDate}</p>
+                      <p>Length : {report.length}</p>
+                      <p>Weight : {report.weight}</p>
+                    </>
+                  ))}
+                <h1>Koi Status Latest : {koiReportLatest.koiStatus} </h1>
+              </>
+            )}
 
             <button onClick={() => navigate(-1)}>Go Back</button>
           </>
