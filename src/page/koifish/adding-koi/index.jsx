@@ -94,7 +94,7 @@ function AddKoi() {
       const response = await api.post("koifish/create", values);
       console.log(response.data);
       alert("Koi added successfully");
-      navigate("/managerKoi");
+      // navigate("/managerKoi");
     } catch (error) {
       console.error("koi adding failed", error);
     }

@@ -18,7 +18,7 @@ function Login() {
       dispath(login(data));
       localStorage.setItem("token", token);
       if (data.role === "ADMIN") {
-        navigate("/dashboard");
+        navigate("/admin");
       } else if (data.role === "SHOP") {
         navigate("/shop");
       } else {

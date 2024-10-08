@@ -68,8 +68,8 @@ function KoiInfo() {
             <img src={koi?.image} alt="koi" />
             <p>Sex: {koi?.koiSex}</p>
             <p>Birthday: {koi?.birthday}</p>
-            <p>Pond ID: {koi?.pondID}</p>
-            <p>Variety ID: {koi?.koiVarietyID}</p>
+            <p>Pond : {koi?.pondName}</p>
+            <p>Variety : {koi?.koiVariety}</p>
             <h2>Koi Report History </h2>
             {koiReportError && <p style={{ color: "red" }}>{koiReportError}</p>}
             {!koiReportError && (
@@ -83,7 +83,11 @@ function KoiInfo() {
                       <p>Weight : {report.weight}</p>
                     </>
                   ))}
-                <h1>Koi Status Latest : {koiReportLatest.koiStatus} </h1>
+                {koiReportLatest && (
+                  <h1>
+                    Koi Status Latest : {koiReportLatest.koiStatus || "N/A"}
+                  </h1>
+                )}
               </>
             )}
 

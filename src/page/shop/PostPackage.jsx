@@ -8,12 +8,15 @@ import {
   Select,
   Table,
   Tag,
+  Upload,
 } from "antd";
 
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import api from "../../config/axios";
 import { useForm } from "antd/es/form/Form";
+import { PlusOutlined } from "@ant-design/icons";
+import uploadFile from "../../assets/hook/useUpload";
 
 function PostPackage() {
   const [dataSourcePending, setDataSourcePending] = useState([]);
@@ -21,14 +24,7 @@ function PostPackage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [form] = useForm();
-  const [productName, setProductName] = useState("");
-  const [productPrice, setProductPrice] = useState(0);
-  const [image, setImage] = useState("");
-  const [description, setDescription] = useState("");
-  const [link, setLink] = useState("");
-  const [priceID, setPriceID] = useState("");
-  const [productTypeID, setProductTypeID] = useState("");
-  const [paymentID, setPaymentID] = useState("");
+
   const [priceOptions, setPriceOptions] = useState([]);
   const [paymentOptions, setPaymentOptions] = useState([]);
   const [productTypeOptions, setProductTypeOptions] = useState([]);
@@ -38,11 +34,12 @@ function PostPackage() {
   const handleSubmit = async (values) => {
     console.log(values);
     try {
-      const response = await api.post("post/create", values);
-      console.log(response.data);
-      setIsModalOpen(false);
+      const url = await uploadFile(values.image[0].originFileObj);
+      values.image = url;
+      await api.post("post/create", values);
       alert("Post added successfully");
-      form.resetFields();
+      // setIsModalOpen(false);
+      // form.resetFields();
     } catch (error) {
       console.log("post adding failed", error);
     }
@@ -79,7 +76,43 @@ function PostPackage() {
       console.log(error);
     }
   };
-
+  const getBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [fileList, setFileList] = useState([]);
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+  };
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const uploadButton = (
+    <button
+      style={{
+        border: 0,
+        background: "none",
+        color: "black",
+      }}
+      type="button"
+    >
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </button>
+  );
   const fetchProductType = async () => {
     try {
       const response = await api.get("productType/view");
@@ -164,7 +197,9 @@ function PostPackage() {
 
   return (
     <>
-      <Button onClick={showModal}>New Post</Button>
+      <Button type="primary" onClick={showModal}>
+        New Post
+      </Button>
       <Modal
         title="Add New Post"
         open={isModalOpen}
@@ -172,60 +207,85 @@ function PostPackage() {
         onCancel={handleCancel}
       >
         <Form form={form} onFinish={handleSubmit}>
-          <Form.Item label="Product Name: " name="productName">
-            <Input
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
-            />
+          <Form.Item
+            label="Product Name: "
+            name="productName"
+            rules={[{ required: true, message: "Please input product name!" }]}
+          >
+            <Input />
           </Form.Item>
-          <Form.Item label="Price: " name="productPrice">
-            <InputNumber
-              value={productPrice}
-              onChange={(value) => setProductPrice(value)}
-            />
+          <Form.Item
+            label="Description: "
+            name="description"
+            rules={[{ required: true, message: "Please input description!" }]}
+          >
+            <Input.TextArea autoSize={{ minRows: 4, maxRows: 6 }} />
           </Form.Item>
-          <Form.Item label="Image: " name="image">
-            <Input value={image} onChange={(e) => setImage(e.target.value)} />
+          <Form.Item
+            label="Link: "
+            name="link"
+            rules={[{ required: true, message: "Please input link!" }]}
+          >
+            <Input />
           </Form.Item>
-          <Form.Item label="Description: " name="description">
-            <Input
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
+          <Form.Item
+            label="Image: "
+            name="image"
+            rules={[{ required: true, message: "Please upload image!" }]}
+          >
+            <Upload
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+            >
+              {fileList.length >= 8 ? null : uploadButton}
+            </Upload>
           </Form.Item>
-
-          <Form.Item label="Product Type: " name="producTypeID">
-            <Select
-              options={productTypeOptions}
-              value={productTypeID}
-              onChange={(value) => setProductTypeID(value)}
-              placeholder="Select Product Type"
-            />
+          <Form.Item
+            label="Product Price: "
+            name="productPrice"
+            rules={[{ required: true, message: "Please input price!" }]}
+          >
+            <InputNumber />
           </Form.Item>
-          <Form.Item label="Link: " name="link">
-            <Input value={link} onChange={(e) => setLink(e.target.value)} />
+          <Form.Item
+            label="Payment: "
+            name="paymentID"
+            rules={[{ required: true, message: "Please input payment!" }]}
+          >
+            <Select options={paymentOptions} />
+          </Form.Item>
+          <Form.Item
+            label="Product Type: "
+            name="productTypeID"
+            rules={[{ required: true, message: "Please input product type!" }]}
+          >
+            <Select options={productTypeOptions} />
+          </Form.Item>
+          <Form.Item
+            label="Price: "
+            name="priceID"
+            rules={[{ required: true, message: "Please input way to pay!" }]}
+          >
+            <Select options={priceOptions} />
           </Form.Item>
         </Form>
-        <Form.Item label="Price Options" name="priceID">
-          <Select
-            options={priceOptions}
-            value={priceID}
-            onChange={(value) => setPriceID(value)}
-            placeholder="Select Price"
+        {previewImage && (
+          <Image
+            wrapperStyle={{ display: "none" }}
+            preview={{
+              visible: previewOpen,
+              onVisibleChange: (visible) => setPreviewOpen(visible),
+              afterOpenChange: (visible) => !visible && setPreviewImage(""),
+            }}
+            src={previewImage}
           />
-        </Form.Item>
-        <Form.Item label="Payment" name="paymentID">
-          <Select
-            options={paymentOptions}
-            value={paymentID}
-            onChange={(value) => setPaymentID(value)}
-            placeholder="Select Payment"
-          />
-        </Form.Item>
+        )}
       </Modal>
-      <h1>Post Pending Table</h1>
+      <h2>Pending</h2>
       <Table dataSource={dataSourcePending} columns={columns} />
-      <h1>Post Approved Table</h1>
+      <h2>Approved</h2>
       <Table dataSource={dataSourceApproved} columns={columns} />
     </>
   );
