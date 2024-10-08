@@ -114,7 +114,7 @@ function PondInfo() {
           Water Report Carbon Dioxide: {waterReport.waterReportCarbonDioxide}
         </p>
         <Button onClick={handleAddWaterReport}>Add Water Report</Button>
-        <Button onClick={handleDelete}>Delete Water Report</Button>
+        <Button className="delete-button"onClick={handleDelete}>Delete Water Report</Button>
       </div>
       <Button onClick={() => navigate("/managerPond")}>Back</Button>
     </div>

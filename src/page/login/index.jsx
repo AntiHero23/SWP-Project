@@ -24,7 +24,7 @@ function Login() {
     <div className="login">
       <div className="login-form-container">
         <div className="loginForm-title">Login</div>
-        <Form onFinish={handleSubmit}>
+        <Form layout="vertical" onFinish={handleSubmit}>
           <Form.Item
             label="Username"
             name="username"
