@@ -17,12 +17,17 @@ function Login() {
       const { token } = data;
       dispath(login(data));
       localStorage.setItem("token", token);
-      navigate("/");
+      if (data.role === "ADMIN") {
+        navigate("/dashboard");
+      } else if (data.role === "SHOP") {
+        navigate("/shop");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       setError(err.response.data.message);
     }
   };
-
   return (
     <div className="login">
       <div className="login-form-container">
