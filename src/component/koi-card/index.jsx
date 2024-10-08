@@ -17,7 +17,7 @@ function KoiCard({
 
         <button
           className="see-more-button"
-          onClick={() => navigate(`/koi-info/${koiFishID}`)}
+          onClick={() => navigate(`/koiInfo/${koiFishID}`)}
         >
           See More Details
         </button>

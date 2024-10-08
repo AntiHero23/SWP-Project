@@ -1,10 +1,10 @@
-
 import React, { useEffect, useState } from "react";
 import { useAuthStore } from "../../zustand/useAuthStore";
 import { Avatar, Button, Card, Col, Row, Space, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import api from "../../config/axios";
 import { UserOutlined } from "@ant-design/icons";
+import "./index.scss";
 
 function Profile() {
   const navigate = useNavigate();
@@ -30,25 +30,57 @@ function Profile() {
   };
 
   return (
-    <Row justify="center">
-      <Col span={8}>
-        <Card title="Profile" style={{ marginTop: 16 }}>
+    <Row justify="center" className="profile-container">
+      <Col span={6}>
+        <Card
+          title="Profile"
+          className="profile-card"
+          cover={<img alt="example" src="/profile-bg.jpg" />}
+        >
           <Space direction="vertical" size="large">
-            <Avatar size={100} icon={<UserOutlined />} />
-            <Typography.Title level={3}>{userInfo?.username}</Typography.Title>
-            <Typography.Text>Name: {userInfo?.name}</Typography.Text>
-            <Typography.Text>Email: {userInfo?.email}</Typography.Text>
-            <Typography.Text>Phone: {userInfo?.phone}</Typography.Text>
-            <Typography.Text>Role: {userInfo?.role}</Typography.Text>
-            <Typography.Text>
-              Premium:{" "}
+            <Avatar
+              size={100}
+              icon={<UserOutlined />}
+              className="profile-avatar"
+            />
+            <Typography.Title level={3} className="profile-title">
+              {userInfo?.username}
+            </Typography.Title>
+            <Typography.Text className="profile-text">
+              Name: {userInfo?.name || "-"}
+            </Typography.Text>
+            <Typography.Text className="profile-text">
+              Email: {userInfo?.email || "-"}
+            </Typography.Text>
+            <Typography.Text className="profile-text">
+              Phone: {userInfo?.phone || "-"}
+            </Typography.Text>
+            <Typography.Text className="profile-text">
+              Role: {userInfo?.role || "-"}
+            </Typography.Text>
+            <Typography.Text className="profile-text">
+              Your Current Plan:{" "}
               {userInfo?.premiumStatus === 0
-                ? "Basic"
+                ? "Basic "
                 : userInfo?.premiumStatus === 1
                 ? "Premium"
                 : "Unknown"}
             </Typography.Text>
-            <Button type="primary" danger onClick={handleLogout}>
+            {userInfo?.premiumStatus === 0 && (
+              <Button
+                type="primary"
+                className="profile-button profile-button-upgrade"
+                onClick={() => navigate("/buyPlan")}
+              >
+                Upgrade to Premium
+              </Button>
+            )}
+            <Button
+              type="primary"
+              danger
+              className="profile-button profile-button-logout"
+              onClick={handleLogout}
+            >
               Logout
             </Button>
           </Space>
