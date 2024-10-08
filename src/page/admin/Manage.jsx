@@ -10,6 +10,15 @@ function Manage() {
   const [dataSourceApproved, setDataSourceApproved] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [form] = useForm();
+  // const [isApprove, setIsApprove] = useState(false);
+
+  // const handleApprove = async () => {
+  //   try {
+  //     const postID = await api.get("");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
   const fetchDataPending = async () => {
     try {
       const responsePeding = await api.get("admin/post/view/pending");
@@ -87,7 +96,7 @@ function Manage() {
       dataIndex: "postStatus",
       key: "postStatus",
       render: (value) => (
-        <Tag color={value ? "green" : "red"}>{value + ""}</Tag>
+        <Button color={value ? "green" : "red"}>{value + ""}</Button>
       ),
     },
   ];
