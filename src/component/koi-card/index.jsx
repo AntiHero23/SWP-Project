@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 function KoiCard({
-  koi: { koiFishID, koiName, birthday, koiSex, image, pondID, koiVarietyID },
+  koi: { koiFishID, koiName, birthday, koiSex, image, pondName, koiVariety },
 }) {
   const navigate = useNavigate();
   return (
@@ -12,8 +12,8 @@ function KoiCard({
         <hr />
         <p className="koi-fish-birthday">Birthday: {birthday}</p>
         <p className="koi-fish-sex">Sex: {koiSex}</p>
-        <p className="koi-fish-pond">Pond: {pondID}</p>
-        <p className="koi-fish-variety">Variety: {koiVarietyID}</p>
+        <p className="koi-fish-pond">Pond: {pondName}</p>
+        <p className="koi-fish-variety">Variety: {koiVariety}</p>
 
         <button
           className="see-more-button"
