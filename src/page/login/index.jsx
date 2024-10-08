@@ -4,15 +4,18 @@ import "./index.scss";
 import { Button, Form, Input } from "antd";
 import api from "../../config/axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/features/counterSlice";
 
 function Login() {
   const navigate = useNavigate();
   const [error, setError] = React.useState(null);
-
+  const dispath = useDispatch(login);
   const handleSubmit = async ({ username, password }) => {
     try {
       const { data } = await api.post("login", { username, password });
       const { token } = data;
+      dispath(login(data));
       localStorage.setItem("token", token);
       navigate("/");
     } catch (err) {

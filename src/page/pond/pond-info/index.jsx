@@ -4,6 +4,7 @@ import api from "../../../config/axios";
 import { Button, Form, Input, InputNumber } from "antd";
 import { useQueryClient } from "react-query";
 import "./index.scss";
+import dayjs from "dayjs";
 
 function PondInfo() {
   const queryClient = useQueryClient();
@@ -20,11 +21,9 @@ function PondInfo() {
       setLoading(true);
       try {
         const pondResponse = await api.get(`pond/${pondId}`);
+
         setPond(pondResponse.data.result);
-        console.log(pondId);
-        console.log(pondResponse.data.result);
       } catch (error) {
-        console.error(error);
         setError("Failed to fetch pond data.");
       } finally {
         setLoading(false);
@@ -32,43 +31,33 @@ function PondInfo() {
     };
     const fetchWaterReport = async () => {
       try {
-        const waterReportResponse = await api.get(`waterreport/view/${pondId}`);
-        setWaterReport(waterReportResponse.data);
+        const waterReportResponse = await api.get(
+          `waterreport/view/latestreport/${pondId}`
+        );
+        console.log(waterReportResponse.data.result);
+        setWaterReport(waterReportResponse.data.result);
       } catch (error) {
         console.error("Failed to fetch water report:", error);
         setError("Failed to fetch water report.");
       }
     };
 
-    fetchWaterReport();
     fetchPond();
+    fetchWaterReport();
   }, [pondId]);
 
   const handleDelete = async () => {
+    if (pond.amountFish > 0) {
+      alert("This pond has fish, you cannot delete it.");
+      return;
+    }
     try {
       await api.delete(`pond/${pondId}`);
-      queryClient.invalidateQueries("pond");
       alert("Pond deleted successfully");
       navigate("/managerPond");
     } catch (error) {
       console.error("Failed to delete pond:", error);
     }
-  };
-
-  const handleAddWaterReport = async () => {
-    // try {
-    //   const response = await api.post(`waterreport`, { pondID: pondId });
-    //   if (response.data.message === "WaterReport not existed") {
-    //     alert("Please create a water report.");
-    //   } else {
-    //     alert("Water report created successfully.");
-    //     const waterReportResponse = await api.get(`waterreport/${pondId}`);
-    //     setWaterReport(waterReportResponse.data);
-    //   }
-    // } catch (error) {
-    //   console.error("Failed to create water report:", error);
-    //   alert("An error occurred while creating the water report.");
-    // }
   };
 
   if (loading) return <div>Loading...</div>;
@@ -129,7 +118,7 @@ function PondInfo() {
             <Button type="primary" htmlType="submit">
               Update
             </Button>
-            <Button danger style={{ marginLeft: 8 }} onClick={handleDelete}>
+            <Button danger onClick={handleDelete}>
               Delete
             </Button>
           </Form.Item>
@@ -137,22 +126,85 @@ function PondInfo() {
       </div>
       <div className="pond-waterreport">
         <h2>Water Report</h2>
-        <p>Water Report ID: {waterReport.waterReportId}</p>
-        <p>Water Report Updated Date: {waterReport.waterReportUpdatedDate}</p>
-        <p>Water Report Temperature: {waterReport.waterReportTemperature}</p>
-        <p>Water Report Oxygen: {waterReport.waterReportOxygen}</p>
-        <p>Water Report pH: {waterReport.waterReport_pH}</p>
-        <p>Water Report Hardness: {waterReport.waterReportHardness}</p>
-        <p>Water Report Ammonia: {waterReport.waterReportAmmonia}</p>
-        <p>Water Report Nitrite: {waterReport.waterReportNitrite}</p>
-        <p>Water Report Nitrate: {waterReport.waterReportNitrate}</p>
-        <p>Water Report Carbonate: {waterReport.waterReportCarbonate}</p>
-        <p>Water Report Salt: {waterReport.waterReportSalt}</p>
-        <p>
-          Water Report Carbon Dioxide: {waterReport.waterReportCarbonDioxide}
-        </p>
-        <Button onClick={handleAddWaterReport}>Add Water Report</Button>
-        <Button className="delete-button"onClick={handleDelete}>Delete Water Report</Button>
+        <p>pondID: {waterReport.pondID}</p>
+        <Form
+          layout="vertical"
+          initialValues={waterReport}
+          onFinish={(values) => {
+            const updateWaterReport = async () => {
+              try {
+                await api.put(
+                  `waterreport/update/${waterReport.waterReportId}`,
+                  values
+                );
+                alert("Water report updated successfully");
+                navigate("/managerPond");
+              } catch (error) {
+                console.error("Failed to update water report:", error);
+              }
+            };
+            updateWaterReport();
+          }}
+        >
+          <Form.Item label="Water Report ID" name="waterReportId">
+            <Input disabled />
+          </Form.Item>
+          <Form.Item
+            label="Water Report Updated Date"
+            name="waterReportUpdatedDate"
+          >
+            <Input
+              disabled
+              value={dayjs(waterReport.waterReportUpdatedDate).format(
+                "DD/MM/YYYY"
+              )}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Water Report Temperature"
+            name="waterReportTemperature"
+          >
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item label="Water Report Oxygen" name="waterReportOxygen">
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item label="Water Report pH" name="waterReport_pH">
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item label="Water Report Hardness" name="waterReportHardness">
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item label="Water Report Ammonia" name="waterReportAmmonia">
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item label="Water Report Nitrite" name="waterReportNitrite">
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item label="Water Report Nitrate" name="waterReportNitrate">
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item label="Water Report Carbonate" name="waterReportCarbonate">
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item label="Water Report Salt" name="waterReportSalt">
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item
+            label="Water Report Carbon Dioxide"
+            name="waterReportCarbonDioxide"
+          >
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Update
+            </Button>
+            <Button danger onClick={handleDelete}>
+              Delete
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
       <Button onClick={() => navigate("/managerPond")}>Back</Button>
     </div>
