@@ -65,6 +65,7 @@ function PondInfo() {
 
   return (
     <div className="pond-water-container">
+      <div className="info-report-container">
       <div className="pond-info">
         <Form
           layout="vertical"
@@ -81,7 +82,8 @@ function PondInfo() {
             };
             updatePond();
           }}
-        >
+        >  <div className="pond-info-columns">
+          <div className="left-column">
           <Form.Item label="Name" name="pondName">
             <Input />
           </Form.Item>
@@ -90,7 +92,7 @@ function PondInfo() {
             <img
               src={pond.pondImage}
               alt="pond"
-              style={{ width: "100%", height: 200 }}
+              style={{ width: "100%", height: 100 }}
             />
           </Form.Item>
           <Form.Item label="Area" name="area">
@@ -99,9 +101,11 @@ function PondInfo() {
           <Form.Item label="Depth" name="depth">
             <InputNumber min={0} />
           </Form.Item>
+          </div>
+          <div className="right-column">           
           <Form.Item label="Volume" name="volume">
             <InputNumber min={0} />
-          </Form.Item>
+          </Form.Item>         
           <Form.Item label="Drain Count" name="drainCount">
             <InputNumber min={0} />
           </Form.Item>
@@ -114,101 +118,43 @@ function PondInfo() {
           <Form.Item label="Amount of Fish" name="amountFish">
             <InputNumber disabled min={0} />
           </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Update
-            </Button>
-            <Button danger onClick={handleDelete}>
-              Delete
-            </Button>
-          </Form.Item>
+          </div>
+          </div>
+          <div className="button-container">
+          <Button type="primary" htmlType="submit">
+             Update
+          </Button>
+          <Button className="delete-button" danger style={{ marginLeft: 8 }} onClick={handleDelete}>
+             Delete
+          </Button>
+  </div>
         </Form>
       </div>
-      <div className="pond-waterreport">
+      <div className="water-report">
+        <div className="content">
         <h2>Water Report</h2>
-        <p>pondID: {waterReport.pondID}</p>
-        <Form
-          layout="vertical"
-          initialValues={waterReport}
-          onFinish={(values) => {
-            const updateWaterReport = async () => {
-              try {
-                await api.put(
-                  `waterreport/update/${waterReport.waterReportId}`,
-                  values
-                );
-                alert("Water report updated successfully");
-                navigate("/managerPond");
-              } catch (error) {
-                console.error("Failed to update water report:", error);
-              }
-            };
-            updateWaterReport();
-          }}
-        >
-          <Form.Item label="Water Report ID" name="waterReportId">
-            <Input disabled />
-          </Form.Item>
-          <Form.Item
-            label="Water Report Updated Date"
-            name="waterReportUpdatedDate"
-          >
-            <Input
-              disabled
-              value={dayjs(waterReport.waterReportUpdatedDate).format(
-                "DD/MM/YYYY"
-              )}
-            />
-          </Form.Item>
-          <Form.Item
-            label="Water Report Temperature"
-            name="waterReportTemperature"
-          >
-            <InputNumber min={0} />
-          </Form.Item>
-          <Form.Item label="Water Report Oxygen" name="waterReportOxygen">
-            <InputNumber min={0} />
-          </Form.Item>
-          <Form.Item label="Water Report pH" name="waterReport_pH">
-            <InputNumber min={0} />
-          </Form.Item>
-          <Form.Item label="Water Report Hardness" name="waterReportHardness">
-            <InputNumber min={0} />
-          </Form.Item>
-          <Form.Item label="Water Report Ammonia" name="waterReportAmmonia">
-            <InputNumber min={0} />
-          </Form.Item>
-          <Form.Item label="Water Report Nitrite" name="waterReportNitrite">
-            <InputNumber min={0} />
-          </Form.Item>
-          <Form.Item label="Water Report Nitrate" name="waterReportNitrate">
-            <InputNumber min={0} />
-          </Form.Item>
-          <Form.Item label="Water Report Carbonate" name="waterReportCarbonate">
-            <InputNumber min={0} />
-          </Form.Item>
-          <Form.Item label="Water Report Salt" name="waterReportSalt">
-            <InputNumber min={0} />
-          </Form.Item>
-          <Form.Item
-            label="Water Report Carbon Dioxide"
-            name="waterReportCarbonDioxide"
-          >
-            <InputNumber min={0} />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Update
-            </Button>
-            <Button danger onClick={handleDelete}>
-              Delete
-            </Button>
-          </Form.Item>
-        </Form>
+        <p>Water Report ID: {waterReport.waterReportId}</p>
+        <p>Water Report Updated Date: {waterReport.waterReportUpdatedDate}</p>
+        <p>Water Report Temperature: {waterReport.waterReportTemperature}</p>
+        <p>Water Report Oxygen: {waterReport.waterReportOxygen}</p>
+        <p>Water Report pH: {waterReport.waterReport_pH}</p>
+        <p>Water Report Hardness: {waterReport.waterReportHardness}</p>
+        <p>Water Report Ammonia: {waterReport.waterReportAmmonia}</p>
+        <p>Water Report Nitrite: {waterReport.waterReportNitrite}</p>
+        <p>Water Report Nitrate: {waterReport.waterReportNitrate}</p>
+        <p>Water Report Carbonate: {waterReport.waterReportCarbonate}</p>
+        <p>Water Report Salt: {waterReport.waterReportSalt}</p>
+        <p>Water Report Carbon Dioxide: {waterReport.waterReportCarbonDioxide} </p>
+        </div>
+        <div className="button-container">
+        <Button className="Add-button" onClick={handleAddWaterReport}>Add Water Report</Button>
+        <Button danger style={{ marginLeft: 8 }}  className="delete-button"onClick={handleDelete}>Delete Water Report</Button>
+        </div>
       </div>
-      <Button onClick={() => navigate("/managerPond")}>Back</Button>
+      </div>
     </div>
   );
 }
 
 export default PondInfo;
+
