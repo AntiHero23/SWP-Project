@@ -41,7 +41,7 @@ function Manage() {
     setIsOpen(true);
     form.setFieldsValue(value);
   }
-  const columns = [
+  const pendingColumns = [
     {
       title: "Product Name",
       dataIndex: "productName",
@@ -91,12 +91,54 @@ function Manage() {
       ),
     },
   ];
+  const approvedColumns = [
+    {
+      title: "Product Name",
+      dataIndex: "productName",
+      key: "productName",
+    },
+    {
+      title: "Product Price",
+      dataIndex: "productPrice",
+      key: "productPrice",
+    },
+    {
+      title: "Image",
+      dataIndex: "image",
+      key: "image",
+      render: (value) => <Image src={value} />,
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
+      title: "Link",
+      dataIndex: "link",
+      key: "link",
+    },
+    {
+      title: "Post Date",
+      dataIndex: "postDate",
+      key: "postDate",
+      render: (value) => <p>{dayjs().format("MMMM D, YYYY h:mm A")}</p>,
+    },
+    {
+      title: "Post Status",
+      dataIndex: "postStatus",
+      key: "postStatus",
+      render: (value) => (
+        <Tag color={value ? "green" : "red"}>{value + ""}</Tag>
+      ),
+    },
+  ];
   return (
     <>
       <h1>Post Pending Table</h1>
-      <Table dataSource={dataSourcePending} columns={columns} />
+      <Table dataSource={dataSourcePending} columns={pendingColumns} />
       <h1>Post Approved Table</h1>
-      <Table dataSource={dataSourceApproved} columns={columns} />
+      <Table dataSource={dataSourceApproved} columns={approvedColumns} />
     </>
   );
 }

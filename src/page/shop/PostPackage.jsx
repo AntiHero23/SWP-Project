@@ -87,14 +87,6 @@ function PostPackage() {
         <Tag color={value ? "green" : "red"}>{value + ""}</Tag>
       ),
     },
-    {
-      title: "Approve",
-      dataIndex: "postStatus",
-      key: "postStatus",
-      render: (value) => (
-        <Tag color={value ? "green" : "red"}>{value + ""}</Tag>
-      ),
-    },
   ];
 
   return (
