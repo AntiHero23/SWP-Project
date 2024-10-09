@@ -1,0 +1,103 @@
+.koi-page {
+    background-image: url('../../../assets/LoginBg.png');
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    .koi-container {
+      background-color: rgba(255, 255, 255, 0.9); // Semi-transparent background
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      max-width: 1200px;
+      width: 100%;
+  
+      .info-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 36px;
+        color: #1890ff;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+  
+      .koi-info-container {
+        display: flex;
+        justify-content: space-between; // Adjust to separate koi info and report
+        flex-wrap: wrap;
+      }
+  
+      .koi-info, .koi-report {
+        width: 48%; // Set equal width for Koi Info and Report sections
+        max-height: 600px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+  
+      .koi-img {
+        max-width: 600px;
+        height: 250px;
+        object-fit: cover;
+        margin-bottom: 20px;
+        border-radius: 10px;
+      }
+  
+      .koi-stats {
+        p {
+          font-size: 16px;
+          margin-bottom: 10px;
+        }
+      }
+  
+      .report-title {
+        font-size: 24px;
+        margin: 20px;
+      }
+  
+      .report-entry {
+        margin-bottom: 20px;
+        p {
+          margin-bottom: 5px;
+        }
+      }
+  
+      .report-latest h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+  
+      .anticon {
+        cursor: pointer;
+        transition: color 0.3s;
+        &:hover {
+          color: #1890ff;
+        }
+      }
+  
+      button {
+        margin-top: 20px;
+      }
+    }
+  }
+  
+  .koi-report{
+    overflow-y: auto;
+
+    .report-header{
+        display: flex;
+        flex-direction: row;
+    }
+
+    .report-history-card{
+        background-color: #f38f3d;
+        color: #ffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        padding: 8px;
+        border-radius: 10px;
+    }
+  }
