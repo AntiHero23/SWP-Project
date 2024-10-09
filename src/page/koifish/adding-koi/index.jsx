@@ -3,7 +3,6 @@ import "./index.scss";
 import { Form, Input, Button, Select, Upload, Image, Radio } from "antd";
 import { useNavigate } from "react-router-dom";
 import api from "../../../config/axios";
-import { Option } from "antd/es/mentions";
 import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../../assets/hook/useUpload";
 
@@ -11,7 +10,6 @@ function AddKoi() {
   const [koiName, setKoiName] = useState("");
   const [birthday, setBirthday] = useState(new Date().toISOString());
   const [koiSex, setKoiSex] = useState("");
-  const [image, setImage] = useState("");
   const [pondID, setPondID] = useState(0);
   const [koiVarietyID, setKoiVarietyID] = useState(0);
   const [ponds, setPonds] = useState([]);
@@ -94,7 +92,7 @@ function AddKoi() {
       const response = await api.post("koifish/create", values);
       console.log(response.data);
       alert("Koi added successfully");
-      // navigate("/managerKoi");
+      navigate("/managerKoi");
     } catch (error) {
       console.error("koi adding failed", error);
     }

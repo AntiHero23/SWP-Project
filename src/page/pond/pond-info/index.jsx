@@ -20,9 +20,7 @@ function PondInfo() {
       setPond(pondResponse.data.result);
     } catch (error) {
       setError("Failed to fetch pond data.");
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
   const fetchWaterReport = async () => {
     setLoading(true);
@@ -39,10 +37,11 @@ function PondInfo() {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     fetchPond();
     fetchWaterReport();
-  }, [pondId]);
+  }, []);
 
   const handleDelete = async () => {
     if (pond.amountFish > 0) {
@@ -146,9 +145,9 @@ function PondInfo() {
                 `waterreport/update/latestreport/${pondId}`,
                 values
               );
-              setWaterReport(response.data.result);
+              console.log(response.data);
               alert("Water report updated successfully");
-              navigate("/managerPond");
+              fetchWaterReport();
             } catch (error) {
               console.error("Failed to update water report:", error);
             }
