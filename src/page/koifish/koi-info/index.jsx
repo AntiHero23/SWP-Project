@@ -6,6 +6,7 @@ import { useForm } from "antd/es/form/Form";
 import "./index.scss";
 import { Form, Input, Modal } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
 function KoiInfo() {
   const { id } = useParams();
   const [form] = useForm();
@@ -90,7 +91,10 @@ function KoiInfo() {
             <p>Name: {koi?.koiName}</p>
             <img src={koi?.image} alt="koi" />
             <p>Sex: {koi?.koiSex}</p>
-            <p>Birthday: {koi?.birthday}</p>
+            <p>
+              Birthday:{" "}
+              {koi?.birthday ? dayjs(koi?.birthday).format("DD/MM/YYYY") : ""}
+            </p>
             <p>Pond : {koi?.pondName}</p>
             <p>Variety : {koi?.koiVariety}</p>
             <h2>Koi Report History </h2>

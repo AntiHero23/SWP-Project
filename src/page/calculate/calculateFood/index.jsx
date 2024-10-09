@@ -34,7 +34,7 @@ function CalculateFood() {
   };
   return (
     <div>
-      <h1>Calculate Food</h1>
+      <h1 style={{ textAlign: "center" }}>Calculate Food</h1>
       <Form layout="vertical" onFinish={handleSubmit}>
         <Form.Item
           label="Temperature (1-30)"
