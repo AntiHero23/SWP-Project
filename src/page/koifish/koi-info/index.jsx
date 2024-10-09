@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../config/axios";
-import { Button, Form, Input, Modal } from "antd";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { useForm } from "antd/es/form/Form";
+import { useQueryClient } from "react-query";
 function KoiInfo() {
   const { id } = useParams();
   const koiId = parseInt(id);
@@ -81,79 +79,35 @@ function KoiInfo() {
   }, []);
 
   return (
-    <div>
-      <div>
-        <h1>Koi Info</h1>
+    <div className="koi-page">
+      <div className="koi-container">
+        <h1 className="info-title">Koi Info</h1>
         {!loading && (
           <>
             <p>Name: {koi?.koiName}</p>
             <img src={koi?.image} alt="koi" />
             <p>Sex: {koi?.koiSex}</p>
             <p>Birthday: {koi?.birthday}</p>
-            <p>Pond : {koi?.pondName}</p>
-            <p>Variety : {koi?.koiVariety}</p>
-            <p>Koi Fish ID : {koi?.koiFishID}</p>
+            <p>Pond ID: {koi?.pondID}</p>
+            <p>Variety ID: {koi?.koiVarietyID}</p>
             <h2>Koi Report History </h2>
-            <PlusCircleOutlined
-              style={{ fontSize: "24px" }}
-              onClick={showModal}
-            />
-            <Modal
-              title="Add Koi Report"
-              initialValues={{
-                updateDate: "",
-                length: 0,
-                weight: 0,
-                koiFishID: 0,
-              }}
-              open={isModalOpen}
-              onOk={() => form.submit()}
-              onCancel={handleCancel}
-            >
-              <Form form={form} layout="vertical" onFinish={handleSubmit}>
-                <Form.Item label="Date" name="updateDate">
-                  <Input type="date" placeholder="Date" />
-                </Form.Item>
-                <Form.Item label="Length" name="length">
-                  <Input type="number" placeholder="Length" />
-                </Form.Item>
-                <Form.Item label="Weight" name="weight">
-                  <Input type="number" placeholder="Weight" />
-                </Form.Item>
-                <Form.Item
-                  name="koiFishID"
-                  initialValue={koi?.koiFishID}
-                  hidden
-                ></Form.Item>
-              </Form>
-            </Modal>
             {koiReportError && <p style={{ color: "red" }}>{koiReportError}</p>}
             {!koiReportError && (
               <>
-                {koiReport.map((report) => (
-                  <>
-                    <p>Date : {report.updateDate}</p>
-                    <p>Length : {report.length}</p>
-                    <p>Weight : {report.weight}</p>
-                  </>
-                ))}
-                {koiReportLatest && (
-                  <div>
-                    <h1>
-                      Koi Length Latest : {koiReportLatest.length || "N/A"}
-                    </h1>
-                    <h1>
-                      Koi Weight Latest : {koiReportLatest.weight || "N/A"}
-                    </h1>
-                    <h1>
-                      Koi Status Latest : {koiReportLatest.koiStatus || "N/A"}
-                    </h1>
-                  </div>
-                )}
+                {koiReport
+                  .sort((a, b) => b.koiReportID - a.koiReportID)
+                  .map((report) => (
+                    <>
+                      <p>Date : {report.updateDate}</p>
+                      <p>Length : {report.length}</p>
+                      <p>Weight : {report.weight}</p>
+                    </>
+                  ))}
+                <h1>Koi Status Latest : {koiReportLatest.koiStatus} </h1>
               </>
             )}
 
-            <Button onClick={() => navigate(-1)}>Go Back </Button>
+            <button onClick={() => navigate(-1)}>Go Back</button>
           </>
         )}
       </div>
