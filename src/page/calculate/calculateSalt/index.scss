@@ -1,0 +1,87 @@
+.calc-salt-page {
+    background-image: url('../../../assets/LoginBg.png'); // Adjust the path if necessary
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    
+
+    .salt-calc-container{
+        background-color: rgba(255, 255, 255, 0.9); // Semi-transparent white background
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        max-width: 600px;
+        width: 40%;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+
+    .salt-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 36px;
+        color: #1890ff;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+  
+    .ant-form {
+        margin-bottom: 20px;
+        width: 100%;
+  
+      .ant-form-item {
+        margin-bottom: 20px;
+  
+        label {
+          font-weight: bold;
+          color: #333;
+        }
+  
+        .ant-select, .ant-input-number, .ant-slider {
+          width: 100%;
+        }
+  
+        .ant-input-number {
+          width: 100px;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+        }
+  
+        .ant-slider {
+          margin-right: 16px;
+        }
+      }
+  
+      .ant-btn-primary {
+        background-color: #4CAF50;
+        border-color: #4CAF50;
+        border-radius: 5px;
+        font-weight: bold;
+        padding: 10px 20px;
+        transition: background-color 0.3s ease;
+  
+        &:hover {
+          background-color: #45a049;
+          border-color: #45a049;
+        }
+      }
+  
+      .salt-result {
+        margin-top: 20px;
+        color: #333;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+  }
+  
