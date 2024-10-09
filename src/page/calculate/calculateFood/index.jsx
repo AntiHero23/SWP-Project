@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../../config/axios";
 import { Form, Input, Select } from "antd";
+import "./index.scss";
 
 function CalculateFood() {
   const navigate = useNavigate();
@@ -33,7 +34,8 @@ function CalculateFood() {
     }
   };
   return (
-    <div>
+    <div className="calc-food-page">
+      <div className="calc-container">
       <h1>Calculate Food</h1>
       <Form layout="vertical" onFinish={handleSubmit}>
         <Form.Item
@@ -61,9 +63,10 @@ function CalculateFood() {
           </Select>
         </Form.Item>
         <Form.Item>
-          <button type="submit">Calculate Food</button>
+          <button type="submit">Click Here To Calculate</button>
         </Form.Item>
       </Form>
+      </div>
     </div>
   );
 }

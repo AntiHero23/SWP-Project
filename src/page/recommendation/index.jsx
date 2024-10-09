@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../../config/axios";
+import "./index.scss";
 
 function Recommendation() {
   const [data, setData] = useState([]);
@@ -17,14 +18,15 @@ function Recommendation() {
 
   return (
     <div className="recommend-page">
-      <h1>Recommendation</h1>
-      <div className="shop-container"></div>
-      <h2 className="shop-title">Shopping Page</h2>
+      <div className="shop-container">
+      <h2 className="shop-title">Recommendation Page</h2>
+
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <ul className="product-card">
+        <ul className="card-container">
           {data?.map((item) => (
+            <div className="product-card">
             <li key={item.postDetailId}>
               <h3 className="product-name">{item.productName}</h3>
               <img className="product-img" src={item.image} width="100px" height="100px" />
@@ -35,9 +37,12 @@ function Recommendation() {
               </p>
               <p>Product Type ID: {item.productTypeID}</p>
             </li>
+            </div>
           ))}
         </ul>
       )}
+
+      </div>
     </div>
   );
 }

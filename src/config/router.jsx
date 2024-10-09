@@ -22,7 +22,7 @@ import PondInfo from "../page/pond/pond-info";
 import Profile from "../page/profile";
 import CalculateFood from "../page/calculate/calculateFood";
 import CalculateSalt from "../page/calculate/calculateSalt";
-import Recommendation from "../page/recommendation/recommendation";
+import Recommendation from "../page/recommendation";
 import Plan from "../page/plan";
 import KoiInfo from "../page/koifish/koi-info";
 import Contact from "../page/Contact";

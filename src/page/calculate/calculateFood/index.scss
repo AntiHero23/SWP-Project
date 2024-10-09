@@ -1,0 +1,71 @@
+.calc-food-page {
+    background-image: url('../../../assets/LoginBg.png'); // Assuming the image is located here
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  
+    .calc-container {
+      background-color: rgba(255, 255, 255, 0.9); // Semi-transparent background
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      
+      h1 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 36px;
+        color: #1890ff;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+  
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .ant-form-item {
+          margin-bottom: 20px;
+          label {
+            color: #333;
+            font-weight: bold;
+          }
+          
+          input, .ant-select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+          }
+  
+          .ant-select-selector {
+            border-radius: 5px;
+            border: 1px solid #ccc;
+          }
+        }
+  
+        button[type="submit"] {
+          margin-top: 40px;
+          background-color: #ec2323;
+          color: white;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+  
+          &:hover {
+            background-color: #da2f2f;
+          }
+        }
+      }
+    }
+  }
+  
