@@ -8,6 +8,7 @@ import { useForm } from "antd/es/form/Form";
 import "./index.scss"
 
 
+import dayjs from "dayjs";
 function KoiInfo() {
   const { id } = useParams();
   const koiId = parseInt(id);
@@ -164,6 +165,7 @@ function KoiInfo() {
                 ))}
               </>
             )}
+            
             </div>
             <Button onClick={() => navigate(-1)}>Go Back </Button>
           </div>
