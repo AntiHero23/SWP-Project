@@ -16,21 +16,22 @@ function Recommendation() {
   }, []);
 
   return (
-    <div>
+    <div className="recommend-page">
       <h1>Recommendation</h1>
-      <h2>Shopping Page</h2>
+      <div className="shop-container"></div>
+      <h2 className="shop-title">Shopping Page</h2>
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <ul>
+        <ul className="product-card">
           {data?.map((item) => (
             <li key={item.postDetailId}>
-              <h3>{item.productName}</h3>
-              <img src={item.image} width="100px" height="100px" />
-              <p>Price: {item.productPrice}</p>
-              <p>Description: {item.description}</p>
+              <h3 className="product-name">{item.productName}</h3>
+              <img className="product-img" src={item.image} width="100px" height="100px" />
+              <p className="product-price">Price: {item.productPrice}</p>
+              <p className="product-desc">Description: {item.description}</p>
               <p>
-                <a href={item.link}>Go to product page</a>
+                <a className="product-link" href={item.link}>Go to product page</a>
               </p>
               <p>Product Type ID: {item.productTypeID}</p>
             </li>
