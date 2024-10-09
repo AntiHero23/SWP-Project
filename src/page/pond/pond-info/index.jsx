@@ -13,35 +13,36 @@ function PondInfo() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
+  const fetchPond = async () => {
+    setLoading(true);
+    try {
+      const pondResponse = await api.get(`pond/${pondId}`);
+      setPond(pondResponse.data.result);
+    } catch (error) {
+      setError("Failed to fetch pond data.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const fetchWaterReport = async () => {
+    setLoading(true);
+    try {
+      const waterReportResponse = await api.get(
+        `waterreport/view/latestreport/${pondId}`
+      );
+      console.log(waterReportResponse.data.result);
+      setWaterReport(waterReportResponse.data.result);
+    } catch (error) {
+      console.error("Failed to fetch water report:", error);
+      setError("Failed to fetch water report.");
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchPond = async () => {
-      setLoading(true);
-      try {
-        const pondResponse = await api.get(`pond/${pondId}`);
-        setPond(pondResponse.data.result);
-      } catch (error) {
-        setError("Failed to fetch pond data.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    const fetchWaterReport = async () => {
-      try {
-        const waterReportResponse = await api.get(
-          `waterreport/view/latestreport/${pondId}`
-        );
-        console.log(waterReportResponse.data.result);
-        setWaterReport(waterReportResponse.data.result);
-      } catch (error) {
-        console.error("Failed to fetch water report:", error);
-        setError("Failed to fetch water report.");
-      }
-    };
-
     fetchPond();
     fetchWaterReport();
-  }, []);
+  }, [pondId]);
 
   const handleDelete = async () => {
     if (pond.amountFish > 0) {
@@ -139,16 +140,20 @@ function PondInfo() {
           name="water-report-form"
           className="water-report"
           initialValues={waterReport}
-          onFinish={async (values) => {
-            try {
-              await api.put(
-                `waterreport/update/latestreport/${pondId}`,
-                values
-              );
-              alert("Water report updated successfully");
-            } catch (error) {
-              console.error("Failed to update water report:", error);
-            }
+          onFinish={(values2) => {
+            const updateWaterReport = async (values2) => {
+              try {
+                await api.put(
+                  `waterreport/update/latestreport/${pondId}`,
+                  values2
+                );
+                alert("Water report updated successfully");
+              } catch (error) {
+                console.error("Failed to update water report:", error);
+              }
+            };
+
+            updateWaterReport();
           }}
         >
           <div className="content">
