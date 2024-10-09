@@ -24,13 +24,25 @@ function KoiInfo() {
   const showModal = () => {
     setIsModalOpen(true);
   };
+  const fetchKoiReport = async () => {
+    setLoading(true);
+    try {
+      const koiReportResponse = await api.get(`koireport/koiReports/${id}`);
+      console.log(koiReportResponse.data.result);
+      setKoiReport(koiReportResponse.data.result);
+    } catch (error) {
+      console.log(error);
+      setKoiReportError("You dont have any koi report yet");
+    } finally {
+      setLoading(false);
+    }
+  };
   const handleSubmit = async (values) => {
-    console.log(values);
     try {
       await api.post("koireport/create", values);
-      alert("Koi report added successfully");
-      setIsModalOpen(false);
       form.resetFields();
+      setIsModalOpen(false);
+      fetchKoiReport();
     } catch (error) {
       console.log("koi report adding failed", error);
     }
@@ -41,27 +53,14 @@ function KoiInfo() {
       try {
         const { data: koi } = await api.get(`koifish/${id}`);
         setKoi(koi.result);
+        console.log(koi.result);
       } catch (error) {
         setError(error);
       } finally {
         setLoading(false);
       }
     };
-    const fetchKoiReport = async () => {
-      setLoading(true);
-      try {
-        const koiReportResponse = await api.get(`koireport/koiReports/${id}`);
-        console.log(koiReportResponse.data.result);
-        console.log(id);
-        console.log(koiId);
-        setKoiReport(koiReportResponse.data.result);
-      } catch (error) {
-        console.log(error);
-        setKoiReportError("You dont have any koi report yet");
-      } finally {
-        setLoading(false);
-      }
-    };
+
     const fetchKoiLatestReport = async () => {
       setLoading(true);
       try {
@@ -93,6 +92,7 @@ function KoiInfo() {
             <p>Birthday: {koi?.birthday}</p>
             <p>Pond : {koi?.pondName}</p>
             <p>Variety : {koi?.koiVariety}</p>
+            <p>Koi Fish ID : {koi?.koiFishID}</p>
             <h2>Koi Report History </h2>
             <PlusCircleOutlined
               style={{ fontSize: "24px" }}
@@ -100,7 +100,12 @@ function KoiInfo() {
             />
             <Modal
               title="Add Koi Report"
-              initialValues={{ koiFishID: koi.koiFishID }}
+              initialValues={{
+                updateDate: "",
+                length: 0,
+                weight: 0,
+                koiFishID: 0,
+              }}
               open={isModalOpen}
               onOk={() => form.submit()}
               onCancel={handleCancel}
@@ -117,7 +122,7 @@ function KoiInfo() {
                 </Form.Item>
                 <Form.Item
                   name="koiFishID"
-                  values={koi.koiFishID || ""}
+                  initialValue={koi?.koiFishID}
                   hidden
                 ></Form.Item>
               </Form>
@@ -133,9 +138,17 @@ function KoiInfo() {
                   </>
                 ))}
                 {koiReportLatest && (
-                  <h1>
-                    Koi Status Latest : {koiReportLatest.koiStatus || "N/A"}
-                  </h1>
+                  <div>
+                    <h1>
+                      Koi Length Latest : {koiReportLatest.length || "N/A"}
+                    </h1>
+                    <h1>
+                      Koi Weight Latest : {koiReportLatest.weight || "N/A"}
+                    </h1>
+                    <h1>
+                      Koi Status Latest : {koiReportLatest.koiStatus || "N/A"}
+                    </h1>
+                  </div>
                 )}
               </>
             )}

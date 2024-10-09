@@ -77,7 +77,7 @@ function Header() {
           </Dropdown>
         </li>
         <li>About Us</li>
-        <li>Contact Us</li>
+        <li onClick={() => navigate("/contact")}>Contact Us</li>
         <li>Blog</li>
       </ul>
 

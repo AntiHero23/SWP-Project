@@ -25,6 +25,7 @@ import CalculateSalt from "../page/calculate/calculateSalt";
 import Recommendation from "../page/recommendation/recommendation";
 import Plan from "../page/plan";
 import KoiInfo from "../page/koifish/koi-info";
+import Contact from "../page/Contact";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,7 @@ export const router = createBrowserRouter([
       { path: "/calculateSalt", element: <CalculateSalt /> },
       { path: "/recommendation", element: <Recommendation /> },
       { path: "/buyPlan", element: <Plan /> },
+      { path: "/contact", element: <Contact /> },
     ],
   },
   {

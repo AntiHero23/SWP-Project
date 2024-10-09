@@ -140,20 +140,18 @@ function PondInfo() {
           name="water-report-form"
           className="water-report"
           initialValues={waterReport}
-          onFinish={(values2) => {
-            const updateWaterReport = async (values2) => {
-              try {
-                await api.put(
-                  `waterreport/update/latestreport/${pondId}`,
-                  values2
-                );
-                alert("Water report updated successfully");
-              } catch (error) {
-                console.error("Failed to update water report:", error);
-              }
-            };
-
-            updateWaterReport();
+          onFinish={async (values) => {
+            try {
+              const response = await api.put(
+                `waterreport/update/latestreport/${pondId}`,
+                values
+              );
+              setWaterReport(response.data.result);
+              alert("Water report updated successfully");
+              navigate("/managerPond");
+            } catch (error) {
+              console.error("Failed to update water report:", error);
+            }
           }}
         >
           <div className="content">
