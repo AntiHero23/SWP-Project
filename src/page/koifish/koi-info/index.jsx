@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../config/axios";
 import { useQueryClient } from "react-query";
-import { useForm } from "antd/es/form/Form";
-import "./index.scss";
-import { Form, Input, Modal } from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
+import { useForm } from "antd/es/form/Form";
+import "./index.scss"
+
+
 function KoiInfo() {
   const { id } = useParams();
+  const koiId = parseInt(id);
   const [form] = useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [koi, setKoi] = useState(null);
@@ -86,19 +89,41 @@ function KoiInfo() {
       <div className="koi-container">
         <h1 className="info-title">Koi Info</h1>
         {!loading && (
-          <>
-            <p>Name: {koi?.koiName}</p>
-            <img src={koi?.image} alt="koi" />
-            <p>Sex: {koi?.koiSex}</p>
-            <p>Birthday: {koi?.birthday}</p>
-            <p>Pond : {koi?.pondName}</p>
-            <p>Variety : {koi?.koiVariety}</p>
-            <h2>Koi Report History </h2>
+          <div className="koi-info-container">
+            <div className="koi-info">
+            <img className="koi-img" src={koi?.image} alt="koi" />
+              <div className="koi-stats">
+              <p className="koi-name"> Name: {koi?.koiName}</p> 
+              <p>Sex: {koi?.koiSex}</p>
+              <p>Birthday: {koi?.birthday}</p>
+              <p>Pond : {koi?.pondName}</p>
+              <p>Variety : {koi?.koiVariety}</p>
+              <p>Koi Fish ID : {koi?.koiFishID}</p>
+              {koiReportLatest && (
+                  <div>
+                    <h3>
+                      Koi Length Latest : {koiReportLatest.length || "N/A"}
+                    </h3>
+                    <h3>
+                      Koi Weight Latest : {koiReportLatest.weight || "N/A"}
+                    </h3>
+                    <h3>
+                      Koi Status Latest : {koiReportLatest.koiStatus || "N/A"}
+                    </h3>
+                  </div>
+                )}
+            </div>
+            </div>
+            <div className="koi-report">
+            <div className="report-header"> 
+            <h2 className="report-title">Koi Report History </h2>
             <PlusCircleOutlined
               style={{ fontSize: "24px" }}
               onClick={showModal}
             />
+            </div> 
             <Modal
+              className="report-popup"
               title="Add Koi Report"
               initialValues={{
                 updateDate: "",
@@ -131,29 +156,17 @@ function KoiInfo() {
             {!koiReportError && (
               <>
                 {koiReport.map((report) => (
-                  <>
+                  <div className="report-history-card">
                     <p>Date : {report.updateDate}</p>
                     <p>Length : {report.length}</p>
                     <p>Weight : {report.weight}</p>
-                  </>
-                ))}
-                {koiReportLatest && (
-                  <div>
-                    <h1>
-                      Koi Length Latest : {koiReportLatest.length || "N/A"}
-                    </h1>
-                    <h1>
-                      Koi Weight Latest : {koiReportLatest.weight || "N/A"}
-                    </h1>
-                    <h1>
-                      Koi Status Latest : {koiReportLatest.koiStatus || "N/A"}
-                    </h1>
                   </div>
-                )}
+                ))}
               </>
             )}
-            <button onClick={() => navigate(-1)}>Go Back</button>
-          </>
+            </div>
+            <Button onClick={() => navigate(-1)}>Go Back </Button>
+          </div>
         )}
       </div>
     </div>
