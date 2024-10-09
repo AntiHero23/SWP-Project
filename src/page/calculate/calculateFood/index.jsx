@@ -36,36 +36,36 @@ function CalculateFood() {
   return (
     <div className="calc-food-page">
       <div className="calc-container">
-      <h1>Calculate Food</h1>
-      <Form layout="vertical" onFinish={handleSubmit}>
-        <Form.Item
-          label="Temperature (1-30)"
-          name="temperature"
-          rules={[{ required: true }]}
-        >
-          <Input type="number" defaultValue="1" min="1" max="30" />
-        </Form.Item>
-        <Form.Item
-          label="Choose Pond"
-          name="pondID"
-          rules={[{ required: true }]}
-        >
-          <Select
-            defaultValue={ponds[0]?.id}
-            style={{ width: 120 }}
-            onChange={(value) => console.log(value)}
+        <h1>Calculate Food</h1>
+        <Form layout="vertical" onFinish={handleSubmit}>
+          <Form.Item
+            label="Temperature (1-30)"
+            name="temperature"
+            rules={[{ required: true }]}
           >
-            {ponds.map((pond) => (
-              <Select.Option key={pond.pondID} value={pond.pondID}>
-                {pond.pondName}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item>
-          <button type="submit">Click Here To Calculate</button>
-        </Form.Item>
-      </Form>
+            <Input type="number" defaultValue="1" min="1" max="30" />
+          </Form.Item>
+          <Form.Item
+            label="Choose Pond"
+            name="pondID"
+            rules={[{ required: true }]}
+          >
+            <Select
+              defaultValue={ponds[0]?.id}
+              style={{ width: 160, height: 60 }}
+              onChange={(value) => console.log(value)}
+            >
+              {ponds.map((pond) => (
+                <Select.Option key={pond.pondID} value={pond.pondID}>
+                  {pond.pondName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item>
+            <button type="submit">Click Here To Calculate</button>
+          </Form.Item>
+        </Form>
       </div>
     </div>
   );

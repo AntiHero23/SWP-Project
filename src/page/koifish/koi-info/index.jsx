@@ -5,9 +5,11 @@ import { useQueryClient } from "react-query";
 import { Button, Form, Input, Modal } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
+import { MdDelete } from "react-icons/md";
 import "./index.scss";
 
 import dayjs from "dayjs";
+import { Delete } from "lucide-react";
 function KoiInfo() {
   const { id } = useParams();
   const koiId = parseInt(id);
@@ -21,6 +23,19 @@ function KoiInfo() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const handleDeleteKoiReport = async (koiReportID) => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this koi report?"
+    );
+    if (isConfirmed) {
+      try {
+        await api.delete(`koireport/${koiReportID}`);
+        fetchKoiReport();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   const handleCancel = () => {
     form.resetFields();
     setIsModalOpen(false);
@@ -165,7 +180,13 @@ function KoiInfo() {
                           </p>
                           <p>Length : {report.length}</p>
                           <p>Weight : {report.weight}</p>
-                        </div>  
+                          <MdDelete
+                            style={{ fontSize: "24px", cursor: "pointer" }}
+                            onClick={() =>
+                              handleDeleteKoiReport(report.koiReportID)
+                            }
+                          />
+                        </div>
                       </>
                     ))}
                 </>

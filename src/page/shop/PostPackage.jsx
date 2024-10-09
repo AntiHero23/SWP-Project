@@ -34,12 +34,13 @@ function PostPackage() {
   const handleSubmit = async (values) => {
     console.log(values);
     try {
-      const url = await uploadFile(values.image[0].originFileObj);
+      // const url = await uploadFile(values.image.file.originFileObj);
+      const url = await uploadFile(fileList[0].originFileObj);
       values.image = url;
       await api.post("post/create", values);
       alert("Post added successfully");
-      // setIsModalOpen(false);
-      // form.resetFields();
+      setIsModalOpen(false);
+      form.resetFields();
     } catch (error) {
       console.log("post adding failed", error);
     }
@@ -258,7 +259,7 @@ function PostPackage() {
           </Form.Item>
           <Form.Item
             label="Product Type: "
-            name="productTypeID"
+            name="producTypeID"
             rules={[{ required: true, message: "Please input product type!" }]}
           >
             <Select options={productTypeOptions} />
