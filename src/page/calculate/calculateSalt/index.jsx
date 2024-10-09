@@ -10,6 +10,7 @@ import {
   Button,
   Form,
 } from "antd";
+import "./index.scss";
 
 function CalculateSalt() {
   const [ponds, setPonds] = useState([]);
@@ -83,8 +84,9 @@ function CalculateSalt() {
   };
 
   return (
-    <div>
-      <h1 style={{ textAlign: "center" }}>Calculate Salt</h1>
+    <div className="calc-salt-page">
+      <div className="salt-calc-container">
+      <h1 className="salt-title" style={{ textAlign: "center" }}>Calculate Salt</h1>
       <Form
         name="calculate-salt"
         layout="vertical"
@@ -210,7 +212,8 @@ function CalculateSalt() {
           </Space>
         </Form.Item>
       </Form>
-      {alert && <h1>{alert}</h1>}
+      {alert && <h1 className="salt-result">{alert}</h1>}
+    </div>
     </div>
   );
 }
