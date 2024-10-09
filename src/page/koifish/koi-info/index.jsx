@@ -5,8 +5,7 @@ import { useQueryClient } from "react-query";
 import { Button, Form, Input, Modal } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
-import "./index.scss"
-
+import "./index.scss";
 
 import dayjs from "dayjs";
 function KoiInfo() {
@@ -92,80 +91,85 @@ function KoiInfo() {
         {!loading && (
           <div className="koi-info-container">
             <div className="koi-info">
-            <img className="koi-img" src={koi?.image} alt="koi" />
+              <img className="koi-img" src={koi?.image} alt="koi" />
               <div className="koi-stats">
-              <p className="koi-name"> Name: {koi?.koiName}</p> 
-              <p>Sex: {koi?.koiSex}</p>
-              <p>Birthday: {koi?.birthday}</p>
-              <p>Pond : {koi?.pondName}</p>
-              <p>Variety : {koi?.koiVariety}</p>
-              <p>Koi Fish ID : {koi?.koiFishID}</p>
-              {koiReportLatest && (
+                <p className="koi-name"> Name: {koi?.koiName}</p>
+                <p>Sex: {koi?.koiSex}</p>
+                <p>Birthday: {dayjs(koi?.birthday).format("DD MMM YYYY")}</p>
+                <p>Pond : {koi?.pondName}</p>
+                <p>Variety : {koi?.koiVariety}</p>
+                <p>Koi Fish ID : {koi?.koiFishID}</p>
+                {koiReportLatest && (
                   <div>
-                    <h3>
-                      Koi Length Latest : {koiReportLatest.length || "N/A"}
-                    </h3>
-                    <h3>
-                      Koi Weight Latest : {koiReportLatest.weight || "N/A"}
-                    </h3>
-                    <h3>
-                      Koi Status Latest : {koiReportLatest.koiStatus || "N/A"}
-                    </h3>
+                    <h1>Koi Lastest Status</h1>
+                    <h3>Koi Length: {koiReportLatest.length || "N/A"}</h3>
+                    <h3>Koi Weight: {koiReportLatest.weight || "N/A"}</h3>
+                    <h3>Koi Status: {koiReportLatest.koiStatus || "N/A"}</h3>
                   </div>
                 )}
-            </div>
+              </div>
             </div>
             <div className="koi-report">
-            <div className="report-header"> 
-            <h2 className="report-title">Koi Report History </h2>
-            <PlusCircleOutlined
-              style={{ fontSize: "24px" }}
-              onClick={showModal}
-            />
-            </div> 
-            <Modal
-              className="report-popup"
-              title="Add Koi Report"
-              initialValues={{
-                updateDate: "",
-                length: 0,
-                weight: 0,
-                koiFishID: 0,
-              }}
-              open={isModalOpen}
-              onOk={() => form.submit()}
-              onCancel={handleCancel}
-            >
-              <Form form={form} layout="vertical" onFinish={handleSubmit}>
-                <Form.Item label="Date" name="updateDate">
-                  <Input type="date" placeholder="Date" />
-                </Form.Item>
-                <Form.Item label="Length" name="length">
-                  <Input type="number" placeholder="Length" />
-                </Form.Item>
-                <Form.Item label="Weight" name="weight">
-                  <Input type="number" placeholder="Weight" />
-                </Form.Item>
-                <Form.Item
-                  name="koiFishID"
-                  initialValue={koi?.koiFishID}
-                  hidden
-                ></Form.Item>
-              </Form>
-            </Modal>
-            {koiReportError && <p style={{ color: "red" }}>{koiReportError}</p>}
-            {!koiReportError && (
-              <>
-                {koiReport.map((report) => (
-                  <div className="report-history-card">
-                    <p>Date : {report.updateDate}</p>
-                    <p>Length : {report.length}</p>
-                    <p>Weight : {report.weight}</p>
-                  </div>
-                ))}
-              </>
-            )}
-            
+              <div className="report-header">
+                <h2 className="report-title">Koi Report History </h2>
+                <PlusCircleOutlined
+                  style={{ fontSize: "24px" }}
+                  onClick={showModal}
+                />
+              </div>
+              <Modal
+                className="report-popup"
+                title="Add Koi Report"
+                initialValues={{
+                  updateDate: "",
+                  length: 0,
+                  weight: 0,
+                  koiFishID: 0,
+                }}
+                open={isModalOpen}
+                onOk={() => form.submit()}
+                onCancel={handleCancel}
+              >
+                <Form form={form} layout="vertical" onFinish={handleSubmit}>
+                  <Form.Item label="Date" name="updateDate">
+                    <Input type="date" placeholder="Date" />
+                  </Form.Item>
+                  <Form.Item label="Length" name="length">
+                    <Input type="number" placeholder="Length" />
+                  </Form.Item>
+                  <Form.Item label="Weight" name="weight">
+                    <Input type="number" placeholder="Weight" />
+                  </Form.Item>
+                  <Form.Item
+                    name="koiFishID"
+                    initialValue={koi?.koiFishID}
+                    hidden
+                  ></Form.Item>
+                </Form>
+              </Modal>
+              {koiReportError && (
+                <p style={{ color: "red" }}>{koiReportError}</p>
+              )}
+              {!koiReportError && (
+                <>
+                  {koiReport
+                    .sort(
+                      (a, b) => new Date(b.updateDate) - new Date(a.updateDate)
+                    )
+                    .map((report) => (
+                      <>
+                        <div className="report-history-card">
+                          <p>
+                            Date :{" "}
+                            {dayjs(report.updateDate).format("MMMM D, YYYY")}
+                          </p>
+                          <p>Length : {report.length}</p>
+                          <p>Weight : {report.weight}</p>
+                        </div>  
+                      </>
+                    ))}
+                </>
+              )}
             </div>
             <Button onClick={() => navigate(-1)}>Go Back </Button>
           </div>
