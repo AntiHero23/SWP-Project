@@ -13,34 +13,24 @@ function PondInfo() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const fetchPond = async () => {
+  const fetchPondAndWaterReport = async () => {
     setLoading(true);
     try {
-      const pondResponse = await api.get(`pond/${pondId}`);
+      const [pondResponse, waterReportResponse] = await Promise.all([
+        api.get(`pond/${pondId}`),
+        api.get(`waterreport/view/latestreport/${pondId}`),
+      ]);
       setPond(pondResponse.data.result);
-    } catch (error) {
-      setError("Failed to fetch pond data.");
-    } 
-  };
-  const fetchWaterReport = async () => {
-    setLoading(true);
-    try {
-      const waterReportResponse = await api.get(
-        `waterreport/view/latestreport/${pondId}`
-      );
-      console.log(waterReportResponse.data.result);
       setWaterReport(waterReportResponse.data.result);
     } catch (error) {
-      console.error("Failed to fetch water report:", error);
-      setError("Failed to fetch water report.");
+      setError("Failed to fetch pond data or water report.");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchPond();
-    fetchWaterReport();
+    fetchPondAndWaterReport();
   }, []);
 
   const handleDelete = async () => {
@@ -147,7 +137,7 @@ function PondInfo() {
               );
               console.log(response.data);
               alert("Water report updated successfully");
-              fetchWaterReport();
+              navigate("/managerPond");
             } catch (error) {
               console.error("Failed to update water report:", error);
             }

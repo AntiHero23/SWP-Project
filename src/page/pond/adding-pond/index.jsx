@@ -6,7 +6,6 @@ import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../../assets/hook/useUpload";
 import "./index.scss";
 
-
 function AddPond() {
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -25,7 +24,6 @@ function AddPond() {
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
   const uploadButton = (
-
     <button
       style={{
         border: 0,
@@ -168,6 +166,15 @@ function AddPond() {
               Add Pond
             </Button>
           </Form.Item>
+          <Form.Item className="back-button-container">
+            <Button
+              type="default"
+              onClick={() => navigate(-1)}
+              className="back-button"
+            >
+              Back
+            </Button>
+          </Form.Item>
         </Form>
       </div>
 
@@ -188,4 +195,3 @@ function AddPond() {
 }
 
 export default AddPond;
-

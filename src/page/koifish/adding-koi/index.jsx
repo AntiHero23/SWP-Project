@@ -155,6 +155,14 @@ function AddKoi() {
               Submit
             </Button>
           </Form.Item>
+          <Form.Item>
+            <Button
+              style={{ marginRight: 10 }}
+              onClick={() => navigate("/managerKoi")}
+            >
+              Back
+            </Button>
+          </Form.Item>
         </Form>
         {previewImage && (
           <Image
