@@ -9,7 +9,6 @@ import Login from "../page/login";
 import Resgiter from "../page/register";
 import ManagerKoi from "../page/koifish/manager-koi";
 // import Dashboard from "../page/dashboard/Dashboard";
-import Manage from "../page/admin/Manage";
 import { selectUser } from "../redux/features/counterSlice";
 import { useSelector } from "react-redux";
 import AdminDashboard from "../page/dashboard/AdminDashboard";
@@ -26,6 +25,8 @@ import Recommendation from "../page/recommendation";
 import Plan from "../page/plan";
 import KoiInfo from "../page/koifish/koi-info";
 import Contact from "../page/Contact";
+import PostManage from "../page/admin/PostManage";
+import UserManage from "../page/admin/UserManage";
 
 export const router = createBrowserRouter([
   {
@@ -59,11 +60,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "postManager",
-        element: <Manage />,
+        element: <PostManage />,
       },
       {
-        path: "koi",
-        element: <h1>Koi</h1>,
+        path: "userManager",
+        element: <UserManage />,
       },
     ],
   },

@@ -4,7 +4,7 @@ import api from "../../config/axios";
 import { useForm } from "antd/es/form/Form";
 import dayjs from "dayjs";
 
-function Manage() {
+function PostManage() {
   const [dataSourcePending, setDataSourcePending] = useState([]);
   const [dataSourceApproved, setDataSourceApproved] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -155,4 +155,4 @@ function Manage() {
   );
 }
 
-export default Manage;
+export default PostManage;
