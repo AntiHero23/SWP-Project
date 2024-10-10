@@ -61,6 +61,19 @@ function PostManage() {
       title: "Link",
       dataIndex: "link",
       key: "link",
+      render: (value) => (
+        <a
+          href={value}
+          style={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            width: "10px",
+          }}
+        >
+          {value}
+        </a>
+      ),
     },
     {
       title: "Post Date",
@@ -126,6 +139,18 @@ function PostManage() {
       title: "Link",
       dataIndex: "link",
       key: "link",
+      render: (value) => (
+        <a
+          href={value}
+          style={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {value}
+        </a>
+      ),
     },
     {
       title: "Post Date",
