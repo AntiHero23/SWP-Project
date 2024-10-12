@@ -19,29 +19,38 @@ function Recommendation() {
   return (
     <div className="recommend-page">
       <div className="shop-container">
-      <h2 className="shop-title">Recommendation Page</h2>
+        <h2 className="shop-title">Recommendation Page</h2>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <ul className="card-container">
-          {data?.map((item) => (
-            <div className="product-card">
-            <li key={item.postDetailId}>
-              <h3 className="product-name">{item.productName}</h3>
-              <img className="product-img" src={item.image} width="100px" height="100px" />
-              <p className="product-price">Price: {item.productPrice}</p>
-              <p className="product-desc">Description: {item.description}</p>
-              <p>
-                <a className="product-link" href={item.link}>Go to product page</a>
-              </p>
-              <p>Product Type ID: {item.productTypeID}</p>
-            </li>
-            </div>
-          ))}
-        </ul>
-      )}
-
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <ul className="card-container">
+            {data?.map((item) => (
+              <>
+                <div className="product-card">
+                  <li key={item.postDetailId}>
+                    <h3 className="product-name">{item.productName}</h3>
+                    <img
+                      className="product-img"
+                      src={item.image}
+                      width="100px"
+                      height="100px"
+                    />
+                    <p className="product-price">Price: {item.productPrice}</p>
+                    <p className="product-desc">
+                      Description: {item.description}
+                    </p>
+                    <p>
+                      <a className="product-link" href={item.link}>
+                        Go to product page
+                      </a>
+                    </p>
+                  </li>
+                </div>
+              </>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );

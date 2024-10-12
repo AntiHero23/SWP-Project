@@ -106,7 +106,7 @@ function AddPond() {
           </Form.Item>
 
           <Form.Item
-            label="Area"
+            label="Area: m2"
             name="area"
             rules={[{ required: true, message: "Please input area!" }]}
             className="form-item"
@@ -115,7 +115,7 @@ function AddPond() {
           </Form.Item>
 
           <Form.Item
-            label="Depth"
+            label="Depth: m"
             name="depth"
             rules={[{ required: true, message: "Please input depth!" }]}
             className="form-item"
@@ -124,7 +124,7 @@ function AddPond() {
           </Form.Item>
 
           <Form.Item
-            label="Volume"
+            label="Volume: m3"
             name="volume"
             rules={[{ required: true, message: "Please input volume!" }]}
             className="form-item"
@@ -133,7 +133,7 @@ function AddPond() {
           </Form.Item>
 
           <Form.Item
-            label="Drain Count"
+            label="Drain Count: "
             name="drainCount"
             rules={[{ required: true, message: "Please input drain count!" }]}
             className="form-item"
@@ -142,7 +142,7 @@ function AddPond() {
           </Form.Item>
 
           <Form.Item
-            label="Skimmer Count"
+            label="Skimmer Count: "
             name="skimmerCount"
             rules={[{ required: true, message: "Please input skimmer count!" }]}
             className="form-item"
@@ -151,7 +151,7 @@ function AddPond() {
           </Form.Item>
 
           <Form.Item
-            label="Pumping Capacity"
+            label="Pumping Capacity: m3/h"
             name="pumpingCapacity"
             rules={[
               { required: true, message: "Please input pumping capacity!" },

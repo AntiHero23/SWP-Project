@@ -23,6 +23,7 @@ function ManagerKoi() {
     const fetchKoiFish = async () => {
       try {
         const response = await api.get("koifish");
+        console.log(response.data);
         setKoiFishs(response.data);
       } catch (error) {
         console.error(error);

@@ -8,11 +8,12 @@
     align-items: center;
   
     .koi-container {
-      background-color: rgba(255, 255, 255, 0.9); // Semi-transparent background
+      background-color: rgba(255, 255, 255, 0.9);
       padding: 40px;
       border-radius: 25px;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
       max-width: 1200px;
+      
       width: 100%;
   
       .info-title {
@@ -25,7 +26,7 @@
   
       .koi-info-container {
         display: flex;
-        justify-content: space-between; // Adjust to separate koi info and report
+        justify-content: space-between; 
         flex-wrap: wrap;
       }
   
