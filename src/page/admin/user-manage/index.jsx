@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import api from "../../config/axios";
 import { Table } from "antd";
+import api from "../../../config/axios";
 
 function UserManage() {
   const [dataSourceAccount, setDataSourceAccount] = useState([]);
@@ -24,11 +24,11 @@ function UserManage() {
       dataIndex: "username",
       key: "username",
     },
-    {
-      title: "Password",
-      dataIndex: "password",
-      key: "password",
-    },
+    // {
+    //   title: "Password",
+    //   dataIndex: "password",
+    //   key: "password",
+    // },
     {
       title: "Name",
       dataIndex: "name",

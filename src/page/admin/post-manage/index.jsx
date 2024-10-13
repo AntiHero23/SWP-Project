@@ -1,6 +1,6 @@
 import { Button, Form, Image, Input, Modal, Table, Tag } from "antd";
 import React, { useEffect, useState } from "react";
-import api from "../../config/axios";
+import api from "../../../config/axios";
 import { useForm } from "antd/es/form/Form";
 import dayjs from "dayjs";
 
@@ -9,7 +9,18 @@ function PostManage() {
   const [dataSourceApproved, setDataSourceApproved] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [form] = useForm();
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
+  const showModal = () => {
+    setIsOpenModal(true);
+  };
+  const handleCancel = () => {
+    form.resetFields();
+    setIsOpenModal(false);
+  };
+  const handleOk = () => {
+    setIsOpenModal(false);
+  };
   const fetchDataPending = async () => {
     try {
       const responsePeding = await api.get("admin/post/view/pending");
@@ -25,11 +36,6 @@ function PostManage() {
     } catch (error) {
       console.log(error);
     }
-  };
-  const handleFinish = (value) => {
-    form.resetFields();
-    setIsOpen(false);
-    console.log(value);
   };
   useEffect(() => {
     fetchDataApproved();
@@ -92,7 +98,7 @@ function PostManage() {
       ),
     },
     {
-      title: "Action",
+      title: "Approve",
       dataIndex: "postDetailId",
       key: "postDetailId",
       render: (value) => (
@@ -109,6 +115,22 @@ function PostManage() {
           }}
         >
           Approve
+        </Button>
+      ),
+    },
+    {
+      title: "Reject",
+      dataIndex: "postDetailId",
+      key: "postDetailId",
+      render: (value) => (
+        <Button
+          type="primary"
+          onClick={() => {
+            //
+            showModal();
+          }}
+        >
+          Reject
         </Button>
       ),
     },
@@ -172,6 +194,13 @@ function PostManage() {
 
   return (
     <>
+      <Modal
+        title="Reject Post"
+        open={isOpenModal}
+        onCancel={handleCancel}
+        onOk={handleOk}
+        footer={null}
+      ></Modal>
       <h1>Post Pending Table</h1>
       <Table dataSource={dataSourcePending} columns={pendingColumns} />
       <h1>Post Approved Table</h1>

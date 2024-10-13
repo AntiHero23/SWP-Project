@@ -18,7 +18,7 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem("Post Manager", "postManager", <FileOutlined />),
+  getItem("Post Manager", "postManage", <FileOutlined />),
   getItem("User", "userManager", <FileOutlined />),
 ];
 const AdminDashboard = () => {

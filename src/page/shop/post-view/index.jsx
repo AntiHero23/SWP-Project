@@ -13,12 +13,12 @@ import {
 
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
-import api from "../../config/axios";
 import { useForm } from "antd/es/form/Form";
 import { PlusOutlined } from "@ant-design/icons";
-import uploadFile from "../../assets/hook/useUpload";
+import uploadFile from "../../../assets/hook/useUpload";
+import api from "../../../config/axios";
 
-function PostPackage() {
+function PostView() {
   const [dataSourcePending, setDataSourcePending] = useState([]);
   const [dataSourceApproved, setDataSourceApproved] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -250,13 +250,13 @@ function PostPackage() {
           >
             <InputNumber />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             label="Payment: "
             name="paymentID"
             rules={[{ required: true, message: "Please input payment!" }]}
           >
             <Select options={paymentOptions} />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             label="Product Type: "
             name="producTypeID"
@@ -264,13 +264,13 @@ function PostPackage() {
           >
             <Select options={productTypeOptions} />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             label="Price: "
             name="priceID"
             rules={[{ required: true, message: "Please input way to pay!" }]}
           >
             <Select options={priceOptions} />
-          </Form.Item>
+          </Form.Item> */}
         </Form>
         {previewImage && (
           <Image
@@ -292,4 +292,4 @@ function PostPackage() {
   );
 }
 
-export default PostPackage;
+export default PostView;

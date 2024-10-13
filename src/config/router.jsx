@@ -11,9 +11,8 @@ import ManagerKoi from "../page/koifish/manager-koi";
 // import Dashboard from "../page/dashboard/Dashboard";
 import { selectUser } from "../redux/features/counterSlice";
 import { useSelector } from "react-redux";
-import AdminDashboard from "../page/dashboard/AdminDashboard";
-import ShopDashboard from "../page/dashboard/ShopDashboard";
-import PostPackage from "../page/shop/PostPackage";
+import AdminDashboard from "../page/dashboard/admin-dashboard";
+import ShopDashboard from "../page/dashboard/shop-dashboard";
 import AddingKoi from "../page/koifish/adding-koi";
 import ManagerPond from "../page/pond/manager-pond";
 import AddingPond from "../page/pond/adding-pond";
@@ -25,8 +24,14 @@ import Recommendation from "../page/recommendation";
 import Plan from "../page/plan";
 import KoiInfo from "../page/koifish/koi-info";
 import Contact from "../page/Contact";
-import PostManage from "../page/admin/PostManage";
-import UserManage from "../page/admin/UserManage";
+import RejectPage from "../page/admin/reject-page";
+import PostManage from "../page/admin/post-manage";
+import UserManage from "../page/admin/user-manage";
+import PostView from "../page/shop/post-view";
+import ShopProfile from "../page/shop/profile-page";
+import ShopHome from "../page/shop/shop-home";
+import HistoryTransaction from "../page/shop/history-transaction";
+import CheckOut from "../page/shop/check-out";
 
 export const router = createBrowserRouter([
   {
@@ -59,8 +64,14 @@ export const router = createBrowserRouter([
     element: <AdminDashboard />,
     children: [
       {
-        path: "postManager",
+        path: "postManage",
         element: <PostManage />,
+        // children: [
+        //   {
+        //     path: "reject",
+        //     element: <RejectPage />,
+        //   },
+        // ],
       },
       {
         path: "userManager",
@@ -73,8 +84,24 @@ export const router = createBrowserRouter([
     element: <ShopDashboard />,
     children: [
       {
-        path: "postManager",
-        element: <PostPackage />,
+        path: "",
+        element: <ShopHome />,
+      },
+      {
+        path: "checkout",
+        element: <CheckOut />,
+      },
+      {
+        path: "postManage",
+        element: <PostView />,
+      },
+      {
+        path: "historyTransaction",
+        element: <HistoryTransaction />,
+      },
+      {
+        path: "profile",
+        element: <ShopProfile />,
       },
     ],
   },
