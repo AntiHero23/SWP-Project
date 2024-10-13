@@ -94,7 +94,6 @@ function PondInfo() {
     }
   };
 
-
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
@@ -108,9 +107,13 @@ function PondInfo() {
             onFinish={(values) => {
               const updatePond = async () => {
                 try {
-                  const url = await uploadFile(fileList[0].originFileObj);
-                  console.log(url);
-                  values.pondImage = url;
+                  if (fileList.length > 0) {
+                    const url = await uploadFile(fileList[0].originFileObj);
+                    console.log(url);
+                    values.pondImage = url;
+                  } else {
+                    values.pondImage = pond.pondImage;
+                  }
                   await api.put(`pond/${pondId}`, values);
                   alert("Pond updated successfully");
                   navigate("/managerPond");

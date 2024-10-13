@@ -27,6 +27,7 @@ import KoiInfo from "../page/koifish/koi-info";
 import Contact from "../page/Contact";
 import PostManage from "../page/admin/PostManage";
 import UserManage from "../page/admin/UserManage";
+import KoiFoodList from "../page/koifish/koifood-list";
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +53,7 @@ export const router = createBrowserRouter([
       { path: "/recommendation", element: <Recommendation /> },
       { path: "/buyPlan", element: <Plan /> },
       { path: "/contact", element: <Contact /> },
+      { path: "/koiFoodList", element: <KoiFoodList /> },
     ],
   },
   {

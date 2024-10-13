@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from "react";
 import api from "../../config/axios";
 import "./index.scss";
+import { useQuery } from "react-query";
 
 function Recommendation() {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: apiData, isLoading } = useQuery(
+    "approvedPosts",
+    async () => {
+      const response = await api.get("admin/post/view/approved");
+      return response.data;
+    },
+    {
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    }
+  );
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await api.get("admin/post/view/approved");
-      console.log(response.data);
-      setData(response.data);
-      setLoading(false);
-    };
-    fetchData();
-  }, []);
+    setData(apiData);
+  }, [apiData]);
 
   return (
     <div className="recommend-page">
       <div className="shop-container">
         <h2 className="shop-title">Recommendation Page</h2>
-
-        {loading ? (
+        {isLoading ? (
           <p>Loading...</p>
         ) : (
           <ul className="card-container">

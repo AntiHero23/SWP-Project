@@ -37,6 +37,17 @@ function KoiInfo() {
   const [previewImage, setPreviewImage] = useState("");
   const [previewOpen, setPreviewOpen] = useState(false);
 
+  const handleDelete = async () => {
+    const isConfirmed = window.confirm("Are you sure?");
+    if (isConfirmed) {
+      try {
+        await api.delete(`/koifish/${id}`);
+        navigate("/managerKoi");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -117,23 +128,25 @@ function KoiInfo() {
   };
   const handleSubmitKoiInfo = async (values) => {
     console.log(values);
-    // try {
-    //   const url = await uploadFile(fileList[0].originFileObj);
-    //   console.log(url);
-    //   values.image = url;
-    //   await api.put(`koifish/${id}`, values);
-    //   alert("Koi updated successfully");
-    //   navigate("/managerKoi");
-    // } catch (error) {
-    //   console.log("koi updating failed", error);
-    // }
+    try {
+      if (fileList.length > 0) {
+        const url = await uploadFile(fileList[0].originFileObj);
+        console.log(url);
+        values.image = url;
+      }
+      await api.put(`koifish/${id}`, values);
+      alert("Koi updated successfully");
+      navigate("/managerKoi");
+    } catch (error) {
+      console.log("koi updating failed", error);
+    }
   };
   useEffect(() => {
     const fetchPonds = async () => {
       setLoading(true);
       try {
         const { data } = await api.get("pond");
-        setPonds(data || []);
+        setPonds(data);
       } catch (error) {
         console.log(error);
       } finally {
@@ -144,7 +157,7 @@ function KoiInfo() {
       setLoading(true);
       try {
         const { data } = await api.get("koivariety");
-        setKoiVarieties(data || []);
+        setKoiVarieties(data);
       } catch (error) {
         console.log(error);
       } finally {
@@ -155,6 +168,7 @@ function KoiInfo() {
       setLoading(true);
       try {
         const { data: koi } = await api.get(`koifish/${id}`);
+        console.log(koi);
         setKoi(koi.result || null);
         console.log(koi.result);
       } catch (error) {
@@ -208,7 +222,11 @@ function KoiInfo() {
                     <Input defaultValue={koi?.koiName} />
                   </Form.Item>
                   <Form.Item label="Pond Image" name="image">
-                    <img src={koi?.image} alt="image" />
+                    <img
+                      className="koi-img"
+                      src={fileList.length ? fileList[0].url : koi?.image}
+                      alt="image"
+                    />
                     <Upload
                       // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
                       listType="picture-card"
@@ -231,7 +249,7 @@ function KoiInfo() {
                   </Form.Item>
                   <Form.Item label="Pond" name="pondID">
                     <Select
-                      defaultValue={koi?.pond}
+                      defaultValue={koi?.pondID}
                       options={ponds.map((pond) => ({
                         value: pond.pondID,
                         label: pond.pondName,
@@ -249,6 +267,14 @@ function KoiInfo() {
                   </Form.Item>
                   <Button type="primary" htmlType="submit">
                     Edit
+                  </Button>
+                  <Button
+                    className="delete-button"
+                    danger
+                    style={{ marginLeft: 8 }}
+                    onClick={handleDelete}
+                  >
+                    Delete
                   </Button>
                 </Form>
                 {previewImage && (

@@ -6,7 +6,7 @@
   transition: box-shadow 0.3s ease;
   display: flex;
   flex-direction: row;
-  justify-content: space-between; /* Ensure left and right alignment */
+  justify-content: space-between; 
   width: 500px;
   min-height: 220px;
   gap: 20px;
@@ -33,9 +33,9 @@
 
   .pond-name,
   .pond-id {
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Add ellipsis (...) if the text is too long */
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
     font-size: 18px;
     font-weight: bold;
     margin-top: 10px;
@@ -45,7 +45,7 @@
   .card-right {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Ensure content is vertically centered */
+    justify-content: center; 
     max-width: 60%;
     text-align: left;
 
@@ -54,15 +54,15 @@
       color: #333;
       margin: 8px 0;
       font-weight: 500;
-      white-space: nowrap; /* Prevent text wrapping for all paragraphs */
-      overflow: hidden; /* Hide overflow text */
-      text-overflow: ellipsis; /* Add ellipsis (...) to the text */
+      white-space: nowrap;
+      overflow: hidden; 
+      text-overflow: ellipsis; 
     }
 
     .detail-button {
       align-items: center;
       margin-top: 20px;
-      align-self: center; /* Center the button horizontally */
+      align-self: center; 
       background-color: #1890ff;
       color: white;
       border-radius: 4px;
@@ -79,3 +79,4 @@
     }
   }
 }
+

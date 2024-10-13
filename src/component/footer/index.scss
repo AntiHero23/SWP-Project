@@ -1,7 +1,7 @@
 .footer {
-  background-color: #1a1a1a; // Dark background similar to KoiControl
+  background-color: #1a1a1a;
   color: #fff;
-  padding: 40px 20px; // Added top/bottom padding for better spacing
+  padding: 40px 20px;
   height: 30vh;
   
   .footer-content {
@@ -15,14 +15,14 @@
     .footer-address {
       font-size: 14px;
       margin: 5px 0;
-      color: #ccc; // Matching link color
+      color: #ccc;
     }
 
     .footer-email {
       font-size: 14px;
 
       a {
-        color: #ffa500; // Email link color
+        color: #ffa500;
         text-decoration: none;
 
         &:hover {
@@ -38,7 +38,8 @@
     .footer-copy {
       font-size: 12px;
       margin: 10px 0;
-      color: #ccc; // Matching link color
+      color: #ccc;
     }
   }
 }
+
