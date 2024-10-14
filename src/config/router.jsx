@@ -105,7 +105,7 @@ export const router = createBrowserRouter([
         element: <ShopProfile />,
       },
       {
-        path: "postDetail",
+        path: "postDetail/:id",
         element: <PostDetail />,
       },
     ],

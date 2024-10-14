@@ -23,6 +23,7 @@ function PostView() {
   const [dataSourcePending, setDataSourcePending] = useState([]);
   const [dataSourceApproved, setDataSourceApproved] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dataPostDetail, setDataPostDetail] = useState({});
 
   const [form] = useForm();
 
@@ -51,6 +52,15 @@ function PostView() {
   const handleCancel = () => {
     form.resetFields();
     setIsModalOpen(false);
+  };
+  const fetchPostDetail = async (values) => {
+    try {
+      const response = await api.get(`/post/view/postDetail/${values}`);
+      setDataPostDetail(response.data.result);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const fetchPayment = async () => {
     try {
@@ -134,7 +144,7 @@ function PostView() {
   const fetchDataPending = async () => {
     try {
       const responsePeding = await api.get("admin/post/view/pending");
-      setDataSourcePending(responsePeding.data);
+      setDataSourcePending(responsePeding.data.result);
     } catch (error) {
       console.log(error);
     }
@@ -142,7 +152,7 @@ function PostView() {
   const fetchDataApproved = async () => {
     try {
       const responseApproved = await api.get("admin/post/view/approved");
-      setDataSourceApproved(responseApproved.data);
+      setDataSourceApproved(responseApproved.data.result);
     } catch (error) {
       console.log(error);
     }
@@ -199,14 +209,17 @@ function PostView() {
     },
     {
       title: "Details",
-      dataIndex: "action",
-      key: "action",
+      dataIndex: "postDetailId",
+      key: "postDetailId",
       render: (value) => (
         <Button
           type="primary"
           onClick={() => {
-            navigate("/shop/postDetail");
+            api.get(`/post/view/postDetail/${value}`).then(() => {
+              fetchPostDetail(value);
+            });
           }}
+          // onClick={navigate(`/postDetail/${value}`)}
         >
           Details
         </Button>
