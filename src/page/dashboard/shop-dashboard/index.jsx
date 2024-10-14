@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import { Link, Outlet } from "react-router-dom";
-import Footer from "../../component/footer";
+import Footer from "../../../component/footer";
 
 const { Header, Content, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -19,7 +19,12 @@ function getItem(label, key, icon, children) {
     label: <Link to={`/shop/${key}`}>{label}</Link>,
   };
 }
-const items = [getItem("Post Manager", "postManager", <FileOutlined />)];
+const items = [
+  getItem("Home", "", <FileOutlined />),
+  getItem("Post Manage", "postManage", <FileOutlined />),
+  getItem("History Transaction", "historyTransaction", <FileOutlined />),
+  getItem("Profile", "profile", <FileOutlined />),
+];
 const ShopDashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {

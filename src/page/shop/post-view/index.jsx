@@ -13,21 +13,25 @@ import {
 
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
-import api from "../../config/axios";
 import { useForm } from "antd/es/form/Form";
 import { PlusOutlined } from "@ant-design/icons";
-import uploadFile from "../../assets/hook/useUpload";
+import uploadFile from "../../../assets/hook/useUpload";
+import api from "../../../config/axios";
+import { useNavigate } from "react-router-dom";
 
-function PostPackage() {
+function PostView() {
   const [dataSourcePending, setDataSourcePending] = useState([]);
   const [dataSourceApproved, setDataSourceApproved] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dataPostDetail, setDataPostDetail] = useState({});
 
   const [form] = useForm();
 
   const [priceOptions, setPriceOptions] = useState([]);
   const [paymentOptions, setPaymentOptions] = useState([]);
   const [productTypeOptions, setProductTypeOptions] = useState([]);
+
+  const navigate = useNavigate();
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -48,6 +52,15 @@ function PostPackage() {
   const handleCancel = () => {
     form.resetFields();
     setIsModalOpen(false);
+  };
+  const fetchPostDetail = async (values) => {
+    try {
+      const response = await api.get(`/post/view/postDetail/${values}`);
+      setDataPostDetail(response.data.result);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const fetchPayment = async () => {
     try {
@@ -131,7 +144,7 @@ function PostPackage() {
   const fetchDataPending = async () => {
     try {
       const responsePeding = await api.get("admin/post/view/pending");
-      setDataSourcePending(responsePeding.data);
+      setDataSourcePending(responsePeding.data.result);
     } catch (error) {
       console.log(error);
     }
@@ -139,7 +152,7 @@ function PostPackage() {
   const fetchDataApproved = async () => {
     try {
       const responseApproved = await api.get("admin/post/view/approved");
-      setDataSourceApproved(responseApproved.data);
+      setDataSourceApproved(responseApproved.data.result);
     } catch (error) {
       console.log(error);
     }
@@ -168,22 +181,22 @@ function PostPackage() {
       key: "image",
       render: (value) => <Image src={value} />,
     },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Link",
-      dataIndex: "link",
-      key: "link",
-    },
-    {
-      title: "Post Date",
-      dataIndex: "postDate",
-      key: "postDate",
-      render: (value) => <p>{dayjs(value).format("MMMM D, YYYY h:mm A")}</p>,
-    },
+    // {
+    //   title: "Description",
+    //   dataIndex: "description",
+    //   key: "description",
+    // },
+    // {
+    //   title: "Link",
+    //   dataIndex: "link",
+    //   key: "link",
+    // },
+    // {
+    //   title: "Post Date",
+    //   dataIndex: "postDate",
+    //   key: "postDate",
+    //   render: (value) => <p>{dayjs(value).format("MMMM D, YYYY h:mm A")}</p>,
+    // },
     {
       title: "Post Status",
       dataIndex: "postStatus",
@@ -192,6 +205,24 @@ function PostPackage() {
         <Tag color={value ? "green" : "red"}>
           {value ? "Approve" : "Pending"}
         </Tag>
+      ),
+    },
+    {
+      title: "Details",
+      dataIndex: "postDetailId",
+      key: "postDetailId",
+      render: (value) => (
+        <Button
+          type="primary"
+          onClick={() => {
+            api.get(`/post/view/postDetail/${value}`).then(() => {
+              fetchPostDetail(value);
+            });
+          }}
+          // onClick={navigate(`/postDetail/${value}`)}
+        >
+          Details
+        </Button>
       ),
     },
   ];
@@ -250,13 +281,13 @@ function PostPackage() {
           >
             <InputNumber />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             label="Payment: "
             name="paymentID"
             rules={[{ required: true, message: "Please input payment!" }]}
           >
             <Select options={paymentOptions} />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             label="Product Type: "
             name="producTypeID"
@@ -264,13 +295,13 @@ function PostPackage() {
           >
             <Select options={productTypeOptions} />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             label="Price: "
             name="priceID"
             rules={[{ required: true, message: "Please input way to pay!" }]}
           >
             <Select options={priceOptions} />
-          </Form.Item>
+          </Form.Item> */}
         </Form>
         {previewImage && (
           <Image
@@ -292,4 +323,4 @@ function PostPackage() {
   );
 }
 
-export default PostPackage;
+export default PostView;
