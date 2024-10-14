@@ -9,7 +9,7 @@ function Recommendation() {
     "approvedPosts",
     async () => {
       const response = await api.get("admin/post/view/approved");
-      return response.data;
+      return response.data.result;
     },
     {
       refetchOnWindowFocus: false,
@@ -20,6 +20,10 @@ function Recommendation() {
   useEffect(() => {
     setData(apiData);
   }, [apiData]);
+
+  if (!data || data.length === 0) {
+    alert("Shop don't have any products");
+  }
 
   return (
     <div className="recommend-page">
@@ -61,3 +65,4 @@ function Recommendation() {
 }
 
 export default Recommendation;
+

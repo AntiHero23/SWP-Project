@@ -18,20 +18,19 @@ function ManagerPond() {
       setIsLoading(true);
       try {
         const pondsResponse = await api.get("pond");
+        console.log(pondsResponse.data);
         setPonds(pondsResponse.data);
       } catch (error) {
         console.error(error);
-        if (error.response && error.response.status === 401) {
-          alert("You must be logged in to view this page.");
-          navigate("/login");
-        }
+        setError(error);
+        alert("You must be logged in to view this page.");
+        navigate("/login");
       } finally {
         setIsLoading(false);
       }
     };
     checkLoginAndFetchPonds();
   }, [navigate]);
-
 
   const handleSearch = (value) => {
     setSearchTerm(value);
@@ -54,44 +53,43 @@ function ManagerPond() {
   return (
     <div className="ManagerPond-container">
       <div className="pond-card-container">
-      <h1 style={{ textAlign: "center" }}>Manager Pond</h1>
-      <div
-        className="filter-search"
-        style={{ display: "flex", justifyContent: "center" }}
-      >
-        <input
-          type="text"
-          style={{ width: "20%" }}
-          onChange={(e) => handleSearch(e.target.value)}
-          placeholder="Search by name..."
-          className="search-input"
-        />
-        <PlusCircleOutlined
-          style={{ fontSize: "24px" }}
-          onClick={() => navigate("/addPond")}
-        />
-      </div>
-
-      {filteredPonds.length === 0 ? (
-        <p style={{ textAlign: "center" }}>
-          You have no ponds. Please add one.
-        </p>
-      ) : (
-        <div className="pond-dashboard">
-          {filteredPonds.map((pond) => (
-            <div
-              key={pond.pondID}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-              
-              }}
-            >
-              <PondCard pond={pond} />
-            </div>
-          ))}
+        <h1 style={{ textAlign: "center" }}>Manager Pond</h1>
+        <div
+          className="filter-search"
+          style={{ display: "flex", justifyContent: "center" }}
+        >
+          <input
+            type="text"
+            style={{ width: "20%" }}
+            onChange={(e) => handleSearch(e.target.value)}
+            placeholder="Search by name..."
+            className="search-input"
+          />
+          <PlusCircleOutlined
+            style={{ fontSize: "24px" }}
+            onClick={() => navigate("/addPond")}
+          />
         </div>
-      )}
+
+        {filteredPonds.length === 0 ? (
+          <p style={{ textAlign: "center" }}>
+            You have no ponds. Please add one.
+          </p>
+        ) : (
+          <div className="pond-dashboard">
+            {filteredPonds.map((pond) => (
+              <div
+                key={pond.pondID}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <PondCard pond={pond} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

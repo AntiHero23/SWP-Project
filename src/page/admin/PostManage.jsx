@@ -13,7 +13,7 @@ function PostManage() {
   const fetchDataPending = async () => {
     try {
       const responsePeding = await api.get("admin/post/view/pending");
-      setDataSourcePending(responsePeding.data);
+      setDataSourcePending(responsePeding.data.result);
     } catch (error) {
       console.log(error);
     }
@@ -21,7 +21,7 @@ function PostManage() {
   const fetchDataApproved = async () => {
     try {
       const responseApproved = await api.get("admin/post/view/approved");
-      setDataSourceApproved(responseApproved.data);
+      setDataSourceApproved(responseApproved.data.result);
     } catch (error) {
       console.log(error);
     }

@@ -10,9 +10,9 @@ function Login() {
   const navigate = useNavigate();
   const [error, setError] = React.useState(null);
   const dispath = useDispatch(login);
-  const handleSubmit = async ({ username, password }) => {
+  const handleSubmit = async (values) => {
     try {
-      const { data } = await api.post("login", { username, password });
+      const { data } = await api.post("login", values);
       const { token } = data;
       dispath(login(data));
       localStorage.setItem("token", token);
@@ -60,7 +60,6 @@ function Login() {
           </p>
         </div>
         <hr />
-
         <Form.Item>
           <Button type="primary">Login with Google</Button>
         </Form.Item>

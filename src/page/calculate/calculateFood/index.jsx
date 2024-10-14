@@ -24,7 +24,6 @@ function CalculateFood() {
       setIsLoading(true);
       try {
         const response = await api.get("pond");
-        console.log(response.data);
         setPonds(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -35,7 +34,6 @@ function CalculateFood() {
       setIsLoading(true);
       try {
         const response = await api.get("tempcoef/viewall");
-        console.log(response.data.result);
         setTemp(response.data.result);
         setIsLoading(false);
       } catch (error) {
@@ -158,7 +156,8 @@ function CalculateFood() {
                   navigate("/koiFoodList", {
                     state: {
                       pondId: selectedPond,
-                      temperature: selectedTemp,
+                      temperature: temp.find((t) => t.tempID === selectedTemp)
+                        .tempTo,
                       growth: selectedGrowth,
                     },
                   });
