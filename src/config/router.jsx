@@ -32,6 +32,7 @@ import ShopProfile from "../page/shop/profile-page";
 import ShopHome from "../page/shop/shop-home";
 import HistoryTransaction from "../page/shop/history-transaction";
 import CheckOut from "../page/shop/check-out";
+import PostDetail from "../page/shop/post-detail";
 
 export const router = createBrowserRouter([
   {
@@ -102,6 +103,10 @@ export const router = createBrowserRouter([
       {
         path: "profile",
         element: <ShopProfile />,
+      },
+      {
+        path: "postDetail",
+        element: <PostDetail />,
       },
     ],
   },

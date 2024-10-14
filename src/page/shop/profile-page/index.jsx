@@ -58,18 +58,18 @@ function ShopProfile() {
               Role: {userInfo?.role || "-"}
             </Typography.Text>
             <Typography.Text className="profile-text">
-              Your Current Plan:{" "}
-              {userInfo?.premiumStatus === 0
+              Your Current Posts:{" N/A "}
+              {/* {userInfo?.premiumStatus === 0
                 ? "Basic "
                 : userInfo?.premiumStatus === 1
                 ? "Premium"
-                : "Unknown"}
+                : "Unknown"} */}
             </Typography.Text>
             {userInfo?.premiumStatus === 0 && (
               <Button
                 type="primary"
                 className="profile-button profile-button-upgrade"
-                onClick={() => navigate("/buyPlan")}
+                onClick={() => navigate("/")}
               >
                 Upgrade to Premium
               </Button>

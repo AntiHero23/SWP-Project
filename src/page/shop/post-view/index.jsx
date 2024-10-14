@@ -17,6 +17,7 @@ import { useForm } from "antd/es/form/Form";
 import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../../assets/hook/useUpload";
 import api from "../../../config/axios";
+import { useNavigate } from "react-router-dom";
 
 function PostView() {
   const [dataSourcePending, setDataSourcePending] = useState([]);
@@ -28,6 +29,8 @@ function PostView() {
   const [priceOptions, setPriceOptions] = useState([]);
   const [paymentOptions, setPaymentOptions] = useState([]);
   const [productTypeOptions, setProductTypeOptions] = useState([]);
+
+  const navigate = useNavigate();
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -168,22 +171,22 @@ function PostView() {
       key: "image",
       render: (value) => <Image src={value} />,
     },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Link",
-      dataIndex: "link",
-      key: "link",
-    },
-    {
-      title: "Post Date",
-      dataIndex: "postDate",
-      key: "postDate",
-      render: (value) => <p>{dayjs(value).format("MMMM D, YYYY h:mm A")}</p>,
-    },
+    // {
+    //   title: "Description",
+    //   dataIndex: "description",
+    //   key: "description",
+    // },
+    // {
+    //   title: "Link",
+    //   dataIndex: "link",
+    //   key: "link",
+    // },
+    // {
+    //   title: "Post Date",
+    //   dataIndex: "postDate",
+    //   key: "postDate",
+    //   render: (value) => <p>{dayjs(value).format("MMMM D, YYYY h:mm A")}</p>,
+    // },
     {
       title: "Post Status",
       dataIndex: "postStatus",
@@ -192,6 +195,21 @@ function PostView() {
         <Tag color={value ? "green" : "red"}>
           {value ? "Approve" : "Pending"}
         </Tag>
+      ),
+    },
+    {
+      title: "Details",
+      dataIndex: "action",
+      key: "action",
+      render: (value) => (
+        <Button
+          type="primary"
+          onClick={() => {
+            navigate("/shop/postDetail");
+          }}
+        >
+          Details
+        </Button>
       ),
     },
   ];
