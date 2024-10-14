@@ -24,8 +24,6 @@ import Recommendation from "../page/recommendation";
 import Plan from "../page/plan";
 import KoiInfo from "../page/koifish/koi-info";
 import Contact from "../page/Contact";
-import PostManage from "../page/admin/PostManage";
-import UserManage from "../page/admin/UserManage";
 import KoiFoodList from "../page/koifish/koifood-list";
 import RejectPage from "../page/admin/reject-page";
 import PostManage from "../page/admin/post-manage";
