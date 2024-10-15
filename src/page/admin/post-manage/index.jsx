@@ -51,6 +51,7 @@ function PostManage() {
       title: "Product Price",
       dataIndex: "productPrice",
       key: "productPrice",
+      render: (value) => value + " VND",
     },
     {
       title: "Image",
@@ -125,8 +126,8 @@ function PostManage() {
       render: (value) => (
         <Button
           type="primary"
+          danger
           onClick={() => {
-            //
             showModal();
           }}
         >
@@ -145,6 +146,7 @@ function PostManage() {
       title: "Product Price",
       dataIndex: "productPrice",
       key: "productPrice",
+      render: (value) => value + " VND",
     },
     {
       title: "Image",

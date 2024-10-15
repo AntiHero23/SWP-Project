@@ -37,11 +37,24 @@ function PostDetail() {
           <img src={postDetail?.image} alt={postDetail.productName} />
           <div>
             <p>Description: {postDetail.description}</p>
-            <p>Link: {postDetail.link}</p>
-            <p>Price: {postDetail.productPrice}</p>
-            <p>Post Date: {dayjs(postDetail.postDate).format("DD MMM YYYY")}</p>
+            Link:{" "}
+            <a
+              href={postDetail.link}
+              style={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {postDetail.link}
+            </a>
+            <p>Price: {postDetail.productPrice} VND</p>
             <p>
-              Post Status:
+              Post Date:{" "}
+              {dayjs(postDetail.postDate).format("MMMM D, YYYY h:mm A")}
+            </p>
+            <p>
+              Post Status:{" "}
               <Tag color={postDetail.postStatus ? "green" : "red"}>
                 {postDetail.postStatus ? "Approve" : "Pending"}
               </Tag>
