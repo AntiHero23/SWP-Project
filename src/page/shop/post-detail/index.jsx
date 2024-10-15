@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../config/axios";
 import dayjs from "dayjs";
+import { Tag } from "antd";
 
 function PostDetail() {
   const { id } = useParams();
@@ -39,7 +40,12 @@ function PostDetail() {
             <p>Link: {postDetail.link}</p>
             <p>Price: {postDetail.productPrice}</p>
             <p>Post Date: {dayjs(postDetail.postDate).format("DD MMM YYYY")}</p>
-            <p>Post Status: {postDetail.postStatus}</p>
+            <p>
+              Post Status:
+              <Tag color={postDetail.postStatus ? "green" : "red"}>
+                {postDetail.postStatus ? "Approve" : "Pending"}
+              </Tag>
+            </p>
           </div>
         </div>
       )}

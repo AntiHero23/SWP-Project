@@ -71,7 +71,7 @@ function ShopProfile() {
                 className="profile-button profile-button-upgrade"
                 onClick={() => navigate("/")}
               >
-                Upgrade to Premium
+                Update Profile
               </Button>
             )}
             <Button

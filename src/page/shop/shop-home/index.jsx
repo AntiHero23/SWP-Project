@@ -24,8 +24,15 @@ function ShopHome() {
   const handleSubmit = async (values) => {
     console.log(values);
     try {
-      const response = await api.post("order", values);
+      const response = await api.post("order", {
+        detail: [
+          {
+            packageID: values.postType,
+          },
+        ],
+      });
       console.log(response.data);
+      window.open(response.data);
       alert("Buying success");
       setIsOpenModal(false);
       form.resetFields();

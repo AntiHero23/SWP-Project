@@ -133,7 +133,7 @@ function PostView() {
   };
   const fetchDataPending = async () => {
     try {
-      const responsePeding = await api.get("admin/post/view/pending");
+      const responsePeding = await api.get("post/view/pending");
       setDataSourcePending(responsePeding.data.result);
     } catch (error) {
       console.log(error);
@@ -141,7 +141,7 @@ function PostView() {
   };
   const fetchDataApproved = async () => {
     try {
-      const responseApproved = await api.get("admin/post/view/approved");
+      const responseApproved = await api.get("post/view/approved");
       setDataSourceApproved(responseApproved.data.result);
     } catch (error) {
       console.log(error);
