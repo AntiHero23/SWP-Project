@@ -3,9 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../config/axios";
 import { Button, Form, Image, Input, InputNumber, Upload } from "antd";
 import "./index.scss";
-import dayjs from "dayjs";
 import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../../assets/hook/useUpload";
+import dayjs from "dayjs";
 
 function PondInfo() {
   const { id } = useParams();
@@ -109,7 +109,6 @@ function PondInfo() {
                 try {
                   if (fileList.length > 0) {
                     const url = await uploadFile(fileList[0].originFileObj);
-                    console.log(url);
                     values.pondImage = url;
                   } else {
                     values.pondImage = pond.pondImage;
@@ -197,77 +196,29 @@ function PondInfo() {
           />
         )}
 
-        <Form
-          name="water-report-form"
-          className="water-report"
-          initialValues={{
-            ...waterReport,
-            waterReportUpdatedDate: dayjs(
-              waterReport.waterReportUpdatedDate
-            ).format("YYYY-MM-DD"),
-          }}
-          onFinish={async (values) => {
-            try {
-              const response = await api.put(
-                `waterreport/update/latestreport/${pondId}`,
-                values
-              );
-              console.log(response.data);
-              alert("Water report updated successfully");
-              navigate("/managerPond");
-            } catch (error) {
-              console.error("Failed to update water report:", error);
-            }
-          }}
-        >
-          <div className="content">
-            <h2>Water Report</h2>
-            <Form.Item label="Water Report ID" name="waterReportId">
-              <Input disabled />
-            </Form.Item>
-            <Form.Item label="Updated Date" name="waterReportUpdatedDate">
-              <Input disabled />
-            </Form.Item>{" "}
-            <Form.Item label="Temperature(°C):" name="waterReportTemperature">
-              <InputNumber min={0} />
-            </Form.Item>
-            <Form.Item label="Oxygen(mg/L):" name="waterReportOxygen">
-              <InputNumber min={0} />
-            </Form.Item>
-            <Form.Item label="pH" name="waterReport_pH">
-              <InputNumber min={0} max={14} />
-            </Form.Item>
-            <Form.Item label="Hardness(ppm):" name="waterReportHardness">
-              <InputNumber min={0} />
-            </Form.Item>
-            <Form.Item label="Ammonia(ppm):" name="waterReportAmmonia">
-              <InputNumber min={0} />
-            </Form.Item>
-            <Form.Item label="Nitrite(ppm):" name="waterReportNitrite">
-              <InputNumber min={0} />
-            </Form.Item>
-            <Form.Item label="Nitrate(ppm):" name="waterReportNitrate">
-              <InputNumber min={0} />
-            </Form.Item>
-            <Form.Item label="Carbonate(ppm):" name="waterReportCarbonate">
-              <InputNumber min={0} />
-            </Form.Item>
-            <Form.Item label="Salt Level(%): " name="waterReportSalt">
-              <InputNumber min={0} />
-            </Form.Item>
-            <Form.Item
-              label="Carbon Dioxide(ppm):"
-              name="waterReportCarbonDioxide"
-            >
-              <InputNumber min={0} />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Update Water Report
-              </Button>
-            </Form.Item>
-          </div>
-        </Form>
+        <div className="water-report">
+          <h2>Water Report Lastest</h2>
+          <p>Water Report ID: {waterReport?.waterReportId}</p>
+          <p>
+            Updated Date:{" "}
+            {dayjs(waterReport?.waterReportUpdatedDate).format("DD MMM YYYY")}
+          </p>
+          <p>Temperature: {waterReport?.waterReportTemperature || 0} &deg;C</p>
+          <p>Oxygen: {waterReport?.waterReportOxygen || 0} mg/L</p>
+          <p>pH: {waterReport?.waterReport_pH || 0}</p>
+          <p>Hardness: {waterReport?.waterReportHardness || 0} dGH</p>
+          <p>Ammonia: {waterReport?.waterReportAmmonia || 0} mg/L</p>
+          <p>Nitrite: {waterReport?.waterReportNitrite || 0} mg/L</p>
+          <p>Nitrate: {waterReport?.waterReportNitrate || 0} mg/L</p>
+          <p>Carbonate: {waterReport?.waterReportCarbonate || 0} mg/L</p>
+          <p>Salt: {waterReport?.waterReportSalt || 0} %</p>
+          <p>
+            Carbon Dioxide: {waterReport?.waterReportCarbonDioxide || 0} mg/L
+          </p>
+          <Button onClick={() => navigate(`/waterReportHistory/${pondId}`)}>
+            See Water Report History
+          </Button>
+        </div>
       </div>
     </div>
   );

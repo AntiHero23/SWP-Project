@@ -56,7 +56,6 @@ function AddPond() {
       const url = await uploadFile(fileList[0].originFileObj);
       console.log(url);
       values.pondImage = url;
-
       const response = await api.post("pond/create", values);
       console.log(response.data);
       alert("Pond added successfully");

@@ -34,6 +34,7 @@ import ShopHome from "../page/shop/shop-home";
 import HistoryTransaction from "../page/shop/history-transaction";
 import CheckOut from "../page/shop/check-out";
 import PostDetail from "../page/shop/post-detail";
+import WaterReportHistory from "../page/pond/waterreport-history";
 
 export const router = createBrowserRouter([
   {
@@ -60,6 +61,7 @@ export const router = createBrowserRouter([
       { path: "/buyPlan", element: <Plan /> },
       { path: "/contact", element: <Contact /> },
       { path: "/koiFoodList", element: <KoiFoodList /> },
+      { path: "/waterReportHistory/:id", element: <WaterReportHistory /> },
     ],
   },
   {

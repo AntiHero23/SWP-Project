@@ -2,7 +2,7 @@
     background-image: url('../../../assets/LoginBg.png');
     background-size: cover;
     background-attachment: fixed;
-    min-height: 100vh;
+    min-height: 120vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,7 +13,7 @@
       border-radius: 25px;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
       max-width: 1200px;
-      
+      max-height: 1000px;
       width: 100%;
   
       .info-title {
@@ -31,7 +31,7 @@
       }
   
       .koi-info, .koi-report {
-        width: 48%; // Set equal width for Koi Info and Report sections
+        width: 48%; 
         max-height: 600px;
         background-color: white;
         padding: 20px;

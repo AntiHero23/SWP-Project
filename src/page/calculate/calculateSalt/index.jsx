@@ -36,7 +36,6 @@ function CalculateSalt() {
   const handlePondChange = (value) => {
     setSelectedPond(value);
   };
-
   const handleSliderChange = (value) => {
     setCurrentSalt(value);
   };
@@ -75,6 +74,9 @@ function CalculateSalt() {
   };
 
   const onFinish = async (values) => {
+    values.currentSalt = currentSalt;
+    values.expectSalt = expectSalt;
+    values.waterChange = waterChange;
     console.log("Received values of form: ", values);
     if (values.currentSalt > values.expectSalt) {
       calWhenCurrentSalt(values);
@@ -86,134 +88,136 @@ function CalculateSalt() {
   return (
     <div className="calc-salt-page">
       <div className="salt-calc-container">
-      <h1 className="salt-title" style={{ textAlign: "center" }}>Calculate Salt</h1>
-      <Form
-        name="calculate-salt"
-        layout="vertical"
-        style={{ maxWidth: 500, margin: "auto" }}
-        onFinish={onFinish}
-      >
-        <Form.Item
-          label={`Pond : ${
-            selectedPond
-              ? ponds.find((p) => p.pondID === selectedPond).pondName
-              : ""
-          } (${
-            selectedPond
-              ? ponds.find((p) => p.pondID === selectedPond).volume
-              : 0
-          } L)`}
-          name="pondID"
-          rules={[{ required: true, message: "Please select pond" }]}
+        <h1 className="salt-title" style={{ textAlign: "center" }}>
+          Calculate Salt
+        </h1>
+        <Form
+          name="calculate-salt"
+          layout="vertical"
+          style={{ maxWidth: 500, margin: "auto" }}
+          onFinish={onFinish}
         >
-          <Select
-            placeholder="Select Pond"
-            value={selectedPond}
-            onChange={handlePondChange}
+          <Form.Item
+            label={`Pond : ${
+              selectedPond
+                ? ponds.find((p) => p.pondID === selectedPond).pondName
+                : ""
+            } (${
+              selectedPond
+                ? ponds.find((p) => p.pondID === selectedPond).volume
+                : 0
+            } L)`}
+            name="pondID"
+            rules={[{ required: true, message: "Please select pond" }]}
           >
-            {ponds.map((pond) => (
-              <Select.Option key={pond.pondID} value={pond.pondID}>
-                {pond.pondName}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item label={`Current Salt: ${currentSalt}%`} name="currentSalt">
-          <Row>
-            <Col span={12}>
-              <Slider
-                min={0}
-                max={2}
-                onChange={handleSliderChange}
-                value={currentSalt}
-                step={0.01}
-              />
-            </Col>
-            <Col span={4}>
-              <InputNumber
-                min={0}
-                max={2}
-                style={{
-                  margin: "0 16px",
-                }}
-                step={0.01}
-                value={currentSalt}
-                onChange={handleInputNumberChange}
-              />
-            </Col>
-          </Row>
-        </Form.Item>
-        <Form.Item label={`Expect Salt: ${expectSalt}%`} name="expectSalt">
-          <Row>
-            <Col span={12}>
-              <Slider
-                min={0}
-                max={2}
-                onChange={(value) => setExpectSalt(value)}
-                value={expectSalt}
-                step={0.01}
-              />
-            </Col>
-            <Col span={4}>
-              <InputNumber
-                min={0}
-                max={2}
-                style={{
-                  margin: "0 16px",
-                }}
-                step={0.01}
-                value={expectSalt}
-                onChange={(value) => setExpectSalt(value)}
-              />
-            </Col>
-          </Row>
-        </Form.Item>
-        <Form.Item
-          label={`Water Change: (${
-            selectedPond
-              ? (
-                  (ponds.find((p) => p.pondID === selectedPond).volume *
-                    waterChange) /
-                  100
-                ).toFixed(0)
-              : 0
-          } L)`}
-          name="waterchangePer"
-        >
-          <Row>
-            <Col span={12}>
-              <Slider
-                min={0}
-                max={100}
-                value={waterChange}
-                onChange={(value) => setWaterChange(value)}
-                step={1}
-              />
-            </Col>
-            <Col span={4}>
-              <InputNumber
-                min={0}
-                max={100}
-                style={{
-                  margin: "0 16px",
-                }}
-                step={1}
-                value={waterChange}
-                onChange={(value) => setWaterChange(value)}
-              />
-            </Col>
-          </Row>
-        </Form.Item>
-        <Form.Item>
-          <Space>
-            <Button type="primary" htmlType="submit">
-              Calculate
-            </Button>
-          </Space>
-        </Form.Item>
-      </Form>
-      {alert && <h1 className="salt-result">{alert}</h1>}
-    </div>
+            <Select
+              placeholder="Select Pond"
+              value={selectedPond}
+              onChange={handlePondChange}
+            >
+              {ponds.map((pond) => (
+                <Select.Option key={pond.pondID} value={pond.pondID}>
+                  {pond.pondName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item label={`Current Salt: ${currentSalt}%`} name="currentSalt">
+            <Row>
+              <Col span={12}>
+                <Slider
+                  min={0}
+                  max={2}
+                  onChange={(value) => setCurrentSalt(value)}
+                  value={currentSalt}
+                  step={0.01}
+                />
+              </Col>
+              <Col span={4}>
+                <InputNumber
+                  min={0}
+                  max={2}
+                  style={{
+                    margin: "0 16px",
+                  }}
+                  step={0.01}
+                  value={currentSalt}
+                  onChange={handleInputNumberChange}
+                />
+              </Col>
+            </Row>
+          </Form.Item>
+          <Form.Item label={`Expect Salt: ${expectSalt}%`} name="expectSalt">
+            <Row>
+              <Col span={12}>
+                <Slider
+                  min={0}
+                  max={2}
+                  onChange={(value) => setExpectSalt(value)}
+                  value={expectSalt}
+                  step={0.01}
+                />
+              </Col>
+              <Col span={4}>
+                <InputNumber
+                  min={0}
+                  max={2}
+                  style={{
+                    margin: "0 16px",
+                  }}
+                  step={0.01}
+                  value={expectSalt}
+                  onChange={(value) => setExpectSalt(value)}
+                />
+              </Col>
+            </Row>
+          </Form.Item>
+          <Form.Item
+            label={`Water Change: (${
+              selectedPond
+                ? (
+                    (ponds.find((p) => p.pondID === selectedPond).volume *
+                      waterChange) /
+                    100
+                  ).toFixed(0)
+                : 0
+            } L)`}
+            name="waterchangePer"
+          >
+            <Row>
+              <Col span={12}>
+                <Slider
+                  min={0}
+                  max={100}
+                  value={waterChange}
+                  onChange={(value) => setWaterChange(value)}
+                  step={1}
+                />
+              </Col>
+              <Col span={4}>
+                <InputNumber
+                  min={0}
+                  max={100}
+                  style={{
+                    margin: "0 16px",
+                  }}
+                  step={1}
+                  value={waterChange}
+                  onChange={(value) => setWaterChange(value)}
+                />
+              </Col>
+            </Row>
+          </Form.Item>
+          <Form.Item>
+            <Space>
+              <Button type="primary" htmlType="submit">
+                Calculate
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
+        {alert && <h1 className="salt-result">{alert}</h1>}
+      </div>
     </div>
   );
 }

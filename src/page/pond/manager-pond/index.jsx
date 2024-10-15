@@ -23,7 +23,6 @@ function ManagerPond() {
       } catch (error) {
         console.error(error);
         setError(error);
-        alert("You must be logged in to view this page.");
         navigate("/login");
       } finally {
         setIsLoading(false);
