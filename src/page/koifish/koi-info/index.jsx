@@ -4,11 +4,13 @@ import api from "../../../config/axios";
 import { useQueryClient } from "react-query";
 import {
   Button,
+  Col,
   DatePicker,
   Form,
   Image,
   Input,
   Modal,
+  Row,
   Select,
   Upload,
 } from "antd";
@@ -208,7 +210,10 @@ function KoiInfo() {
           <div className="koi-info-container">
             <div className="koi-info">
               <div className="koi-stats">
+                <Col span={12}>
                 <Form
+                  className="koi-form"
+                  layout="vertical"
                   form={form}
                   initialValues={{
                     ...koi,
@@ -218,10 +223,12 @@ function KoiInfo() {
                   }}
                   onFinish={handleSubmitKoiInfo}
                 >
+                  <Row className="koi-row-1">
+                    <div className="koi-image-name">
                   <Form.Item label="Name" name="koiName">
                     <Input defaultValue={koi?.koiName} />
                   </Form.Item>
-                  <Form.Item label="Pond Image" name="image">
+                  <Form.Item className="koi-img-container" label="Pond Image" name="image">
                     <img
                       className="koi-img"
                       src={fileList.length ? fileList[0].url : koi?.image}
@@ -238,6 +245,17 @@ function KoiInfo() {
                       {fileList.length >= 8 ? null : uploadButton}
                     </Upload>
                   </Form.Item>
+                  </div>
+                  {koiReportLatest && (
+                  <div className="koi-report-latest">
+                    <h1>Koi Lastest Status</h1>
+                    <h3>Koi Length: {koiReportLatest.length || "N/A"}</h3>
+                    <h3>Koi Weight: {koiReportLatest.weight || "N/A"}</h3>
+                    <h3>Koi Status: {koiReportLatest.koiStatus || "N/A"}</h3>
+                  </div>
+                )}
+                  </Row>
+                  <Row className="koi-row-2">
                   <Form.Item label="Sex" name="koiSex">
                     <Select defaultValue={koi?.koiSex}>
                       <Select.Option value="male">Male</Select.Option>
@@ -247,6 +265,8 @@ function KoiInfo() {
                   <Form.Item label="Birthday" name="birthday">
                     <input type="date" defaultValue={koi?.birthday} />
                   </Form.Item>
+                  </Row>
+                  <Row className="koi-row-3">
                   <Form.Item label="Pond" name="pondID">
                     <Select
                       defaultValue={koi?.pondID}
@@ -265,6 +285,8 @@ function KoiInfo() {
                       }))}
                     />
                   </Form.Item>
+                  </Row>
+                  <Row className="koi-row-4">
                   <Button type="primary" htmlType="submit">
                     Edit
                   </Button>
@@ -276,7 +298,9 @@ function KoiInfo() {
                   >
                     Delete
                   </Button>
+                  </Row>
                 </Form>
+                </Col>
                 {previewImage && (
                   <Image
                     className="image-preview"
@@ -291,14 +315,7 @@ function KoiInfo() {
                   />
                 )}
 
-                {koiReportLatest && (
-                  <div>
-                    <h1>Koi Lastest Status</h1>
-                    <h3>Koi Length: {koiReportLatest.length || "N/A"}</h3>
-                    <h3>Koi Weight: {koiReportLatest.weight || "N/A"}</h3>
-                    <h3>Koi Status: {koiReportLatest.koiStatus || "N/A"}</h3>
-                  </div>
-                )}
+
               </div>
             </div>
             <div className="koi-report">
