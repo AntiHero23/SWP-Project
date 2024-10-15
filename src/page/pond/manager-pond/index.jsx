@@ -23,7 +23,6 @@ function ManagerPond() {
       } catch (error) {
         console.error(error);
         setError(error);
-        navigate("/login");
       } finally {
         setIsLoading(false);
       }
