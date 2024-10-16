@@ -48,6 +48,10 @@
       }
   
       .koi-stats {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+
         p {
           font-size: 16px;
           margin-bottom: 10px;
@@ -100,5 +104,60 @@
         margin-top: 20px;
         padding: 8px;
         border-radius: 10px;
+    }
+  }
+
+
+  
+  .koi-info{
+    max-width: 1200px;
+    overflow-x: hidden;
+
+    .koi-row-2, .koi-row-3, .koi-row-4{
+        width: 300px;
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Create a 2-column layout */
+        gap: 10px;
+    }
+
+    .koi-form{
+    padding: 20px; /* Add padding to provide spacing inside the koi stats box */
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Ensure items stack vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    text-align: left; /* Ensure text aligns properly inside the flex items */
+    }
+
+    .koi-report-latest{
+      font-size: 13px;
+      background-color: #cecece;
+      border-radius: 8px;
+      padding: 3px;
+      text-wrap: wrap;
+      height: 250px;
+    }
+
+    .koi-form{
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+    }
+
+    .koi-img-container{
+      display: grid;
+      grid-template-columns: 2fr 1fr; /* Create a 2-column layout */
+    }
+
+    .koi-row-1{
+      width: 300px;
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* Create a 2-column layout */
+      max-height: 350px;
+    }
+
+    .ant-form-item-control-input{
+      max-width: 100px ;
     }
   }
