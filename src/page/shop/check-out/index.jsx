@@ -32,7 +32,7 @@ function CheckOut() {
   return (
     <>
       <h1 style={{ textAlign: "center" }}>Successful!</h1>
-      <button onClick={() => navigate("/shop")}>Go Back</button>
+      <button onClick={() => navigate(-1)}>Go Back</button>
     </>
   );
 }

@@ -35,6 +35,7 @@ import HistoryTransaction from "../page/shop/history-transaction";
 import CheckOut from "../page/shop/check-out";
 import PostDetail from "../page/shop/post-detail";
 import WaterReportHistory from "../page/pond/waterreport-history";
+import AdminHome from "../page/admin/admin_home";
 
 export const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ export const router = createBrowserRouter([
     path: "/admin",
     element: <AdminDashboard />,
     children: [
+      {
+        path: "",
+        element: <AdminHome />,
+      },
       {
         path: "postManage",
         element: <PostManage />,

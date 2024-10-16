@@ -7,19 +7,24 @@ import dayjs from "dayjs";
 function PostManage() {
   const [dataSourcePending, setDataSourcePending] = useState([]);
   const [dataSourceApproved, setDataSourceApproved] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isRejectModal, setIsRejectModal] = useState(false);
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [form] = useForm();
-  const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const showModal = () => {
-    setIsOpenModal(true);
+  const showRejectModal = () => {
+    setIsRejectModal(true);
+  };
+  const showDeleteModal = () => {
+    setIsDeleteModal(true);
   };
   const handleCancel = () => {
     form.resetFields();
-    setIsOpenModal(false);
+    setIsRejectModal(false);
+    setIsDeleteModal(false);
   };
   const handleOk = () => {
-    setIsOpenModal(false);
+    setIsRejectModal(false);
+    setIsDeleteModal(false);
   };
   const fetchDataPending = async () => {
     try {
@@ -128,7 +133,7 @@ function PostManage() {
           type="primary"
           danger
           onClick={() => {
-            showModal();
+            showRejectModal();
           }}
         >
           Reject
@@ -192,13 +197,36 @@ function PostManage() {
         </Tag>
       ),
     },
+    {
+      title: "Delete",
+      dataIndex: "postDetailId",
+      key: "postDetailId",
+      render: (value) => (
+        <Button
+          type="primary"
+          danger
+          onClick={() => {
+            showDeleteModal();
+          }}
+        >
+          Delete
+        </Button>
+      ),
+    },
   ];
 
   return (
     <>
       <Modal
         title="Reject Post"
-        open={isOpenModal}
+        open={isRejectModal}
+        onCancel={handleCancel}
+        onOk={handleOk}
+        footer={null}
+      ></Modal>
+      <Modal
+        title="Delete Post"
+        open={isDeleteModal}
         onCancel={handleCancel}
         onOk={handleOk}
         footer={null}
