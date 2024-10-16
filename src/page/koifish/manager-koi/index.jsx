@@ -75,7 +75,7 @@ function ManagerKoi() {
             onChange={(value) => setKoiVariety(value)}
             style={{ width: "100px" }}
             options={[{ value: null, label: "All" }, ...varietyOptions]}
-            placeholder="Filter by variety..."
+            defaultValue={null}
           ></Select>
           <PlusCircleOutlined
             style={{ fontSize: "24px" }}
@@ -84,11 +84,15 @@ function ManagerKoi() {
         </div>
 
         <div className="koi-fish-dashboard">
-          {filteredKoiFishs.map((koi) => (
-            <div key={koi.koiFishID} style={{ display: "flex" }}>
-              <KoiCard koi={koi} />
-            </div>
-          ))}
+          {filteredKoiFishs.length > 0 ? (
+            filteredKoiFishs.map((koi) => (
+              <div key={koi.koiFishID} style={{ display: "flex" }}>
+                <KoiCard koi={koi} />
+              </div>
+            ))
+          ) : (
+            <p style={{ textAlign: "center" }}>You don't have any fish</p>
+          )}
         </div>
       </div>
     </div>
