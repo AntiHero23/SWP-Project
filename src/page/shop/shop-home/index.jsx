@@ -72,6 +72,7 @@ function ShopHome() {
       title: "Package Type",
       dataIndex: "name",
       key: "name",
+      render: (text) => text.charAt(0).toUpperCase() + text.slice(1),
     },
     {
       title: "Description",
@@ -82,16 +83,19 @@ function ShopHome() {
       title: "Number of Posts",
       dataIndex: "numberOfPosts",
       key: "numberOfPosts",
+      render: (text) => text + " posts",
     },
     {
       title: "Duration",
       dataIndex: "duration",
       key: "duration",
+      render: (text) => text + " months",
     },
     {
       title: "Price",
       dataIndex: "price",
       key: "price",
+      render: (text) => text + " VND",
     },
   ];
 

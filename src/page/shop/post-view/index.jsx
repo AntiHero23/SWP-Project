@@ -164,6 +164,7 @@ function PostView() {
       title: "Product Price",
       dataIndex: "productPrice",
       key: "productPrice",
+      render: (value) => value + " VND",
     },
     {
       title: "Image",
@@ -205,7 +206,7 @@ function PostView() {
         <Button
           type="primary"
           onClick={() => {
-            navigate(`/shop/postdetail/${value}`);
+            navigate(`/shop/postDetail/${value}`);
           }}
         >
           Details
@@ -266,7 +267,7 @@ function PostView() {
             name="productPrice"
             rules={[{ required: true, message: "Please input price!" }]}
           >
-            <InputNumber />
+            <InputNumber /> VND
           </Form.Item>
           {/* <Form.Item
             label="Payment: "

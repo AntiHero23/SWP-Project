@@ -1,15 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { useAuthStore } from "../../../zustand/useAuthStore";
-import { Avatar, Button, Card, Col, Row, Space, Typography } from "antd";
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Form,
+  Input,
+  Modal,
+  Row,
+  Space,
+  Typography,
+} from "antd";
 import { useNavigate } from "react-router-dom";
 import api from "../../../config/axios";
 import { UserOutlined } from "@ant-design/icons";
+import { useForm } from "antd/es/form/Form";
 
 function ShopProfile() {
   const navigate = useNavigate();
   const { user, logout } = useAuthStore();
   const [userInfo, setUserInfo] = useState({});
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [form] = useForm();
 
+  const showModal = () => {
+    setIsOpenModal(true);
+  };
+  const handleCancel = () => {
+    form.resetFields();
+    setIsOpenModal(false);
+  };
+  const handleSubmit = async (values) => {
+    try {
+      await api.put("shop/update", values);
+      setIsOpenModal(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -58,22 +87,45 @@ function ShopProfile() {
               Role: {userInfo?.role || "-"}
             </Typography.Text>
             <Typography.Text className="profile-text">
-              Your Current Posts:{" N/A "}
-              {/* {userInfo?.premiumStatus === 0
-                ? "Basic "
-                : userInfo?.premiumStatus === 1
-                ? "Premium"
-                : "Unknown"} */}
+              Your Current Posts: {userInfo?.numberOfPosts || "-"}
             </Typography.Text>
-            {userInfo?.premiumStatus === 0 && (
-              <Button
-                type="primary"
-                className="profile-button profile-button-upgrade"
-                onClick={() => navigate("/")}
-              >
-                Update Profile
-              </Button>
-            )}
+            <Button
+              type="primary"
+              className="profile-button profile-button-upgrade"
+              onClick={showModal}
+            >
+              Update Profile
+            </Button>
+            <Modal
+              title="Update Profile"
+              visible={isOpenModal}
+              onOk={handleSubmit}
+              onCancel={handleCancel}
+            >
+              <Form form={form} layout="vertical" onFinish={handleSubmit}>
+                <Form.Item
+                  label="Name"
+                  name="name"
+                  rules={[{ message: "Please input your name!" }]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[{ message: "Please input your email!" }]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Phone"
+                  name="phone"
+                  rules={[{ message: "Please input your phone!" }]}
+                >
+                  <Input />
+                </Form.Item>
+              </Form>
+            </Modal>
             <Button
               type="primary"
               danger

@@ -18,6 +18,7 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
+  getItem("Home", "", <FileOutlined />),
   getItem("Post Manager", "postManage", <FileOutlined />),
   getItem("User", "userManager", <FileOutlined />),
 ];

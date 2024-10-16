@@ -36,6 +36,9 @@ import CheckOut from "../page/shop/check-out";
 import PostDetail from "../page/shop/post-detail";
 import WaterReportHistory from "../page/pond/waterreport-history";
 import Statistic from "../page/statistic";
+import AdminHome from "../page/admin/admin_home";
+import PendingPostDetail from "../page/admin/pending-post-detail";
+import ApprovedPostDetail from "../page/admin/approved-post-detail";
 
 export const router = createBrowserRouter([
   {
@@ -71,6 +74,10 @@ export const router = createBrowserRouter([
     element: <AdminDashboard />,
     children: [
       {
+        path: "",
+        element: <AdminHome />,
+      },
+      {
         path: "postManage",
         element: <PostManage />,
         // children: [
@@ -83,6 +90,14 @@ export const router = createBrowserRouter([
       {
         path: "userManager",
         element: <UserManage />,
+      },
+      {
+        path: "pendingPostDetail/:id",
+        element: <PendingPostDetail />,
+      },
+      {
+        path: "approvedPostDetail/:id",
+        element: <ApprovedPostDetail />,
       },
     ],
   },
@@ -111,7 +126,7 @@ export const router = createBrowserRouter([
         element: <ShopProfile />,
       },
       {
-        path: "postDetail/:id",
+        path: "postdetail/:id",
         element: <PostDetail />,
       },
     ],
