@@ -52,47 +52,47 @@ function PostManage() {
       dataIndex: "productName",
       key: "productName",
     },
-    {
-      title: "Product Price",
-      dataIndex: "productPrice",
-      key: "productPrice",
-      render: (value) => value + " VND",
-    },
+    // {
+    //   title: "Product Price",
+    //   dataIndex: "productPrice",
+    //   key: "productPrice",
+    //   render: (value) => value + " VND",
+    // },
     {
       title: "Image",
       dataIndex: "image",
       key: "image",
       render: (value) => <Image src={value} />,
     },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Link",
-      dataIndex: "link",
-      key: "link",
-      render: (value) => (
-        <a
-          href={value}
-          style={{
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            width: "10px",
-          }}
-        >
-          {value}
-        </a>
-      ),
-    },
-    {
-      title: "Post Date",
-      dataIndex: "postDate",
-      key: "postDate",
-      render: (value) => <p>{dayjs(value).format("MMMM D, YYYY h:mm A")}</p>,
-    },
+    // {
+    //   title: "Description",
+    //   dataIndex: "description",
+    //   key: "description",
+    // },
+    // {
+    //   title: "Link",
+    //   dataIndex: "link",
+    //   key: "link",
+    //   render: (value) => (
+    //     <a
+    //       href={value}
+    //       style={{
+    //         overflow: "hidden",
+    //         textOverflow: "ellipsis",
+    //         whiteSpace: "nowrap",
+    //         width: "10px",
+    //       }}
+    //     >
+    //       {value}
+    //     </a>
+    //   ),
+    // },
+    // {
+    //   title: "Post Date",
+    //   dataIndex: "postDate",
+    //   key: "postDate",
+    //   render: (value) => <p>{dayjs(value).format("MMMM D, YYYY h:mm A")}</p>,
+    // },
     {
       title: "Post Status",
       dataIndex: "postStatus",
@@ -103,43 +103,43 @@ function PostManage() {
         </Tag>
       ),
     },
-    {
-      title: "Approve",
-      dataIndex: "postDetailId",
-      key: "postDetailId",
-      render: (value) => (
-        <Button
-          type="primary"
-          onClick={() => {
-            api
-              .put(`/admin/post/approve/${value}`)
-              .then(() => {
-                fetchDataApproved();
-                fetchDataPending();
-              })
-              .catch((error) => console.log(error));
-          }}
-        >
-          Approve
-        </Button>
-      ),
-    },
-    {
-      title: "Reject",
-      dataIndex: "postDetailId",
-      key: "postDetailId",
-      render: (value) => (
-        <Button
-          type="primary"
-          danger
-          onClick={() => {
-            showRejectModal();
-          }}
-        >
-          Reject
-        </Button>
-      ),
-    },
+    // {
+    //   title: "Approve",
+    //   dataIndex: "postDetailId",
+    //   key: "postDetailId",
+    //   render: (value) => (
+    //     <Button
+    //       type="primary"
+    //       onClick={() => {
+    //         api
+    //           .put(`/admin/post/approve/${value}`)
+    //           .then(() => {
+    //             fetchDataApproved();
+    //             fetchDataPending();
+    //           })
+    //           .catch((error) => console.log(error));
+    //       }}
+    //     >
+    //       Approve
+    //     </Button>
+    //   ),
+    // },
+    // {
+    //   title: "Reject",
+    //   dataIndex: "postDetailId",
+    //   key: "postDetailId",
+    //   render: (value) => (
+    //     <Button
+    //       type="primary"
+    //       danger
+    //       onClick={() => {
+    //         showRejectModal();
+    //       }}
+    //     >
+    //       Reject
+    //     </Button>
+    //   ),
+    // },
   ];
   const approvedColumns = [
     {
@@ -147,46 +147,46 @@ function PostManage() {
       dataIndex: "productName",
       key: "productName",
     },
-    {
-      title: "Product Price",
-      dataIndex: "productPrice",
-      key: "productPrice",
-      render: (value) => value + " VND",
-    },
+    // {
+    //   title: "Product Price",
+    //   dataIndex: "productPrice",
+    //   key: "productPrice",
+    //   render: (value) => value + " VND",
+    // },
     {
       title: "Image",
       dataIndex: "image",
       key: "image",
       render: (value) => <Image src={value} />,
     },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Link",
-      dataIndex: "link",
-      key: "link",
-      render: (value) => (
-        <a
-          href={value}
-          style={{
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {value}
-        </a>
-      ),
-    },
-    {
-      title: "Post Date",
-      dataIndex: "postDate",
-      key: "postDate",
-      render: (value) => <p>{dayjs(value).format("MMMM D, YYYY h:mm A")}</p>,
-    },
+    // {
+    //   title: "Description",
+    //   dataIndex: "description",
+    //   key: "description",
+    // },
+    // {
+    //   title: "Link",
+    //   dataIndex: "link",
+    //   key: "link",
+    //   render: (value) => (
+    //     <a
+    //       href={value}
+    //       style={{
+    //         overflow: "hidden",
+    //         textOverflow: "ellipsis",
+    //         whiteSpace: "nowrap",
+    //       }}
+    //     >
+    //       {value}
+    //     </a>
+    //   ),
+    // },
+    // {
+    //   title: "Post Date",
+    //   dataIndex: "postDate",
+    //   key: "postDate",
+    //   render: (value) => <p>{dayjs(value).format("MMMM D, YYYY h:mm A")}</p>,
+    // },
     {
       title: "Post Status",
       dataIndex: "postStatus",
@@ -197,22 +197,22 @@ function PostManage() {
         </Tag>
       ),
     },
-    {
-      title: "Delete",
-      dataIndex: "postDetailId",
-      key: "postDetailId",
-      render: (value) => (
-        <Button
-          type="primary"
-          danger
-          onClick={() => {
-            showDeleteModal();
-          }}
-        >
-          Delete
-        </Button>
-      ),
-    },
+    // {
+    //   title: "Delete",
+    //   dataIndex: "postDetailId",
+    //   key: "postDetailId",
+    //   render: (value) => (
+    //     <Button
+    //       type="primary"
+    //       danger
+    //       onClick={() => {
+    //         showDeleteModal();
+    //       }}
+    //     >
+    //       Delete
+    //     </Button>
+    //   ),
+    // },
   ];
 
   return (
