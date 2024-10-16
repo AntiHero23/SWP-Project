@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Select, Button, Tabs, DatePicker } from 'antd';
+import { Form, Select, Button, Tabs, Radio } from 'antd';
 import { Line } from '@ant-design/charts';
 import api from '../../config/axios';
 import { interpolateNumber } from 'd3-interpolate';
@@ -13,7 +13,59 @@ function Statistic() {
   const [loading, setLoading] = useState(false);
   const [chartData, setChartData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(dayjs()); // Default to current date
+  const [selectedType, setSelectedType] = useState('weight'); // Default to weight
 
+  // Interpolation function for missing data
+  const interpolateMissingData = (data) => {
+    let filledData = [...data];
+  
+    for (let i = 1; i < filledData.length; i++) {
+      if (
+        filledData[i][selectedType] === null ||
+        filledData[i][selectedType] === undefined
+      ) {
+        let prevIndex = i - 1;
+        let nextIndex = i;
+  
+        // Find the next index with valid data
+        while (
+          nextIndex < filledData.length &&
+          (filledData[nextIndex][selectedType] === null ||
+            filledData[nextIndex][selectedType] === undefined)
+        ) {
+          nextIndex++;
+        }
+  
+        if (nextIndex < filledData.length) {
+          // Interpolate between valid previous and next data points
+          const prevValue = filledData[prevIndex][selectedType] ?? 0;
+          const nextValue = filledData[nextIndex][selectedType] ?? 0;
+          const prevInstance = dayjs(filledData[prevIndex].updateDate);
+          const nextInstance = dayjs(filledData[nextIndex].updateDate);
+          const interpolateValue = interpolateNumber(prevValue, nextValue);
+  
+          for (let j = prevIndex + 1; j < nextIndex; j++) {
+            const currentDate = dayjs(filledData[j].updateDate);
+            const t = currentDate.diff(prevInstance, 'day') / nextInstance.diff(prevInstance, 'day');
+            filledData[j][selectedType] = interpolateValue(t);
+          }
+        } else {
+          // No valid future data, extrapolate based on the last known valid data
+          const prevValue = filledData[prevIndex][selectedType] ?? 0;
+  
+          for (let j = prevIndex + 1; j < filledData.length; j++) {
+            filledData[j][selectedType] = prevValue; // Use the last known value
+          }
+  
+          // Break early since we're extrapolating to the end of the data
+          break;
+        }
+      }
+    }
+  
+    return filledData;
+  };
+  
   // Fetch koi list
   const fetchKois = async () => {
     setLoading(true);
@@ -26,68 +78,6 @@ function Statistic() {
       setLoading(false);
     }
   };
-
-  // Interpolation function for missing data
-  const interpolateMissingData = (data) => {
-    let filledData = [...data];
-  
-    for (let i = 1; i < filledData.length; i++) {
-      if (
-        filledData[i].weight === null ||
-        filledData[i].weight === undefined ||
-        filledData[i].length === null ||
-        filledData[i].length === undefined
-      ) {
-        let prevIndex = i - 1;
-        let nextIndex = i;
-  
-        // Find the next index with valid data
-        while (
-          nextIndex < filledData.length &&
-          (filledData[nextIndex].weight === null ||
-            filledData[nextIndex].weight === undefined ||
-            filledData[nextIndex].length === null ||
-            filledData[nextIndex].length === undefined)
-        ) {
-          nextIndex++;
-        }
-  
-        if (nextIndex < filledData.length) {
-          // Interpolate between valid previous and next data points
-          const prevWeight = filledData[prevIndex]?.weight ?? 0;
-          const nextWeight = filledData[nextIndex]?.weight ?? 0;
-          const prevLength = filledData[prevIndex]?.length ?? 0;
-          const nextLength = filledData[nextIndex]?.length ?? 0;
-          const prevInstance = dayjs(filledData[prevIndex].updateDate);
-          const nextInstance = dayjs(filledData[nextIndex].updateDate);
-          const interpolateWeight = interpolateNumber(prevWeight, nextWeight);
-          const interpolateLength = interpolateNumber(prevLength, nextLength);
-  
-          for (let j = prevIndex + 1; j < nextIndex; j++) {
-            const currentDate = dayjs(filledData[j].updateDate);
-            const t = currentDate.diff(prevInstance, 'day') / nextInstance.diff(prevInstance, 'day');
-            filledData[j].weight = interpolateWeight(t);
-            filledData[j].length = interpolateLength(t);
-          }
-        } else {
-          // No valid future data, extrapolate based on the last known valid data
-          const prevWeight = filledData[prevIndex]?.weight ?? 0;
-          const prevLength = filledData[prevIndex]?.length ?? 0;
-  
-          for (let j = prevIndex + 1; j < filledData.length; j++) {
-            filledData[j].weight = prevWeight; // Use the last known weight
-            filledData[j].length = prevLength; // Use the last known length
-          }
-  
-          // Break early since we're extrapolating to the end of the data
-          break;
-        }
-      }
-    }
-  
-    return filledData;
-  };
-  
 
   // Fetch koi report data
   const fetchKoiReport = async (koiFishID) => {
@@ -113,7 +103,6 @@ function Statistic() {
     fetchKoiReport(values.koi);
   };
   
-
   // Filter koi reports based on selected month and year
   useEffect(() => {
     if (koiReport.length > 0) {
@@ -151,8 +140,7 @@ function Statistic() {
       // Format data for charting
       const chartData = interpolatedData.map((report) => ({
         updateDate: dayjs(report.updateDate).format('YYYY-MM-DD'), // Ensure consistent date format
-        weight: Math.round(report.weight * 100) / 100,
-        length: Math.round(report.length * 100) / 100,
+        [selectedType]: Math.round(report[selectedType] * 100) / 100,
       }));
       
       setChartData(chartData);
@@ -160,13 +148,12 @@ function Statistic() {
     }
 
     fetchKois();
-  }, [koiReport, selectedDate]);
+  }, [koiReport, selectedDate, selectedType]);
 
   const config = {
     data: chartData,
     xField: 'updateDate',
-    yField: ['weight', 'length'],
-    seriesField: 'type', // This allows multiple lines
+    yField: selectedType,
     meta: {
       updateDate: { alias: 'Date' },
       weight: { alias: 'Weight' },
@@ -182,6 +169,10 @@ function Statistic() {
     setSelectedDate(date); // Set the selected date as a dayjs object
   };
   
+  // Handle type selection
+  const handleTypeChange = (event) => {
+    setSelectedType(event.target.value);
+  };
 
   return (
     <Tabs defaultActiveKey="1" centered>
@@ -199,14 +190,6 @@ function Statistic() {
           
           <Form.Item name="date" label="Month/Year">
           <input type='month' onChange={handleDateChange} />
-          {/* <DatePicker
-    picker="month"
-    onChange={(date, dateString) => {
-      console.log("Selected Date:", dateString);
-      form.setFieldsValue({ date: dateString }); // Set the date in the form values
-    }}
-    InititialValue={dayjs()} // Optional: Set default date if needed
-  /> */}
           </Form.Item>
           
           <Form.Item>
@@ -215,7 +198,12 @@ function Statistic() {
             </Button>
           </Form.Item>
         </Form>
-
+        
+        <Radio.Group value={selectedType} onChange={handleTypeChange}>
+          <Radio.Button value="weight">Weight</Radio.Button>
+          <Radio.Button value="length">Length</Radio.Button>
+        </Radio.Group>
+        
         {/* Chart for koi weight and length */}
         {chartData.length > 0 && <Line {...config} />}
       </Tabs.TabPane>
