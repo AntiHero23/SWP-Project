@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import api from "../../../config/axios";
 import { useForm } from "antd/es/form/Form";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 function PostManage() {
   const [dataSourcePending, setDataSourcePending] = useState([]);
@@ -10,6 +11,7 @@ function PostManage() {
   const [isRejectModal, setIsRejectModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [form] = useForm();
+  const navigate = useNavigate();
 
   const showRejectModal = () => {
     setIsRejectModal(true);
@@ -101,6 +103,21 @@ function PostManage() {
         <Tag color={value ? "green" : "red"}>
           {value ? "Approved" : "Pending"}
         </Tag>
+      ),
+    },
+    {
+      title: "Details",
+      dataIndex: "postDetailId",
+      key: "postDetailId",
+      render: (value) => (
+        <Button
+          type="primary"
+          onClick={() => {
+            navigate(`/admin/post/detail/pending/${value}`);
+          }}
+        >
+          Details
+        </Button>
       ),
     },
     // {
@@ -197,6 +214,21 @@ function PostManage() {
         </Tag>
       ),
     },
+    {
+      title: "Details",
+      dataIndex: "postDetailId",
+      key: "postDetailId",
+      render: (value) => (
+        <Button
+          type="primary"
+          onClick={() => {
+            navigate(`/admin/post/detail/approved/${value}`);
+          }}
+        >
+          Details
+        </Button>
+      ),
+    },
     // {
     //   title: "Delete",
     //   dataIndex: "postDetailId",
@@ -214,10 +246,48 @@ function PostManage() {
     //   ),
     // },
   ];
+  const columns = [
+    {
+      title: "Product Name",
+      dataIndex: "productName",
+      key: "productName",
+    },
+    {
+      title: "Image",
+      dataIndex: "image",
+      key: "image",
+      render: (value) => <Image src={value} />,
+    },
+    {
+      title: "Post Status",
+      dataIndex: "postStatus",
+      key: "postStatus",
+      render: (value) => (
+        <Tag color={value ? "green" : "red"}>
+          {value ? "Approved" : "Pending"}
+        </Tag>
+      ),
+    },
+    {
+      title: "Details",
+      dataIndex: "postDetailId",
+      key: "postDetailId",
+      render: (value) => (
+        <Button
+          type="primary"
+          onClick={() => {
+            navigate(`/admin/post/detail/${value}`);
+          }}
+        >
+          Details
+        </Button>
+      ),
+    },
+  ];
 
   return (
     <>
-      <Modal
+      {/* <Modal
         title="Reject Post"
         open={isRejectModal}
         onCancel={handleCancel}
@@ -230,7 +300,7 @@ function PostManage() {
         onCancel={handleCancel}
         onOk={handleOk}
         footer={null}
-      ></Modal>
+      ></Modal> */}
       <h1>Post Pending Table</h1>
       <Table dataSource={dataSourcePending} columns={pendingColumns} />
       <h1>Post Approved Table</h1>

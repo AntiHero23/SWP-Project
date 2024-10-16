@@ -76,26 +76,34 @@ export const router = createBrowserRouter([
         element: <AdminHome />,
       },
       {
-        path: "postManage",
-        element: <PostManage />,
-        // children: [
-        //   {
-        //     path: "reject",
-        //     element: <RejectPage />,
-        //   },
-        // ],
+        path: "post",
+        children: [
+          {
+            path: "reject",
+            element: <RejectPage />,
+          },
+          {
+            path: "manage",
+            element: <PostManage />,
+          },
+          {
+            path: "detail",
+            children: [
+              {
+                path: "pending/:id",
+                element: <PendingPostDetail />,
+              },
+              {
+                path: "approved/:id",
+                element: <ApprovedPostDetail />,
+              },
+            ],
+          },
+        ],
       },
       {
         path: "userManager",
         element: <UserManage />,
-      },
-      {
-        path: "pendingPostDetail/:id",
-        element: <PendingPostDetail />,
-      },
-      {
-        path: "approvedPostDetail/:id",
-        element: <ApprovedPostDetail />,
       },
     ],
   },
@@ -107,13 +115,20 @@ export const router = createBrowserRouter([
         path: "",
         element: <ShopHome />,
       },
+
       {
-        path: "checkout",
-        element: <CheckOut />,
-      },
-      {
-        path: "postManage",
-        element: <PostView />,
+        path: "post",
+
+        children: [
+          {
+            path: "manage",
+            element: <PostView />,
+          },
+          {
+            path: "detail/:id",
+            element: <PostDetail />,
+          },
+        ],
       },
       {
         path: "historyTransaction",
@@ -123,10 +138,10 @@ export const router = createBrowserRouter([
         path: "profile",
         element: <ShopProfile />,
       },
-      {
-        path: "postdetail/:id",
-        element: <PostDetail />,
-      },
     ],
+  },
+  {
+    path: "/checkout",
+    element: <CheckOut />,
   },
 ]);
