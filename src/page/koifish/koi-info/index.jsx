@@ -18,7 +18,6 @@ import { PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
 import { MdDelete } from "react-icons/md";
 import "./index.scss";
-
 import dayjs from "dayjs";
 import { Delete } from "lucide-react";
 import uploadFile from "../../../assets/hook/useUpload";
