@@ -1,38 +1,64 @@
 import { useSelector } from "react-redux";
 import api from "../../../config/axios";
 import { useEffect, useState } from "react";
+import { Card, Col, Row } from "antd";
 
 const KoiFoodList = () => {
-  const state = useSelector((state) => state.calculateFood);
-  const { foodList = [] } = state;
-  const [koiList, setKoiList] = useState([]);
+  const urlParams = new URLSearchParams(window.location.search);
+  const pondID = urlParams.get("pondID");
+  const temp = urlParams.get("temp");
+  const growth = urlParams.get("growth");
+  const [koiFishList, setKoiFishList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const data = { pondID, temperature: temp, level: growth };
 
+  console.log(data);
   useEffect(() => {
-    if (foodList.length === 0) return;
-    const getData = async () => {
-      const response = await api.post("/api/koifood/koilist", {
-        temperature: foodList[0].temperature,
-        level: foodList[0].level,
-        pondID: foodList[0].pondID,
-      });
-      setKoiList(response.data.result);
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await api.post("koifood/koilist", data);
+        setKoiFishList(response.data.result);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
     };
-    getData();
-  }, [foodList]);
+
+    fetchData();
+  }, []);
 
   return (
     <div>
       <h1>Calculate Food List</h1>
-      {koiList.length > 0 ? (
-        <ul>
-          {koiList.map((item) => (
-            <li key={item.koiFishID}>
-              {item.koiName} - {item.food}g
-            </li>
-          ))}
-        </ul>
+      {isLoading ? (
+        <p>Loading...</p>
       ) : (
-        <p>No data</p>
+        <div>
+          <div className="site-card-wrapper">
+            <Row gutter={16}>
+              {koiFishList.map((koi) => (
+                <Col span={8} key={koi.koiFishID}>
+                  <Card title={koi.koiName} extra={<p>{koi.koiVariety}</p>}>
+                    <p>
+                      <span style={{ fontWeight: "bold" }}>Weight:</span>{" "}
+                      {koi.weight} g
+                    </p>
+                    <p>
+                      <span style={{ fontWeight: "bold" }}>Length:</span>{" "}
+                      {koi.length} cm
+                    </p>
+                    <p>
+                      <span style={{ fontWeight: "bold" }}>Food:</span>{" "}
+                      {koi.food} g
+                    </p>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </div>
+        </div>
       )}
     </div>
   );

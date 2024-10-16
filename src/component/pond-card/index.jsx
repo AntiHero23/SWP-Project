@@ -20,7 +20,7 @@ function PondCard({ pond }) {
     <div className="card-pond">
       <div className="card-left">
         <p className="pond-name">Pond Name: {pondName}</p>
-        <p className="pond-id">PondID : {pondID}</p>
+        {/* <p className="pond-id">PondID : {pondID}</p> */}
         <img src={pondImage} alt="pond" className="pond-image" />
       </div>
       <div className="card-right">

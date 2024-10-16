@@ -198,7 +198,7 @@ function PondInfo() {
 
         <div className="water-report">
           <h2>Water Report Lastest</h2>
-          <p>Water Report ID: {waterReport?.waterReportId}</p>
+          {/* <p>Water Report ID: {waterReport?.waterReportId}</p> */}
           <p>
             Updated Date:{" "}
             {dayjs(waterReport?.waterReportUpdatedDate).format("DD MMM YYYY")}

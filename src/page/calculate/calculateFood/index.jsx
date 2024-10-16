@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../../config/axios";
-import { Button, Form, Input, Radio, Select } from "antd";
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  InputNumber,
+  Popconfirm,
+  Radio,
+  Row,
+  Select,
+  Slider,
+} from "antd";
 import "./index.scss";
 
 function CalculateFood() {
@@ -14,10 +26,12 @@ function CalculateFood() {
   const [selectedTemp, setSelectedTemp] = useState("");
   const [totalWeight, setTotalWeight] = useState(0);
   const [selectedGrowth, setSelectedGrowth] = useState("");
+  const [percentage, setPercentage] = useState(0);
   const [Food, setFood] = useState("");
   const [tempRules, setTempRules] = useState([
     { required: true, message: "Please select temperature" },
   ]);
+  const [hideForm, setHideForm] = useState(true);
 
   useEffect(() => {
     const fetchPonds = async () => {
@@ -50,7 +64,6 @@ function CalculateFood() {
     console.log(pond);
     setTotalWeight(pond.totalWeight);
   };
-
   const handleTempChange = (value) => {
     console.log(value);
     setSelectedTemp(value);
@@ -81,7 +94,86 @@ function CalculateFood() {
     <div className="calc-food-page">
       <div className="calc-container">
         <h1>Calculate Food</h1>
-        {!isLoading && (
+        <div style={{ marginBottom: 20 }}>
+          <Checkbox
+            onChange={() => {
+              const confirmExpertMode = window.confirm(
+                "Are you sure to switch to Expert Mode?"
+              );
+              if (confirmExpertMode) {
+                setHideForm(!hideForm);
+                setFood("");
+              }
+            }}
+          >
+            Expert Mode
+          </Checkbox>
+        </div>
+        {!hideForm && (
+          <>
+            <div style={{ marginBottom: 20 }}>
+              <p style={{ fontStyle: "italic", color: "#555" }}>
+                <strong>Info about the Expert Mode:</strong> We still recommend
+                using the preset food calculator! Use the expert mode only if
+                you already have a lot of experience with koi and know what you
+                are doing! The expert mode offers you customized setting options
+                to determine what proportion of the total fish weight you want
+                to feed. The total fish weight is the sum of the weights for
+                each individual koi in the selected pond. The weight of an
+                individual koi can either be approximated by its length or
+                entered by you directly.
+              </p>
+            </div>
+            <Form layout="vertical" style={{ maxWidth: 700, margin: "auto" }}>
+              <Form.Item
+                label={`Pond : ${
+                  selectedPond
+                    ? ponds.find((p) => p.pondID === selectedPond).pondName
+                    : ""
+                } (${totalWeight} g)`}
+                name="pond"
+                rules={[{ required: true, message: "Please select pond" }]}
+              >
+                <Select
+                  placeholder="Select Pond"
+                  value={selectedPond}
+                  onChange={handlePondChange}
+                >
+                  {ponds.map((pond) => (
+                    <Select.Option key={pond.pondID} value={pond.pondID}>
+                      {pond.pondName}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                label={`Percentage : ${percentage}`}
+                name="percentage"
+                initialValue={0}
+              >
+                <Row>
+                  <Col span={20}>
+                    <Slider
+                      min={0}
+                      max={2.5}
+                      value={percentage}
+                      onChange={(value) => setPercentage(value)}
+                      step={0.1}
+                    />
+                  </Col>
+                </Row>
+              </Form.Item>
+              <Button
+                type="primary"
+                onClick={() => setFood(totalWeight * (percentage / 100))}
+              >
+                Submit
+              </Button>
+            </Form>
+          </>
+        )}
+
+        {hideForm && (
           <Form
             layout="vertical"
             onFinish={handleSubmit}
@@ -144,7 +236,9 @@ function CalculateFood() {
               </Radio.Group>
             </Form.Item>
             <Form.Item>
-              <button type="submit">Click Here To Calculate</button>
+              <Button htmlType="submit" type="primary">
+                Click Here To Calculate
+              </Button>
             </Form.Item>
             <Form.Item
               shouldUpdate={(prevValues, curValues) => prevValues !== curValues}
@@ -152,16 +246,16 @@ function CalculateFood() {
               <Button
                 type="button"
                 disabled={!(selectedPond && selectedTemp && selectedGrowth)}
-                onClick={() => {
-                  navigate("/koiFoodList", {
-                    state: {
-                      pondId: selectedPond,
-                      temperature: temp.find((t) => t.tempID === selectedTemp)
-                        .tempTo,
-                      growth: selectedGrowth,
-                    },
-                  });
-                }}
+                onClick={() =>
+                  navigate(
+                    "/koiFoodList/" +
+                      `?pondID=${selectedPond}` +
+                      `&temp=${
+                        temp.find((t) => t.tempID === selectedTemp).tempTo
+                      }` +
+                      `&growth=${selectedGrowth}`
+                  )
+                }
               >
                 Detail
               </Button>
@@ -170,7 +264,9 @@ function CalculateFood() {
         )}
         {Food && (
           <div className="result">
-            <h2>Recommended food for this pond: {Food} g/day</h2>
+            <h2>
+              Recommended food for this pond: {Number(Food).toFixed(4)} g/day
+            </h2>
           </div>
         )}
       </div>

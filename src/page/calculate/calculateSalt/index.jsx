@@ -36,9 +36,6 @@ function CalculateSalt() {
   const handlePondChange = (value) => {
     setSelectedPond(value);
   };
-  const handleSliderChange = (value) => {
-    setCurrentSalt(value);
-  };
 
   const handleInputNumberChange = (value) => {
     setCurrentSalt(value);
@@ -76,7 +73,8 @@ function CalculateSalt() {
   const onFinish = async (values) => {
     values.currentSalt = currentSalt;
     values.expectSalt = expectSalt;
-    values.waterChange = waterChange;
+    values.waterchangePer = waterChange;
+
     console.log("Received values of form: ", values);
     if (values.currentSalt > values.expectSalt) {
       calWhenCurrentSalt(values);
@@ -183,6 +181,7 @@ function CalculateSalt() {
                 : 0
             } L)`}
             name="waterchangePer"
+            initialValue={0}
           >
             <Row>
               <Col span={12}>

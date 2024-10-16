@@ -13,7 +13,7 @@
       padding: 40px;
       border-radius: 25px;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-      max-width: 500px;
+      max-width: 700px;
       width: 100%;
       text-align: center;
       
@@ -44,7 +44,6 @@
           
           input, .ant-select {
             width: 100%;
-            padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
             font-size: 16px;
@@ -57,10 +56,8 @@
         }
   
         button[type="submit"] {
-          margin-top: 40px;
           background-color: #ec2323;
           color: white;
-          padding: 10px 20px;
           border: none;
           border-radius: 5px;
           font-size: 16px;

@@ -128,7 +128,6 @@ const WaterReportHistory = () => {
                 onClick={() => {
                   setIsEditModalOpen(true);
                   setEditingWaterReport(waterReport);
-                  console.log(editingWaterReport);
                 }}
               >
                 Edit
@@ -148,16 +147,28 @@ const WaterReportHistory = () => {
           onOk={() => form.submit()}
           onCancel={() => setIsEditModalOpen(false)}
         >
-          <Form form={form} layout="vertical" onFinish={handleEdit}>
+          <Form form={form} layout="vertical" initialValues={editingWaterReport} onFinish={handleEdit}>
             <Row gutter={[16, 16]}>
               <Col span={12}>
                 <Form.Item
                   name="waterReportTemperature"
-                  label="Temperature"
+                  label="Temperature(&deg;C): "
                   rules={[
                     {
                       required: true,
                       message: "Please input water report temperature!",
+                    },
+                    {
+                      validator(_, value) {
+                        if (value < 5 || value > 26) {
+                          return Promise.reject(
+                            new Error(
+                              "Temperature must be between 5&deg;C and 26&deg;C"
+                            )
+                          );
+                        }
+                        return Promise.resolve();
+                      },
                     },
                   ]}
                 >
@@ -170,11 +181,21 @@ const WaterReportHistory = () => {
               <Col span={12}>
                 <Form.Item
                   name="waterReportOxygen"
-                  label="Oxygen"
+                  label="Oxygen(mg/L): "
                   rules={[
                     {
                       required: true,
                       message: "Please input water report oxygen!",
+                    },
+                    {
+                      validator(_, value) {
+                        if (value < 0 || value > 10) {
+                          return Promise.reject(
+                            new Error("Oxygen must be between 0mg/L and 10mg/L")
+                          );
+                        }
+                        return Promise.resolve();
+                      },
                     },
                   ]}
                 >
@@ -186,11 +207,21 @@ const WaterReportHistory = () => {
               <Col span={12}>
                 <Form.Item
                   name="waterReport_pH"
-                  label="pH"
+                  label="pH:"
                   rules={[
                     {
                       required: true,
                       message: "Please input water report pH!",
+                    },
+                    {
+                      validator(_, value) {
+                        if (value < 6.9 || value > 8) {
+                          return Promise.reject(
+                            new Error("pH must be between 6.9 and 8")
+                          );
+                        }
+                        return Promise.resolve();
+                      },
                     },
                   ]}
                 >
@@ -200,11 +231,21 @@ const WaterReportHistory = () => {
               <Col span={12}>
                 <Form.Item
                   name="waterReportHardness"
-                  label="Hardness"
+                  label="Hardness(dGH)"
                   rules={[
                     {
                       required: true,
                       message: "Please input water report hardness!",
+                    },
+                    {
+                      validator(_, value) {
+                        if (value < 0 || value > 20) {
+                          return Promise.reject(
+                            new Error("Hardness must be between 0dGH and 20dGH")
+                          );
+                        }
+                        return Promise.resolve();
+                      },
                     },
                   ]}
                 >
@@ -219,11 +260,23 @@ const WaterReportHistory = () => {
               <Col span={12}>
                 <Form.Item
                   name="waterReportAmmonia"
-                  label="Ammonia"
+                  label="Ammonia(mg/L): "
                   rules={[
                     {
                       required: true,
                       message: "Please input water report ammonia!",
+                    },
+                    {
+                      validator(_, value) {
+                        if (value < 0 || value > 0.5) {
+                          return Promise.reject(
+                            new Error(
+                              "Ammonia must be between 0mg/L and 0.5mg/L"
+                            )
+                          );
+                        }
+                        return Promise.resolve();
+                      },
                     },
                   ]}
                 >
@@ -236,11 +289,21 @@ const WaterReportHistory = () => {
               <Col span={12}>
                 <Form.Item
                   name="waterReportNitrite"
-                  label="Nitrite"
+                  label="Nitrite(mg/L): "
                   rules={[
                     {
                       required: true,
                       message: "Please input water report nitrite!",
+                    },
+                    {
+                      validator(_, value) {
+                        if (value < 0 || value > 1) {
+                          return Promise.reject(
+                            new Error("Nitrite must be between 0mg/L and 1mg/L")
+                          );
+                        }
+                        return Promise.resolve();
+                      },
                     },
                   ]}
                 >
@@ -255,11 +318,23 @@ const WaterReportHistory = () => {
               <Col span={12}>
                 <Form.Item
                   name="waterReportNitrate"
-                  label="Nitrate"
+                  label="Nitrate(mg/L): "
                   rules={[
                     {
                       required: true,
                       message: "Please input water report nitrate!",
+                    },
+                    {
+                      validator(_, value) {
+                        if (value < 0 || value > 10) {
+                          return Promise.reject(
+                            new Error(
+                              "Nitrate must be between 0mg/L and 10mg/L"
+                            )
+                          );
+                        }
+                        return Promise.resolve();
+                      },
                     },
                   ]}
                 >
@@ -272,11 +347,23 @@ const WaterReportHistory = () => {
               <Col span={12}>
                 <Form.Item
                   name="waterReportCarbonate"
-                  label="Carbonate"
+                  label="Carbonate(mg/L): "
                   rules={[
                     {
                       required: true,
                       message: "Please input water report carbonate!",
+                    },
+                    {
+                      validator(_, value) {
+                        if (value < 0 || value > 10) {
+                          return Promise.reject(
+                            new Error(
+                              "Carbonate must be between 0mg/L and 10mg/L"
+                            )
+                          );
+                        }
+                        return Promise.resolve();
+                      },
                     },
                   ]}
                 >
@@ -291,11 +378,21 @@ const WaterReportHistory = () => {
               <Col span={12}>
                 <Form.Item
                   name="waterReportSalt"
-                  label="Salt"
+                  label="Salt(%): "
                   rules={[
                     {
                       required: true,
                       message: "Please input water report salt!",
+                    },
+                    {
+                      validator(_, value) {
+                        if (value < 0 || value > 10) {
+                          return Promise.reject(
+                            new Error("Salt must be between 0% and 10%")
+                          );
+                        }
+                        return Promise.resolve();
+                      },
                     },
                   ]}
                 >
@@ -305,11 +402,23 @@ const WaterReportHistory = () => {
               <Col span={12}>
                 <Form.Item
                   name="waterReportCarbonDioxide"
-                  label="Carbon Dioxide"
+                  label="Carbon Dioxide(mg/L): "
                   rules={[
                     {
                       required: true,
                       message: "Please input water report carbon dioxide!",
+                    },
+                    {
+                      validator(_, value) {
+                        if (value < 0 || value > 10) {
+                          return Promise.reject(
+                            new Error(
+                              "Carbon dioxide must be between 0mg/L and 10mg/L"
+                            )
+                          );
+                        }
+                        return Promise.resolve();
+                      },
                     },
                   ]}
                 >
@@ -348,10 +457,22 @@ const WaterReportHistory = () => {
               </Col>
               <Col span={12}>
                 <Form.Item
-                  label="Temperature"
+                  label="Temperature(°C): "
                   name="waterReportTemperature"
                   rules={[
                     { required: true, message: "Please enter temperature" },
+                    {
+                      validator(_, value) {
+                        if (value < 5 || value > 26) {
+                          return Promise.reject(
+                            new Error(
+                              "Temperature must be between 5 and 26 degrees Celsius"
+                            )
+                          );
+                        }
+                        return Promise.resolve();
+                      },
+                    },
                   ]}
                 >
                   <InputNumber />
@@ -362,18 +483,42 @@ const WaterReportHistory = () => {
             <Row gutter={[16, 16]}>
               <Col span={12}>
                 <Form.Item
-                  label="Oxygen"
+                  label="Oxygen(mg/L): "
                   name="waterReportOxygen"
-                  rules={[{ required: true, message: "Please enter oxygen" }]}
+                  rules={[
+                    { required: true, message: "Please enter oxygen" },
+                    {
+                      validator(_, value) {
+                        if (value < 6.8) {
+                          return Promise.reject(
+                            new Error("Oxygen must be greater than 6.8 mg/L")
+                          );
+                        }
+                        return Promise.resolve();
+                      },
+                    },
+                  ]}
                 >
                   <InputNumber />
                 </Form.Item>
               </Col>
               <Col span={12}>
                 <Form.Item
-                  label="pH"
+                  label="pH:"
                   name="waterReport_pH"
-                  rules={[{ required: true, message: "Please enter pH" }]}
+                  rules={[
+                    { required: true, message: "Please enter pH" },
+                    {
+                      validator(_, value) {
+                        if (value < 6.9 || value > 8) {
+                          return Promise.reject(
+                            new Error("pH must be between 6.9 and 8")
+                          );
+                        }
+                        return Promise.resolve();
+                      },
+                    },
+                  ]}
                 >
                   <InputNumber />
                 </Form.Item>
@@ -383,18 +528,42 @@ const WaterReportHistory = () => {
             <Row gutter={[16, 16]}>
               <Col span={12}>
                 <Form.Item
-                  label="Hardness"
+                  label="Hardness(dGH): "
                   name="waterReportHardness"
-                  rules={[{ required: true, message: "Please enter hardness" }]}
+                  rules={[
+                    { required: true, message: "Please enter hardness" },
+                    {
+                      validator(_, value) {
+                        if (value < 0 || value > 21) {
+                          return Promise.reject(
+                            new Error("Hardness must be between 0 and 21 dGH")
+                          );
+                        }
+                        return Promise.resolve();
+                      },
+                    },
+                  ]}
                 >
                   <InputNumber />
                 </Form.Item>
               </Col>
               <Col span={12}>
                 <Form.Item
-                  label="Ammonia"
+                  label="Ammonia(mg/L): "
                   name="waterReportAmmonia"
-                  rules={[{ required: true, message: "Please enter ammonia" }]}
+                  rules={[
+                    { required: true, message: "Please enter ammonia" },
+                    {
+                      validator(_, value) {
+                        if (value < 0 || value > 0.1) {
+                          return Promise.reject(
+                            new Error("Ammonia must be between 0 and 0.1 mg/L")
+                          );
+                        }
+                        return Promise.resolve();
+                      },
+                    },
+                  ]}
                 >
                   <InputNumber />
                 </Form.Item>
@@ -404,16 +573,28 @@ const WaterReportHistory = () => {
             <Row gutter={[16, 16]}>
               <Col span={12}>
                 <Form.Item
-                  label="Nitrite"
+                  label="Nitrite(mg/L): "
                   name="waterReportNitrite"
-                  rules={[{ required: true, message: "Please enter nitrite" }]}
+                  rules={[
+                    { required: true, message: "Please enter nitrite" },
+                    {
+                      validator(_, value) {
+                        if (value < 0 || value > 0.1) {
+                          return Promise.reject(
+                            new Error("Nitrite must be between 0 and 0.1 mg/L")
+                          );
+                        }
+                        return Promise.resolve();
+                      },
+                    },
+                  ]}
                 >
                   <InputNumber />
                 </Form.Item>
               </Col>
               <Col span={12}>
                 <Form.Item
-                  label="Nitrate"
+                  label="Nitrate(mg/L): "
                   name="waterReportNitrate"
                   rules={[{ required: true, message: "Please enter nitrate" }]}
                 >
@@ -425,7 +606,7 @@ const WaterReportHistory = () => {
             <Row gutter={[16, 16]}>
               <Col span={12}>
                 <Form.Item
-                  label="Carbonate"
+                  label="Carbonate(mg/L): "
                   name="waterReportCarbonate"
                   rules={[
                     { required: true, message: "Please enter carbonate" },
@@ -436,7 +617,7 @@ const WaterReportHistory = () => {
               </Col>
               <Col span={12}>
                 <Form.Item
-                  label="Salt"
+                  label="Salt(%):"
                   name="waterReportSalt"
                   rules={[{ required: true, message: "Please enter salt" }]}
                 >
@@ -448,10 +629,22 @@ const WaterReportHistory = () => {
             <Row gutter={[16, 16]}>
               <Col span={12}>
                 <Form.Item
-                  label="Carbon Dioxide"
+                  label="Carbon Dioxide(mg/L): "
                   name="waterReportCarbonDioxide"
                   rules={[
                     { required: true, message: "Please enter carbon dioxide" },
+                    {
+                      validator(_, value) {
+                        if (value < 5 || value > 35) {
+                          return Promise.reject(
+                            new Error(
+                              "Carbon dioxide must be between 5 and 35 mg/L"
+                            )
+                          );
+                        }
+                        return Promise.resolve();
+                      },
+                    },
                   ]}
                 >
                   <InputNumber />
