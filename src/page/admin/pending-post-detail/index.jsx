@@ -56,7 +56,11 @@ function PendingPostDetail() {
         {!loading && (
           <div>
             <h2>{post?.productName}</h2>
-            <img src={post?.image} alt={post?.productName} />
+            <img
+              src={post?.image}
+              alt={post?.productName}
+              style={{ width: "200px" }}
+            />
             <p>Description: {post?.description}</p>
             <p>Price: {post?.productPrice} VND</p>
             <p>

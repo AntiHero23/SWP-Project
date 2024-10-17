@@ -49,6 +49,14 @@ function Recommendation() {
                         Go to product page
                       </a>
                     </p>
+                    <p>
+                      <a
+                        className="product-link"
+                        href={`/productDetail/${item.postDetailId}`}
+                      >
+                        Go to post detail
+                      </a>
+                    </p>
                   </li>
                 </div>
               </>

@@ -34,7 +34,11 @@ function PostDetail() {
       {!loading && (
         <div>
           <h2>{postDetail.productName}</h2>
-          <img src={postDetail?.image} alt={postDetail.productName} />
+          <img
+            src={postDetail?.image}
+            alt={postDetail.productName}
+            style={{ width: "100px" }}
+          />
           <p>Description: {postDetail.description}</p>
           Link:{" "}
           <a

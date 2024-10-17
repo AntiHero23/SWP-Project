@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Select, Button, Tabs, Radio } from 'antd';
-import { Line } from '@ant-design/charts';
-import api from '../../config/axios';
-import { interpolateNumber } from 'd3-interpolate';
-import dayjs from 'dayjs';
+import React, { useState, useEffect } from "react";
+import { Form, Select, Button, Tabs, Radio } from "antd";
+import { Line } from "@ant-design/charts";
+import api from "../../config/axios";
+import { interpolateNumber } from "d3-interpolate";
+import dayjs from "dayjs";
 
 function Statistic() {
   const [form] = Form.useForm();
@@ -17,13 +17,15 @@ function Statistic() {
   const [chartData, setChartData] = useState([]);
   const [waterChartData, setWaterChartData] = useState([]); // Pond chart data
   const [selectedDate, setSelectedDate] = useState(dayjs()); // Default to current date
-  const [selectedType, setSelectedType] = useState('weight'); // Default to koi's weight
-  const [selectedWaterType, setSelectedWaterType] = useState('waterReportTemperature'); // Default to pond's temperature
+  const [selectedType, setSelectedType] = useState("weight"); // Default to koi's weight
+  const [selectedWaterType, setSelectedWaterType] = useState(
+    "waterReportTemperature"
+  ); // Default to pond's temperature
 
   // Interpolation function for missing data
   const interpolateMissingData = (data) => {
     let filledData = [...data];
-  
+
     for (let i = 1; i < filledData.length; i++) {
       if (
         filledData[i][selectedType] === null ||
@@ -31,7 +33,7 @@ function Statistic() {
       ) {
         let prevIndex = i - 1;
         let nextIndex = i;
-  
+
         // Find the next index with valid data
         while (
           nextIndex < filledData.length &&
@@ -40,7 +42,7 @@ function Statistic() {
         ) {
           nextIndex++;
         }
-  
+
         if (nextIndex < filledData.length) {
           // Interpolate between valid previous and next data points
           const prevValue = filledData[prevIndex][selectedType] ?? 0;
@@ -48,34 +50,36 @@ function Statistic() {
           const prevInstance = dayjs(filledData[prevIndex].updateDate);
           const nextInstance = dayjs(filledData[nextIndex].updateDate);
           const interpolateValue = interpolateNumber(prevValue, nextValue);
-  
+
           for (let j = prevIndex + 1; j < nextIndex; j++) {
             const currentDate = dayjs(filledData[j].updateDate);
-            const t = currentDate.diff(prevInstance, 'day') / nextInstance.diff(prevInstance, 'day');
+            const t =
+              currentDate.diff(prevInstance, "day") /
+              nextInstance.diff(prevInstance, "day");
             filledData[j][selectedType] = interpolateValue(t);
           }
         } else {
           // No valid future data, extrapolate based on the last known valid data
           const prevValue = filledData[prevIndex][selectedType] ?? 0;
-  
+
           for (let j = prevIndex + 1; j < filledData.length; j++) {
             filledData[j][selectedType] = prevValue; // Use the last known value
           }
-  
+
           // Break early since we're extrapolating to the end of the data
           break;
         }
       }
     }
-  
+
     return filledData;
   };
-  
+
   // Fetch koi list
   const fetchKois = async () => {
     setLoading(true);
     try {
-      const { data } = await api.get('koifish');
+      const { data } = await api.get("koifish");
       setKois(data);
     } catch (error) {
       console.error(error);
@@ -101,7 +105,7 @@ function Statistic() {
   const fetchPonds = async () => {
     setLoading(true);
     try {
-      const { data } = await api.get('pond'); // Assuming 'ponds' API returns pond data
+      const { data } = await api.get("pond"); // Assuming 'ponds' API returns pond data
       setPonds(data);
     } catch (error) {
       console.error(error);
@@ -110,8 +114,8 @@ function Statistic() {
     }
   };
 
-   // Fetch water report data for pond
-   const fetchWaterReport = async (pondID) => {
+  // Fetch water report data for pond
+  const fetchWaterReport = async (pondID) => {
     setLoading(true);
     try {
       const { data } = await api.get(`waterreport/view/${pondID}`);
@@ -144,7 +148,6 @@ function Statistic() {
     }
     fetchWaterReport(values.pond);
   };
-  
 
   useEffect(() => {
     // Fetch koi and pond data on mount
@@ -157,67 +160,88 @@ function Statistic() {
     if (koiReport.length > 0) {
       const selectedMonth = selectedDate.month();
       const selectedYear = selectedDate.year();
-  
+
       const filteredKoi = koiReport.filter((report) => {
         const reportDate = dayjs(report.updateDate);
-        return reportDate.month() === selectedMonth && reportDate.year() === selectedYear;
+        return (
+          reportDate.month() === selectedMonth &&
+          reportDate.year() === selectedYear
+        );
       });
-  
+
       // Fill missing days for the selected month
-      const startOfMonth = dayjs(selectedDate).startOf('month');
-      const endOfMonth = dayjs(selectedDate).endOf('month');
-  
+      const startOfMonth = dayjs(selectedDate).startOf("month");
+      const endOfMonth = dayjs(selectedDate).endOf("month");
+
       let koiDaysInMonth = [];
-      for (let day = startOfMonth; day.isBefore(endOfMonth); day = day.add(1, 'day')) {
-        const existingReport = filteredKoi.find((report) => dayjs(report.updateDate).isSame(day, 'day'));
+      for (
+        let day = startOfMonth;
+        day.isBefore(endOfMonth);
+        day = day.add(1, "day")
+      ) {
+        const existingReport = filteredKoi.find((report) =>
+          dayjs(report.updateDate).isSame(day, "day")
+        );
         if (existingReport) {
           koiDaysInMonth.push(existingReport);
         } else {
           koiDaysInMonth.push({
-            updateDate: day.format('YYYY-MM-DD'),
+            updateDate: day.format("YYYY-MM-DD"),
             weight: null,
             length: null,
           });
         }
       }
-  
+
       // Interpolate missing data for koi
-      const interpolatedKoiData = interpolateMissingData(koiDaysInMonth, selectedType);
+      const interpolatedKoiData = interpolateMissingData(
+        koiDaysInMonth,
+        selectedType
+      );
       setFilteredKoiReport(interpolatedKoiData);
       console.log(interpolatedKoiData);
-  
+
       // Format data for Koi chart
       const koiChartData = interpolatedKoiData.map((report) => ({
-        updateDate: dayjs(report.updateDate).format('YYYY-MM-DD'),
+        updateDate: dayjs(report.updateDate).format("YYYY-MM-DD"),
         [selectedType]: Math.round(report[selectedType] * 100) / 100,
       }));
-  
+
       setChartData(koiChartData);
       console.log(koiChartData);
     }
-  
+
     // Handle Pond water report data processing
     if (waterReport.length > 0) {
       const selectedMonth = selectedDate.month();
       const selectedYear = selectedDate.year();
-  
+
       const filteredWater = waterReport.filter((report) => {
         const reportDate = dayjs(report.waterReportUpdatedDate);
-        return reportDate.month() === selectedMonth && reportDate.year() === selectedYear;
+        return (
+          reportDate.month() === selectedMonth &&
+          reportDate.year() === selectedYear
+        );
       });
-  
+
       // Fill missing days for the selected month
-      const startOfMonth = dayjs(selectedDate).startOf('month');
-      const endOfMonth = dayjs(selectedDate).endOf('month');
-  
+      const startOfMonth = dayjs(selectedDate).startOf("month");
+      const endOfMonth = dayjs(selectedDate).endOf("month");
+
       let waterDaysInMonth = [];
-      for (let day = startOfMonth; day.isBefore(endOfMonth); day = day.add(1, 'day')) {
-        const existingReport = filteredWater.find((report) => dayjs(report.waterReportUpdatedDate).isSame(day, 'day'));
+      for (
+        let day = startOfMonth;
+        day.isBefore(endOfMonth);
+        day = day.add(1, "day")
+      ) {
+        const existingReport = filteredWater.find((report) =>
+          dayjs(report.waterReportUpdatedDate).isSame(day, "day")
+        );
         if (existingReport) {
           waterDaysInMonth.push(existingReport);
         } else {
           waterDaysInMonth.push({
-            waterReportUpdatedDate: day.format('YYYY-MM-DD'),
+            waterReportUpdatedDate: day.format("YYYY-MM-DD"),
             waterReportTemperature: null,
             waterReportOxygen: null,
             waterReport_pH: null,
@@ -231,73 +255,74 @@ function Statistic() {
           });
         }
       }
-  
+
       // Interpolate missing data for water reports
-      const interpolatedWaterData = interpolateMissingData(waterDaysInMonth, selectedWaterType);
+      const interpolatedWaterData = interpolateMissingData(
+        waterDaysInMonth,
+        selectedWaterType
+      );
       setFilteredWaterReport(interpolatedWaterData);
       console.log(interpolatedWaterData);
 
       // Format data for Pond chart
       const waterChartData = interpolatedWaterData.map((report) => ({
-        waterReportUpdatedDate: dayjs(report.waterReportUpdatedDate).format('YYYY-MM-DD'),
+        waterReportUpdatedDate: dayjs(report.waterReportUpdatedDate).format(
+          "YYYY-MM-DD"
+        ),
         [selectedWaterType]: Math.round(report[selectedWaterType] * 100) / 100,
       }));
-  
+
       setWaterChartData(waterChartData);
       console.log(waterChartData);
     }
-  
   }, [koiReport, waterReport, selectedDate, selectedType, selectedWaterType]);
-  
 
   const config = {
     data: chartData,
-    xField: 'updateDate',
+    xField: "updateDate",
     yField: selectedType,
     meta: {
-      updateDate: { alias: 'Date' },
-      weight: { alias: 'Weight' },
-      length: { alias: 'Length' },
+      updateDate: { alias: "Date" },
+      weight: { alias: "Weight" },
+      length: { alias: "Length" },
     },
   };
 
-
   const pondChartConfig = {
     data: waterChartData,
-    xField: 'waterReportUpdatedDate',
+    xField: "waterReportUpdatedDate",
     yField: selectedWaterType,
     meta: {
-      waterReportUpdatedDate: { alias: 'Date' },
-      waterReportTemperature: { alias: 'Temperature (°C)' },
-      waterReportOxygen: { alias: 'Oxygen (mg/L)' },
-      waterReport_pH: { alias: 'pH Level' },
-      waterReportHardness: { alias: 'Hardness (GH)' },
-      waterReportAmmonia: { alias: 'Ammonia (mg/L)' },
-      waterReportNitrite: { alias: 'Nitrite (mg/L)' },
-      waterReportNitrate: { alias: 'Nitrate (mg/L)' },
-      waterReportCarbonate: { alias: 'Carbonate (KH)' },
-      waterReportSalt: { alias: 'Salt (mg/L)' },
-      waterReportCarbonDioxide: { alias: 'Carbon Dioxide (mg/L)' },
+      waterReportUpdatedDate: { alias: "Date" },
+      waterReportTemperature: { alias: "Temperature (°C)" },
+      waterReportOxygen: { alias: "Oxygen (mg/L)" },
+      waterReport_pH: { alias: "pH Level" },
+      waterReportHardness: { alias: "Hardness (GH)" },
+      waterReportAmmonia: { alias: "Ammonia (mg/L)" },
+      waterReportNitrite: { alias: "Nitrite (mg/L)" },
+      waterReportNitrate: { alias: "Nitrate (mg/L)" },
+      waterReportCarbonate: { alias: "Carbonate (KH)" },
+      waterReportSalt: { alias: "Salt (mg/L)" },
+      waterReportCarbonDioxide: { alias: "Carbon Dioxide (mg/L)" },
       // Add meta for the other water report attributes...
     },
   };
 
-
   // Handle date selection for month/year
   const handleDateChange = (event) => {
     const dateString = event.target.value; // Get the string in 'YYYY-MM' format
-    const date = dayjs(dateString, 'YYYY-MM'); // Convert it to a dayjs object
+    const date = dayjs(dateString, "YYYY-MM"); // Convert it to a dayjs object
     setSelectedDate(date); // Set the selected date as a dayjs object
   };
-  
+
   // Handle type selection
   const handleTypeChange = (event) => {
     setSelectedType(event.target.value);
     console.log(event.target.value);
   };
 
-   // Handle water report type selection (e.g., temperature, pH, oxygen, etc.)
-   const handleWaterTypeChange = (event) => {
+  // Handle water report type selection (e.g., temperature, pH, oxygen, etc.)
+  const handleWaterTypeChange = (event) => {
     setSelectedWaterType(event.target.value);
     console.log(event.target.value);
   };
@@ -317,7 +342,7 @@ function Statistic() {
           </Form.Item>
 
           <Form.Item name="date" label="Month/Year">
-            <input type='month' onChange={handleDateChange} />
+            <input type="month" onChange={handleDateChange} />
           </Form.Item>
 
           <Form.Item>
@@ -349,7 +374,7 @@ function Statistic() {
           </Form.Item>
 
           <Form.Item name="date" label="Month/Year">
-            <input type='month' onChange={handleDateChange} />
+            <input type="month" onChange={handleDateChange} />
           </Form.Item>
 
           <Form.Item>
@@ -360,7 +385,9 @@ function Statistic() {
         </Form>
 
         <Radio.Group value={selectedWaterType} onChange={handleWaterTypeChange}>
-          <Radio.Button value="waterReportTemperature">Temperature</Radio.Button>
+          <Radio.Button value="waterReportTemperature">
+            Temperature
+          </Radio.Button>
           <Radio.Button value="waterReportOxygen">Oxygen</Radio.Button>
           <Radio.Button value="waterReport_pH">pH</Radio.Button>
           <Radio.Button value="waterReportHardness">Hardness</Radio.Button>
@@ -369,7 +396,9 @@ function Statistic() {
           <Radio.Button value="waterReportNitrate">Nitrate</Radio.Button>
           <Radio.Button value="waterReportCarbonate">Carbonate</Radio.Button>
           <Radio.Button value="waterReportSalt">Salt</Radio.Button>
-          <Radio.Button value="waterReportCarbonDioxide">Carbon Dioxide</Radio.Button>
+          <Radio.Button value="waterReportCarbonDioxide">
+            Carbon Dioxide
+          </Radio.Button>
         </Radio.Group>
 
         {/* Chart for pond water data */}
@@ -380,4 +409,3 @@ function Statistic() {
 }
 
 export default Statistic;
-

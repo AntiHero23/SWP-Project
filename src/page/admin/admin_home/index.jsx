@@ -106,7 +106,7 @@ function AdminHome() {
       title: "Image",
       dataIndex: "image",
       key: "image",
-      render: (value) => <Image src={value} />,
+      render: (value) => <Image src={value} style={{ width: "100px" }} />,
     },
     {
       title: "Post Status",

@@ -42,6 +42,7 @@ import ApprovedPostDetail from "../page/admin/approved-post-detail";
 import Package from "../page/admin/package-manage";
 import ShopPackage from "../page/admin/shop-package";
 import MemberPackage from "../page/admin/user-package";
+import ProductDetail from "../page/product-detail";
 
 export const router = createBrowserRouter([
   {
@@ -70,6 +71,7 @@ export const router = createBrowserRouter([
       { path: "/koiFoodList", element: <KoiFoodList /> },
       { path: "/waterReportHistory/:id", element: <WaterReportHistory /> },
       { path: "/statistics", element: <Statistic /> },
+      { path: "/productDetail/:id", element: <ProductDetail /> },
     ],
   },
   {
