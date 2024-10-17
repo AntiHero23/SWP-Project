@@ -94,7 +94,7 @@ function PendingPostDetail() {
                   .catch((error) => console.log(error));
                 alert("Post approved successfully! Please wait for a while!");
                 setTimeout(() => {
-                  navigate("/admin/post/manage");
+                  navigate("/admin/post");
                 }, 1000);
               }}
               onCancel={() => {
@@ -131,8 +131,8 @@ function PendingPostDetail() {
                   .catch((error) => console.log(error));
                 alert("Post rejected successfully! Please wait for a while!");
                 setTimeout(() => {
-                  navigate("/admin/post/manage");
-                }, 4000);
+                  navigate("/admin/post");
+                }, 5000);
               }}
               onCancel={() => {
                 handleCancel();

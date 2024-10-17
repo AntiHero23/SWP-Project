@@ -1,15 +1,22 @@
-import { Image, Table, Tag } from "antd";
+import { Button, Image, Table, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import api from "../../../config/axios";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../../zustand/useAuthStore";
 
 function AdminHome() {
   const [adminInfo, setAdminInfo] = useState([]);
   const [postData, setPostData] = useState([]);
+  const { user, logout } = useAuthStore();
   const [dataSourceAccount, setDataSourceAccount] = useState([]);
 
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+    logout();
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
   const getAdminInfo = async () => {
     try {
       const response = await api.get("currentAccount");
@@ -82,6 +89,18 @@ function AdminHome() {
   ];
   return (
     <>
+      <Button
+        type="primary"
+        danger
+        style={{ float: "left", width: "100px" }}
+        className="profile-button profile-button-logout"
+        onClick={handleLogout}
+      >
+        Logout
+      </Button>
+      <br />
+      <br />
+      <br />
       <h1 style={{ textAlign: "center" }}>
         Welcome back, {adminInfo.name || adminInfo.email}!
       </h1>
@@ -89,7 +108,7 @@ function AdminHome() {
       <h2>
         Posts List
         <button
-          onClick={() => navigate("post/manage")}
+          onClick={() => navigate("post")}
           style={{ float: "right", width: "100px" }}
         >
           See More

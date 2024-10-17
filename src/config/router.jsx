@@ -38,6 +38,9 @@ import WaterReportHistory from "../page/pond/waterreport-history";
 import AdminHome from "../page/admin/admin_home";
 import PendingPostDetail from "../page/admin/pending-post-detail";
 import ApprovedPostDetail from "../page/admin/approved-post-detail";
+import Package from "../page/admin/package-manage";
+import ShopPackage from "../page/admin/shop-package";
+import MemberPackage from "../page/admin/user-package";
 
 export const router = createBrowserRouter([
   {
@@ -83,7 +86,7 @@ export const router = createBrowserRouter([
             element: <RejectPage />,
           },
           {
-            path: "manage",
+            path: "",
             element: <PostManage />,
           },
           {
@@ -105,6 +108,23 @@ export const router = createBrowserRouter([
         path: "userManager",
         element: <UserManage />,
       },
+      {
+        path: "package",
+        children: [
+          {
+            path: "",
+            element: <Package />,
+          },
+          {
+            path: "shop/:id",
+            element: <ShopPackage />,
+          },
+          {
+            path: "member/:id",
+            element: <MemberPackage />,
+          },
+        ],
+      },
     ],
   },
   {
@@ -118,10 +138,9 @@ export const router = createBrowserRouter([
 
       {
         path: "post",
-
         children: [
           {
-            path: "manage",
+            path: "",
             element: <PostView />,
           },
           {

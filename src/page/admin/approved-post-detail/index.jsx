@@ -89,8 +89,8 @@ function ApprovedPostDetail() {
                   });
                 alert("Post removed successfully! Please wait for a while!");
                 setTimeout(() => {
-                  navigate("/admin/post/manage");
-                }, 4000);
+                  navigate("/admin/post");
+                }, 5000);
               }}
               onCancel={() => {
                 handleCancel();

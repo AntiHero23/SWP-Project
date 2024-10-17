@@ -246,44 +246,6 @@ function PostManage() {
     //   ),
     // },
   ];
-  const columns = [
-    {
-      title: "Product Name",
-      dataIndex: "productName",
-      key: "productName",
-    },
-    {
-      title: "Image",
-      dataIndex: "image",
-      key: "image",
-      render: (value) => <Image src={value} />,
-    },
-    {
-      title: "Post Status",
-      dataIndex: "postStatus",
-      key: "postStatus",
-      render: (value) => (
-        <Tag color={value ? "green" : "red"}>
-          {value ? "Approved" : "Pending"}
-        </Tag>
-      ),
-    },
-    {
-      title: "Details",
-      dataIndex: "postDetailId",
-      key: "postDetailId",
-      render: (value) => (
-        <Button
-          type="primary"
-          onClick={() => {
-            navigate(`/admin/post/detail/${value}`);
-          }}
-        >
-          Details
-        </Button>
-      ),
-    },
-  ];
 
   return (
     <>
@@ -301,9 +263,12 @@ function PostManage() {
         onOk={handleOk}
         footer={null}
       ></Modal> */}
-      <h1>Post Pending Table</h1>
+      <h1>Post Manage</h1>
+      <br />
+      <br />
+      <h2>Post Pending Table</h2>
       <Table dataSource={dataSourcePending} columns={pendingColumns} />
-      <h1>Post Approved Table</h1>
+      <h2>Post Approved Table</h2>
       <Table dataSource={dataSourceApproved} columns={approvedColumns} />
     </>
   );
