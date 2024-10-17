@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import api from "../../../config/axios";
 import { Card, Row, Button, Modal, Form, InputNumber, Input, Col } from "antd";
 import dayjs from "dayjs";
+import "./index.scss";
 
 const WaterReportHistory = () => {
   const { id } = useParams();
@@ -82,12 +83,13 @@ const WaterReportHistory = () => {
     }
   };
   return (
-    <div>
-      <h1 style={{ textAlign: "center" }}>Water Report History</h1>
-      <Button type="primary" onClick={handleOpenModal}>
+    <div className="waterreport-history">
+      <div className="waterreport-container">
+      <h1 className="history-title" style={{ textAlign: "center" }}>Water Report History</h1>
+      <Button className="create-button" type="primary" onClick={handleOpenModal}>
         Create Water Report
       </Button>
-      <Row gutter={[16, 16]}>
+      <Row className="water-report-history-container" gutter={[16, 16]}>
         {waterReportHistory
           .slice()
           .sort(
@@ -96,14 +98,14 @@ const WaterReportHistory = () => {
               new Date(a.waterReportUpdatedDate)
           )
           .map((waterReport, index) => (
-            <Card
+            <Card className="water-report-card"
               key={index}
               title={dayjs(waterReport.waterReportUpdatedDate).format(
                 "DD MMM YYYY"
               )}
               style={{
                 marginBottom: 16,
-                width: "25%",
+                width: "100%",
                 boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
                 borderRadius: "20px",
                 padding: "20px",
@@ -111,17 +113,24 @@ const WaterReportHistory = () => {
                 color: "#1890ff",
               }}
             >
+              <div className="water-report-info">
+              <div className="column-1">
               <p>Temperature: {waterReport.waterReportTemperature} &deg;C</p>
               <p>Oxygen: {waterReport.waterReportOxygen} mg/L</p>
               <p>pH: {waterReport.waterReport_pH}</p>
               <p>Hardness: {waterReport.waterReportHardness} dGH</p>
               <p>Ammonia: {waterReport.waterReportAmmonia} mg/L</p>
+              </div>
+              <div className="column-2">
               <p>Nitrite: {waterReport.waterReportNitrite} mg/L</p>
               <p>Nitrate: {waterReport.waterReportNitrate} mg/L</p>
               <p>Carbonate: {waterReport.waterReportCarbonate} mg/L</p>
               <p>Salt: {waterReport.waterReportSalt} %</p>
               <p>Carbon Dioxide: {waterReport.waterReportCarbonDioxide} mg/L</p>
+              </div>
+              </div>
               <Button
+                className="edit-button"
                 type="primary"
                 onClick={() => {
                   setIsEditModalOpen(true);
@@ -131,6 +140,7 @@ const WaterReportHistory = () => {
                 Edit
               </Button>
               <Button
+                className="delete-button"
                 danger
                 type="primary"
                 onClick={() => handleDelete(waterReport.waterReportId)}
@@ -140,6 +150,7 @@ const WaterReportHistory = () => {
             </Card>
           ))}
         <Modal
+          className="create-popup"
           title={<h2 style={{ fontSize: "24px" }}>Edit Water Report</h2>}
           open={isEditModalOpen}
           onOk={() => form.submit()}
@@ -660,6 +671,7 @@ const WaterReportHistory = () => {
           </Form>
         </Modal>
       </Row>
+      </div>
     </div>
   );
 };
