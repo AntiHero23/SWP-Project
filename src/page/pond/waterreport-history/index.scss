@@ -1,0 +1,156 @@
+.waterreport-history {
+    padding: 20px;
+    background-image: url("../../../assets/LoginBg.png"); /* Replace with the correct path */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+
+    .waterreport-container{
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 20px;
+        padding: 20px;
+    }
+  
+    .history-title {
+      font-size: 2.5rem;
+      color: #00a2ff;
+      text-align: center;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+  
+    .create-button {
+      display: block;
+      width: 230px;
+      height: 80px;
+      margin: 0 auto 20px auto;
+      background-color: #003f5c;
+      border-color: #003f5c;
+      color: #fff;
+      font-family: oswald;
+      font-size: 1.5rem;
+      &:hover {
+        background-color: #2f4b7c;
+        border-color: #2f4b7c;
+      }
+    }
+  
+    .water-report-history-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Creates 4 columns */
+        gap: 20px;
+        justify-items: center;
+    }
+  
+    .water-report-card {
+      background: rgba(255, 255, 255, 0.85);
+      width: 100%;
+      max-width: 300px;
+      border-radius: 20px;
+      padding: 10px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease-in-out;
+      align-items: center;
+  
+      &:hover {
+        transform: scale(1.05);
+      }
+  
+      p {
+        font-size: 1rem;
+        color: #333;
+      }
+  
+      .edit-button {
+        margin-right: 10px;
+        background-color: #0082ec;
+        border-color: #0082ec;
+        &:hover {
+          background-color: #688edf;
+          border-color: #688edf;
+        }
+      }
+      
+      .edit-button, .delete-button {
+      width: 40%;    
+      }
+
+      .ant-btn-danger {
+        background-color: #d7263d;
+        border-color: #d7263d;
+        color: #fff;
+        &:hover {
+          background-color: #f5475d;
+          border-color: #f5475d;
+        }
+      }
+
+      .water-report-info{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .column-1, .column-2{
+            p{
+              font-size: 10px;
+              font-style: bold;
+            }
+        }
+      }
+    }
+  
+    // Modal styles
+    .create-popup {
+      .ant-modal-title {
+        font-size: 24px;
+        color: #003f5c;
+      }
+  
+      .ant-form-item {
+        margin-bottom: 16px;
+  
+        .ant-form-item-label {
+          label {
+            color: #333;
+            font-weight: bold;
+          }
+        }
+  
+        .ant-input-number {
+          width: 100%;
+        }
+      }
+  
+      .ant-row {
+        margin-bottom: 20px;
+      }
+    }
+  
+    // Button hover and disabled states
+    .ant-btn {
+      &:hover {
+        opacity: 0.9;
+      }
+  
+      &.ant-btn[disabled] {
+        background-color: #d9d9d9;
+        border-color: #d9d9d9;
+        color: rgba(0, 0, 0, 0.25);
+        &:hover {
+          background-color: #d9d9d9;
+        }
+      }
+    }
+  }
+
+  .delete-button {
+    background-color: #db2a24;
+    color: #fff;
+    &:hover {
+      background-color: #ac4845;
+      cursor: pointer;
+      color: #fff;
+    }
+  }
+
+  
