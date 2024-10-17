@@ -57,6 +57,10 @@ function PostDetail() {
             {dayjs(postDetail.postDate).format("MMMM D, YYYY h:mm A")}
           </p>
           <p>
+            Expiration Date:{" "}
+            {dayjs(postDetail.expiredDate).format("MMMM D, YYYY h:mm A")}
+          </p>
+          <p>
             Post Status:{" "}
             <Tag color={postDetail.postStatus ? "green" : "red"}>
               {postDetail.postStatus ? "Approve" : "Pending"}

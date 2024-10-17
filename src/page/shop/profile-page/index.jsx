@@ -60,11 +60,7 @@ function ShopProfile() {
   return (
     <Row justify="center" className="profile-container">
       <Col span={6}>
-        <Card
-          title="Profile"
-          className="profile-card"
-          cover={<img alt="example" src="/profile-bg.jpg" />}
-        >
+        <Card title="Profile" className="profile-card">
           <Space direction="vertical" size="large">
             <Avatar
               size={100}

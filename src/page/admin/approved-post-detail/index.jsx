@@ -59,6 +59,10 @@ function ApprovedPostDetail() {
               Post Date: {dayjs(post?.postDate).format("MMMM D, YYYY h:mm A")}
             </p>
             <p>
+              Expiration Date:{" "}
+              {dayjs(post?.expiredDate).format("MMMM D, YYYY h:mm A")}
+            </p>
+            <p>
               Post Status:{" "}
               <Tag color={post.postStatus ? "green" : "red"}>
                 {post.postStatus ? "Approved" : "Pending"}
