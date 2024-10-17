@@ -21,10 +21,6 @@ function Recommendation() {
     setData(apiData);
   }, [apiData]);
 
-  if (!data || data.length === 0) {
-    alert("Shop don't have any products");
-  }
-
   return (
     <div className="recommend-page">
       <div className="shop-container">
@@ -65,4 +61,3 @@ function Recommendation() {
 }
 
 export default Recommendation;
-

@@ -43,9 +43,7 @@ const WaterReportHistory = () => {
       form.resetFields();
       setIsModalOpen(false);
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        alert(error.response.data.message);
-      }
+      alert(error.response.data.message);
     }
   };
 
@@ -147,7 +145,12 @@ const WaterReportHistory = () => {
           onOk={() => form.submit()}
           onCancel={() => setIsEditModalOpen(false)}
         >
-          <Form form={form} layout="vertical" initialValues={editingWaterReport} onFinish={handleEdit}>
+          <Form
+            form={form}
+            layout="vertical"
+            initialValues={editingWaterReport}
+            onFinish={handleEdit}
+          >
             <Row gutter={[16, 16]}>
               <Col span={12}>
                 <Form.Item

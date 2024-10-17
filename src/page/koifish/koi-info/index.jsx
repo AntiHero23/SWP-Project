@@ -39,13 +39,12 @@ function KoiInfo() {
   const [previewOpen, setPreviewOpen] = useState(false);
 
   const handleDelete = async () => {
-    const isConfirmed = window.confirm("Are you sure?");
-    if (isConfirmed) {
+    if (window.confirm("Are you sure?")) {
       try {
         await api.delete(`/koifish/${id}`);
-        navigate("/managerKoi");
+        navigate("/managerKoi", { replace: true });
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   };
@@ -86,25 +85,20 @@ function KoiInfo() {
       reader.onerror = (error) => reject(error);
     });
   const handleDeleteKoiReport = async (koiReportID) => {
-    const isConfirmed = window.confirm(
-      "Are you sure you want to delete this koi report?"
-    );
-    if (isConfirmed) {
-      try {
-        await api.delete(`koireport/${koiReportID}`);
-        fetchKoiReport();
-      } catch (error) {
-        console.log(error);
-      }
+    if (!window.confirm("Are you sure you want to delete this koi report?"))
+      return;
+    try {
+      await api.delete(`koireport/${koiReportID}`);
+      fetchKoiReport();
+    } catch (error) {
+      console.error("Failed to delete koi report:", error);
     }
   };
   const handleCancel = () => {
     form.resetFields();
     setIsModalOpen(false);
   };
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  const showModal = () => setIsModalOpen(true);
   const fetchKoiReport = async () => {
     setLoading(true);
     try {
@@ -118,13 +112,15 @@ function KoiInfo() {
     }
   };
   const handleSubmit = async (values) => {
+    console.log(values);
     try {
       await api.post("koireport/create", values);
-      form.resetFields();
       setIsModalOpen(false);
       fetchKoiReport();
     } catch (error) {
-      console.log("koi report adding failed", error);
+      alert(error.response.data.message);
+    } finally {
+      form.resetFields();
     }
   };
   const handleSubmitKoiInfo = async (values) => {
@@ -143,64 +139,35 @@ function KoiInfo() {
     }
   };
   useEffect(() => {
-    const fetchPonds = async () => {
-      setLoading(true);
+    const fetchAllData = async () => {
       try {
-        const { data } = await api.get("pond");
-        setPonds(data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    const fetchKoiVarieties = async () => {
-      setLoading(true);
-      try {
-        const { data } = await api.get("koivariety");
-        setKoiVarieties(data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    const fetchKoi = async () => {
-      setLoading(true);
-      try {
-        const { data: koi } = await api.get(`koifish/${id}`);
-        console.log(koi);
-        setKoi(koi.result || null);
-        console.log(koi.result);
+        const [
+          pondResponse,
+          koiVarietyResponse,
+          koiResponse,
+          koiReportResponse,
+          koiReportLatestResponse,
+        ] = await Promise.all([
+          api.get("pond"),
+          api.get("koivariety"),
+          api.get(`koifish/${id}`),
+          api.get(`koireport/koiReports/${id}`),
+          api.get(`koireport/latestKoiReport/${id}`),
+        ]);
+        setPonds(pondResponse.data);
+        setKoiVarieties(koiVarietyResponse.data);
+        setKoi(koiResponse.data.result || null);
+        setKoiReport(koiReportResponse.data.result || []);
+        setKoiReportLatest(koiReportLatestResponse.data.result || null);
       } catch (error) {
         setError(error);
       } finally {
         setLoading(false);
       }
     };
-
-    const fetchKoiLatestReport = async () => {
-      setLoading(true);
-      try {
-        const koiReportLatestResponse = await api.get(
-          `koireport/latestKoiReport/${id}`
-        );
-        setKoiReportLatest(koiReportLatestResponse.data.result || null);
-      } catch (error) {
-        console.log(error);
-        setKoiReportError("You dont have any koi report yet");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchKoi();
-    fetchPonds();
-    fetchKoiVarieties();
-    fetchKoiReport();
-    fetchKoiLatestReport();
+    setLoading(true);
+    fetchAllData();
   }, []);
-
   return (
     <div className="koi-page">
       <div className="koi-container">
@@ -210,95 +177,101 @@ function KoiInfo() {
             <div className="koi-info">
               <div className="koi-stats">
                 <Col span={12}>
-                <Form
-                  className="koi-form"
-                  layout="vertical"
-                  form={form}
-                  initialValues={{
-                    ...koi,
-                    birthday: koi?.birthday
-                      ? dayjs(koi.birthday).format("YYYY-MM-DD")
-                      : null,
-                  }}
-                  onFinish={handleSubmitKoiInfo}
-                >
-                  <Row className="koi-row-1">
-                    <div className="koi-image-name">
-                  <Form.Item label="Name" name="koiName">
-                    <Input defaultValue={koi?.koiName} />
-                  </Form.Item>
-                  <Form.Item className="koi-img-container" label="Pond Image" name="image">
-                    <img
-                      className="koi-img"
-                      src={fileList.length ? fileList[0].url : koi?.image}
-                      alt="image"
-                    />
-                    <Upload
-                      // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-                      listType="picture-card"
-                      fileList={fileList}
-                      onPreview={handlePreview}
-                      onChange={handleChange}
-                      className="upload-container"
-                    >
-                      {fileList.length >= 8 ? null : uploadButton}
-                    </Upload>
-                  </Form.Item>
-                  </div>
-                  {koiReportLatest && (
-                  <div className="koi-report-latest">
-                    <h1>Koi Lastest Status</h1>
-                    <h3>Koi Length: {koiReportLatest.length || "N/A"}</h3>
-                    <h3>Koi Weight: {koiReportLatest.weight || "N/A"}</h3>
-                    <h3>Koi Status: {koiReportLatest.koiStatus || "N/A"}</h3>
-                  </div>
-                )}
-                  </Row>
-                  <Row className="koi-row-2">
-                  <Form.Item label="Sex" name="koiSex">
-                    <Select defaultValue={koi?.koiSex}>
-                      <Select.Option value="male">Male</Select.Option>
-                      <Select.Option value="female">Female</Select.Option>
-                    </Select>
-                  </Form.Item>
-                  <Form.Item label="Birthday" name="birthday">
-                    <input type="date" defaultValue={koi?.birthday} />
-                  </Form.Item>
-                  </Row>
-                  <Row className="koi-row-3">
-                  <Form.Item label="Pond" name="pondID">
-                    <Select
-                      defaultValue={koi?.pondID}
-                      options={ponds.map((pond) => ({
-                        value: pond.pondID,
-                        label: pond.pondName,
-                      }))}
-                    />
-                  </Form.Item>
-                  <Form.Item label="Variety" name="koiVarietyID">
-                    <Select
-                      defaultValue={koi?.koiVarietyID}
-                      options={koiVarieties.map((variety) => ({
-                        value: variety.koiVarietyID,
-                        label: variety.varietyName,
-                      }))}
-                    />
-                  </Form.Item>
-                  </Row>
-                  <Row className="koi-row-4">
-                  <Button type="primary" htmlType="submit">
-                    Edit
-                  </Button>
-                  <Button
-                    className="delete-button"
-                    danger
-                    style={{ marginLeft: 8 }}
-                    onClick={handleDelete}
+                  <Form
+                    className="koi-form"
+                    layout="vertical"
+                    form={form}
+                    initialValues={{
+                      ...koi,
+                      birthday: koi?.birthday
+                        ? dayjs(koi.birthday).format("YYYY-MM-DD")
+                        : null,
+                    }}
+                    onFinish={handleSubmitKoiInfo}
                   >
-                    Delete
-                  </Button>
-                  </Row>
-                </Form>
+                    <Row className="koi-row-1">
+                      <div className="koi-image-name">
+                        <Form.Item label="Name" name="koiName">
+                          <Input defaultValue={koi?.koiName} />
+                        </Form.Item>
+                        <Form.Item
+                          className="koi-img-container"
+                          label="Pond Image"
+                          name="image"
+                        >
+                          <img
+                            className="koi-img"
+                            src={fileList.length ? fileList[0].url : koi?.image}
+                            alt="image"
+                          />
+                          <Upload
+                            // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                            listType="picture-card"
+                            fileList={fileList}
+                            onPreview={handlePreview}
+                            onChange={handleChange}
+                            className="upload-container"
+                          >
+                            {fileList.length >= 8 ? null : uploadButton}
+                          </Upload>
+                        </Form.Item>
+                      </div>
+                      {koiReportLatest && (
+                        <div className="koi-report-latest">
+                          <h1>Koi Lastest Status</h1>
+                          <h3>Koi Length: {koiReportLatest.length || "N/A"}</h3>
+                          <h3>Koi Weight: {koiReportLatest.weight || "N/A"}</h3>
+                          <h3>
+                            Koi Status: {koiReportLatest.koiStatus || "N/A"}
+                          </h3>
+                        </div>
+                      )}
+                    </Row>
+                    <Row className="koi-row-2">
+                      <Form.Item label="Sex" name="koiSex">
+                        <Select defaultValue={koi?.koiSex}>
+                          <Select.Option value="male">Male</Select.Option>
+                          <Select.Option value="female">Female</Select.Option>
+                        </Select>
+                      </Form.Item>
+                      <Form.Item label="Birthday" name="birthday">
+                        <input type="date" defaultValue={koi?.birthday} />
+                      </Form.Item>
+                    </Row>
+                    <Row className="koi-row-3">
+                      <Form.Item label="Pond" name="pondID">
+                        <Select
+                          defaultValue={koi?.pondID}
+                          options={ponds.map((pond) => ({
+                            value: pond.pondID,
+                            label: pond.pondName,
+                          }))}
+                        />
+                      </Form.Item>
+                      <Form.Item label="Variety" name="koiVarietyID">
+                        <Select
+                          defaultValue={koi?.koiVarietyID}
+                          options={koiVarieties.map((variety) => ({
+                            value: variety.koiVarietyID,
+                            label: variety.varietyName,
+                          }))}
+                        />
+                      </Form.Item>
+                    </Row>
+                    <Row className="koi-row-4">
+                      <Button type="primary" htmlType="submit">
+                        Edit
+                      </Button>
+                      <Button
+                        className="delete-button"
+                        danger
+                        style={{ marginLeft: 8 }}
+                        onClick={handleDelete}
+                      >
+                        Delete
+                      </Button>
+                    </Row>
+                  </Form>
                 </Col>
                 {previewImage && (
                   <Image
@@ -313,8 +286,6 @@ function KoiInfo() {
                     src={previewImage}
                   />
                 )}
-
-
               </div>
             </div>
             <div className="koi-report">
@@ -338,14 +309,31 @@ function KoiInfo() {
                 onOk={() => form.submit()}
                 onCancel={handleCancel}
               >
-                <Form form={form} layout="vertical" onFinish={handleSubmit}>
-                  <Form.Item label="Date" name="updateDate">
+                <Form
+                  form={form}
+                  layout="vertical"
+                  onFinish={handleSubmit}
+                  rules={[{ required: true, message: "Field is required" }]}
+                >
+                  <Form.Item
+                    label="Date"
+                    name="updateDate"
+                    rules={[{ required: true, message: "Date is required" }]}
+                  >
                     <Input type="date" placeholder="Date" />
                   </Form.Item>
-                  <Form.Item label="Length" name="length">
+                  <Form.Item
+                    label="Length"
+                    name="length"
+                    rules={[{ required: true, message: "Length is required" }]}
+                  >
                     <Input type="number" placeholder="Length" />
                   </Form.Item>
-                  <Form.Item label="Weight" name="weight">
+                  <Form.Item
+                    label="Weight"
+                    name="weight"
+                    rules={[{ required: true, message: "Weight is required" }]}
+                  >
                     <Input type="number" placeholder="Weight" />
                   </Form.Item>
                   <Form.Item

@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import api from "../../../config/axios";
 import { useEffect, useState } from "react";
 import { Card, Col, Row } from "antd";
+import "./index.scss";
 
 const KoiFoodList = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -31,7 +32,7 @@ const KoiFoodList = () => {
 
   return (
     <div>
-      <h1>Calculate Food List</h1>
+      <h1 style={{ textAlign: "center" }}>Calculate Food List</h1>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -39,8 +40,16 @@ const KoiFoodList = () => {
           <div className="site-card-wrapper">
             <Row gutter={16}>
               {koiFishList.map((koi) => (
-                <Col span={8} key={koi.koiFishID}>
+                <Col span={6} key={koi.koiFishID}>
                   <Card title={koi.koiName} extra={<p>{koi.koiVariety}</p>}>
+                    <img
+                      src={koi.image}
+                      alt={koi.koiName}
+                      className="koi-fish-image"
+                    />
+                    <p>
+                      <span style={{ fontWeight: "bold" }}>Age:</span> {koi.age}
+                    </p>
                     <p>
                       <span style={{ fontWeight: "bold" }}>Weight:</span>{" "}
                       {koi.weight} g
