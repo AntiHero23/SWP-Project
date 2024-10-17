@@ -31,6 +31,8 @@ function PostDetail() {
   return (
     <div>
       <h1>Post Detail</h1>
+      <br />
+      <br />
       {!loading && (
         <div>
           <h2>{postDetail.productName}</h2>

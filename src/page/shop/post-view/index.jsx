@@ -45,7 +45,8 @@ function PostView() {
       setIsModalOpen(false);
       form.resetFields();
     } catch (error) {
-      console.log("post adding failed", error);
+      // console.log("post adding failed", error);
+      alert(error.response.data.message);
     }
   };
   const handleCancel = () => {
