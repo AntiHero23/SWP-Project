@@ -21,7 +21,7 @@ function getItem(label, key, icon, children) {
 }
 const items = [
   getItem("Home", "", <FileOutlined />),
-  getItem("Post Manage", "postManage", <FileOutlined />),
+  getItem("Post Manage", "post", <FileOutlined />),
   getItem("History Transaction", "historyTransaction", <FileOutlined />),
   getItem("Profile", "profile", <FileOutlined />),
 ];

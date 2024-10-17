@@ -33,7 +33,8 @@ function ShopHome() {
       });
       console.log(response.data);
       window.open(response.data);
-      alert("Buying success");
+      // window.location.href = response.data;
+      alert("Processing...");
       setIsOpenModal(false);
       form.resetFields();
     } catch (error) {

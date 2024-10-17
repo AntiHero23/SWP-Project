@@ -206,7 +206,7 @@ function PostView() {
         <Button
           type="primary"
           onClick={() => {
-            navigate(`/shop/postDetail/${value}`);
+            navigate(`/shop/post/detail/${value}`);
           }}
         >
           Details

@@ -19,8 +19,9 @@ function getItem(label, key, icon, children) {
 }
 const items = [
   getItem("Home", "", <FileOutlined />),
-  getItem("Post Manager", "postManage", <FileOutlined />),
+  getItem("Post Manager", "post", <FileOutlined />),
   getItem("User", "userManager", <FileOutlined />),
+  getItem("Packages", "package", <FileOutlined />),
 ];
 const AdminDashboard = () => {
   const [collapsed, setCollapsed] = useState(false);

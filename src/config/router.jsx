@@ -39,6 +39,9 @@ import Statistic from "../page/statistic";
 import AdminHome from "../page/admin/admin_home";
 import PendingPostDetail from "../page/admin/pending-post-detail";
 import ApprovedPostDetail from "../page/admin/approved-post-detail";
+import Package from "../page/admin/package-manage";
+import ShopPackage from "../page/admin/shop-package";
+import MemberPackage from "../page/admin/user-package";
 
 export const router = createBrowserRouter([
   {
@@ -78,26 +81,51 @@ export const router = createBrowserRouter([
         element: <AdminHome />,
       },
       {
-        path: "postManage",
-        element: <PostManage />,
-        // children: [
-        //   {
-        //     path: "reject",
-        //     element: <RejectPage />,
-        //   },
-        // ],
+        path: "post",
+        children: [
+          {
+            path: "reject",
+            element: <RejectPage />,
+          },
+          {
+            path: "",
+            element: <PostManage />,
+          },
+          {
+            path: "detail",
+            children: [
+              {
+                path: "pending/:id",
+                element: <PendingPostDetail />,
+              },
+              {
+                path: "approved/:id",
+                element: <ApprovedPostDetail />,
+              },
+            ],
+          },
+        ],
       },
       {
         path: "userManager",
         element: <UserManage />,
       },
       {
-        path: "pendingPostDetail/:id",
-        element: <PendingPostDetail />,
-      },
-      {
-        path: "approvedPostDetail/:id",
-        element: <ApprovedPostDetail />,
+        path: "package",
+        children: [
+          {
+            path: "",
+            element: <Package />,
+          },
+          {
+            path: "shop/:id",
+            element: <ShopPackage />,
+          },
+          {
+            path: "member/:id",
+            element: <MemberPackage />,
+          },
+        ],
       },
     ],
   },
@@ -109,13 +137,19 @@ export const router = createBrowserRouter([
         path: "",
         element: <ShopHome />,
       },
+
       {
-        path: "checkout",
-        element: <CheckOut />,
-      },
-      {
-        path: "postManage",
-        element: <PostView />,
+        path: "post",
+        children: [
+          {
+            path: "",
+            element: <PostView />,
+          },
+          {
+            path: "detail/:id",
+            element: <PostDetail />,
+          },
+        ],
       },
       {
         path: "historyTransaction",
@@ -125,10 +159,10 @@ export const router = createBrowserRouter([
         path: "profile",
         element: <ShopProfile />,
       },
-      {
-        path: "postdetail/:id",
-        element: <PostDetail />,
-      },
     ],
+  },
+  {
+    path: "/checkout",
+    element: <CheckOut />,
   },
 ]);

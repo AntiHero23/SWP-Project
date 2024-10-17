@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import api from "../../../config/axios";
 import { useForm } from "antd/es/form/Form";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 function PostManage() {
   const [dataSourcePending, setDataSourcePending] = useState([]);
@@ -10,6 +11,7 @@ function PostManage() {
   const [isRejectModal, setIsRejectModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [form] = useForm();
+  const navigate = useNavigate();
 
   const showRejectModal = () => {
     setIsRejectModal(true);
@@ -101,6 +103,21 @@ function PostManage() {
         <Tag color={value ? "green" : "red"}>
           {value ? "Approved" : "Pending"}
         </Tag>
+      ),
+    },
+    {
+      title: "Details",
+      dataIndex: "postDetailId",
+      key: "postDetailId",
+      render: (value) => (
+        <Button
+          type="primary"
+          onClick={() => {
+            navigate(`/admin/post/detail/pending/${value}`);
+          }}
+        >
+          Details
+        </Button>
       ),
     },
     // {
@@ -197,6 +214,21 @@ function PostManage() {
         </Tag>
       ),
     },
+    {
+      title: "Details",
+      dataIndex: "postDetailId",
+      key: "postDetailId",
+      render: (value) => (
+        <Button
+          type="primary"
+          onClick={() => {
+            navigate(`/admin/post/detail/approved/${value}`);
+          }}
+        >
+          Details
+        </Button>
+      ),
+    },
     // {
     //   title: "Delete",
     //   dataIndex: "postDetailId",
@@ -217,7 +249,7 @@ function PostManage() {
 
   return (
     <>
-      <Modal
+      {/* <Modal
         title="Reject Post"
         open={isRejectModal}
         onCancel={handleCancel}
@@ -230,10 +262,13 @@ function PostManage() {
         onCancel={handleCancel}
         onOk={handleOk}
         footer={null}
-      ></Modal>
-      <h1>Post Pending Table</h1>
+      ></Modal> */}
+      <h1>Post Manage</h1>
+      <br />
+      <br />
+      <h2>Post Pending Table</h2>
       <Table dataSource={dataSourcePending} columns={pendingColumns} />
-      <h1>Post Approved Table</h1>
+      <h2>Post Approved Table</h2>
       <Table dataSource={dataSourceApproved} columns={approvedColumns} />
     </>
   );
