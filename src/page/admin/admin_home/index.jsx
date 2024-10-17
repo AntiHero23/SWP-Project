@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import api from "../../../config/axios";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../../zustand/useAuthStore";
+import { render } from "react-dom";
 
 function AdminHome() {
+  const { user, logout } = useAuthStore();
   const [adminInfo, setAdminInfo] = useState([]);
   const [postData, setPostData] = useState([]);
-  const { user, logout } = useAuthStore();
   const [dataSourceAccount, setDataSourceAccount] = useState([]);
+  const [packageData, setPackageData] = useState([]);
 
   const navigate = useNavigate();
 
@@ -42,11 +44,38 @@ function AdminHome() {
       console.log(error);
     }
   };
+  const fetchDataPackage = async () => {
+    try {
+      const responsePackage = await api.get("admin/package/viewAll");
+      setPackageData(responsePackage.data.result);
+      console.log(responsePackage.data.result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
+    fetchDataPackage();
     fetchDataAccount();
     fetchPostData();
     getAdminInfo();
   }, []);
+  const packageColumns = [
+    {
+      title: "Package Role",
+      dataIndex: "role",
+      key: "role",
+    },
+    {
+      title: "Package Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+    },
+  ];
   const accountColumns = [
     {
       title: "User Name",
@@ -54,17 +83,20 @@ function AdminHome() {
       key: "username",
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
       title: "Role",
       dataIndex: "role",
       key: "role",
     },
+    {
+      title: "Validity",
+      dataIndex: "status",
+      key: "status",
+      render: (value) => (
+        <Tag color={value ? "green" : "red"}>{value ? "Valid" : "Banned"}</Tag>
+      ),
+    },
   ];
-  const columns = [
+  const postColumns = [
     {
       title: "Product Name",
       dataIndex: "productName",
@@ -114,7 +146,7 @@ function AdminHome() {
           See More
         </button>
       </h2>
-      <Table dataSource={postData} columns={columns} />
+      <Table dataSource={postData} columns={postColumns} />
       <br />
       <h2>
         Users List
@@ -126,6 +158,17 @@ function AdminHome() {
         </button>
       </h2>
       <Table dataSource={dataSourceAccount} columns={accountColumns} />
+      <br />
+      <h2>
+        Package List
+        <button
+          onClick={() => navigate("package")}
+          style={{ float: "right", width: "100px" }}
+        >
+          See More
+        </button>
+      </h2>
+      <Table dataSource={packageData} columns={packageColumns} />
     </>
   );
 }
