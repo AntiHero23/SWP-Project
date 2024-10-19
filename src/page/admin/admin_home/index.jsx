@@ -121,7 +121,7 @@ function AdminHome() {
   ];
   return (
     <>
-      <Button
+      {/* <Button
         type="primary"
         danger
         style={{ float: "left", width: "100px" }}
@@ -132,7 +132,7 @@ function AdminHome() {
       </Button>
       <br />
       <br />
-      <br />
+      <br /> */}
       <h1 style={{ textAlign: "center" }}>
         Welcome back, {adminInfo.name || adminInfo.email}!
       </h1>
@@ -141,7 +141,7 @@ function AdminHome() {
         Posts List
         <button
           onClick={() => navigate("post")}
-          style={{ float: "right", width: "100px" }}
+          style={{ float: "right", width: "100px", marginBottom: "10px" }}
         >
           See More
         </button>
@@ -152,7 +152,7 @@ function AdminHome() {
         Users List
         <button
           onClick={() => navigate("userManager")}
-          style={{ float: "right", width: "100px" }}
+          style={{ float: "right", width: "100px", marginBottom: "10px" }}
         >
           See More
         </button>
@@ -163,7 +163,7 @@ function AdminHome() {
         Package List
         <button
           onClick={() => navigate("package")}
-          style={{ float: "right", width: "100px" }}
+          style={{ float: "right", width: "100px", marginBottom: "10px" }}
         >
           See More
         </button>
