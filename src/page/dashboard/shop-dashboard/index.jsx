@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import {
   DesktopOutlined,
   FileOutlined,
+  HistoryOutlined,
+  HomeOutlined,
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
@@ -21,10 +23,10 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem("Home", "", <FileOutlined />),
+  getItem("Home", "", <HomeOutlined />),
   getItem("Post Manage", "post", <FileOutlined />),
-  getItem("History Transaction", "historyTransaction", <FileOutlined />),
-  getItem("Profile", "profile", <FileOutlined />),
+  getItem("History Transaction", "historyTransaction", <HistoryOutlined />),
+  getItem("Profile", "profile", <UserOutlined />),
 ];
 const ShopDashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -61,8 +63,8 @@ const ShopDashboard = () => {
             type="primary"
             danger
             style={{
-              width: "75%",
-              marginLeft: "10%",
+              width: "90%",
+              marginLeft: "3%",
             }}
             className="profile-button profile-button-logout"
             onClick={handleLogout}

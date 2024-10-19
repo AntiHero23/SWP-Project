@@ -155,6 +155,10 @@ function PostView() {
     fetchPayment();
     fetchProductType();
   }, []);
+  const VND = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
   const columns = [
     {
       title: "Product Name",
@@ -165,7 +169,7 @@ function PostView() {
       title: "Product Price",
       dataIndex: "productPrice",
       key: "productPrice",
-      render: (value) => value + " VND",
+      render: (value) => VND.format(value),
     },
     {
       title: "Image",

@@ -68,6 +68,10 @@ function ShopHome() {
     fetchPostPackage();
     fetchPostType();
   }, []);
+  const VND = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
   const columns = [
     {
       title: "Package Type",
@@ -96,7 +100,7 @@ function ShopHome() {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: (text) => text + " VND",
+      render: (value) => VND.format(value),
     },
   ];
 

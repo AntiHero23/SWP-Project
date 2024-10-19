@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import {
   DesktopOutlined,
   FileOutlined,
+  FolderOutlined,
+  HomeOutlined,
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
@@ -19,10 +21,10 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem("Home", "", <FileOutlined />),
+  getItem("Home", "", <HomeOutlined />),
   getItem("Post Manager", "post", <FileOutlined />),
-  getItem("User", "userManager", <FileOutlined />),
-  getItem("Packages", "package", <FileOutlined />),
+  getItem("User", "userManager", <TeamOutlined />),
+  getItem("Packages", "package", <FolderOutlined />),
 ];
 const AdminDashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -58,8 +60,8 @@ const AdminDashboard = () => {
           type="primary"
           danger
           style={{
-            width: "75%",
-            marginLeft: "10%",
+            width: "90%",
+            marginLeft: "3%",
           }}
           className="profile-button profile-button-logout"
           onClick={handleLogout}

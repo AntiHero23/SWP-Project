@@ -17,6 +17,10 @@ function HistoryTransaction() {
   useEffect(() => {
     getHistoryTransaction();
   }, []);
+  const VND = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
   const columns = [
     {
       title: "Order ID",
@@ -33,7 +37,7 @@ function HistoryTransaction() {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: (value) => value + " VND",
+      render: (value) => VND.format(value),
     },
     {
       title: "Date of purchase",
