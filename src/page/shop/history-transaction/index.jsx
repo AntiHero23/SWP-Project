@@ -23,9 +23,9 @@ function HistoryTransaction() {
   });
   const columns = [
     {
-      title: "Order ID",
-      dataIndex: "orderID",
-      key: "orderID",
+      title: "Order Code",
+      dataIndex: "orderCode",
+      key: "orderCode",
     },
     {
       title: "Package",

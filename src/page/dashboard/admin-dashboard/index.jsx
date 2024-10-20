@@ -22,8 +22,8 @@ function getItem(label, key, icon, children) {
 }
 const items = [
   getItem("Home", "", <HomeOutlined />),
-  getItem("Post Manager", "post", <FileOutlined />),
-  getItem("User", "userManager", <TeamOutlined />),
+  getItem("Post Manage", "post", <FileOutlined />),
+  getItem("Users Manage", "userManage", <TeamOutlined />),
   getItem("Packages", "package", <FolderOutlined />),
 ];
 const AdminDashboard = () => {
