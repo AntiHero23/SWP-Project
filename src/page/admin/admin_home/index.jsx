@@ -76,6 +76,9 @@ function AdminHome() {
         Welcome back, {adminInfo.name || adminInfo.email}!
       </h1>
       <br />
+      <h2>Transaction Dashboard</h2>
+      {/* Minh làm ở đây nhen! */}
+      <br />
       <h2>History Transaction</h2>
       <Table dataSource={historyTransaction} columns={columns} />
     </>

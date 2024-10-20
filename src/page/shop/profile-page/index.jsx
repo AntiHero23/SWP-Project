@@ -48,7 +48,6 @@ function ShopProfile() {
       alert("Phone must start with 0 and have 10 numbers");
       return;
     }
-    console.log(values);
     try {
       await api.put("shop/update", values);
       alert("Profile updated successfully");
@@ -81,7 +80,6 @@ function ShopProfile() {
       alert("Password and confirm password do not match");
       return;
     }
-    console.log(values);
     try {
       await api.put("changepassword", values);
       alert("Password changed successfully");

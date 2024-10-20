@@ -71,7 +71,7 @@ function UserManage() {
         <Button
           type="primary"
           onClick={() => {
-            // navigate(`/admin/user/${value}`);
+            navigate(`/admin/userManage/details/${value}`);
           }}
         >
           Details

@@ -43,6 +43,7 @@ import Package from "../page/admin/package-manage";
 import ShopPackage from "../page/admin/shop-package";
 import MemberPackage from "../page/admin/user-package";
 import ProductDetail from "../page/product-detail";
+import AccountDetails from "../page/admin/account-detail";
 
 export const router = createBrowserRouter([
   {
@@ -94,7 +95,7 @@ export const router = createBrowserRouter([
             element: <PostManage />,
           },
           {
-            path: "detail",
+            path: "details",
             children: [
               {
                 path: "pending/:id",
@@ -110,7 +111,16 @@ export const router = createBrowserRouter([
       },
       {
         path: "userManage",
-        element: <UserManage />,
+        children: [
+          {
+            path: "",
+            element: <UserManage />,
+          },
+          {
+            path: "details/:id",
+            element: <AccountDetails />,
+          },
+        ],
       },
       {
         path: "package",

@@ -41,32 +41,60 @@ function ApprovedPostDetail() {
     fetchPostDetail();
   }, []);
 
+  const VND = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
   return (
     <>
-      <div>
+      <div style={{ textAlign: "center" }}>
         <h1>Post Detail</h1>
         {!loading && (
           <div>
+            <p>
+              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <br />
             <h2>{post?.productName}</h2>
             <img
               src={post?.image}
               alt={post?.productName}
               style={{ width: "100px" }}
             />
-            <p>Description: {post?.description}</p>
-            <p>Price: {post?.productPrice} VND</p>
             <p>
-              Post Date: {dayjs(post?.postDate).format("MMMM D, YYYY h:mm A")}
+              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
             </p>
+            <br />
+            <b>Description: </b>
+            <p>{post?.description}</p>
             <p>
-              Expiration Date:{" "}
-              {dayjs(post?.expiredDate).format("MMMM D, YYYY h:mm A")}
+              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
             </p>
+            <br />
+            <b>Price: </b>
+            {VND.format(post?.productPrice)}
             <p>
-              Post Status:{" "}
-              <Tag color={post.postStatus ? "green" : "red"}>
-                {post.postStatus ? "Approved" : "Pending"}
-              </Tag>
+              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <br />
+            <b>Post Date: </b>
+            {dayjs(post?.postDate).format("MMMM D, YYYY h:mm A")}
+            <p>
+              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <br />
+            <b>Expiration Date: </b>
+            {dayjs(post?.expiredDate).format("MMMM D, YYYY h:mm A")}
+            <p>
+              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <br />
+            <b>Post Status: </b>
+            <Tag color={post.postStatus ? "green" : "red"}>
+              {post.postStatus ? "Approved" : "Pending"}
+            </Tag>
+            <p>
+              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
             </p>
             <Button
               type="primary"
@@ -75,7 +103,6 @@ function ApprovedPostDetail() {
                 showModal();
               }}
               style={{
-                float: "left",
                 marginTop: "10px",
                 width: "100px",
               }}
@@ -83,12 +110,13 @@ function ApprovedPostDetail() {
               Remove
             </Button>
             <Modal
+              style={{ textAlign: "center" }}
               title="Remove Post"
               open={isOpenModal}
               onOk={() => {
                 handleSubmit();
                 api
-                  .delete(`/admin/post/reject/${postId}`)
+                  .delete(`/admin/post/delete/${postId}`)
                   .then(() => {
                     fetchPostDetail();
                   })
@@ -106,6 +134,10 @@ function ApprovedPostDetail() {
             >
               Are you sure you want to remove this post?
             </Modal>
+            <p>
+              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <br />
           </div>
         )}
       </div>
