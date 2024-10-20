@@ -22,6 +22,8 @@ function Statistic() {
     "waterReportTemperature"
   ); // Default to pond's temperature
 
+  const [koiStandard, setKoiStandard] = useState([]);
+
   // Interpolation function for missing data
   const interpolateMissingData = (data) => {
     let filledData = [...data];
@@ -114,9 +116,33 @@ function Statistic() {
     }
   };
 
+  const fetchKoiStandard = async  () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get("koiStandard");
+      setStandardDate(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchWaterStandard = async  () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get("waterStandard");
+      setStandardDate(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   // Fetch water report data for pond
   const fetchWaterReport = async (pondID) => {
-    setLoading(true);
+    setLoading(true)
     try {
       const { data } = await api.get(`waterreport/view/${pondID}`);
       setWaterReport(data.result || []);
@@ -137,6 +163,8 @@ function Statistic() {
       return;
     }
     fetchKoiReport(values.koi);
+
+    handleKoiStandard(values.koi, selectedDate);
   };
 
   const handleSubmitWater = async (values) => {
@@ -168,6 +196,7 @@ function Statistic() {
           reportDate.year() === selectedYear
         );
       });
+      
 
       // Fill missing days for the selected month
       const startOfMonth = dayjs(selectedDate).startOf("month");
@@ -327,8 +356,34 @@ function Statistic() {
     console.log(event.target.value);
   };
 
+  const handleKoiStandard = async (koiFishID, selectedDate) => {
+    const isoDate = dayjs(selectedDate).startOf("month").toISOString(); // Convert to ISO 8601 format
+    
+    try {
+      const response = await api.post("/statistic/koistandard", {
+        koiFishID, // Fixing the key capitalization
+        date: isoDate, // Sending the date in ISO 8601 format
+      });
+      
+      console.log(selectedDate, koiFishID);
+      console.log("Koi standard data:", response.data);
+      setKoiStandardData(response.data);
+      // You can do something with the response, like updating the state
+    } catch (error) {
+      console.error("Error fetching koi standard data:", error);
+    }
+  };
+
   return (
-    <Tabs defaultActiveKey="1" centered>
+    <Tabs defaultActiveKey="1" centered
+    onTabClick={(key) => {
+      if (key === "1") {
+        handleTypeChange({ target: { value: "weight" } });
+      } else if (key === "2") {
+        handleTypeChange({ target: { value: "waterReportTemperature" } });
+      }
+    }}
+    >
       <Tabs.TabPane tab="Koi Statistic" key="1">
         <Form form={form} onFinish={handleSubmit}>
           <Form.Item name="koi" label="Koi">
