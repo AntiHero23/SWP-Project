@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../../../config/axios";
 import { render } from "react-dom";
-import { Button, Modal } from "antd";
+import { Button, Form, Input, InputNumber, Modal, Select } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -22,17 +22,16 @@ function ShopPackage() {
     form.resetFields();
     setIsUpdateModal(false);
   };
-  // const handleSubmit = async (value) => {
-  //   try {
-  //     const response = await api.put(
-  //       `/admin/package/update/${value}`,
-  //       form.getFieldsValue()
-  //     );
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const handleSubmitUpdate = async (value) => {
+    try {
+      await api.put(`/admin/package/update/${postId}`, value);
+      alert("Package updated successfully!");
+      setIsUpdateModal(false);
+      navigate("/admin/package");
+    } catch (error) {
+      console.log("Package updating failed", error);
+    }
+  };
   const fetchShopPackage = async () => {
     setLoading(true);
     try {
@@ -113,19 +112,94 @@ function ShopPackage() {
                 textAlign: "center",
               }}
               open={isUpdateModal}
-              onOk={() => {
-                api
-                  .put(`/admin/post/approve/${postId}`)
-                  .then(() => {})
-                  .catch((error) => console.log(error));
-                alert("Post approved successfully! Please wait for a while!");
-                setIsUpdateModal(false);
-              }}
-              onCancel={() => {
-                handleCancelUpdate();
-              }}
+              onOk={() => handleSubmitUpdate(form.getFieldsValue())}
+              onCancel={() => handleCancelUpdate()}
             >
-              aaa
+              <Form
+                form={form}
+                name="basic"
+                onFinish={handleSubmitUpdate}
+                initialValues={{ ...shopPackage }}
+              >
+                <Form.Item
+                  label="Name"
+                  name="name"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your name!",
+                    },
+                  ]}
+                >
+                  <Input defaultValue={shopPackage?.name} />
+                </Form.Item>
+                <Form.Item
+                  label="Role"
+                  name="role"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your role!",
+                    },
+                  ]}
+                >
+                  <Select defaultValue={shopPackage?.role}>
+                    <Select.Option value="MEMBER">MEMBER</Select.Option>
+                    <Select.Option value="SHOP">SHOP</Select.Option>
+                  </Select>
+                </Form.Item>
+                <Form.Item
+                  label="Price"
+                  name="price"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your price!",
+                    },
+                  ]}
+                >
+                  <InputNumber defaultValue={shopPackage?.price} />
+                </Form.Item>
+                <Form.Item
+                  label="Description"
+                  name="description"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your description!",
+                    },
+                  ]}
+                >
+                  <Input.TextArea
+                    defaultValue={shopPackage?.description}
+                    autoSize={{ minRows: 4, maxRows: 6 }}
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="Duration"
+                  name="duration"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your duration!",
+                    },
+                  ]}
+                >
+                  <InputNumber defaultValue={shopPackage?.duration} />
+                </Form.Item>
+                <Form.Item
+                  label="Number of Posts"
+                  name="numberOfPosts"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your number of posts!",
+                    },
+                  ]}
+                >
+                  <InputNumber defaultValue={shopPackage?.numberOfPosts} />
+                </Form.Item>
+              </Form>
             </Modal>
             <Button
               type="primary"
@@ -152,7 +226,7 @@ function ShopPackage() {
                     fetchShopPackage();
                   })
                   .catch((error) => console.log(error));
-                alert("Post rejected successfully!");
+                alert("Package deleted successfully!");
                 setTimeout(() => navigate("/admin/package"), 1000);
                 setIsDeleteModal(false);
               }}

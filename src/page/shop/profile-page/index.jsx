@@ -50,7 +50,7 @@ function ShopProfile() {
     }
     try {
       await api.put("shop/update", values);
-      alert("Profile updated successfully");
+      alert("Profile updated successfully!");
       setIsOpenModal(false);
       window.location.reload();
     } catch (error) {
@@ -82,7 +82,7 @@ function ShopProfile() {
     }
     try {
       await api.put("changepassword", values);
-      alert("Password changed successfully");
+      alert("Password changed successfully!");
       form.resetFields();
       setIsOpenPasswordModal(false);
     } catch (error) {

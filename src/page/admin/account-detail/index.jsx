@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../config/axios";
-import { Button, Modal } from "antd";
+import { Button, Modal, Tag } from "antd";
 
 function AccountDetails() {
   const { id } = useParams();
@@ -95,7 +95,9 @@ function AccountDetails() {
             {account.role !== "ADMIN" && (
               <>
                 <b>Validation: </b>
-                {account.status ? "Valid" : "Banned"}
+                <Tag color={account.status ? "green" : "red"}>
+                  {account.status ? "Valid" : "Banned"}
+                </Tag>
                 <p>
                   ______________________________________________________________________________________________________________________________________________________________________________________________________________________
                 </p>

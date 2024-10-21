@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Table } from "antd";
+import { Button, Table, Tag } from "antd";
 import api from "../../../config/axios";
 import { render } from "react-dom";
 import { useNavigate } from "react-router-dom";
@@ -63,6 +63,14 @@ function UserManage() {
     //   dataIndex: "expiredDate",
     //   key: "expiredDate",
     // },
+    {
+      title: "Validation",
+      dataIndex: "status",
+      key: "status",
+      render: (value) => (
+        <Tag color={value ? "green" : "red"}>{value ? "Valid" : "Banned"}</Tag>
+      ),
+    },
     {
       title: "Details",
       dataIndex: "accountID",

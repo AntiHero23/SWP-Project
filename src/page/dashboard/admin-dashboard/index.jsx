@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import {
   DesktopOutlined,
+  ExperimentOutlined,
   FileOutlined,
   FolderOutlined,
   HomeOutlined,
   PieChartOutlined,
+  RadarChartOutlined,
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -25,6 +27,8 @@ const items = [
   getItem("Post Manage", "post", <FileOutlined />),
   getItem("Users Manage", "userManage", <TeamOutlined />),
   getItem("Packages", "package", <FolderOutlined />),
+  getItem("Pond Standard", "pondStandard", <RadarChartOutlined />),
+  getItem("Water Standard", "waterStandard", <ExperimentOutlined />),
 ];
 const AdminDashboard = () => {
   const [collapsed, setCollapsed] = useState(false);

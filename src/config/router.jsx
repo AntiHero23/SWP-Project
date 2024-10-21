@@ -44,6 +44,8 @@ import ShopPackage from "../page/admin/shop-package";
 import MemberPackage from "../page/admin/user-package";
 import ProductDetail from "../page/product-detail";
 import AccountDetails from "../page/admin/account-detail";
+import PondStandard from "../page/admin/pond-standard";
+import WaterStandard from "../page/admin/water-standard";
 
 export const router = createBrowserRouter([
   {
@@ -138,6 +140,14 @@ export const router = createBrowserRouter([
             element: <MemberPackage />,
           },
         ],
+      },
+      {
+        path: "pondStandard",
+        element: <PondStandard />,
+      },
+      {
+        path: "waterStandard",
+        element: <WaterStandard />,
       },
     ],
   },
