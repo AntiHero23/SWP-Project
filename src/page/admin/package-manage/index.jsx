@@ -34,6 +34,10 @@ function Package() {
     fetchShopPackage();
     fetchMemberPackage();
   }, []);
+  const VND = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
   const shopPackageColumns = [
     {
       title: "Package Name",
@@ -45,7 +49,7 @@ function Package() {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: (text) => `${text} VND`,
+      render: (value) => VND.format(value),
     },
     {
       title: "Duration",
@@ -80,7 +84,7 @@ function Package() {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: (text) => `${text} VND`,
+      render: (value) => VND.format(value),
     },
     {
       title: "Duration",

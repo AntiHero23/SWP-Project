@@ -222,7 +222,11 @@ function PostView() {
 
   return (
     <>
-      <Button type="primary" onClick={showModal}>
+      <Button
+        type="primary"
+        onClick={showModal}
+        style={{ width: "25%", marginLeft: "40%" }}
+      >
         New Post
       </Button>
       <Modal

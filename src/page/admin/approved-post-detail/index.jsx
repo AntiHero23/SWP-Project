@@ -111,7 +111,7 @@ function ApprovedPostDetail() {
             </Button>
             <Modal
               style={{ textAlign: "center" }}
-              title="Remove Post"
+              title="Are you sure you want to REMOVE this post?"
               open={isOpenModal}
               onOk={() => {
                 handleSubmit();
@@ -131,9 +131,7 @@ function ApprovedPostDetail() {
               onCancel={() => {
                 handleCancel();
               }}
-            >
-              Are you sure you want to remove this post?
-            </Modal>
+            />
             <p>
               ______________________________________________________________________________________________________________________________________________________________________________________________________________________
             </p>

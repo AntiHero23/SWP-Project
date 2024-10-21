@@ -113,7 +113,7 @@ function PendingPostDetail() {
               Approve
             </Button>
             <Modal
-              title="Approve Post"
+              title="Are you sure you want to Approve this post?"
               style={{
                 textAlign: "center",
               }}
@@ -134,9 +134,7 @@ function PendingPostDetail() {
               onCancel={() => {
                 handleCancel();
               }}
-            >
-              Are you sure you want to approve this post?
-            </Modal>
+            />
             <Button
               type="primary"
               danger
@@ -152,7 +150,7 @@ function PendingPostDetail() {
               Reject
             </Button>
             <Modal
-              title="Reject Post"
+              title="Are you sure you want to Reject this post?"
               style={{
                 textAlign: "center",
               }}
@@ -173,9 +171,7 @@ function PendingPostDetail() {
               onCancel={() => {
                 handleCancel();
               }}
-            >
-              Are you sure you want to reject this post?
-            </Modal>
+            />
             <p>
               ______________________________________________________________________________________________________________________________________________________________________________________________________________________
             </p>

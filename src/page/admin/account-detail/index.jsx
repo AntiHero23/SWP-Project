@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../config/axios";
-import { Button } from "antd";
+import { Button, Modal } from "antd";
 
 function AccountDetails() {
   const { id } = useParams();
@@ -9,6 +9,8 @@ function AccountDetails() {
   const [loading, setLoading] = useState(true);
   const [account, setAccount] = useState();
   const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const navigate = useNavigate();
 
   const fetchAccount = async () => {
     setLoading(true);
@@ -109,8 +111,29 @@ function AccountDetails() {
                     style={{ width: "100px" }}
                     onClick={() => setIsOpenModal(true)}
                   >
-                    Ban
+                    BAN
                   </Button>
+                  <Modal
+                    style={{ textAlign: "center" }}
+                    title="Are you sure you want to BAN this account?"
+                    open={isOpenModal}
+                    onCancel={() => setIsOpenModal(false)}
+                    onOk={() => {
+                      api
+                        .delete(`/admin/deleteAccount/${userId}`)
+                        .then(() => {
+                          fetchAccount();
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                        });
+                      alert("Account banned! Please wait for a while!");
+                      setTimeout(() => {
+                        navigate(`/admin/userManage/details/${userId}`);
+                      }, 5000);
+                      setIsOpenModal(false);
+                    }}
+                  />
                   <p>
                     ______________________________________________________________________________________________________________________________________________________________________________________________________________________
                   </p>
@@ -123,8 +146,29 @@ function AccountDetails() {
                     style={{ width: "100px" }}
                     onClick={() => setIsOpenModal(true)}
                   >
-                    Unban
+                    RESTORE
                   </Button>
+                  <Modal
+                    style={{ textAlign: "center" }}
+                    title="Are you sure you want to RESTORE this account?"
+                    open={isOpenModal}
+                    onCancel={() => setIsOpenModal(false)}
+                    onOk={() => {
+                      api
+                        .put(`/admin/restoreAccount/${userId}`)
+                        .then(() => {
+                          fetchAccount();
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                        });
+                      alert("Account restored! Please wait for a while!");
+                      setTimeout(() => {
+                        navigate(`/admin/userManage/details/${userId}`);
+                      }, 5000);
+                      setIsOpenModal(false);
+                    }}
+                  />
                   <p>
                     ______________________________________________________________________________________________________________________________________________________________________________________________________________________
                   </p>

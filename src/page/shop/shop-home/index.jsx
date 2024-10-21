@@ -119,16 +119,21 @@ function ShopHome() {
         below.
       </h4>
       <Table dataSource={dataPostPakage} columns={columns} />
-      <Button type="primary" onClick={showModal}>
+      <Button
+        type="primary"
+        onClick={showModal}
+        style={{ width: "35%", marginLeft: "32.5%" }}
+      >
         Choose Post Package
       </Button>
       <Modal
+        style={{ textAlign: "center" }}
         title="Post Package"
         open={isOpenModal}
         onOk={() => form.submit()}
         onCancel={handleCancel}
       >
-        <p>Please Chosse A Package</p>
+        <p style={{ textAlign: "left" }}>Please Chosse A Package</p>
         <Form form={form} onFinish={handleSubmit}>
           <Form.Item
             label="Post Type: "

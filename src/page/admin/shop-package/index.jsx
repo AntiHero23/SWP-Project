@@ -47,66 +47,54 @@ function ShopPackage() {
   useEffect(() => {
     fetchShopPackage();
   }, []);
-  const columns = [
-    {
-      title: "role",
-      dataIndex: "role",
-      key: "role",
-    },
-    {
-      title: "Package Name",
-      dataIndex: "name",
-      key: "name",
-      render: (text) => text.charAt(0).toUpperCase() + text.slice(1),
-    },
-    {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
-      render: (text) => text + " VND",
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Number Of Posts",
-      dataIndex: "numberOfPosts",
-      key: "numberOfPosts",
-      render: (text) => text + " posts",
-    },
-    {
-      title: "Duration",
-      dataIndex: "duration",
-      key: "duration",
-      render: (text) => text + " months",
-    },
-    {
-      title: "Action",
-      dataIndex: "id",
-      key: "id",
-      render: () => (
-        <Button type="primary" onClick={showModal}>
-          Update
-        </Button>
-      ),
-    },
-  ];
+  const VND = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
   return (
     <>
-      <div>
+      <div style={{ textAlign: "center" }}>
         <h1>Shop Package</h1>
-        <br />
-        <br />
         {!loading && (
           <div>
+            <p>
+              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <br />
             <h2>{shopPackage.name}</h2>
-            <p>Role: {shopPackage.role}</p>
-            <p>Description: {shopPackage.description}</p>
-            <p>Price: {shopPackage.price} VND</p>
-            <p>Duration: {shopPackage.duration} months</p>
-            <p>Number of Posts: {shopPackage.numberOfPosts} posts</p>
+            <p>
+              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <br />
+            <b>Package For {shopPackage.role}</b>
+            <p>
+              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <br />
+            <b>Description: </b>
+            <p>{shopPackage.description}</p>
+            <p>
+              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <br />
+            <b>Price: </b>
+            {VND.format(shopPackage.price)}
+            <p>
+              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <br />
+            <b>Duration: </b>
+            {shopPackage.duration} months
+            <p>
+              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <br />
+            <b>Number of Posts: </b>
+            {shopPackage.numberOfPosts} posts
+            <p>
+              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <br />
           </div>
         )}
       </div>
