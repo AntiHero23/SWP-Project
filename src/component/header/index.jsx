@@ -92,11 +92,11 @@ function Header() {
 
       <div className="header-right">
         <IoIosNotifications className="header-right-notification-icon" />
-        <Space>
+        <>
           {avatar?.username ? (
-            <div className="dropdown">
+            <div className="dropdown" color="">
               <Dropdown {...menuProps_user}>
-                <a className="dropdown-link">{avatar?.username}</a>
+                <a className="dropdown-link" >{avatar?.username}</a>
               </Dropdown>
             </div>
           ) : (
@@ -105,7 +105,7 @@ function Header() {
               onClick={() => navigate("/login")}
             />
           )}
-        </Space>
+        </>
       </div>
     </div>
   );

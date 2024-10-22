@@ -1,13 +1,25 @@
 import React from "react";
 import { Layout, Row, Col, Form, Input, Button } from "antd";
 import { MailOutlined, PhoneOutlined } from "@ant-design/icons";
+import api from "../../config/axios";
 
 const Contact = () => {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
-    form.resetFields();
+    api
+      .post("/contact/send", {
+        name: values.name,
+        email: values.email,
+        message: values.content,
+      })
+      .then((res) => {
+        console.log(res);
+        form.resetFields();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

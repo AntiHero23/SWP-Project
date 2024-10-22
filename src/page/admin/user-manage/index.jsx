@@ -13,7 +13,6 @@ function UserManage() {
     try {
       const responseAccount = await api.get("account");
       setDataSourceAccount(responseAccount.data);
-      console.log(responseAccount.data);
     } catch (error) {
       console.log(error);
     }

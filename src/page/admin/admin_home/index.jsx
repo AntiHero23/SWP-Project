@@ -39,7 +39,6 @@ function AdminHome() {
     try {
       const responseAccount = await api.get("account");
       setDataSourceAccount(responseAccount.data);
-      console.log(responseAccount.data);
     } catch (error) {
       console.log(error);
     }
@@ -48,7 +47,6 @@ function AdminHome() {
     try {
       const responsePackage = await api.get("admin/package/viewAll");
       setPackageData(responsePackage.data.result);
-      console.log(responsePackage.data.result);
     } catch (error) {
       console.log(error);
     }

@@ -65,7 +65,7 @@ function AddKoi() {
     const fetchPonds = async () => {
       try {
         const response = await api.get("pond");
-        setPonds(response.data);
+        setPonds(response.data || []);
       } catch (error) {
         console.log(error);
       }
@@ -76,7 +76,7 @@ function AddKoi() {
     const fetchVarieties = async () => {
       try {
         const response = await api.get("koivariety");
-        setKoiVarieties(response.data);
+        setKoiVarieties(response.data || []);
       } catch (error) {
         console.log(error);
       }
@@ -85,7 +85,6 @@ function AddKoi() {
   }, []);
 
   const handleSubmit = async (values) => {
-    console.log(values);
     try {
       const url = await uploadFile(fileList[0].originFileObj);
       values.image = url;
@@ -103,30 +102,46 @@ function AddKoi() {
       <div className="addKoi-form-container">
         <h1 className="addKoi-title">Add Koi</h1>
         <Form layout="vertical" onFinish={handleSubmit}>
-          <Form.Item label="Name" name="koiName">
+          <Form.Item
+            label="Name"
+            name="koiName"
+            rules={[{ required: true, message: "Please input your koi name" }]}
+          >
             <Input
               value={koiName}
               onChange={(e) => setKoiName(e.target.value)}
             />
           </Form.Item>
-          <Form.Item label="Birthday" name="birthday">
+          <Form.Item
+            label="Birthday"
+            name="birthday"
+            rules={[{ required: true, message: "Please input your koi birthday" }]}
+          >
             <Input
               type="date"
               value={birthday}
               onChange={(e) => setBirthday(e.target.value)}
             />
           </Form.Item>
-          <Form.Item label="Sex" name="koiSex">
+          <Form.Item
+            label="Sex"
+            name="koiSex"
+            rules={[{ required: true, message: "Please input your koi sex" }]}
+          >
             <Select
               options={[
-                { label: "male", value: "Male" },
-                { label: "female", value: "Female" },
+                { label: "Male", value: "Male" },
+                { label: "Female", value: "Female" },
               ]}
               value={koiSex}
               onChange={(e) => setKoiSex(e)}
             />
           </Form.Item>
-          <Form.Item label="Image" name="image">
+          <Form.Item
+            label="Image"
+            name="image"
+            rules={[{ required: true, message: "Please upload your koi image" }]}
+          >
             <Upload
               listType="picture-card"
               fileList={fileList}
@@ -136,14 +151,22 @@ function AddKoi() {
               {fileList.length >= 8 ? null : uploadButton}
             </Upload>
           </Form.Item>
-          <Form.Item label="Pond" name="pondID">
+          <Form.Item
+            label="Pond"
+            name="pondID"
+            rules={[{ required: true, message: "Please select your koi pond" }]}
+          >
             <Select
               value={pondID}
               onChange={(value) => setPondID(value)}
               options={pondOptions}
             ></Select>
           </Form.Item>
-          <Form.Item label="Variety ID" name="koiVarietyID">
+          <Form.Item
+            label="Variety ID"
+            name="koiVarietyID"
+            rules={[{ required: true, message: "Please select your koi variety" }]}
+          >
             <Select
               value={koiVarietyID}
               onChange={(value) => setKoiVarietyID(value)}

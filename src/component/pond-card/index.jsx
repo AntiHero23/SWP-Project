@@ -34,7 +34,6 @@ function PondCard({ pond }) {
         <Button
           className="detail-button"
           onClick={() => {
-            console.log(pondID);
             navigate(`/pondInfo/${pondID}`);
           }}
         >

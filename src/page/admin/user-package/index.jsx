@@ -25,7 +25,6 @@ function MemberPackage() {
         `/admin/package/update/${value}`,
         form.getFieldsValue()
       );
-      console.log(response);
     } catch (error) {
       console.log(error);
     }

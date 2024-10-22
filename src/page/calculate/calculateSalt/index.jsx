@@ -24,7 +24,7 @@ function CalculateSalt() {
     const fetchPonds = async () => {
       try {
         const response = await api.get("pond");
-        console.log(response.data);
+    
         setPonds(response.data);
       } catch (error) {
         console.error(error);
@@ -44,7 +44,6 @@ function CalculateSalt() {
   const calWhenCurrentSalt = async (values) => {
     try {
       const response = await api.post("salt/per-water-change", values);
-      console.log(response.data);
       setAlert("Number of water change should be " + response.data);
     } catch (error) {
       console.log(error);
@@ -74,8 +73,6 @@ function CalculateSalt() {
     values.currentSalt = currentSalt;
     values.expectSalt = expectSalt;
     values.waterchangePer = waterChange;
-
-    console.log("Received values of form: ", values);
     if (values.currentSalt > values.expectSalt) {
       calWhenCurrentSalt(values);
     } else {

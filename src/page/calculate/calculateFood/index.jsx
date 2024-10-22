@@ -61,11 +61,10 @@ function CalculateFood() {
   const handlePondChange = (value) => {
     setSelectedPond(value);
     const pond = ponds.find((p) => p.pondID === value);
-    console.log(pond);
+
     setTotalWeight(pond.totalWeight);
   };
   const handleTempChange = (value) => {
-    console.log(value);
     setSelectedTemp(value);
     setTempRules([]);
   };
@@ -78,10 +77,9 @@ function CalculateFood() {
     setIsLoading(true);
     const selectedTempTo = temp.find((t) => t.tempID === selectedTemp).tempTo;
     values.temperature = selectedTempTo;
-    console.log(values);
+
     try {
       const response = await api.post("koifood", values);
-      console.log(response.data.result);
       setFood(response.data.result);
       setIsLoading(false);
     } catch (error) {
@@ -97,13 +95,8 @@ function CalculateFood() {
         <div style={{ marginBottom: 20 }}>
           <Checkbox
             onChange={() => {
-              const confirmExpertMode = window.confirm(
-                "Are you sure to switch to Expert Mode?"
-              );
-              if (confirmExpertMode) {
-                setHideForm(!hideForm);
-                setFood("");
-              }
+              setHideForm(!hideForm);
+              setFood("");
             }}
           >
             Expert Mode

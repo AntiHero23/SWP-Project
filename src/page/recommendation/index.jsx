@@ -5,17 +5,11 @@ import { useQuery } from "react-query";
 
 function Recommendation() {
   const [data, setData] = useState([]);
-  const { data: apiData, isLoading } = useQuery(
-    "approvedPosts",
-    async () => {
-      const response = await api.get("admin/post/view/approved");
-      return response.data.result;
-    },
-    {
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-    }
-  );
+  const [loading, setLoading] = useState(false);
+  const { data: apiData, isLoading } = useQuery("approvedPosts", async () => {
+    const response = await api.get("admin/post/view/approved");
+    return response.data.result;
+  });
 
   useEffect(() => {
     setData(apiData);

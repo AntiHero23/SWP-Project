@@ -23,8 +23,7 @@ function ManagerKoi() {
     const fetchKoiFish = async () => {
       try {
         const response = await api.get("koifish");
-        console.log(response.data);
-        setKoiFishs(response.data);
+        setKoiFishs(response.data || []);
       } catch (error) {
         console.error(error);
       } finally {
@@ -34,7 +33,7 @@ function ManagerKoi() {
     const fetchVarieties = async () => {
       try {
         const response = await api.get("koivariety");
-        setKoiVarieties(response.data);
+        setKoiVarieties(response.data || []);
       } catch (error) {
         console.log(error);
       }

@@ -112,7 +112,6 @@ function KoiInfo() {
     }
   };
   const handleSubmit = async (values) => {
-    console.log(values);
     try {
       await api.post("koireport/create", values);
       setIsModalOpen(false);
@@ -124,7 +123,7 @@ function KoiInfo() {
     }
   };
   const handleSubmitKoiInfo = async (values) => {
-    console.log(values);
+
     try {
       if (fileList.length > 0) {
         const url = await uploadFile(fileList[0].originFileObj);
@@ -219,8 +218,8 @@ function KoiInfo() {
                       {koiReportLatest && (
                         <div className="koi-report-latest">
                           <h1>Koi Lastest Status</h1>
-                          <h3>Koi Length: {koiReportLatest.length || "N/A"}</h3>
-                          <h3>Koi Weight: {koiReportLatest.weight || "N/A"}</h3>
+                          <h3>Koi Length: {koiReportLatest.length || "N/A"} cm</h3>
+                          <h3>Koi Weight: {koiReportLatest.weight || "N/A"} g</h3>
                           <h3>
                             Koi Status: {koiReportLatest.koiStatus || "N/A"}
                           </h3>
@@ -359,8 +358,8 @@ function KoiInfo() {
                             Date :{" "}
                             {dayjs(report.updateDate).format("MMMM D, YYYY")}
                           </p>
-                          <p>Length : {report.length}</p>
-                          <p>Weight : {report.weight}</p>
+                          <p>Length : {report.length} cm</p>
+                          <p>Weight : {report.weight} g</p>
                           <MdDelete
                             style={{ fontSize: "24px", cursor: "pointer" }}
                             onClick={() =>

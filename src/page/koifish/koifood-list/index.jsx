@@ -13,7 +13,6 @@ const KoiFoodList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const data = { pondID, temperature: temp, level: growth };
 
-  console.log(data);
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
