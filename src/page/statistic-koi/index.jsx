@@ -279,4 +279,4 @@ function Statistic() {
   );
 }
 
-export default Statistic;
+export default StatisticKoi;
