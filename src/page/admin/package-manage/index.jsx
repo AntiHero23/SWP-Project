@@ -166,14 +166,24 @@ function Package() {
             name="price"
             rules={[{ required: true, message: "Please input price!" }]}
           >
-            <InputNumber />
+            <InputNumber
+              formatter={(value) =>
+                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₫"
+              }
+              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+            />
           </Form.Item>
           <Form.Item
             label="Duration"
             name="duration"
             rules={[{ required: true, message: "Please input duration!" }]}
           >
-            <InputNumber />
+            <InputNumber
+              formatter={(value) =>
+                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " months"
+              }
+              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+            />
           </Form.Item>
           <Form.Item
             label="Description"
@@ -189,7 +199,12 @@ function Package() {
               { required: true, message: "Please input number of posts!" },
             ]}
           >
-            <InputNumber />
+            <InputNumber
+              formatter={(value) =>
+                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " posts"
+              }
+              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+            />
           </Form.Item>
         </Form>
       </Modal>
