@@ -38,7 +38,7 @@ function CalculateFood() {
       setIsLoading(true);
       try {
         const response = await api.get("pond");
-        setPonds(response.data);
+        setPonds(response.data || []);
         setIsLoading(false);
       } catch (error) {
         setError(error);
@@ -48,7 +48,7 @@ function CalculateFood() {
       setIsLoading(true);
       try {
         const response = await api.get("tempcoef/viewall");
-        setTemp(response.data.result);
+        setTemp(response.data.result || []);
         setIsLoading(false);
       } catch (error) {
         setError(error);

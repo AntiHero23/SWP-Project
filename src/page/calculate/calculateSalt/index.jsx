@@ -24,8 +24,7 @@ function CalculateSalt() {
     const fetchPonds = async () => {
       try {
         const response = await api.get("pond");
-    
-        setPonds(response.data);
+        setPonds(response.data || []);
       } catch (error) {
         console.error(error);
       }
