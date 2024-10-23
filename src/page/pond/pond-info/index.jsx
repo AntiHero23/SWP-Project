@@ -203,18 +203,18 @@ function PondInfo() {
             Updated Date:{" "}
             {dayjs(waterReport?.waterReportUpdatedDate).format("DD MMM YYYY")}
           </p>
-          <p>Temperature: {waterReport?.waterReportTemperature || 0} &deg;C</p>
-          <p>Oxygen: {waterReport?.waterReportOxygen || 0} mg/L</p>
-          <p>pH: {waterReport?.waterReport_pH || 0}</p>
-          <p>Hardness: {waterReport?.waterReportHardness || 0} dGH</p>
-          <p>Ammonia: {waterReport?.waterReportAmmonia || 0} mg/L</p>
-          <p>Nitrite: {waterReport?.waterReportNitrite || 0} mg/L</p>
-          <p>Nitrate: {waterReport?.waterReportNitrate || 0} mg/L</p>
-          <p>Carbonate: {waterReport?.waterReportCarbonate || 0} mg/L</p>
-          <p>Salt: {waterReport?.waterReportSalt || 0} %</p>
-          <p>
-            Carbon Dioxide: {waterReport?.waterReportCarbonDioxide || 0} mg/L
+          <p style={{ color: waterReport.waterReportTemperature < 5 || waterReport.waterReportTemperature > 26 ? "red" : "" }}>
+            Temperature: {waterReport.waterReportTemperature} &deg;C
           </p>
+          <p style={{ color: waterReport.waterReportOxygen < 6.5 ? "red" : "" }}>Oxygen: {waterReport.waterReportOxygen} mg/L</p>
+          <p style={{ color: waterReport.waterReport_pH < 6.9 || waterReport.waterReport_pH > 8 ? "red" : "" }}>pH: {waterReport?.waterReport_pH}</p>
+          <p style={{ color: waterReport.waterReportHardness < 0 || waterReport.waterReportHardness > 21 ? "red" : "" }}>Hardness: {waterReport.waterReportHardness} dGH</p>
+          <p style={{ color: waterReport.waterReportAmmonia > 0.1 ? "red" : "" }}>Ammonia: {waterReport.waterReportAmmonia} mg/L</p>
+          <p style={{ color: waterReport.waterReportNitrite > 0.1 ? "red" : "" }}>Nitrite: {waterReport.waterReportNitrite} mg/L</p>
+          <p style={{ color: waterReport.waterReportNitrate > 20 ? "red" : "" }}>Nitrate: {waterReport.waterReportNitrate} mg/L</p>
+          <p style={{ color: waterReport.waterReportCarbonate > 180 ? "red" : "" }}>Carbonate: {waterReport.waterReportCarbonate} mg/L</p>
+          <p style={{ color: waterReport.waterReportSalt > 0.5 ? "red" : "" }}>Salt: {waterReport.waterReportSalt}%</p>
+          <p style={{ color: waterReport?.waterReportCarbonDioxide > 40 ? "red" : "" }}>Carbon Dioxide: {waterReport?.waterReportCarbonDioxide} mg/L</p>
           <Button onClick={() => navigate(`/waterReportHistory/${pondId}`)}>
             See Water Report History
           </Button>

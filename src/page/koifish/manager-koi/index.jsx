@@ -10,7 +10,9 @@ function ManagerKoi() {
   const [koiFishs, setKoiFishs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [koiVarieties, setKoiVarieties] = useState([]);
-  const [koiVariety, setKoiVariety] = useState("");
+  const [selectedKoiVariety, setSelectedKoiVariety] = useState("");
+  const [ponds, setPonds] = useState([]);
+  const [selectedPond, setSelectedPond] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -19,39 +21,61 @@ function ManagerKoi() {
     label: variety.varietyName,
   }));
 
+  const pondOptions = ponds.map((pond) => ({
+    value: pond.pondID,
+    label: pond.pondName,
+  }));
+  const fetchKoiFish = async () => {
+    try {
+      const response = await api.get("koifish");
+      setKoiFishs(response.data || []);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const fetchVarieties = async () => {
+    try {
+      const response = await api.get("koivariety");
+      setKoiVarieties(response.data || []);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchPond = async () => {
+    try {
+      const response = await api.get("pond");
+      setPonds(response.data || []);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    const fetchKoiFish = async () => {
-      try {
-        const response = await api.get("koifish");
-        setKoiFishs(response.data || []);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    const fetchVarieties = async () => {
-      try {
-        const response = await api.get("koivariety");
-        setKoiVarieties(response.data || []);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     fetchKoiFish();
     fetchVarieties();
+    fetchPond();
   }, []);
 
   const filteredKoiFishs = Array.isArray(koiFishs)
     ? koiFishs.filter(
         (koi) =>
           koi.koiName.toLowerCase().includes(searchTerm.toLowerCase()) &&
-          (koiVariety ? koi.koiVariety === koiVariety : true)
+          (selectedKoiVariety ? koi.koiVariety === selectedKoiVariety : true) &&
+          (selectedPond ? koi.pondID === selectedPond : true)
       )
     : [];
 
   const handleSearch = (value) => {
     setSearchTerm(value);
+  };
+
+  const handleSelectVariety = (value) => {
+    setSelectedKoiVariety(value);
+  };
+
+  const handleSelectPond = (value) => {
+    setSelectedPond(value);
   };
 
   if (isLoading) {
@@ -70,10 +94,18 @@ function ManagerKoi() {
             className="search-input"
           />
           <Select
-            value={koiVariety}
-            onChange={(value) => setKoiVariety(value)}
+            value={selectedKoiVariety}
+            onChange={handleSelectVariety}
             style={{ width: "100px" }}
             options={[{ value: null, label: "All" }, ...varietyOptions]}
+            defaultValue={null}
+          ></Select>
+
+          <Select
+            value={selectedPond}
+            onChange={handleSelectPond}
+            style={{ width: "100px", marginLeft: "10px" }}
+            options={[{ value: null, label: "All" }, ...pondOptions]}
             defaultValue={null}
           ></Select>
           <PlusCircleOutlined

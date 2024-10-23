@@ -91,7 +91,7 @@ function Header() {
       </ul>
 
       <div className="header-right">
-        <IoIosNotifications className="header-right-notification-icon" />
+        {/* <IoIosNotifications className="header-right-notification-icon" /> */}
         <>
           {avatar?.username ? (
             <div className="dropdown" color="">

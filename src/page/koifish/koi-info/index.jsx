@@ -19,7 +19,6 @@ import { useForm } from "antd/es/form/Form";
 import { MdDelete } from "react-icons/md";
 import "./index.scss";
 import dayjs from "dayjs";
-import { Delete } from "lucide-react";
 import uploadFile from "../../../assets/hook/useUpload";
 function KoiInfo() {
   const { id } = useParams();
@@ -127,7 +126,6 @@ function KoiInfo() {
     try {
       if (fileList.length > 0) {
         const url = await uploadFile(fileList[0].originFileObj);
-        console.log(url);
         values.image = url;
       }
       await api.put(`koifish/${id}`, values);
@@ -302,7 +300,6 @@ function KoiInfo() {
                   updateDate: "",
                   length: 0,
                   weight: 0,
-                  koiFishID: 0,
                 }}
                 open={isModalOpen}
                 onOk={() => form.submit()}

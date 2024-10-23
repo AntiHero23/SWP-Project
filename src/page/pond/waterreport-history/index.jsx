@@ -25,25 +25,25 @@ const WaterReportHistory = () => {
   const [editingWaterReport, setEditingWaterReport] = useState({});
   const [form] = Form.useForm();
 
-  const [isTemparatureInputValid, setIsTemparatureInputValid] = useState(false);
+  const [isTemparatureInputValid, setIsTemparatureInputValid] = useState(true);
   const handleChangeTemparatureInput = (value) => {
-    if (value >= 5 && value <= 26) {
+    if (value >= 5 && value <= 30) {
       setIsTemparatureInputValid(true);
     } else {
       setIsTemparatureInputValid(false);
     }
   };
 
-  const [isTemparatureEditInputValid, setIsTemparatureEditInputValid] =
-    useState(false);
-  const handleChangeTemparatureEditInput = (value) => {
-    if (value >= 5 && value <= 26) {
-      setIsTemparatureEditInputValid(true);
-    } else {
-      setIsTemparatureEditInputValid(false);
-    }
-  };
-  const [isOxygenInputValid, setIsOxygenInputValid] = useState(false);
+  // const [isTemparatureEditInputValid, setIsTemparatureEditInputValid] =
+  //   useState(false);
+  // const handleChangeTemparatureEditInput = (value) => {
+  //   if (value >= 5 && value <= 26) {
+  //     setIsTemparatureEditInputValid(true);
+  //   } else {
+  //     setIsTemparatureEditInputValid(false);
+  //   }
+  // };
+  const [isOxygenInputValid, setIsOxygenInputValid] = useState(true);
   const handleChangeOxygenInput = (value) => {
     if (value >= 6.5) {
       setIsOxygenInputValid(true);
@@ -52,7 +52,7 @@ const WaterReportHistory = () => {
     }
   };
 
-  const [isPHInputValid, setIsPHInputValid] = useState(false);
+  const [isPHInputValid, setIsPHInputValid] = useState(true);
   const handleChangePHInput = (value) => {
     if (value >= 6.9 && value <= 8) {
       setIsPHInputValid(true);
@@ -61,7 +61,7 @@ const WaterReportHistory = () => {
     }
   };
 
-  const [isHardnessInputValid, setIsHardnessInputValid] = useState(false);
+  const [isHardnessInputValid, setIsHardnessInputValid] = useState(true);
   const handleChangeHardnessInput = (value) => {
     if (value >= 0 && value <= 21) {
       setIsHardnessInputValid(true);
@@ -70,7 +70,7 @@ const WaterReportHistory = () => {
     }
   };
 
-  const [isAmmoniaInputValid, setIsAmmoniaInputValid] = useState(false);
+  const [isAmmoniaInputValid, setIsAmmoniaInputValid] = useState(true);
   const handleChangeAmmoniaInput = (value) => {
     if (value >= 0 && value <= 0.1) {
       setIsAmmoniaInputValid(true);
@@ -79,7 +79,7 @@ const WaterReportHistory = () => {
     }
   };
 
-  const [isNitriteInputValid, setIsNitriteInputValid] = useState(false);
+  const [isNitriteInputValid, setIsNitriteInputValid] = useState(true);
   const handleChangeNitriteInput = (value) => {
     if (value >= 0 && value <= 0.1) {
       setIsNitriteInputValid(true);
@@ -88,7 +88,7 @@ const WaterReportHistory = () => {
     }
   };
 
-  const [isNitrateInputValid, setIsNitrateInputValid] = useState(false);
+  const [isNitrateInputValid, setIsNitrateInputValid] = useState(true);
   const handleChangeNitrateInput = (value) => {
     if (value >= 0 && value <= 20) {
       setIsNitrateInputValid(true);
@@ -97,7 +97,7 @@ const WaterReportHistory = () => {
     }
   };
 
-  const [isSaltInputValid, setIsSaltInputValid] = useState(false);
+  const [isSaltInputValid, setIsSaltInputValid] = useState(true);
   const handleChangeSaltInput = (value) => {
     if (value >= 0 && value <= 10) {
       setIsSaltInputValid(true);
@@ -105,7 +105,7 @@ const WaterReportHistory = () => {
       setIsSaltInputValid(false);
     }
   };
-  const [isCarbonateInputValid, setIsCarbonateInputValid] = useState(false);
+  const [isCarbonateInputValid, setIsCarbonateInputValid] = useState(true);
   const handleChangeCarbonateInput = (value) => {
     if (value >= 0 && value <= 180) {
       setIsCarbonateInputValid(true);
@@ -115,7 +115,7 @@ const WaterReportHistory = () => {
   };
 
   const [isCarbonDioxideInputValid, setIsCarbonDioxideInputValid] =
-    useState(false);
+    useState(true);
   const handleChangeCarbonDioxideInput = (value) => {
     if (value >= 0 && value <= 40) {
       setIsCarbonDioxideInputValid(true);
@@ -141,6 +141,7 @@ const WaterReportHistory = () => {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    form.resetFields();
   };
 
   const handleCreateWaterReport = async (values) => {
@@ -170,7 +171,7 @@ const WaterReportHistory = () => {
       alert("Water report updated successfully");
       form.resetFields();
       fetchWaterReportHistory();
-      setIsModalOpen(false);
+      setIsEditModalOpen(false);
     } catch (error) {
       if (error.response && error.response.status === 400) {
         alert(error.response.data.message);
@@ -237,7 +238,7 @@ const WaterReportHistory = () => {
                         style={{
                           color:
                             waterReport.waterReportTemperature < 5 ||
-                            waterReport.waterReportTemperature > 26
+                            waterReport.waterReportTemperature > 30
                               ? "red"
                               : "inherit",
                         }}
@@ -415,7 +416,7 @@ const WaterReportHistory = () => {
                       <span>
                         Temperature(&deg;C):&nbsp;
                         <Popover
-                          content={"Temperature must be between 5°C and 26°C"}
+                          content={"Temperature must be between 5°C and 30°C"}
                         >
                           <AiOutlineExclamationCircle />
                         </Popover>
@@ -429,9 +430,9 @@ const WaterReportHistory = () => {
                     ]}
                   >
                     <InputNumber
-                      onChange={handleChangeTemparatureEditInput}
+                      onChange={handleChangeTemparatureInput}
                       style={{
-                        borderColor: isTemparatureEditInputValid ? "" : "red",
+                        borderColor: isTemparatureInputValid ? "" : "red",
                       }}
                     />
                   </Form.Item>
@@ -439,7 +440,18 @@ const WaterReportHistory = () => {
                 <Col span={12}>
                   <Form.Item
                     name="waterReportOxygen"
-                    label="Oxygen(mg/L): "
+                    label={
+                      <span>
+                        Oxygen(mg/L):&nbsp;
+                        <Popover
+                          content={"Oxygen must be greater than 6.5mg/L"}
+                        >
+                          <AiOutlineExclamationCircle
+                            style={{ float: "right" }}
+                          />
+                        </Popover>
+                      </span>
+                    }
                     rules={[
                       {
                         required: true,
@@ -447,10 +459,11 @@ const WaterReportHistory = () => {
                       },
                     ]}
                   >
-                    <InputNumber min={0} />
-                    <Popover content={"Oxygen must be greater than 6.5mg/L"}>
-                      <AiOutlineExclamationCircle />
-                    </Popover>
+                    <InputNumber
+                      min={0}
+                      onChange={handleChangeOxygenInput}
+                      style={{ borderColor: isOxygenInputValid ? "" : "red" }}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -458,7 +471,16 @@ const WaterReportHistory = () => {
                 <Col span={12}>
                   <Form.Item
                     name="waterReport_pH"
-                    label="pH:"
+                    label={
+                      <span>
+                        pH:&nbsp;
+                        <Popover content={"pH must be between 6.9 and 8"}>
+                          <AiOutlineExclamationCircle
+                            style={{ float: "right" }}
+                          />
+                        </Popover>
+                      </span>
+                    }
                     rules={[
                       {
                         required: true,
@@ -466,16 +488,25 @@ const WaterReportHistory = () => {
                       },
                     ]}
                   >
-                    <InputNumber />
-                    <Popover content={"pH must be between 6.9 and 8"}>
-                      <AiOutlineExclamationCircle />
-                    </Popover>
+                    <InputNumber
+                      onChange={handleChangePHInput}
+                      style={{ borderColor: isPHInputValid ? "" : "red" }}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item
                     name="waterReportHardness"
-                    label="Hardness(dGH)"
+                    label={
+                      <span>
+                        Hardness(dGH):&nbsp;
+                        <Popover
+                          content={"Hardness must be between 0 and 21 dGH"}
+                        >
+                          <AiOutlineExclamationCircle />
+                        </Popover>
+                      </span>
+                    }
                     rules={[
                       {
                         required: true,
@@ -483,10 +514,11 @@ const WaterReportHistory = () => {
                       },
                     ]}
                   >
-                    <InputNumber />
-                    <Popover content={"Hardness must be between 0 and 21 dGH"}>
-                      <AiOutlineExclamationCircle />
-                    </Popover>
+                    <InputNumber
+                      min={0}
+                      onChange={handleChangeHardnessInput}
+                      style={{ borderColor: isHardnessInputValid ? "" : "red" }}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -494,7 +526,16 @@ const WaterReportHistory = () => {
                 <Col span={12}>
                   <Form.Item
                     name="waterReportAmmonia"
-                    label="Ammonia(mg/L): "
+                    label={
+                      <span>
+                        Ammonia(mg/L): &nbsp;
+                        <Popover
+                          content={"Ammonia must be between 0mg/L and 0.1mg/L"}
+                        >
+                          <AiOutlineExclamationCircle />
+                        </Popover>
+                      </span>
+                    }
                     rules={[
                       {
                         required: true,
@@ -502,18 +543,28 @@ const WaterReportHistory = () => {
                       },
                     ]}
                   >
-                    <InputNumber min={0} />
-                    <Popover
-                      content={"Ammonia must be between 0mg/L and 0.1mg/L"}
-                    >
-                      <AiOutlineExclamationCircle />
-                    </Popover>
+                    <InputNumber
+                      min={0}
+                      onChange={handleChangeAmmoniaInput}
+                      style={{
+                        borderColor: isAmmoniaInputValid ? "" : "red",
+                      }}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item
                     name="waterReportNitrite"
-                    label="Nitrite(mg/L): "
+                    label={
+                      <span>
+                        Nitrite(mg/L): &nbsp;
+                        <Popover
+                          content={"Nitrite must be between 0mg/L and 0.1mg/L"}
+                        >
+                          <AiOutlineExclamationCircle />
+                        </Popover>
+                      </span>
+                    }
                     rules={[
                       {
                         required: true,
@@ -521,12 +572,13 @@ const WaterReportHistory = () => {
                       },
                     ]}
                   >
-                    <InputNumber min={0} />
-                    <Popover
-                      content={"Nitrite must be between 0mg/L and 0.1mg/L"}
-                    >
-                      <AiOutlineExclamationCircle />
-                    </Popover>
+                    <InputNumber
+                      min={0}
+                      onChange={handleChangeNitriteInput}
+                      style={{
+                        borderColor: isNitriteInputValid ? "" : "red",
+                      }}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -534,7 +586,16 @@ const WaterReportHistory = () => {
                 <Col span={12}>
                   <Form.Item
                     name="waterReportNitrate"
-                    label="Nitrate(mg/L): "
+                    label={
+                      <span>
+                        Nitrate(mg/L):&nbsp;
+                        <Popover
+                          content={"Nitrate must be between 0mg/L and 20mg/L"}
+                        >
+                          <AiOutlineExclamationCircle />
+                        </Popover>
+                      </span>
+                    }
                     rules={[
                       {
                         required: true,
@@ -542,18 +603,31 @@ const WaterReportHistory = () => {
                       },
                     ]}
                   >
-                    <InputNumber placeholder="Nitrate" />
-                    <Popover
-                      content={"Nitrate must be between 0mg/L and 20mg/L"}
-                    >
-                      <AiOutlineExclamationCircle />
-                    </Popover>
+                    <InputNumber
+                      min={0}
+                      onChange={handleChangeNitrateInput}
+                      style={{ borderColor: isNitrateInputValid ? "" : "red" }}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item
                     name="waterReportCarbonate"
-                    label="Carbonate(mg/L): "
+                    label={
+                      <span>
+                        Carbonate(mg/L): &nbsp;
+                        <Popover
+                          content={
+                            <div>
+                              Carbonate must be between 0mg/L and 10mg/L
+                            </div>
+                          }
+                          placement="right"
+                        >
+                          <AiOutlineExclamationCircle />
+                        </Popover>
+                      </span>
+                    }
                     rules={[
                       {
                         required: true,
@@ -561,41 +635,56 @@ const WaterReportHistory = () => {
                       },
                     ]}
                   >
-                    <InputNumber placeholder="Carbonate" min={0} />
+                    <InputNumber
+                      placeholder="Carbonate"
+                      min={0}
+                      onChange={handleChangeCarbonateInput}
+                      style={{
+                        borderColor: isCarbonateInputValid ? "" : "red",
+                      }}
+                    />
                   </Form.Item>
-                  <Popover
-                    content={
-                      <div>Carbonate must be between 0mg/L and 10mg/L</div>
-                    }
-                  >
-                    <AiOutlineExclamationCircle />
-                  </Popover>
                 </Col>
               </Row>
               <Row gutter={[16, 16]}>
                 <Col span={12}>
                   <Form.Item
                     name="waterReportSalt"
-                    label="Salt(%): "
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input water report salt!",
-                      },
-                    ]}
+                    label={
+                      <span>
+                        Salt(%):&nbsp;
+                        <Popover content={"Salt must be between 0% and 10%"}>
+                          <AiOutlineExclamationCircle />
+                        </Popover>
+                      </span>
+                    }
+                    rules={[{ required: true, message: "Please enter salt" }]}
                   >
-                    <InputNumber min={0} placeholder="Salt" />
-                    <Popover
-                      content={<div>Salt must be between 0% and 10%</div>}
-                    >
-                      <AiOutlineExclamationCircle />
-                    </Popover>
+                    <InputNumber
+                      min={0}
+                      placeholder="Salt"
+                      onChange={handleChangeSaltInput}
+                      style={{
+                        borderColor: isSaltInputValid ? "" : "red",
+                      }}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item
                     name="waterReportCarbonDioxide"
-                    label="Carbon Dioxide(mg/L): "
+                    label={
+                      <span>
+                        Carbon Dioxide(mg/L):&nbsp;
+                        <Popover
+                          content={
+                            "Carbon dioxide must be between 0mg/L and 40mg/L"
+                          }
+                        >
+                          <AiOutlineExclamationCircle />
+                        </Popover>
+                      </span>
+                    }
                     rules={[
                       {
                         required: true,
@@ -603,16 +692,13 @@ const WaterReportHistory = () => {
                       },
                     ]}
                   >
-                    <InputNumber placeholder="Carbon Dioxide" min={0} />
-                    <Popover
-                      content={
-                        <div>
-                          Carbon dioxide must be between 0mg/L and 10mg/L
-                        </div>
-                      }
-                    >
-                      <AiOutlineExclamationCircle />
-                    </Popover>
+                    <InputNumber
+                      min={0}
+                      onChange={handleChangeCarbonDioxideInput}
+                      style={{
+                        borderColor: isCarbonDioxideInputValid ? "" : "red",
+                      }}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -621,6 +707,7 @@ const WaterReportHistory = () => {
               </Form.Item>
             </Form>
           </Modal>
+
           <Modal
             title={<h2 style={{ fontSize: "24px" }}>Create Water Report</h2>}
             open={isModalOpen}
@@ -661,7 +748,6 @@ const WaterReportHistory = () => {
                     ]}
                   >
                     <InputNumber
-                      value={form.getFieldValue("waterReportTemperature")}
                       onChange={handleChangeTemparatureInput}
                       style={{
                         borderColor: isTemparatureInputValid ? "" : "red",
@@ -670,7 +756,6 @@ const WaterReportHistory = () => {
                   </Form.Item>
                 </Col>
               </Row>
-
               <Row gutter={[16, 16]}>
                 <Col span={12}>
                   <Form.Item
@@ -692,7 +777,6 @@ const WaterReportHistory = () => {
                   >
                     <InputNumber
                       min={0}
-                      value={form.getFieldValue("waterReportOxygen")}
                       onChange={handleChangeOxygenInput}
                       style={{ borderColor: isOxygenInputValid ? "" : "red" }}
                     />
@@ -718,7 +802,6 @@ const WaterReportHistory = () => {
                   >
                     <InputNumber
                       min={0}
-                      value={form.getFieldValue("waterReport_pH")}
                       onChange={handleChangePHInput}
                       style={{
                         borderColor: isPHInputValid ? "" : "red",
@@ -750,7 +833,6 @@ const WaterReportHistory = () => {
                     ]}
                   >
                     <InputNumber
-                      value={form.getFieldValue("waterReportHardness")}
                       onChange={handleChangeHardnessInput}
                       style={{ borderColor: isHardnessInputValid ? "" : "red" }}
                     />
@@ -778,7 +860,6 @@ const WaterReportHistory = () => {
                   >
                     <InputNumber
                       min={0}
-                      value={form.getFieldValue("waterReportAmmonia")}
                       onChange={handleChangeAmmoniaInput}
                       style={{ borderColor: isAmmoniaInputValid ? "" : "red" }}
                     />
@@ -808,7 +889,6 @@ const WaterReportHistory = () => {
                     ]}
                   >
                     <InputNumber
-                      value={form.getFieldValue("waterReportNitrite")}
                       onChange={handleChangeNitriteInput}
                       style={{
                         borderColor: isNitriteInputValid ? "" : "red",
@@ -838,7 +918,6 @@ const WaterReportHistory = () => {
                   >
                     <InputNumber
                       min={0}
-                      value={form.getFieldValue("waterReportNitrate")}
                       onChange={handleChangeNitrateInput}
                       style={{
                         borderColor: isNitrateInputValid ? "" : "red",
@@ -871,7 +950,6 @@ const WaterReportHistory = () => {
                   >
                     <InputNumber
                       min={0}
-                      value={form.getFieldValue("waterReportCarbonate")}
                       onChange={handleChangeCarbonateInput}
                       style={{
                         borderColor: isCarbonateInputValid ? "" : "red",
@@ -899,7 +977,6 @@ const WaterReportHistory = () => {
                   >
                     <InputNumber
                       min={0}
-                      value={form.getFieldValue("waterReportSalt")}
                       onChange={handleChangeSaltInput}
                       style={{
                         borderColor: isSaltInputValid ? "" : "red",
@@ -935,7 +1012,6 @@ const WaterReportHistory = () => {
                   >
                     <InputNumber
                       min={0}
-                      value={form.getFieldValue("waterReportCarbonDioxide")}
                       onChange={handleChangeCarbonDioxideInput}
                       style={{
                         borderColor: isCarbonDioxideInputValid ? "" : "red",
