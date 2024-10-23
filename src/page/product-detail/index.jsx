@@ -31,15 +31,18 @@ function ProductDetail() {
   return (
     <div className="product-detail">
       {/* <h1 style={{ textAlign: "center" }}>Product Detail</h1> */}
-      <div className="product-info">
+      
       {!loading && postDetail && (
-        <div>
+        <div className="product-info">
+          <div className="product-info-header">
           <h2 className="product-name">{postDetail.productName}</h2>
           <img
             src={postDetail.image}
             alt={postDetail.productName}
             className="product-image"
           />
+          </div>
+          <div className="product-info-body">
             <p className="product-desc">
              <span className="desc-label">Description:</span> {postDetail.description}
             </p>
@@ -47,9 +50,9 @@ function ProductDetail() {
           <a href={postDetail.link} className="product-link">
             Product Link
           </a>
+          </div>
         </div>
       )}
-    </div>
     </div>
   );
 }

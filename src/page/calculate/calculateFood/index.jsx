@@ -147,6 +147,7 @@ function CalculateFood() {
                 <Row>
                   <Col span={20}>
                     <Slider
+                      style={{ width: "300px" }}
                       min={0}
                       max={2.5}
                       value={percentage}
