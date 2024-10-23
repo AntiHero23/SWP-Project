@@ -35,9 +35,6 @@ function Recommendation() {
                       height="100px"
                     />
                     <p className="product-price">Price: {item.productPrice}</p>
-                    <p className="product-desc">
-                      Description: {item.description}
-                    </p>
                     <p>
                       <a className="product-link" href={item.link}>
                         Go to product page
