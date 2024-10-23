@@ -42,8 +42,8 @@ function Header() {
         <Menu.Item onClick={() => navigate("/recommendation")}>
           Shopping Recommendation
         </Menu.Item>
-        <Menu.Item onClick={() => navigate("/statistics")}>
-          Statistics
+        <Menu.Item onClick={() => navigate("/statisticsKoi")}>
+          Koi Statistics
         </Menu.Item>
       </Menu>
     ),
