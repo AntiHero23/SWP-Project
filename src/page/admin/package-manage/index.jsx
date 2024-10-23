@@ -63,7 +63,8 @@ function Package() {
       title: "Package Name",
       dataIndex: "name",
       key: "name",
-      render: (text) => text.charAt(0).toUpperCase() + text.slice(1),
+      render: (text) =>
+        text ? text.charAt(0).toUpperCase() + text.slice(1) : "N/A",
     },
     {
       title: "Price",
@@ -98,7 +99,8 @@ function Package() {
       title: "Package Name",
       dataIndex: "name",
       key: "name",
-      render: (text) => text.charAt(0).toUpperCase() + text.slice(1),
+      render: (text) =>
+        text ? text.charAt(0).toUpperCase() + text.slice(1) : "N/A",
     },
     {
       title: "Price",
@@ -143,13 +145,16 @@ function Package() {
         onOk={handleSubmit}
         onCancel={handleCancel}
       >
-        <Form form={form} onFinish={handleSubmit}>
+        <Form form={form} onFinish={handleSubmit} labelAlign="left">
           <Form.Item
             label="Role"
             name="role"
             rules={[{ required: true, message: "Please select role!" }]}
           >
-            <Select>
+            <Select
+              placeholder="Please select role"
+              rules={[{ required: true, message: "Please select role!" }]}
+            >
               <Select.Option value="MEMBER">MEMBER</Select.Option>
               <Select.Option value="SHOP">SHOP</Select.Option>
             </Select>
@@ -167,8 +172,9 @@ function Package() {
             rules={[{ required: true, message: "Please input price!" }]}
           >
             <InputNumber
+              placeholder="₫"
               formatter={(value) =>
-                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₫"
+                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }
               parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
             />
@@ -179,8 +185,9 @@ function Package() {
             rules={[{ required: true, message: "Please input duration!" }]}
           >
             <InputNumber
+              placeholder="Months"
               formatter={(value) =>
-                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " months"
+                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }
               parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
             />
@@ -200,8 +207,10 @@ function Package() {
             ]}
           >
             <InputNumber
+              style={{ width: "100%" }}
+              placeholder="Number of posts"
               formatter={(value) =>
-                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " posts"
+                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }
               parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
             />

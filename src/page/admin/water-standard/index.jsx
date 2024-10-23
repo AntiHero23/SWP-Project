@@ -8,40 +8,37 @@ function WaterStandard() {
   const [waterStandardData, setWaterStandardData] = useState([]);
   const [isCreateModal, setIsCreateModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const [isUpdateModal, setIsUpdateModal] = useState(false);
 
   const [form] = useForm();
-  const navigate = useNavigate();
 
-  const showCreateModal = () => {
-    setIsCreateModal(true);
-  };
-  const showDeleteModal = () => {
-    setIsDeleteModal(true);
-  };
-  const handleSubmitCreate = async () => {
-    try {
-      await api
-        .post("admin/waterstandard/create", form.getFieldsValue())
-        .then(() => {
+  const handleSubmitCreate = (values) => {
+    api
+      .post("admin/waterstandard/create", values)
+      .then((response) => {
+        if (response.status === 200) {
           fetchWaterStandard();
-        });
-      alert("Water Standard created successfully!");
-      form.resetFields();
-      setIsCreateModal(false);
-    } catch (error) {
-      alert(error.response.data.message);
-      handleCancel();
-      console.log(error);
-    }
+          alert("Water Standard created successfully!");
+          setIsCreateModal(false);
+          form.resetFields();
+        } else {
+          alert(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   const handleCancel = () => {
     form.resetFields();
     setIsCreateModal(false);
     setIsDeleteModal(false);
+    setIsUpdateModal(false);
   };
   const fetchWaterStandard = async () => {
     try {
       const response = await api.get("admin/viewall/waterstandard");
+      console.log(response.data.result);
       setWaterStandardData(response.data.result);
     } catch (error) {
       console.log(error);
@@ -58,7 +55,7 @@ function WaterStandard() {
         <br />
         <Button
           type="primary"
-          onClick={showCreateModal}
+          onClick={() => setIsCreateModal(true)}
           style={{ width: "175px", marginBottom: "20px" }}
         >
           Create Water Standard
@@ -66,392 +63,119 @@ function WaterStandard() {
         <Modal
           title="Create Water Standard"
           open={isCreateModal}
-          onOk={handleSubmitCreate}
+          onOk={() => form.submit()}
           onCancel={handleCancel}
-          width={700}
+          width={800}
         >
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form
-                form={form}
-                name="basic"
-                labelAlign="left"
-                style={{
-                  maxWidth: 300,
-                }}
-                initialValues={{
-                  remember: true,
-                }}
-                onFinish={handleSubmitCreate}
-                autoComplete="off"
-              >
-                <Form.Item
-                  label="Min Temperature Standard"
-                  name="minTempStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your min temperature standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " °C"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Min Oxygen Standard"
-                  name="minOxygenStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your min oxygen standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " mg/l"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Min pH Standard"
-                  name="min_pH_Standard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your min pH standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber style={{ float: "right" }} />
-                </Form.Item>
-                <Form.Item
-                  label="Min Hardness Standard"
-                  name="minHardnessStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your min hardness standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " °dH"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Min Ammonia Standard"
-                  name="minAmmoniaStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your min ammonia standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " mg/l"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Min Nitrite Standard"
-                  name="minNitriteStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your min nitrite standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " mg/l"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Min Nitrate Standard"
-                  name="minNitrateStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your min nitrate standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " mg/l"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Min Carbonate Standard"
-                  name="minCarbonateStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your min carbonate standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " °dH"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Min Salt Standard"
-                  name="minSaltStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your min salt standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " %"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Min Carbon Dioxide Standard"
-                  name="minCarbonDioxideStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your min carbon dioxide standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " mg/l"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-              </Form>
-            </Col>
-            <Col span={12}>
-              <Form
-                form={form}
-                name="basic"
-                labelAlign="left"
-                style={{
-                  maxWidth: 300,
-                }}
-                initialValues={{
-                  remember: true,
-                }}
-                onFinish={handleSubmitCreate}
-                autoComplete="off"
-              >
-                <Form.Item
-                  label="Max Temperature Standard"
-                  name="maxTempStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your max temperature standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " °C"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Max Oxygen Standard"
-                  name="maxOxygenStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your max oxygen standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " mg/l"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Max pH Standard"
-                  name="max_pH_Standard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your max pH standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber style={{ float: "right" }} />
-                </Form.Item>
-                <Form.Item
-                  label="Max Hardness Standard"
-                  name="maxHardnessStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your max hardness standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " °dH"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Max Ammonia Standard"
-                  name="maxAmmoniaStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your max ammonia standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " mg/l"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Max Nitrite Standard"
-                  name="maxNitriteStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your max nitrite standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " mg/l"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Max Nitrate Standard"
-                  name="maxNitrateStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your max nitrate standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " mg/l"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Max Carbonate Standard"
-                  name="maxCarbonateStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your max carbonate standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " °dH"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Max Salt Standard"
-                  name="maxSaltStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your max salt standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " %"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Max Carbon Dioxide Standard"
-                  name="maxCarbonDioxideStandard"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your max carbon dioxide standard!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    style={{ float: "right" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " mg/l"
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-              </Form>
-            </Col>
-          </Row>
+          <Form
+            form={form}
+            name="createWaterStandard"
+            labelAlign="left"
+            style={{
+              maxWidth: 700,
+            }}
+            onFinish={handleSubmitCreate}
+            autoComplete="off"
+          >
+            <Row gutter={16}>
+              {[
+                {
+                  label: "Temperature Standard",
+                  name: ["minTempStandard", "maxTempStandard"],
+                  unit: "°C",
+                },
+                {
+                  label: "Oxygen Standard",
+                  name: ["minOxygenStandard", "maxOxygenStandard"],
+                  unit: "mg/l",
+                },
+                {
+                  label: "pH Standard",
+                  name: ["min_pH_Standard", "max_pH_Standard"],
+                  unit: "pH",
+                },
+                {
+                  label: "Hardness Standard",
+                  name: ["minHardnessStandard", "maxHardnessStandard"],
+                  unit: "°dH",
+                },
+                {
+                  label: "Ammonia Standard",
+                  name: ["minAmmoniaStandard", "maxAmmoniaStandard"],
+                  unit: "mg/l",
+                },
+                {
+                  label: "Nitrite Standard",
+                  name: ["minNitriteStandard", "maxNitriteStandard"],
+                  unit: "mg/l",
+                },
+                {
+                  label: "Nitrate Standard",
+                  name: ["minNitrateStandard", "maxNitrateStandard"],
+                  unit: "mg/l",
+                },
+                {
+                  label: "Carbonate Standard",
+                  name: ["minCarbonateStandard", "maxCarbonateStandard"],
+                  unit: "°dH",
+                },
+                {
+                  label: "Salt Standard",
+                  name: ["minSaltStandard", "maxSaltStandard"],
+                  unit: "%",
+                },
+                {
+                  label: "Carbon Dioxide Standard",
+                  name: [
+                    "minCarbonDioxideStandard",
+                    "maxCarbonDioxideStandard",
+                  ],
+                  unit: "mg/l",
+                },
+              ].map(({ label, name, unit }) => (
+                <Col span={24} key={name[0]}>
+                  <Row gutter={16}>
+                    <Col span={12}>
+                      <Form.Item
+                        label={`Min ${label} (${unit})`}
+                        name={name[0]}
+                        rules={[
+                          {
+                            required: true,
+                            message: `Please input your min ${label.toLowerCase()}!`,
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          style={{ float: "right" }}
+                          placeholder={unit}
+                          min={0}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item
+                        label={`Max ${label} (${unit})`}
+                        name={name[1]}
+                        rules={[
+                          {
+                            required: true,
+                            message: `Please input your max ${label.toLowerCase()}!`,
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          style={{ float: "right" }}
+                          placeholder={unit}
+                          min={0}
+                        />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Col>
+              ))}
+            </Row>
+          </Form>
         </Modal>
         <div style={{ justifyContent: "space-between" }}>
           {waterStandardData.map((item, index) => (
@@ -540,9 +264,420 @@ function WaterStandard() {
               <br />
               <Button
                 type="primary"
+                style={{ width: "100px" }}
+                onClick={() => setIsUpdateModal(true)}
+              >
+                Update
+              </Button>
+              <Modal
+                width={800}
+                key={index}
+                title="Update Water Standard"
+                open={isUpdateModal}
+                onOk={() => {
+                  form
+                    .validateFields()
+                    .then((values) => {
+                      api
+                        .put(
+                          `/admin/waterstandard/update/${item.waterStandardID}`,
+                          {
+                            minTempStandard: values.minTempStandard,
+                            maxTempStandard: values.maxTempStandard,
+                            minOxygenStandard: values.minOxygenStandard,
+                            maxOxygenStandard: values.maxOxygenStandard,
+                            min_pH_Standard: values.min_pH_Standard,
+                            max_pH_Standard: values.max_pH_Standard,
+                            minHardnessStandard: values.minHardnessStandard,
+                            maxHardnessStandard: values.maxHardnessStandard,
+                            minAmmoniaStandard: values.minAmmoniaStandard,
+                            maxAmmoniaStandard: values.maxAmmoniaStandard,
+                            minNitriteStandard: values.minNitriteStandard,
+                            maxNitriteStandard: values.maxNitriteStandard,
+                            minNitrateStandard: values.minNitrateStandard,
+                            maxNitrateStandard: values.maxNitrateStandard,
+                            minCarbonateStandard: values.minCarbonateStandard,
+                            maxCarbonateStandard: values.maxCarbonateStandard,
+                            minSaltStandard: values.minSaltStandard,
+                            maxSaltStandard: values.maxSaltStandard,
+                            minCarbonDioxideStandard:
+                              values.minCarbonDioxideStandard,
+                            maxCarbonDioxideStandard:
+                              values.maxCarbonDioxideStandard,
+                          }
+                        )
+                        .then(() => {
+                          fetchWaterStandard();
+                          window.location.reload();
+                          setIsUpdateModal(false);
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                        });
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    });
+                }}
+                onCancel={handleCancel}
+              >
+                <Row gutter={16}>
+                  <Col span={12}>
+                    <Form
+                      form={form}
+                      name="basic"
+                      labelAlign="left"
+                      initialValues={{ ...waterStandardData }}
+                    >
+                      <Form.Item
+                        label="Min Temperature Standard (°C)"
+                        name="minTempStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input min temperature standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.minTempStandard}
+                          initialValue={item.minTempStandard}
+                          style={{ float: "right" }}
+                          placeholder="°C"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Min Oxygen Standard (mg/l)"
+                        name="minOxygenStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input min oxygen standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.minOxygenStandard}
+                          initialValue={item.minOxygenStandard}
+                          style={{ float: "right" }}
+                          placeholder="mg/l"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Min pH Standard"
+                        name="min_pH_Standard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input min pH standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.min_pH_Standard}
+                          initialValue={item.min_pH_Standard}
+                          style={{ float: "right" }}
+                          placeholder="pH"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Min Hardness Standard (mg/l)"
+                        name="minHardnessStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input min hardness standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.minHardnessStandard}
+                          initialValue={item.minHardnessStandard}
+                          style={{ float: "right" }}
+                          placeholder="mg/l"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Min Ammonia Standard (mg/l)"
+                        name="minAmmoniaStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input min ammonia standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.minAmmoniaStandard}
+                          initialValue={item.minAmmoniaStandard}
+                          style={{ float: "right" }}
+                          placeholder="mg/l"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Min Nitrite Standard (mg/l)"
+                        name="minNitriteStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input min nitrite standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.minNitriteStandard}
+                          initialValue={item.minNitriteStandard}
+                          style={{ float: "right" }}
+                          placeholder="mg/l"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Min Carbonate Standard (mg/l)"
+                        name="minCarbonateStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input min carbonate standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.minCarbonateStandard}
+                          initialValue={item.minCarbonateStandard}
+                          style={{ float: "right" }}
+                          placeholder="mg/l"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Min Salt Standard (%)"
+                        name="minSaltStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input min salt standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.minSaltStandard}
+                          initialValue={item.minSaltStandard}
+                          style={{ float: "right" }}
+                          placeholder="%"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Min Carbon Dioxide Standard (mg/l)"
+                        name="minCarbonDioxideStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message:
+                              "Please input min carbon dioxide standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.minCarbonDioxideStandard}
+                          initialValue={item.minCarbonDioxideStandard}
+                          style={{ float: "right" }}
+                          placeholder="mg/l"
+                          min={0}
+                        />
+                      </Form.Item>
+                    </Form>
+                  </Col>
+                  <Col span={12}>
+                    <Form
+                      form={form}
+                      name="basic"
+                      labelAlign="left"
+                      initialValues={item}
+                    >
+                      <Form.Item
+                        label="Max Temperature Standard (°C)"
+                        name="maxTempStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input max temperature standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.maxTempStandard}
+                          initialValue={item.maxTempStandard}
+                          style={{ float: "right" }}
+                          placeholder="°C"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Max Oxygen Standard (mg/l)"
+                        name="maxOxygenStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input max oxygen standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.maxOxygenStandard}
+                          initialValue={item.maxOxygenStandard}
+                          style={{ float: "right" }}
+                          placeholder="mg/l"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Max pH Standard"
+                        name="max_pH_Standard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input max pH standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.max_pH_Standard}
+                          initialValue={item.max_pH_Standard}
+                          style={{ float: "right" }}
+                          placeholder="pH"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Max Hardness Standard (mg/l)"
+                        name="maxHardnessStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input max hardness standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.maxHardnessStandard}
+                          initialValue={item.maxHardnessStandard}
+                          style={{ float: "right" }}
+                          placeholder="mg/l"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Max Ammonia Standard (mg/l)"
+                        name="maxAmmoniaStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input max ammonia standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.maxAmmoniaStandard}
+                          initialValue={item.maxAmmoniaStandard}
+                          style={{ float: "right" }}
+                          placeholder="mg/l"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Max Nitrite Standard (mg/l)"
+                        name="maxNitriteStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input max nitrite standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.maxNitriteStandard}
+                          initialValue={item.maxNitriteStandard}
+                          style={{ float: "right" }}
+                          placeholder="mg/l"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Max Carbonate Standard (mg/l)"
+                        name="maxCarbonateStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input max carbonate standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.maxCarbonateStandard}
+                          initialValue={item.maxCarbonateStandard}
+                          style={{ float: "right" }}
+                          placeholder="mg/l"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Max Salt Standard (%)"
+                        name="maxSaltStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input max salt standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.maxSaltStandard}
+                          initialValue={item.maxSaltStandard}
+                          style={{ float: "right" }}
+                          placeholder="%"
+                          min={0}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label="Max Carbon Dioxide Standard (mg/l)"
+                        name="maxCarbonDioxideStandard"
+                        rules={[
+                          {
+                            required: true,
+                            message:
+                              "Please input max carbon dioxide standard!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          defaultValue={item.maxCarbonDioxideStandard}
+                          initialValue={item.maxCarbonDioxideStandard}
+                          style={{ float: "right" }}
+                          placeholder="mg/l"
+                          min={0}
+                        />
+                      </Form.Item>
+                    </Form>
+                  </Col>
+                </Row>
+              </Modal>
+
+              <Button
+                type="primary"
                 danger
-                style={{ width: "100px", marginTop: "10px" }}
-                onClick={showDeleteModal}
+                style={{
+                  width: "100px",
+                  marginTop: "10px",
+                  marginLeft: "10px",
+                }}
+                onClick={() => setIsDeleteModal(true)}
               >
                 Delete
               </Button>
