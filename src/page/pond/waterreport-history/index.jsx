@@ -34,15 +34,6 @@ const WaterReportHistory = () => {
     }
   };
 
-  // const [isTemparatureEditInputValid, setIsTemparatureEditInputValid] =
-  //   useState(false);
-  // const handleChangeTemparatureEditInput = (value) => {
-  //   if (value >= 5 && value <= 26) {
-  //     setIsTemparatureEditInputValid(true);
-  //   } else {
-  //     setIsTemparatureEditInputValid(false);
-  //   }
-  // };
   const [isOxygenInputValid, setIsOxygenInputValid] = useState(true);
   const handleChangeOxygenInput = (value) => {
     if (value >= 6.5) {

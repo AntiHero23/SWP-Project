@@ -45,6 +45,9 @@ function Header() {
         <Menu.Item onClick={() => navigate("/statisticsKoi")}>
           Koi Statistics
         </Menu.Item>
+        <Menu.Item onClick={() => navigate("/statisticsPond")}>
+          Pond Statistics
+        </Menu.Item>
       </Menu>
     ),
     trigger: ["click"],
@@ -96,7 +99,7 @@ function Header() {
           {avatar?.username ? (
             <div className="dropdown" color="">
               <Dropdown {...menuProps_user}>
-                <a className="dropdown-link" >{avatar?.username}</a>
+                <a className="dropdown-link">{avatar?.username}</a>
               </Dropdown>
             </div>
           ) : (
