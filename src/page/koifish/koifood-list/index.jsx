@@ -30,22 +30,33 @@ const KoiFoodList = () => {
   }, []);
 
   return (
-    <div>
-      <h1 style={{ textAlign: "center" }}>Calculate Food List</h1>
+    <div className="koi-food-list">
+      <h1 className="title" style={{ textAlign: "center" }}>Calculate Food List</h1>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <div>
+        <div className="koi-card-container">
           <div className="site-card-wrapper">
-            <Row gutter={16}>
+          
               {koiFishList.map((koi) => (
-                <Col span={6} key={koi.koiFishID}>
-                  <Card title={koi.koiName} extra={<p>{koi.koiVariety}</p>}>
-                    <img
+                <Col className="koi-card-col" span={6} key={koi.koiFishID}>
+                  <Card className="koi-card">
+                  <div className="info-container">
+                    <div className="koi-important-info">
+                      <p className="koi-name">{koi.koiName}</p>
+                    <div className="koi-food container">
+                      <p className="koi-food-text">FOOD</p>
+                      <p className="koi-food-ammount">{koi.food} g</p>
+                    </div>
+                    </div>
+                    {/* <img
                       src={koi.image}
                       alt={koi.koiName}
                       className="koi-fish-image"
-                    />
+                    /> */}
+                    <p>
+                      <span style={{ fontWeight: "bold" }}>Variety: </span> {koi.koiVariety}
+                    </p>
                     <p>
                       <span style={{ fontWeight: "bold" }}>Age:</span> {koi.age}
                     </p>
@@ -57,14 +68,15 @@ const KoiFoodList = () => {
                       <span style={{ fontWeight: "bold" }}>Length:</span>{" "}
                       {koi.length} cm
                     </p>
-                    <p>
+                  </div>
+                    {/* <p>
                       <span style={{ fontWeight: "bold" }}>Food:</span>{" "}
                       {koi.food} g
-                    </p>
+                    </p> */}
                   </Card>
                 </Col>
               ))}
-            </Row>
+            
           </div>
         </div>
       )}

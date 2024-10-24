@@ -44,7 +44,7 @@ function ProductDetail() {
           </div>
           <div className="product-info-body">
             <p className="product-desc">
-             <span className="desc-label">Description:</span> {postDetail.description}
+              {postDetail.description}
             </p>
           <p className="product-price">Price: {postDetail.productPrice} VND</p>
           <a href={postDetail.link} className="product-link">
