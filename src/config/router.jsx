@@ -46,6 +46,7 @@ import ProductDetail from "../page/product-detail";
 import AccountDetails from "../page/admin/account-detail";
 import PondStandard from "../page/admin/pond-standard";
 import WaterStandard from "../page/admin/water-standard";
+import PondStandardDetails from "../page/admin/pond-standard-details";
 
 export const router = createBrowserRouter([
   {
@@ -143,7 +144,16 @@ export const router = createBrowserRouter([
       },
       {
         path: "pondStandard",
-        element: <PondStandard />,
+        children: [
+          {
+            path: "",
+            element: <PondStandard />,
+          },
+          {
+            path: "details/:id",
+            element: <PondStandardDetails />,
+          },
+        ],
       },
       {
         path: "waterStandard",

@@ -267,10 +267,8 @@ function PostManage() {
       <br />
       <br />
       <h2>Post Pending Table</h2>
-      <br />
       <Table dataSource={dataSourcePending} columns={pendingColumns} />
       <h2>Post Approved Table</h2>
-      <br />
       <Table dataSource={dataSourceApproved} columns={approvedColumns} />
     </>
   );

@@ -33,11 +33,11 @@ function UserManage() {
     //   dataIndex: "password",
     //   key: "password",
     // },
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
+    // {
+    //   title: "Name",
+    //   dataIndex: "name",
+    //   key: "name",
+    // },
     // {
     //   title: "Phone",
     //   dataIndex: "phone",
@@ -90,7 +90,10 @@ function UserManage() {
 
   return (
     <>
-      <h1>User Account Table</h1>
+      <h1>User Manage</h1>
+      <br />
+      <br />
+      <h2>User Account Table</h2>
       <Table dataSource={dataSourceAccount} columns={accountColumns} />
     </>
   );

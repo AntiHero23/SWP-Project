@@ -113,7 +113,7 @@ function AdminHome() {
           <Card
             title="Total Account"
             bordered={false}
-            style={{ backgroundColor: "#f5deb3" }}
+            style={{ backgroundColor: "#6495ed" }}
           >
             {totalAccount}
           </Card>
@@ -122,7 +122,7 @@ function AdminHome() {
           <Card
             title="Total Orders"
             bordered={false}
-            style={{ backgroundColor: "#f5deb3" }}
+            style={{ backgroundColor: "#6495ed" }}
           >
             {totalOder}
           </Card>
@@ -131,7 +131,7 @@ function AdminHome() {
           <Card
             title="Total Revenue"
             bordered={false}
-            style={{ backgroundColor: "#f5deb3" }}
+            style={{ backgroundColor: "#6495ed" }}
           >
             {VND.format(totalRevenue)}
           </Card>

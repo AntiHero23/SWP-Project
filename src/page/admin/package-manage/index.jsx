@@ -132,92 +132,97 @@ function Package() {
   ];
   return (
     <>
-      <Button
-        type="primary"
-        onClick={() => setIsOpenModal(true)}
-        style={{ width: "25%", marginLeft: "40%" }}
-      >
-        Add Package
-      </Button>
-      <Modal
-        title="Add Package"
-        open={isOpenModal}
-        onOk={handleSubmit}
-        onCancel={handleCancel}
-      >
-        <Form form={form} onFinish={handleSubmit} labelAlign="left">
-          <Form.Item
-            label="Role"
-            name="role"
-            rules={[{ required: true, message: "Please select role!" }]}
-          >
-            <Select
-              placeholder="Please select role"
+      <h1>Package Manage</h1>
+      <br />
+      <div style={{ textAlign: "center" }}>
+        <Button
+          type="primary"
+          onClick={() => setIsOpenModal(true)}
+          style={{ width: "25%" }}
+        >
+          Add Package
+        </Button>
+        <Modal
+          title="Add Package"
+          open={isOpenModal}
+          onOk={handleSubmit}
+          onCancel={handleCancel}
+        >
+          <Form form={form} onFinish={handleSubmit} labelAlign="left">
+            <Form.Item
+              label="Role"
+              name="role"
               rules={[{ required: true, message: "Please select role!" }]}
             >
-              <Select.Option value="MEMBER">MEMBER</Select.Option>
-              <Select.Option value="SHOP">SHOP</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            label="Package Name"
-            name="name"
-            rules={[{ required: true, message: "Please input package name!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Price"
-            name="price"
-            rules={[{ required: true, message: "Please input price!" }]}
-          >
-            <InputNumber
-              placeholder="₫"
-              formatter={(value) =>
-                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-            />
-          </Form.Item>
-          <Form.Item
-            label="Duration"
-            name="duration"
-            rules={[{ required: true, message: "Please input duration!" }]}
-          >
-            <InputNumber
-              placeholder="Months"
-              formatter={(value) =>
-                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-            />
-          </Form.Item>
-          <Form.Item
-            label="Description"
-            name="description"
-            rules={[{ required: true, message: "Please input description!" }]}
-          >
-            <Input.TextArea autoSize={{ minRows: 4, maxRows: 6 }} />
-          </Form.Item>
-          <Form.Item
-            label="Number of posts (available for shop only)"
-            name="numberOfPosts"
-            rules={[
-              { required: true, message: "Please input number of posts!" },
-            ]}
-          >
-            <InputNumber
-              style={{ width: "100%" }}
-              placeholder="Number of posts"
-              formatter={(value) =>
-                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-      <h1>Package Manage</h1>
+              <Select
+                placeholder="Please select role"
+                rules={[{ required: true, message: "Please select role!" }]}
+              >
+                <Select.Option value="MEMBER">MEMBER</Select.Option>
+                <Select.Option value="SHOP">SHOP</Select.Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              label="Package Name"
+              name="name"
+              rules={[
+                { required: true, message: "Please input package name!" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Price"
+              name="price"
+              rules={[{ required: true, message: "Please input price!" }]}
+            >
+              <InputNumber
+                placeholder="₫"
+                formatter={(value) =>
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+              />
+            </Form.Item>
+            <Form.Item
+              label="Duration"
+              name="duration"
+              rules={[{ required: true, message: "Please input duration!" }]}
+            >
+              <InputNumber
+                placeholder="Months"
+                formatter={(value) =>
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+              />
+            </Form.Item>
+            <Form.Item
+              label="Description"
+              name="description"
+              rules={[{ required: true, message: "Please input description!" }]}
+            >
+              <Input.TextArea autoSize={{ minRows: 4, maxRows: 6 }} />
+            </Form.Item>
+            <Form.Item
+              label="Number of posts (available for shop only)"
+              name="numberOfPosts"
+              rules={[
+                { required: true, message: "Please input number of posts!" },
+              ]}
+            >
+              <InputNumber
+                style={{ width: "100%" }}
+                placeholder="Number of posts"
+                formatter={(value) =>
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+              />
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
       <br />
       <br />
       <h2>Member Package</h2>

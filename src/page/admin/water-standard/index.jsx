@@ -2,7 +2,17 @@ import { useForm } from "antd/es/form/Form";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../config/axios";
-import { Button, Col, Form, InputNumber, Modal, Row, Table, Tag } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  InputNumber,
+  Modal,
+  Row,
+  Table,
+  Tag,
+} from "antd";
 
 function WaterStandard() {
   const [waterStandardData, setWaterStandardData] = useState([]);
@@ -53,7 +63,7 @@ function WaterStandard() {
       <div style={{ textAlign: "center" }}>
         <h1>Water Standard</h1>
         <br />
-        <Button
+        {/* <Button
           type="primary"
           onClick={() => setIsCreateModal(true)}
           style={{ width: "175px", marginBottom: "20px" }}
@@ -176,95 +186,103 @@ function WaterStandard() {
               ))}
             </Row>
           </Form>
-        </Modal>
-        <div style={{ justifyContent: "space-between" }}>
+        </Modal> */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
+        >
           {waterStandardData.map((item, index) => (
             <div key={index}>
-              <Tag>
-                Min Temperature Standard:{" "}
-                {item.minTempStandard.toFixed(2) + " °C"}
-              </Tag>
-              <Tag>
-                Max Temperature Standard:{" "}
-                {item.maxTempStandard.toFixed(2) + " °C"}
-              </Tag>
-              <p style={{ marginTop: "10px" }} />
-              <Tag>
-                Min Oxygen Standard:{" "}
-                {item.minOxygenStandard.toFixed(3) + " mg/l"}
-              </Tag>
-              <Tag>
-                Max Oxygen Standard:{" "}
-                {item.maxOxygenStandard.toFixed(3) + " mg/l"}
-              </Tag>
-              <p style={{ marginTop: "10px" }} />
-              <Tag>Min pH Standard: {item.min_pH_Standard}</Tag>
-              <Tag>Max pH Standard: {item.max_pH_Standard}</Tag>
-              <p style={{ marginTop: "10px" }} />
-              <Tag>
-                Min Hardness Standard:{" "}
-                {item.minHardnessStandard.toFixed(1) + " °dH"}
-              </Tag>
-              <Tag>
-                Max Hardness Standard:{" "}
-                {item.maxHardnessStandard.toFixed(1) + " °dH"}
-              </Tag>
-              <p style={{ marginTop: "10px" }} />
-              <Tag>
-                Min Ammonia Standard:{" "}
-                {item.minAmmoniaStandard.toFixed(3) + " mg/l"}
-              </Tag>
-              <Tag>
-                Max Ammonia Standard:{" "}
-                {item.maxAmmoniaStandard.toFixed(3) + " mg/l"}
-              </Tag>
-              <p style={{ marginTop: "10px" }} />
-              <Tag>
-                Min Nitrite Standard:{" "}
-                {item.minNitriteStandard.toFixed(3) + " mg/l"}
-              </Tag>
-              <Tag>
-                Max Nitrite Standard:{" "}
-                {item.maxNitriteStandard.toFixed(3) + " mg/l"}
-              </Tag>
-              <p style={{ marginTop: "10px" }} />
-              <Tag>
-                Min Nitrate Standard:{" "}
-                {item.minNitrateStandard.toFixed(3) + " mg/l"}
-              </Tag>
-              <Tag>
-                Max Nitrate Standard:{" "}
-                {item.maxNitrateStandard.toFixed(3) + " mg/l"}
-              </Tag>
-              <p style={{ marginTop: "10px" }} />
-              <Tag>
-                Min Carbonate Standard:{" "}
-                {item.minCarbonateStandard.toFixed(1) + " °dH"}
-              </Tag>
-              <Tag>
-                Max Carbonate Standard:{" "}
-                {item.maxCarbonateStandard.toFixed(1) + " °dH"}
-              </Tag>
-              <p style={{ marginTop: "10px" }} />
-              <Tag>
-                Min Salt Standard: {item.minSaltStandard.toFixed(3) + " %"}
-              </Tag>
-              <Tag>
-                Max Salt Standard: {item.maxSaltStandard.toFixed(3) + " %"}
-              </Tag>
-              <p style={{ marginTop: "10px" }} />
-              <Tag>
-                Min Carbon Dioxide Standard:{" "}
-                {item.minCarbonDioxideStandard.toFixed(3) + " mg/l"}
-              </Tag>
-              <Tag>
-                Max Carbon Dioxide Standard:{" "}
-                {item.maxCarbonDioxideStandard.toFixed(3) + " mg/l"}
-              </Tag>
+              <Row gutter={[16, 16]}>
+                <Col span={12}>
+                  <Card style={{ width: "100%", background: "#6495ed" }}>
+                    {"Temperature Standard: " +
+                      item.minTempStandard.toFixed(2) +
+                      " - " +
+                      item.maxTempStandard.toFixed(2) +
+                      " °C"}
+                  </Card>
+                  <br />
+                  <Card style={{ width: "100%", background: "#6495ed" }}>
+                    {"Oxygen Standard: " +
+                      item.minOxygenStandard.toFixed(3) +
+                      " - " +
+                      item.maxOxygenStandard.toFixed(3) +
+                      " mg/l"}
+                  </Card>
+                  <br />
+                  <Card style={{ width: "100%", background: "#6495ed" }}>
+                    {"pH Standard: " +
+                      item.min_pH_Standard +
+                      " - " +
+                      item.max_pH_Standard}
+                  </Card>
+                  <br />
+                  <Card style={{ width: "100%", background: "#6495ed" }}>
+                    {"Hardness Standard: " +
+                      item.minHardnessStandard.toFixed(1) +
+                      " - " +
+                      item.maxHardnessStandard.toFixed(1) +
+                      " °dH"}
+                  </Card>
+                  <br />
+                  <Card style={{ width: "100%", background: "#6495ed" }}>
+                    {"Ammonia Standard: " +
+                      item.minAmmoniaStandard.toFixed(3) +
+                      " - " +
+                      item.maxAmmoniaStandard.toFixed(3) +
+                      " mg/l"}
+                  </Card>
+                </Col>
+                <Col span={12}>
+                  <Card style={{ width: "100%", background: "#6495ed" }}>
+                    {"Nitrite Standard: " +
+                      item.minNitriteStandard.toFixed(3) +
+                      " - " +
+                      item.maxNitriteStandard.toFixed(3) +
+                      " mg/l"}
+                  </Card>
+                  <br />
+                  <Card style={{ width: "100%", background: "#6495ed" }}>
+                    {"Nitrate Standard: " +
+                      item.minNitrateStandard.toFixed(3) +
+                      " - " +
+                      item.maxNitrateStandard.toFixed(3) +
+                      " mg/l"}
+                  </Card>
+                  <br />
+                  <Card style={{ width: "100%", background: "#6495ed" }}>
+                    {"Carbonate Standard: " +
+                      item.minCarbonateStandard.toFixed(1) +
+                      " - " +
+                      item.maxCarbonateStandard.toFixed(1) +
+                      " °dH"}
+                  </Card>
+                  <br />
+                  <Card style={{ width: "100%", background: "#6495ed" }}>
+                    {"Salt Standard: " +
+                      item.minSaltStandard.toFixed(3) +
+                      " - " +
+                      item.maxSaltStandard.toFixed(3) +
+                      " %"}
+                  </Card>
+                  <br />
+                  <Card style={{ width: "100%", background: "#6495ed" }}>
+                    {"Carbon Dioxide Standard: " +
+                      item.minCarbonDioxideStandard.toFixed(3) +
+                      " - " +
+                      item.maxCarbonDioxideStandard.toFixed(3) +
+                      " mg/l"}
+                  </Card>
+                </Col>
+              </Row>
               <br />
               <Button
                 type="primary"
-                style={{ width: "100px" }}
+                style={{ width: "175px", marginTop: "10px" }}
                 onClick={() => setIsUpdateModal(true)}
               >
                 Update
@@ -668,8 +686,7 @@ function WaterStandard() {
                   </Col>
                 </Row>
               </Modal>
-
-              <Button
+              {/* <Button
                 type="primary"
                 danger
                 style={{
@@ -700,7 +717,7 @@ function WaterStandard() {
                   alert("Water Standard deleted successfully!");
                 }}
                 onCancel={handleCancel}
-              />
+              /> */}
             </div>
           ))}
         </div>

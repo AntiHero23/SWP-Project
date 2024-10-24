@@ -63,8 +63,8 @@ const ShopDashboard = () => {
             type="primary"
             danger
             style={{
-              width: "90%",
-              marginLeft: "3%",
+              width: "96%",
+              marginLeft: "2%",
             }}
             className="profile-button profile-button-logout"
             onClick={handleLogout}
