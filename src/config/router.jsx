@@ -44,41 +44,136 @@ import ShopPackage from "../page/admin/shop-package";
 import MemberPackage from "../page/admin/user-package";
 import ProductDetail from "../page/product-detail";
 import StatisticsPond from "../page/statistic-pond";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
-      { path: "/Home", element: <Home /> },
-      { path: "/Login", element: <Login /> },
-      { path: "/Register", element: <Resgiter /> },
-      { path: "/MyKoi", element: <ManagerKoi /> },
+      // Public routes
       { path: "/", element: <Home /> },
-      { path: "/profile", element: <Profile /> },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Resgiter /> },
-      { path: "/managerKoi", element: <ManagerKoi /> },
-      { path: "/addKoi", element: <AddingKoi /> },
-      { path: "/koiInfo/:id", element: <KoiInfo /> },
-      { path: "/managerPond", element: <ManagerPond /> },
-      { path: "/addPond", element: <AddingPond /> },
-      { path: "/pondInfo/:id", element: <PondInfo /> },
-      { path: "/calculateFood", element: <CalculateFood /> },
-      { path: "/calculateSalt", element: <CalculateSalt /> },
-      { path: "/recommendation", element: <Recommendation /> },
-      { path: "/buyPlan", element: <Plan /> },
       { path: "/contact", element: <Contact /> },
-      { path: "/koiFoodList", element: <KoiFoodList /> },
-      { path: "/waterReportHistory/:id", element: <WaterReportHistory /> },
-      { path: "/statisticsKoi", element: <StatisticKoi /> },
-      { path: "/statisticsPond", element: <StatisticsPond /> },
+      { path: "/recommendation", element: <Recommendation /> },
       { path: "/productDetail/:id", element: <ProductDetail /> },
+      // Member-only routes
+      {
+        path: "/myKoi",
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]}>
+            <ManagerKoi />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER", "SHOP", "ADMIN"]}>
+            <Profile />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/managerKoi",
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]}>
+            <ManagerKoi />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/addKoi",
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]}>
+            <AddingKoi />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/koiInfo/:id",
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]}>
+            <KoiInfo />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/managerPond",
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]}>
+            <ManagerPond />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/addPond",
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]}>
+            <AddingPond />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/pondInfo/:id",
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]}>
+            <PondInfo />
+          </ProtectedRoute>
+        ),
+      },
+      // Basic member routes
+      {
+        path: "/buyPlan",
+        element: <Plan />,
+      },
+      {
+        path: "/waterReportHistory/:id",
+        element: <WaterReportHistory />,
+      },
+      {
+        path: "/statisticsKoi",
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]} requirePremium={true}>
+            <StatisticKoi />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/statisticsPond",
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]} requirePremium={true}>
+            <StatisticsPond />
+          </ProtectedRoute>
+        ),
+      },
+      // Premium member features
+      {
+        path: "/calculateFood",
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]} requirePremium={true}>
+            <CalculateFood />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/calculateSalt",
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]} requirePremium={true}>
+            <CalculateSalt />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
   {
     path: "/admin",
-    element: <AdminDashboard />,
+    element: (
+      <ProtectedRoute allowedRoles={["ADMIN"]}>
+        <AdminDashboard />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "",
@@ -135,7 +230,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/shop",
-    element: <ShopDashboard />,
+    element: (
+      <ProtectedRoute allowedRoles={["SHOP"]}>
+        <ShopDashboard />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "",
@@ -167,6 +266,10 @@ export const router = createBrowserRouter([
   },
   {
     path: "/checkout",
-    element: <CheckOut />,
+    element: (
+      <ProtectedRoute>
+        <CheckOut />
+      </ProtectedRoute>
+    ),
   },
 ]);

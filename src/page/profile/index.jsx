@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuthStore } from "../../zustand/useAuthStore";
 import {
-  Alert,
   Avatar,
   Button,
   Card,
@@ -161,7 +160,7 @@ function Profile() {
       </Col>
       <Modal
         title="Update Profile"
-        visible={isModalVisibleUpdate}
+        open={isModalVisibleUpdate}
         onCancel={handleCancelUpdate}
         onOk={() => form.submit()}
       >
@@ -207,7 +206,7 @@ function Profile() {
       </Modal>
       <Modal
         title="Change Password"
-        visible={isModalVisibleChangePassword}
+        open={isModalVisibleChangePassword}
         onCancel={handleCancelChangePassword}
         onOk={() => form.submit()}
       >

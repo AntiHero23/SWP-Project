@@ -4,7 +4,6 @@ export const counterSlice = createSlice({
   name: "user",
   initialState: null,
   reducers: {
-    // nhận vào stay hien tai va update bang payload
     login: (state, actions) => {
       state = actions.payload;
       return state;
@@ -12,10 +11,15 @@ export const counterSlice = createSlice({
     logout: () => {
       return null;
     },
+    // Add new reducer for updating user
+    updateUser: (state, actions) => {
+      state = actions.payload;
+      return state;
+    }
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { login, logout } = counterSlice.actions;
+// Export the new action along with existing ones
+export const { login, logout, updateUser } = counterSlice.actions;
 export const selectUser = (store) => store.user;
 export default counterSlice.reducer;

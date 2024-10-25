@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./index.scss";
-import { Form, Input, Button, Select, Upload, Image, Radio } from "antd";
+import { Form, Input, Button, Select, Upload, Image, InputNumber } from "antd";
 import { useNavigate } from "react-router-dom";
 import api from "../../../config/axios";
 import { PlusOutlined } from "@ant-design/icons";
@@ -23,6 +23,10 @@ function AddKoi() {
     value: variety.koiVarietyID,
     label: variety.varietyName,
   }));
+  const [standardRanges, setStandardRanges] = useState(null);
+  const [form] = Form.useForm();
+  const length = Form.useWatch("length", form);
+  const weight = Form.useWatch("weight", form);
 
   const getBase64 = (file) =>
     new Promise((resolve, reject) => {
@@ -84,6 +88,20 @@ function AddKoi() {
     fetchVarieties();
   }, []);
 
+  const fetchStandardRanges = async (varietyId, birthday, sex) => {
+    console.log(varietyId, birthday, sex);
+    try {
+      const response = await api.post("koistandard/byKoiVarietyID", {
+        varietyID: varietyId,
+        koiBirthday: birthday,
+        koiSex: sex,
+      });
+      setStandardRanges(response.data.result);
+    } catch (error) {
+      console.error("Error fetching standard ranges:", error);
+    }
+  };
+
   const handleSubmit = async (values) => {
     try {
       const url = await uploadFile(fileList[0].originFileObj);
@@ -97,11 +115,17 @@ function AddKoi() {
     }
   };
 
+  useEffect(() => {
+    if (koiVarietyID && birthday && koiSex) {
+      fetchStandardRanges(koiVarietyID, birthday, koiSex);
+    }
+  }, [koiVarietyID, birthday, koiSex]);
+
   return (
     <div className="addKoi">
       <div className="addKoi-form-container">
         <h1 className="addKoi-title">Add Koi</h1>
-        <Form layout="vertical" onFinish={handleSubmit}>
+        <Form form={form} layout="vertical" onFinish={handleSubmit}>
           <Form.Item
             label="Name"
             name="koiName"
@@ -115,7 +139,9 @@ function AddKoi() {
           <Form.Item
             label="Birthday"
             name="birthday"
-            rules={[{ required: true, message: "Please input your koi birthday" }]}
+            rules={[
+              { required: true, message: "Please input your koi birthday" },
+            ]}
           >
             <Input
               type="date"
@@ -140,7 +166,9 @@ function AddKoi() {
           <Form.Item
             label="Image"
             name="image"
-            rules={[{ required: true, message: "Please upload your koi image" }]}
+            rules={[
+              { required: true, message: "Please upload your koi image" },
+            ]}
           >
             <Upload
               listType="picture-card"
@@ -165,13 +193,75 @@ function AddKoi() {
           <Form.Item
             label="Variety ID"
             name="koiVarietyID"
-            rules={[{ required: true, message: "Please select your koi variety" }]}
+            rules={[
+              { required: true, message: "Please select your koi variety" },
+            ]}
           >
             <Select
               value={koiVarietyID}
               onChange={(value) => setKoiVarietyID(value)}
               options={varietyOptions}
             ></Select>
+          </Form.Item>
+          <Form.Item
+            label="Length(cm):"
+            name="length"
+            rules={[
+              { required: true, message: "Please input your koi length" },
+            ]}
+            extra={
+              standardRanges
+                ? `Recommended range: ${standardRanges.lowLength}cm - ${standardRanges.hiLength}cm`
+                : ""
+            }
+            help={
+              standardRanges &&
+              length &&
+              (length < standardRanges.lowLength ||
+                length > standardRanges.hiLength) ? (
+                <span style={{ color: "red" }}>
+                  Warning: Length is outside the recommended range
+                </span>
+              ) : (
+                ""
+              )
+            }
+          >
+            <InputNumber
+              min={0}
+              placeholder="Length in cm"
+              style={{ width: "100%" }}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Weight(g):"
+            name="weight"
+            rules={[
+              { required: true, message: "Please input your koi weight" },
+            ]}
+            extra={
+              standardRanges
+                ? `Recommended range: ${standardRanges.lowWeigh}g - ${standardRanges.hiWeight}g`
+                : ""
+            }
+            help={
+              standardRanges &&
+              weight &&
+              (weight < standardRanges.lowWeigh ||
+                weight > standardRanges.hiWeight) ? (
+                <span style={{ color: "red" }}>
+                  Warning: Weight is outside the recommended range
+                </span>
+              ) : (
+                ""
+              )
+            }
+          >
+            <InputNumber
+              min={0}
+              placeholder="Weight in grams"
+              style={{ width: "100%" }}
+            />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" onClick={handleSubmit}>

@@ -13,6 +13,36 @@ function AddPond() {
   const [previewImage, setPreviewImage] = useState("");
   const [previewOpen, setPreviewOpen] = useState(false);
 
+  const handlePondStandard = async (value) => {
+    try {
+      const response = await api.get(`admin/viewByArea/${value}`);
+      // console.log(response.data.result);
+      const {
+        minDepth,
+        maxDepth,
+        minVolume,
+        maxVolume,
+        minPumpingCapacity,
+        maxPumpingCapacity,
+        drainCount,
+        skimmerCount,
+      } = response.data.result;
+
+      form.setFieldsValue({
+        depth: ((maxDepth + minDepth) / 2).toFixed(2),
+        volume: ((maxVolume + minVolume) / 2).toFixed(2),
+        pumpingCapacity: (
+          (maxPumpingCapacity + minPumpingCapacity) /
+          2
+        ).toFixed(2),
+        drainCount: drainCount,
+        skimmerCount: skimmerCount,
+      });
+    } catch (error) {
+      // console.log(error);
+    }
+  };
+
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -93,7 +123,6 @@ function AddPond() {
             className="form-item"
           >
             <Upload
-              // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
               listType="picture-card"
               fileList={fileList}
               onPreview={handlePreview}
@@ -107,10 +136,30 @@ function AddPond() {
           <Form.Item
             label="Area: m2"
             name="area"
-            rules={[{ required: true, message: "Please input area!" }]}
+            rules={[
+              { required: true, message: "Please input area!" },
+              {
+                validator: (_, value) =>
+                  value > 5
+                    ? Promise.resolve()
+                    : Promise.reject(
+                        new Error("Area must be greater than 5 m2")
+                      ),
+              },
+            ]}
             className="form-item"
           >
-            <Input type="number" className="form-input" />
+            <Input
+              type="number"
+              className="form-input"
+              min={0}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value >= 5) {
+                  handlePondStandard(value);
+                }
+              }}
+            />
           </Form.Item>
 
           <Form.Item
@@ -119,7 +168,7 @@ function AddPond() {
             rules={[{ required: true, message: "Please input depth!" }]}
             className="form-item"
           >
-            <Input type="number" className="form-input" />
+            <Input type="number" className="form-input" min={0} />
           </Form.Item>
 
           <Form.Item
@@ -128,7 +177,7 @@ function AddPond() {
             rules={[{ required: true, message: "Please input volume!" }]}
             className="form-item"
           >
-            <Input type="number" className="form-input" />
+            <Input type="number" className="form-input" min={0} />
           </Form.Item>
 
           <Form.Item
@@ -137,7 +186,7 @@ function AddPond() {
             rules={[{ required: true, message: "Please input drain count!" }]}
             className="form-item"
           >
-            <Input type="number" className="form-input" />
+            <Input type="number" className="form-input" min={0} />
           </Form.Item>
 
           <Form.Item
@@ -146,7 +195,7 @@ function AddPond() {
             rules={[{ required: true, message: "Please input skimmer count!" }]}
             className="form-item"
           >
-            <Input type="number" className="form-input" />
+            <Input type="number" className="form-input" min={0} />
           </Form.Item>
 
           <Form.Item
@@ -157,7 +206,7 @@ function AddPond() {
             ]}
             className="form-item"
           >
-            <Input type="number" className="form-input" />
+            <Input type="number" className="form-input" min={0} />
           </Form.Item>
 
           <Form.Item className="submit-button-container">

@@ -36,7 +36,26 @@ function KoiInfo() {
   const [fileList, setFileList] = useState([]);
   const [previewImage, setPreviewImage] = useState("");
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [koiStandard, setKoiStandard] = useState(null);
 
+  const handleDateChange = async (date) => {
+    try {
+      const response = await api.post("koistandard/byPeriodandKoiVarietyID", {
+        date,
+        koiFishID: koi?.koiFishID,
+      });
+      setKoiStandard(response.data.result);
+      const { hiLength, lowLength, hiWeight, lowWeigh } = response.data.result;
+      const avgLength = ((hiLength + lowLength) / 2).toFixed(2);
+      const avgWeight = ((hiWeight + lowWeigh) / 2).toFixed(2);
+      form.setFieldsValue({
+        length: avgLength || "",
+        weight: avgWeight || "",
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleDelete = async () => {
     if (window.confirm("Are you sure?")) {
       try {
@@ -122,7 +141,6 @@ function KoiInfo() {
     }
   };
   const handleSubmitKoiInfo = async (values) => {
-
     try {
       if (fileList.length > 0) {
         const url = await uploadFile(fileList[0].originFileObj);
@@ -216,8 +234,12 @@ function KoiInfo() {
                       {koiReportLatest && (
                         <div className="koi-report-latest">
                           <h1>Koi Lastest Status</h1>
-                          <h3>Koi Length: {koiReportLatest.length || "N/A"} cm</h3>
-                          <h3>Koi Weight: {koiReportLatest.weight || "N/A"} g</h3>
+                          <h3>
+                            Koi Length: {koiReportLatest.length || "N/A"} cm
+                          </h3>
+                          <h3>
+                            Koi Weight: {koiReportLatest.weight || "N/A"} g
+                          </h3>
                           <h3>
                             Koi Status: {koiReportLatest.koiStatus || "N/A"}
                           </h3>
@@ -296,11 +318,6 @@ function KoiInfo() {
               <Modal
                 className="report-popup"
                 title="Add Koi Report"
-                initialValues={{
-                  updateDate: "",
-                  length: 0,
-                  weight: 0,
-                }}
                 open={isModalOpen}
                 onOk={() => form.submit()}
                 onCancel={handleCancel}
@@ -316,17 +333,39 @@ function KoiInfo() {
                     name="updateDate"
                     rules={[{ required: true, message: "Date is required" }]}
                   >
-                    <Input type="date" placeholder="Date" />
+                    <Input
+                      type="date"
+                      placeholder="Date"
+                      onChange={(e) => handleDateChange(e.target.value)}
+                    />
                   </Form.Item>
                   <Form.Item
-                    label="Length"
+                    label={
+                      <span>
+                        Length
+                        {koiStandard && (
+                          <span style={{ fontSize: '12px', color: '#666' }}>
+                            {` (Standard: ${koiStandard.lowLength} - ${koiStandard.hiLength} cm)`}
+                          </span>
+                        )}
+                      </span>
+                    }
                     name="length"
                     rules={[{ required: true, message: "Length is required" }]}
                   >
                     <Input type="number" placeholder="Length" />
                   </Form.Item>
                   <Form.Item
-                    label="Weight"
+                    label={
+                      <span>
+                        Weight
+                        {koiStandard && (
+                          <span style={{ fontSize: '12px', color: '#666' }}>
+                            {` (Standard: ${koiStandard.lowWeigh} - ${koiStandard.hiWeight} g)`}
+                          </span>
+                        )}
+                      </span>
+                    }
                     name="weight"
                     rules={[{ required: true, message: "Weight is required" }]}
                   >

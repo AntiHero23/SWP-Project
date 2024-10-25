@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import useGetParams from "../../../assets/hook/useGetParams";
 import api from "../../../config/axios";
+import { updateUser } from "../../../redux/features/counterSlice";
 
 function CheckOut() {
-  const navigate = useNavigate();
   const getParams = useGetParams();
   const id = getParams("orderID");
   console.log(id);
+  const dispatch = useDispatch();
+
   async function handleTransaction() {
     try {
       const response = await api.post(
@@ -20,6 +21,10 @@ function CheckOut() {
         }
       );
       console.log(response.data);
+
+      // Get updated user data
+      const userResponse = await api.get("currentAccount");
+      dispatch(updateUser(userResponse.data));
     } catch (e) {
       console.log(e);
     }
