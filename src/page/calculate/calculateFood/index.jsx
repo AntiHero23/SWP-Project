@@ -238,6 +238,7 @@ function CalculateFood() {
               shouldUpdate={(prevValues, curValues) => prevValues !== curValues}
             >
               <Button
+                className="detail-button"
                 type="button"
                 disabled={!(selectedPond && selectedTemp && selectedGrowth)}
                 onClick={() =>
@@ -258,9 +259,9 @@ function CalculateFood() {
         )}
         {Food && (
           <div className="result">
-            <h2>
+            <h3>
               Recommended food for this pond: {Number(Food).toFixed(4)} g/day
-            </h2>
+            </h3>
           </div>
         )}
       </div>

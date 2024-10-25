@@ -181,13 +181,8 @@ function StatisticKoi() {
       // Interpolate low/high values
       const lowValueStart = koiStandard[`low${capitalize(selectedType)}`];
       const highValueStart = koiStandard[`hi${capitalize(selectedType)}`];
-<<<<<<< Updated upstream
-      const lowValueEnd = koiStandard[`low${capitalize(selectedType)}`] + (selectedType === "weight" ? 50.0 : 1);
-      const highValueEnd = koiStandard[`hi${capitalize(selectedType)}`] + (selectedType === "weight" ? 50.0 : 1);
-=======
       const lowValueEnd = koiStandard[`low${capitalize(selectedType)}to`];
       const highValueEnd = koiStandard[`hi${capitalize(selectedType)}to`];
->>>>>>> Stashed changes
   
       const interpolatedLow = interpolate(startOfMonth, endOfMonth, lowValueStart, lowValueEnd);
       const interpolatedHigh = interpolate(startOfMonth, endOfMonth, highValueStart, highValueEnd);

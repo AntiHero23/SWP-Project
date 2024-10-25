@@ -18,7 +18,8 @@ function CalculateSalt() {
   const [currentSalt, setCurrentSalt] = useState(0);
   const [expectSalt, setExpectSalt] = useState(0);
   const [waterChange, setWaterChange] = useState(0);
-  const [alert, setAlert] = useState("");
+  const [neededSalt, setNeededSalt] = useState("");
+  const [perChange, setPerChange] = useState("");
 
   useEffect(() => {
     const fetchPonds = async () => {
@@ -55,14 +56,9 @@ function CalculateSalt() {
         api.post("salt/calculateSalt", values),
         api.post("salt/calculateSalt-per-water-change", values),
       ]);
-      setAlert(
-        "Amount of Salt : " +
-          ExpSaltresponse.data +
-          " kg" +
-          " and Per water change (refill) " +
-          WaterChangeresponse.data +
-          " kg"
-      );
+      setNeededSalt(`Amount of Salt: ${ExpSaltresponse.data} kg`)
+      setPerChange (`Salt per Water Change: ${WaterChangeresponse.data} kg`);
+
     } catch (error) {
       console.log(error);
     }
@@ -214,7 +210,14 @@ function CalculateSalt() {
             </Space>
           </Form.Item>
         </Form>
-        {alert && <h1 className="salt-result">{alert}</h1>}
+        <div className="salt-result">
+            <h3>
+              {neededSalt}
+            </h3>
+            <h3>
+              {perChange}
+            </h3>
+        </div>
       </div>
     </div>
   );
