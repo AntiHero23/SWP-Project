@@ -19,7 +19,7 @@ function Package() {
         fetchShopPackage();
         fetchMemberPackage();
       });
-      alert("Package added successfully");
+      alert("Package added successfully!");
       form.resetFields();
       setIsOpenModal(false);
     } catch (error) {
@@ -145,10 +145,17 @@ function Package() {
         <Modal
           title="Add Package"
           open={isOpenModal}
-          onOk={handleSubmit}
+          style={{ textAlign: "center", display: "flex" }}
+          footer={null}
+          closable={false}
           onCancel={handleCancel}
         >
-          <Form form={form} onFinish={handleSubmit} labelAlign="left">
+          <Form
+            form={form}
+            onFinish={handleSubmit}
+            labelAlign="left"
+            initialValues={{ role: "MEMBER" }}
+          >
             <Form.Item
               label="Role"
               name="role"
@@ -169,7 +176,7 @@ function Package() {
                 { required: true, message: "Please input package name!" },
               ]}
             >
-              <Input />
+              <Input placeholder="Name" />
             </Form.Item>
             <Form.Item
               label="Price"
@@ -177,7 +184,7 @@ function Package() {
               rules={[{ required: true, message: "Please input price!" }]}
             >
               <InputNumber
-                placeholder="₫"
+                placeholder="Price (₫)"
                 formatter={(value) =>
                   `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 }
@@ -202,7 +209,10 @@ function Package() {
               name="description"
               rules={[{ required: true, message: "Please input description!" }]}
             >
-              <Input.TextArea autoSize={{ minRows: 4, maxRows: 6 }} />
+              <Input.TextArea
+                placeholder="Description"
+                autoSize={{ minRows: 4, maxRows: 6 }}
+              />
             </Form.Item>
             <Form.Item
               label="Number of posts (available for shop only)"
@@ -221,6 +231,30 @@ function Package() {
               />
             </Form.Item>
           </Form>
+          <Button
+            type="primary"
+            onClick={handleSubmit}
+            style={{
+              background: "green",
+              width: "100px",
+              marginTop: "10px",
+            }}
+          >
+            Yes
+          </Button>
+          <Button
+            type="primary"
+            onClick={handleCancel}
+            style={{
+              background: "white",
+              color: "black",
+              border: "0.5px solid black",
+              width: "100px",
+              marginLeft: "50px",
+            }}
+          >
+            No
+          </Button>
         </Modal>
       </div>
       <br />

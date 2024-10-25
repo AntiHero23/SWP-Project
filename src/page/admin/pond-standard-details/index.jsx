@@ -13,6 +13,7 @@ function PondStandardDetails() {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   const [form] = useForm();
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     try {
@@ -53,85 +54,98 @@ function PondStandardDetails() {
     <>
       <div style={{ textAlign: "center" }}>
         <h1>Pond Standard Details</h1>
+        <br />
         {!loading && (
-          <div>
-            <p>
-              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-            </p>
-            <br />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-              }}
-            >
-              <div style={{ margin: "5px" }}>
-                <Card style={{ background: "#6495ed" }}>
-                  <b>Depth: </b>
-                  {PondStandardDetails.minDepth +
-                    " - " +
-                    PondStandardDetails.maxDepth +
-                    " m"}
-                </Card>
-                <Card style={{ background: "#6495ed", marginTop: "10px" }}>
-                  <b>Volume: </b>
-                  {PondStandardDetails.minVolume +
-                    " - " +
-                    PondStandardDetails.maxVolume +
-                    " l"}
-                </Card>
+          <Card>
+            <Card style={{ backgroundColor: "#6495ed" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                }}
+              >
+                <div style={{ margin: "5px" }}>
+                  <Card>
+                    <b>Acreage: </b>
+                    {`${PondStandardDetails.area}`.replace(
+                      /\B(?=(\d{3})+(?!\d))/g,
+                      ","
+                    ) + " m²"}
+                  </Card>
+                  <Card style={{ marginTop: "10px" }}>
+                    <b>Depth: </b>
+                    {`${PondStandardDetails.minDepth}`.replace(
+                      /\B(?=(\d{3})+(?!\d))/g,
+                      ","
+                    ) +
+                      " - " +
+                      `${PondStandardDetails.maxDepth}`.replace(
+                        /\B(?=(\d{3})+(?!\d))/g,
+                        ","
+                      ) +
+                      " m"}
+                  </Card>
+                  <Card style={{ marginTop: "10px" }}>
+                    <b>Volume: </b>
+                    {`${PondStandardDetails.minVolume}`.replace(
+                      /\B(?=(\d{3})+(?!\d))/g,
+                      ","
+                    ) +
+                      " - " +
+                      `${PondStandardDetails.maxVolume}`.replace(
+                        /\B(?=(\d{3})+(?!\d))/g,
+                        ","
+                      ) +
+                      " l"}
+                  </Card>
+                </div>
+                <div style={{ margin: "5px" }}>
+                  <Card>
+                    <b>Drain Count: </b>
+                    {`${PondStandardDetails.drainCount}`.replace(
+                      /\B(?=(\d{3})+(?!\d))/g,
+                      ","
+                    ) + " drains"}
+                  </Card>
+                  <Card style={{ marginTop: "10px" }}>
+                    <b>Skimmer Count: </b>
+                    {`${PondStandardDetails.skimmerCount}`.replace(
+                      /\B(?=(\d{3})+(?!\d))/g,
+                      ","
+                    ) + " skimmers"}
+                  </Card>
+                </div>
+                <div style={{ margin: "5px" }}>
+                  <Card>
+                    <b>Number of Fish: </b>
+                    {`${PondStandardDetails.minAmountFish}`.replace(
+                      /\B(?=(\d{3})+(?!\d))/g,
+                      ","
+                    ) +
+                      " - " +
+                      `${PondStandardDetails.maxAmountFish}`.replace(
+                        /\B(?=(\d{3})+(?!\d))/g,
+                        ","
+                      ) +
+                      " fish"}
+                  </Card>
+                  <Card style={{ marginTop: "10px" }}>
+                    <b>Pumping Capacity: </b>
+                    {`${PondStandardDetails.minPumpingCapacity}`.replace(
+                      /\B(?=(\d{3})+(?!\d))/g,
+                      ","
+                    ) +
+                      " - " +
+                      `${PondStandardDetails.maxPumpingCapacity}`.replace(
+                        /\B(?=(\d{3})+(?!\d))/g,
+                        ","
+                      ) +
+                      " l/h"}
+                  </Card>
+                </div>
               </div>
-              <div style={{ margin: "5px" }}>
-                <Card style={{ background: "#6495ed" }}>
-                  <b>Acreage: </b>
-                  {PondStandardDetails.area + " m²"}
-                </Card>
-                <Card style={{ background: "#6495ed", marginTop: "10px" }}>
-                  <b>Drain Count: </b>
-                  {PondStandardDetails.drainCount + " drains"}
-                </Card>
-                <Card style={{ background: "#6495ed", marginTop: "10px" }}>
-                  <b>Skimmer Count: </b>
-                  {PondStandardDetails.skimmerCount + " skimmers"}
-                </Card>
-              </div>
-              <div style={{ margin: "5px" }}>
-                <Card style={{ background: "#6495ed", marginTop: "10px" }}>
-                  <b>Number of Fish: </b>
-                  {PondStandardDetails.minAmountFish +
-                    " - " +
-                    PondStandardDetails.maxAmountFish +
-                    " fish"}
-                </Card>
-                <Card style={{ background: "#6495ed", marginTop: "10px" }}>
-                  <b>Pumping Capacity: </b>
-                  {PondStandardDetails.minPumpingCapacity +
-                    " - " +
-                    PondStandardDetails.maxPumpingCapacity +
-                    " l/h"}
-                </Card>
-                {/* <Card style={{ background: "#6495ed" }}>
-                  <b>Max Depth: </b>
-                  {PondStandardDetails.maxDepth}
-                </Card>
-                <Card style={{ background: "#6495ed", marginTop: "10px" }}>
-                  <b>Max Volume: </b>
-                  {PondStandardDetails.maxVolume}
-                </Card>
-                <Card style={{ background: "#6495ed", marginTop: "10px" }}>
-                  <b>Max Number of Fish: </b>
-                  {PondStandardDetails.maxAmountFish}
-                </Card>
-                <Card style={{ background: "#6495ed", marginTop: "10px" }}>
-                  <b>Max Pumping Capacity: </b>
-                  {PondStandardDetails.maxPumpingCapacity}
-                </Card> */}
-              </div>
-            </div>
-            <p>
-              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-            </p>
-            <br />
+            </Card>
+
             <Button
               type="primary"
               onClick={() => {
@@ -147,7 +161,9 @@ function PondStandardDetails() {
             <Modal
               title="Update Pond Standard Details"
               open={isUpdateModal}
-              onOk={() => form.submit()}
+              style={{ textAlign: "center" }}
+              footer={null}
+              closable={false}
               onCancel={handleCancel}
             >
               <Row gutter={16}>
@@ -176,7 +192,14 @@ function PondStandardDetails() {
                         },
                       ]}
                     >
-                      <InputNumber min={0} placeholder="m²" />
+                      <InputNumber
+                        min={0}
+                        placeholder="m²"
+                        formatter={(value) =>
+                          `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                      />
                     </Form.Item>
                     <Form.Item
                       label="Drain Count"
@@ -188,7 +211,14 @@ function PondStandardDetails() {
                         },
                       ]}
                     >
-                      <InputNumber min={0} placeholder="drains" />
+                      <InputNumber
+                        min={0}
+                        placeholder="drains"
+                        formatter={(value) =>
+                          `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                      />
                     </Form.Item>
                     <Form.Item
                       label="Skimmer Count"
@@ -200,7 +230,14 @@ function PondStandardDetails() {
                         },
                       ]}
                     >
-                      <InputNumber min={0} placeholder="skimmers" />
+                      <InputNumber
+                        min={0}
+                        placeholder="skimmers"
+                        formatter={(value) =>
+                          `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                      />
                     </Form.Item>
                   </Form>
                 </Col>
@@ -229,7 +266,14 @@ function PondStandardDetails() {
                         },
                       ]}
                     >
-                      <InputNumber min={0} placeholder="m" />
+                      <InputNumber
+                        min={0}
+                        placeholder="m"
+                        formatter={(value) =>
+                          `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                      />
                     </Form.Item>
                     <Form.Item
                       label="Min Volume"
@@ -241,7 +285,14 @@ function PondStandardDetails() {
                         },
                       ]}
                     >
-                      <InputNumber min={0} placeholder="l" />
+                      <InputNumber
+                        min={0}
+                        placeholder="l"
+                        formatter={(value) =>
+                          `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                      />
                     </Form.Item>
                     <Form.Item
                       label="Min Number of Fish"
@@ -253,7 +304,14 @@ function PondStandardDetails() {
                         },
                       ]}
                     >
-                      <InputNumber min={0} placeholder="fish" />
+                      <InputNumber
+                        min={0}
+                        placeholder="fish"
+                        formatter={(value) =>
+                          `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                      />
                     </Form.Item>
                     <Form.Item
                       label="Min Pumping Capacity"
@@ -265,7 +323,14 @@ function PondStandardDetails() {
                         },
                       ]}
                     >
-                      <InputNumber min={0} placeholder="l/h" />
+                      <InputNumber
+                        min={0}
+                        placeholder="l/h"
+                        formatter={(value) =>
+                          `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                      />
                     </Form.Item>
                   </Form>
                 </Col>
@@ -294,7 +359,14 @@ function PondStandardDetails() {
                         },
                       ]}
                     >
-                      <InputNumber min={0} placeholder="m" />
+                      <InputNumber
+                        min={0}
+                        placeholder="m"
+                        formatter={(value) =>
+                          `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                      />
                     </Form.Item>
                     <Form.Item
                       label="Max Volume"
@@ -306,7 +378,14 @@ function PondStandardDetails() {
                         },
                       ]}
                     >
-                      <InputNumber min={0} placeholder="l" />
+                      <InputNumber
+                        min={0}
+                        placeholder="l"
+                        formatter={(value) =>
+                          `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                      />
                     </Form.Item>
                     <Form.Item
                       label="Max Number of Fish"
@@ -318,7 +397,14 @@ function PondStandardDetails() {
                         },
                       ]}
                     >
-                      <InputNumber min={0} placeholder="fish" />
+                      <InputNumber
+                        min={0}
+                        placeholder="fish"
+                        formatter={(value) =>
+                          `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                      />
                     </Form.Item>
                     <Form.Item
                       label="Max Pumping Capacity"
@@ -330,11 +416,42 @@ function PondStandardDetails() {
                         },
                       ]}
                     >
-                      <InputNumber min={0} placeholder="l/h" />
+                      <InputNumber
+                        min={0}
+                        placeholder="l/h"
+                        formatter={(value) =>
+                          `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                      />
                     </Form.Item>
                   </Form>
                 </Col>
               </Row>
+              <Button
+                type="primary"
+                onClick={() => form.submit()}
+                style={{
+                  background: "green",
+                  width: "100px",
+                  marginTop: "10px",
+                }}
+              >
+                Yes
+              </Button>
+              <Button
+                type="primary"
+                onClick={handleCancel}
+                style={{
+                  background: "white",
+                  color: "black",
+                  border: "0.5px solid black",
+                  width: "100px",
+                  marginLeft: "50px",
+                }}
+              >
+                No
+              </Button>
             </Modal>
             <Button
               type="primary"
@@ -353,22 +470,49 @@ function PondStandardDetails() {
             <Modal
               title="Are you sure you want to delete this pond standard details?"
               open={isDeleteModal}
-              onOk={() => {
-                api
-                  .delete(`admin/deletePondStandard/${pondStandardId}`)
-                  .then(() => {
-                    fetchPondStandardDetail();
-                    window.location.reload();
-                    setIsDeleteModal(false);
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                  });
-                alert("Pond standard deleted successfully!");
-              }}
+              style={{ textAlign: "center" }}
+              footer={null}
+              closable={false}
               onCancel={() => setIsDeleteModal(false)}
-            />
-          </div>
+            >
+              <Button
+                type="primary"
+                onClick={() => {
+                  api
+                    .delete(`admin/deletePondStandard/${pondStandardId}`)
+                    .then(() => {
+                      fetchPondStandardDetail();
+                      navigate("/admin/pondStandard");
+                      setIsDeleteModal(false);
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    });
+                  alert("Pond standard deleted successfully!");
+                }}
+                style={{
+                  background: "green",
+                  width: "100px",
+                  marginTop: "10px",
+                }}
+              >
+                Yes
+              </Button>
+              <Button
+                type="primary"
+                onClick={() => setIsDeleteModal(false)}
+                style={{
+                  background: "white",
+                  color: "black",
+                  border: "0.5px solid black",
+                  width: "100px",
+                  marginLeft: "50px",
+                }}
+              >
+                No
+              </Button>
+            </Modal>
+          </Card>
         )}
       </div>
     </>

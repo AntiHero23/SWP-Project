@@ -292,51 +292,9 @@ function WaterStandard() {
                 key={index}
                 title="Update Water Standard"
                 open={isUpdateModal}
-                onOk={() => {
-                  form
-                    .validateFields()
-                    .then((values) => {
-                      api
-                        .put(
-                          `/admin/waterstandard/update/${item.waterStandardID}`,
-                          {
-                            minTempStandard: values.minTempStandard,
-                            maxTempStandard: values.maxTempStandard,
-                            minOxygenStandard: values.minOxygenStandard,
-                            maxOxygenStandard: values.maxOxygenStandard,
-                            min_pH_Standard: values.min_pH_Standard,
-                            max_pH_Standard: values.max_pH_Standard,
-                            minHardnessStandard: values.minHardnessStandard,
-                            maxHardnessStandard: values.maxHardnessStandard,
-                            minAmmoniaStandard: values.minAmmoniaStandard,
-                            maxAmmoniaStandard: values.maxAmmoniaStandard,
-                            minNitriteStandard: values.minNitriteStandard,
-                            maxNitriteStandard: values.maxNitriteStandard,
-                            minNitrateStandard: values.minNitrateStandard,
-                            maxNitrateStandard: values.maxNitrateStandard,
-                            minCarbonateStandard: values.minCarbonateStandard,
-                            maxCarbonateStandard: values.maxCarbonateStandard,
-                            minSaltStandard: values.minSaltStandard,
-                            maxSaltStandard: values.maxSaltStandard,
-                            minCarbonDioxideStandard:
-                              values.minCarbonDioxideStandard,
-                            maxCarbonDioxideStandard:
-                              values.maxCarbonDioxideStandard,
-                          }
-                        )
-                        .then(() => {
-                          fetchWaterStandard();
-                          window.location.reload();
-                          setIsUpdateModal(false);
-                        })
-                        .catch((error) => {
-                          console.log(error);
-                        });
-                    })
-                    .catch((error) => {
-                      console.log(error);
-                    });
-                }}
+                style={{ textAlign: "center" }}
+                footer={null}
+                closable={false}
                 onCancel={handleCancel}
               >
                 <Row gutter={16}>
@@ -685,6 +643,74 @@ function WaterStandard() {
                     </Form>
                   </Col>
                 </Row>
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    form
+                      .validateFields()
+                      .then((values) => {
+                        api
+                          .put(
+                            `/admin/waterstandard/update/${item.waterStandardID}`,
+                            {
+                              minTempStandard: values.minTempStandard,
+                              maxTempStandard: values.maxTempStandard,
+                              minOxygenStandard: values.minOxygenStandard,
+                              maxOxygenStandard: values.maxOxygenStandard,
+                              min_pH_Standard: values.min_pH_Standard,
+                              max_pH_Standard: values.max_pH_Standard,
+                              minHardnessStandard: values.minHardnessStandard,
+                              maxHardnessStandard: values.maxHardnessStandard,
+                              minAmmoniaStandard: values.minAmmoniaStandard,
+                              maxAmmoniaStandard: values.maxAmmoniaStandard,
+                              minNitriteStandard: values.minNitriteStandard,
+                              maxNitriteStandard: values.maxNitriteStandard,
+                              minNitrateStandard: values.minNitrateStandard,
+                              maxNitrateStandard: values.maxNitrateStandard,
+                              minCarbonateStandard: values.minCarbonateStandard,
+                              maxCarbonateStandard: values.maxCarbonateStandard,
+                              minSaltStandard: values.minSaltStandard,
+                              maxSaltStandard: values.maxSaltStandard,
+                              minCarbonDioxideStandard:
+                                values.minCarbonDioxideStandard,
+                              maxCarbonDioxideStandard:
+                                values.maxCarbonDioxideStandard,
+                            }
+                          )
+                          .then(() => {
+                            fetchWaterStandard();
+                            window.location.reload();
+                            setIsUpdateModal(false);
+                          })
+                          .catch((error) => {
+                            console.log(error);
+                          });
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                      });
+                  }}
+                  style={{
+                    background: "green",
+                    width: "100px",
+                    marginTop: "10px",
+                  }}
+                >
+                  Yes
+                </Button>
+                <Button
+                  type="primary"
+                  onClick={handleCancel}
+                  style={{
+                    background: "white",
+                    color: "black",
+                    border: "0.5px solid black",
+                    width: "100px",
+                    marginLeft: "50px",
+                  }}
+                >
+                  No
+                </Button>
               </Modal>
               {/* <Button
                 type="primary"

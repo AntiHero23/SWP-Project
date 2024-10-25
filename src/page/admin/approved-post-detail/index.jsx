@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import api from "../../../config/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
-import { Button, Modal, Tag } from "antd";
+import { Button, Card, Modal, Tag } from "antd";
 
 function ApprovedPostDetail() {
   const { id } = useParams();
@@ -49,94 +49,110 @@ function ApprovedPostDetail() {
     <>
       <div style={{ textAlign: "center" }}>
         <h1>Post Detail</h1>
+        <br />
         {!loading && (
-          <div>
-            <p>
-              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-            </p>
-            <br />
-            <h2>{post?.productName}</h2>
-            <img
-              src={post?.image}
-              alt={post?.productName}
-              style={{ width: "100px" }}
-            />
-            <p>
-              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-            </p>
-            <br />
-            <b>Description: </b>
-            <p>{post?.description}</p>
-            <p>
-              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-            </p>
-            <br />
-            <b>Price: </b>
-            {VND.format(post?.productPrice)}
-            <p>
-              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-            </p>
-            <br />
-            <b>Post Date: </b>
-            {dayjs(post?.postDate).format("MMMM D, YYYY h:mm A")}
-            <p>
-              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-            </p>
-            <br />
-            <b>Expiration Date: </b>
-            {dayjs(post?.expiredDate).format("MMMM D, YYYY h:mm A")}
-            <p>
-              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-            </p>
-            <br />
-            <b>Post Status: </b>
-            <Tag color={post.postStatus ? "green" : "red"}>
-              {post.postStatus ? "Approved" : "Pending"}
-            </Tag>
-            <p>
-              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-            </p>
-            <Button
-              type="primary"
-              danger
-              onClick={() => {
-                showModal();
-              }}
-              style={{
-                marginTop: "10px",
-                width: "100px",
-              }}
-            >
-              Remove
-            </Button>
-            <Modal
-              style={{ textAlign: "center" }}
-              title="Are you sure you want to REMOVE this post?"
-              open={isOpenModal}
-              onOk={() => {
-                handleSubmit();
-                api
-                  .delete(`/admin/post/delete/${postId}`)
-                  .then(() => {
-                    fetchPostDetail();
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                  });
-                alert("Post removed successfully! Please wait for a while!");
-                setTimeout(() => {
-                  navigate("/admin/post");
-                }, 5000);
-              }}
-              onCancel={() => {
-                handleCancel();
-              }}
-            />
-            <p>
-              ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-            </p>
-            <br />
-          </div>
+          <Card style={{ backgroundColor: "#6495ed" }}>
+            <Card>
+              <h2>{post?.productName}</h2>
+              <img
+                src={post?.image}
+                alt={post?.productName}
+                style={{ width: "100px" }}
+              />
+            </Card>
+
+            <Card>
+              <b>Description: </b>
+              <p>{post?.description}</p>
+            </Card>
+
+            <Card>
+              <b>Price: </b>
+              {VND.format(post?.productPrice)}
+            </Card>
+
+            <Card>
+              <b>Post Date: </b>
+              {dayjs(post?.postDate).format("MMMM D, YYYY h:mm A")}
+            </Card>
+            <Card>
+              <b>Expiration Date: </b>
+              {dayjs(post?.expiredDate).format("MMMM D, YYYY h:mm A")}
+            </Card>
+            <Card>
+              <b>Post Status: </b>
+              <Tag color={post.postStatus ? "green" : "red"}>
+                {post.postStatus ? "Approved" : "Pending"}
+              </Tag>
+            </Card>
+
+            <Card>
+              <Button
+                type="primary"
+                danger
+                onClick={() => {
+                  showModal();
+                }}
+                style={{
+                  marginTop: "10px",
+                  width: "100px",
+                }}
+              >
+                Remove
+              </Button>
+              <Modal
+                style={{
+                  textAlign: "center",
+                }}
+                title="Are you sure you want to REMOVE this post?"
+                open={isOpenModal}
+                footer={null}
+                closeIcon={null}
+                onCancel={handleCancel}
+              >
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    handleSubmit();
+                    api
+                      .delete(`/admin/post/delete/${postId}`)
+                      .then(() => {
+                        fetchPostDetail();
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                      });
+                    alert(
+                      "Post removed successfully! Please wait for a while!"
+                    );
+                    setTimeout(() => {
+                      navigate("/admin/post");
+                    }, 5000);
+                  }}
+                  style={{
+                    background: "green",
+                    width: "100px",
+                    marginTop: "10px",
+                  }}
+                >
+                  Yes
+                </Button>
+                <Button
+                  type="primary"
+                  onClick={handleCancel}
+                  style={{
+                    background: "white",
+                    color: "black",
+                    border: "0.5px solid black",
+                    width: "100px",
+                    marginLeft: "50px",
+                  }}
+                >
+                  No
+                </Button>
+              </Modal>
+            </Card>
+          </Card>
         )}
       </div>
     </>
