@@ -55,6 +55,9 @@ function StatisticKoi() {
       });
       console.log("Koi standard fetched:", response.data.result);
       setKoiStandard(response.data.result); // Store koi standard data
+      // const { hiLength, lowLength, hiWeight, lowWeight } = response.data.result;
+      // const avgLength = ((hiLength + lowLength) / 2).toFixed(2);
+      // const avgWeight = ((hiWeight + lowWeight) / 2).toFixed(2);
     } catch (error) {
       console.error("Error fetching koi standard data:", error);
     }
@@ -178,8 +181,13 @@ function StatisticKoi() {
       // Interpolate low/high values
       const lowValueStart = koiStandard[`low${capitalize(selectedType)}`];
       const highValueStart = koiStandard[`hi${capitalize(selectedType)}`];
+<<<<<<< Updated upstream
       const lowValueEnd = koiStandard[`low${capitalize(selectedType)}`] + (selectedType === "weight" ? 50.0 : 1);
       const highValueEnd = koiStandard[`hi${capitalize(selectedType)}`] + (selectedType === "weight" ? 50.0 : 1);
+=======
+      const lowValueEnd = koiStandard[`low${capitalize(selectedType)}to`];
+      const highValueEnd = koiStandard[`hi${capitalize(selectedType)}to`];
+>>>>>>> Stashed changes
   
       const interpolatedLow = interpolate(startOfMonth, endOfMonth, lowValueStart, lowValueEnd);
       const interpolatedHigh = interpolate(startOfMonth, endOfMonth, highValueStart, highValueEnd);
