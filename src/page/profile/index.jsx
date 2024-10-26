@@ -87,75 +87,89 @@ function Profile() {
 
   return (
     <Row justify="center" className="profile-container">
-      <Col span={6}>
+      <Col xs={24} sm={20} md={18} lg={16} xl={14}>
         <Card title="Profile" className="profile-card">
-          <Space direction="vertical" size="large">
-            <Avatar
-              size={100}
-              icon={<UserOutlined />}
-              className="profile-avatar"
-            />
-            <Typography.Title level={3} className="profile-title">
-              {userInfo?.username}
-            </Typography.Title>
-            <Typography.Text className="profile-text">
-              Name: {userInfo?.name || "-"}
-            </Typography.Text>
-            <Typography.Text className="profile-text">
-              Email: {userInfo?.email || "-"}
-            </Typography.Text>
-            <Typography.Text className="profile-text">
-              Phone: {userInfo?.phone || "-"}
-            </Typography.Text>
-            <Typography.Text className="profile-text">
-              Role: {userInfo?.role || "-"}
-            </Typography.Text>
-            <Typography.Text className="profile-text">
-              Your Current Plan:{" "}
-              {userInfo?.premiumStatus === 0
-                ? "Basic "
-                : userInfo?.premiumStatus === 1
-                ? "Premium"
-                : "Unknown"}
-            </Typography.Text>
-            {userInfo?.premiumStatus === 0 && (
-              <Button
-                type="primary"
-                className="profile-button profile-button-upgrade"
-                onClick={() => navigate("/buyPlan")}
-              >
-                Upgrade to Premium
-              </Button>
-            )}
-            {userInfo?.premiumStatus === 1 && (
-              <Typography className="profile-text">
-                Your Premium Plan will expire on{" "}
-                {dayjs(userInfo?.expiredDate).format("MMMM D, YYYY")}
-              </Typography>
-            )}
-            <Button
-              type="primary"
-              className="profile-button"
-              onClick={showModalUpdate}
-            >
-              Update Profile
-            </Button>
-            <Button
-              type="primary"
-              className="profile-button"
-              onClick={showModalChangePassword}
-            >
-              Change Password
-            </Button>
-            <Button
-              type="primary"
-              danger
-              className="profile-button profile-button-logout"
-              onClick={handleLogout}
-            >
-              Logout
-            </Button>
-          </Space>
+          <Row gutter={[24, 24]}>
+            {/* Left Column */}
+            <Col xs={24} md={12} className="profile-left">
+              <Space direction="vertical" size="large" style={{width: '100%'}}>
+                <Avatar
+                  size={120}
+                  icon={<UserOutlined />}
+                  className="profile-avatar"
+                />
+                <Typography.Title level={3} className="profile-title">
+                  {userInfo?.username}
+                </Typography.Title>
+                
+                <Typography.Text className="profile-text">
+                  <strong>Name:</strong> {userInfo?.name || "-"}
+                </Typography.Text>
+                <Typography.Text className="profile-text">
+                  <strong>Email:</strong> {userInfo?.email || "-"}
+                </Typography.Text>
+                <Typography.Text className="profile-text">
+                  <strong>Phone:</strong> {userInfo?.phone || "-"}
+                </Typography.Text>
+              </Space>
+            </Col>
+
+            {/* Right Column */}
+            <Col xs={24} md={12} className="profile-right">
+              <Space direction="vertical" size="large" style={{width: '100%'}}>
+                <Typography.Text className="profile-text">
+                  <strong>Role:</strong> {userInfo?.role || "-"}
+                </Typography.Text>
+                <Typography.Text className="profile-text">
+                  <strong>Current Plan:</strong>{" "}
+                  {userInfo?.premiumStatus === 0
+                    ? "Basic "
+                    : userInfo?.premiumStatus === 1
+                    ? "Premium"
+                    : "Unknown"}
+                </Typography.Text>
+                
+                {userInfo?.premiumStatus === 0 && (
+                  <Button
+                    type="primary"
+                    className="profile-button profile-button-upgrade"
+                    onClick={() => navigate("/buyPlan")}
+                  >
+                    Upgrade to Premium
+                  </Button>
+                )}
+                {userInfo?.premiumStatus === 1 && (
+                  <Typography className="profile-text">
+                    Your Premium Plan will expire on{" "}
+                    {dayjs(userInfo?.expiredDate).format("MMMM D, YYYY")}
+                  </Typography>
+                )}
+
+                <Button
+                  type="primary"
+                  className="profile-button"
+                  onClick={showModalUpdate}
+                >
+                  Update Profile
+                </Button>
+                <Button
+                  type="primary"
+                  className="profile-button"
+                  onClick={showModalChangePassword}
+                >
+                  Change Password
+                </Button>
+                <Button
+                  type="primary"
+                  danger
+                  className="profile-button profile-button-logout"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </Space>
+            </Col>
+          </Row>
         </Card>
       </Col>
       <Modal

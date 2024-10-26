@@ -51,40 +51,27 @@ function ManagerPond() {
   return (
     <div className="ManagerPond-container">
       <div className="pond-card-container">
-        <h1 style={{ textAlign: "center" }}>Manager Pond</h1>
-        <div
-          className="filter-search"
-          style={{ display: "flex", justifyContent: "center" }}
-        >
+        <h1>Manager Pond</h1>
+        
+        <div className="search-container">
           <input
             type="text"
-            style={{ width: "20%" }}
             onChange={(e) => handleSearch(e.target.value)}
             placeholder="Search by name..."
             className="search-input"
           />
-          <PlusCircleOutlined
-            style={{ fontSize: "24px" }}
+          <PlusCircleOutlined 
+            className="add-button"
             onClick={() => navigate("/addPond")}
           />
         </div>
 
         {filteredPonds.length === 0 ? (
-          <p style={{ textAlign: "center" }}>
-            You have no ponds. Please add one.
-          </p>
+          <p className="no-ponds-message">You have no ponds. Please add one.</p>
         ) : (
-          <div className="pond-dashboard">
+          <div className="pond-grid">
             {filteredPonds.map((pond) => (
-              <div
-                key={pond.pondID}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <PondCard pond={pond} />
-              </div>
+              <PondCard key={pond.pondID} pond={pond} />
             ))}
           </div>
         )}

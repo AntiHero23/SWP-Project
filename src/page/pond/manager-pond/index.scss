@@ -6,6 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 2rem;
 
     .pond-card-container{
     border-radius: 25px;
@@ -25,6 +26,10 @@
       font-size: 36px;
       color: #1890ff;
       margin-bottom: 30px;
+      text-align: center;
+      color: #0088ff;
+      font-size: 2rem;
+      margin-bottom: 2rem;
     }
   
     .filter-search {
@@ -69,5 +74,60 @@
       color: #666;
     }
   }
+
+  .search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    .search-input {
+      width: 50%;
+      max-width: 500px;
+      padding: 0.5rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    .add-button {
+      color: #0088ff;
+      font-size: 24px;
+      cursor: pointer;
+      transition: color 0.2s;
+
+      &:hover {
+        color: #006acc;
+      }
+    }
   }
-  
+
+  .pond-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); // Changed to always show 3 columns
+    gap: 2rem;
+    padding: 1rem;
+    max-width: 1200px; // Added to control maximum width
+    margin: 0 auto; // Center the grid
+  }
+
+  // Add media query for smaller screens
+  @media (max-width: 1024px) {
+    .pond-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .pond-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .no-ponds-message {
+    text-align: center;
+    color: #666;
+    margin-top: 2rem;
+  }
+}

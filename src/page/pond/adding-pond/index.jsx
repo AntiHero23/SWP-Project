@@ -27,10 +27,9 @@ function AddPond() {
         drainCount,
         skimmerCount,
       } = response.data.result;
-
       form.setFieldsValue({
-        depth: ((maxDepth + minDepth) / 2).toFixed(2),
-        volume: ((maxVolume + minVolume) / 2).toFixed(2),
+        depth: (maxDepth + minDepth) / 2,
+        volume: (maxVolume + minVolume) / 2,
         pumpingCapacity: (
           (maxPumpingCapacity + minPumpingCapacity) /
           2
@@ -39,7 +38,7 @@ function AddPond() {
         skimmerCount: skimmerCount,
       });
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
 
@@ -82,6 +81,7 @@ function AddPond() {
     });
 
   const handleSubmit = async (values) => {
+    console.log(values);
     try {
       const url = await uploadFile(fileList[0].originFileObj);
       console.log(url);
