@@ -72,3 +72,41 @@
     }
   }
   
+  .result{
+    background-color: rgb(255, 137, 20); 
+    border-radius: 20px;
+    padding: 20px;
+    align-items: center;
+
+    h3{
+      color: white;
+      font-size: 20px;
+      font-weight: 900;
+      font-family: 'Rubik';
+      text-transform: uppercase;
+      // text-decoration: underline;
+      margin: 10px;
+    }
+  }
+
+  .ant-radio-button-wrapper {
+  
+    &.ant-radio-button-wrapper-checked {
+      color: white !important;  // Text color when checked
+      background-color: rgb(60, 121, 253) !important; // Background color when checked
+      border-color: blue !important; // Optional: Border color if needed
+    }
+
+    &:hover {
+      color: white;
+      background-color: rgb(123, 163, 250);
+    }
+  }
+
+  .detail-button{
+    background-color: #f11818;
+    font-weight: 900;
+    color: white;
+    width: 100%;
+  }
+  

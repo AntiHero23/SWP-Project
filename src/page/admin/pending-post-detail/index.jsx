@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../config/axios";
 import { Button, Card, Modal, Tag } from "antd";
 import dayjs from "dayjs";
+import "./index.scss";
 
 function PendingPostDetail() {
   const { id } = useParams();

@@ -1,0 +1,104 @@
+.contact {
+    background-image: url('../../assets/LoginBg.png');
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  
+    .contact-container {
+    //   background-color: rgba(255, 255, 255, 0.9);
+    //   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    //   padding: 50px;
+      max-width: 1200px;
+      width: 100%;
+
+      .ant-layout.css-dev-only-do-not-override-1qhpsh8 {
+        background-color: rgba(255, 255, 255, 0) !important; 
+      }
+      
+    }
+  
+    h1 {
+      color: #333;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+  
+    .contact-form {
+      background-color: #f9f9f9;
+      padding: 30px;
+      background-color: #f9f9f9;
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+  
+      .ant-form-item-label > label {
+        color: #555;
+        font-weight: bold;
+      }
+  
+      .ant-input,
+      .ant-input-textarea {
+        padding: 10px;
+        border-radius: 5px;
+        // border: 1px solid #ccc;
+      }
+  
+      .ant-btn-primary {
+        width: 100%;
+        background-color: #1890ff;
+        border-color: #1890ff;
+        border-radius: 5px;
+  
+        &:hover {
+          background-color: #40a9ff;
+          border-color: #40a9ff;
+        }
+      }
+    }
+  
+    .contact-info {
+      background-color: #f9f9f9;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      text-align: center;
+  
+      .contact-logo {
+        width: 100px;
+        margin-bottom: 20px;
+      }
+  
+      p {
+        font-size: 16px;
+        color: #666;
+        margin: 10px 0;
+  
+        a {
+          color: #1890ff;
+          text-decoration: none;
+  
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+  
+      svg {
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+    }
+    
+  }
+  
+  

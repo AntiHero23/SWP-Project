@@ -147,6 +147,7 @@ function CalculateFood() {
                 <Row>
                   <Col span={20}>
                     <Slider
+                      style={{ width: "300px" }}
                       min={0}
                       max={2.5}
                       value={percentage}
@@ -237,6 +238,7 @@ function CalculateFood() {
               shouldUpdate={(prevValues, curValues) => prevValues !== curValues}
             >
               <Button
+                className="detail-button"
                 type="button"
                 disabled={!(selectedPond && selectedTemp && selectedGrowth)}
                 onClick={() =>
@@ -257,9 +259,9 @@ function CalculateFood() {
         )}
         {Food && (
           <div className="result">
-            <h2>
+            <h3>
               Recommended food for this pond: {Number(Food).toFixed(4)} g/day
-            </h2>
+            </h3>
           </div>
         )}
       </div>
