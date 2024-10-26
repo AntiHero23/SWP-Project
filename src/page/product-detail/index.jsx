@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../config/axios";
-import dayjs from "dayjs";
-import { Tag } from "antd";
 import "./index.scss";
 
 function ProductDetail() {

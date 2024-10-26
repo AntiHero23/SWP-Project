@@ -133,7 +133,7 @@ export const router = createBrowserRouter([
         element: <Plan />,
       },
       {
-        path: "/waterReportHistory/:id",
+        path: "/waterReportHistory/:pondId",
         element: <WaterReportHistory />,
       },
       {
@@ -158,6 +158,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute allowedRoles={["MEMBER"]} requirePremium={true}>
             <CalculateFood />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/koiFoodList",
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]} requirePremium={true}>
+            <KoiFoodList />
           </ProtectedRoute>
         ),
       },

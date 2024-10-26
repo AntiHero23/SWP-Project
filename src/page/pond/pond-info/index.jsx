@@ -151,7 +151,7 @@ function PondInfo() {
                 </Form.Item>
               </div>
               <div className="right-column">
-                <Form.Item label="Volume: m3" name="volume">
+                <Form.Item label="Volume: L" name="volume">
                   <InputNumber min={0} />
                 </Form.Item>
                 <Form.Item label="Drain Count: " name="drainCount">

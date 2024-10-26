@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Image, Upload } from "antd";
+import { Form, Input, Button, Image, Upload, InputNumber } from "antd";
 import api from "../../../config/axios";
 import { useNavigate } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
@@ -28,12 +28,9 @@ function AddPond() {
         skimmerCount,
       } = response.data.result;
       form.setFieldsValue({
-        depth: (maxDepth + minDepth) / 2,
+        depth: minDepth,
         volume: (maxVolume + minVolume) / 2,
-        pumpingCapacity: (
-          (maxPumpingCapacity + minPumpingCapacity) /
-          2
-        ).toFixed(2),
+        pumpingCapacity: (maxPumpingCapacity + minPumpingCapacity) / 2,
         drainCount: drainCount,
         skimmerCount: skimmerCount,
       });
@@ -168,11 +165,16 @@ function AddPond() {
             rules={[{ required: true, message: "Please input depth!" }]}
             className="form-item"
           >
-            <Input type="number" className="form-input" min={0} />
+            <InputNumber
+              min={0}
+              placeholder="Depth"
+              className="form-input"
+              style={{ width: "100%" }}
+            />
           </Form.Item>
 
           <Form.Item
-            label="Volume: m3"
+            label="Volume: L"
             name="volume"
             rules={[{ required: true, message: "Please input volume!" }]}
             className="form-item"
@@ -199,7 +201,7 @@ function AddPond() {
           </Form.Item>
 
           <Form.Item
-            label="Pumping Capacity: m3/h"
+            label="Pumping Capacity: L/h"
             name="pumpingCapacity"
             rules={[
               { required: true, message: "Please input pumping capacity!" },

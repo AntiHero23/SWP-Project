@@ -16,13 +16,13 @@ const useCustomQuery = (method, endpoint, requestData = null) => {
       }
     }
     const response = await api(axiosConfig);
-    setIsApiCalled(true); // Đặt biến isApiCalled thành true sau khi gọi API
+    setIsApiCalled(true); 
     return response.data;
   };
 
-  // Sử dụng hook useQuery
+
   return useQuery([endpoint, method], fetchData, {
-    enabled: !isApiCalled, // Kích hoạt query chỉ khi API chưa được gọi
+    enabled: !isApiCalled, 
   });
 };
 

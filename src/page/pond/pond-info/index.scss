@@ -12,10 +12,10 @@
     background-attachment: fixed;
 
     .info-report-container{
-      display: flex; // Enable flexbox layout
-      flex-direction: row; // Change from column to row for side-by-side layout
-      align-items: stretch; // Center items vertically within the container
-      justify-content: space-around; // Adjust spacing between items; you can use 'space-between', 'space-evenly', or other options based on your needs
+      display: flex; 
+      flex-direction: row; 
+      align-items: stretch; 
+      justify-content: space-around; 
      
     }
 
@@ -43,7 +43,7 @@
 
       .pond-info-columns {
         display: grid;
-        grid-template-columns: 1fr 1fr; /* Create a 2-column layout */
+        grid-template-columns: 1fr 1fr; 
         gap: 10px;
         
         .left-column,
@@ -60,7 +60,7 @@
         }
     
         Form.Item {
-          width: 50%; /* Make form items take full width */
+          width: 50%; 
         }
       }
     
@@ -83,8 +83,8 @@
       max-width: 500px;
       align-items: end;
       
-      .content { // Add a wrapper for content
-        flex: 1; // Allow it to grow and take available space
+      .content { 
+        flex: 1; 
         margin-bottom: auto;
     }
 
@@ -93,8 +93,8 @@
         color: #333;
         margin: 10px 0;
       }
-  
       h2 {
+
         font-size: 22px;
         margin-bottom: 15px;
         color: #1890ff;
@@ -103,11 +103,6 @@
         margin:auto;
       }
     }
-  
-    
-
-    
-
   }
 
  .pond-info, .water-report {
