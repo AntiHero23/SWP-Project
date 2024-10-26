@@ -113,7 +113,7 @@ function PostManage() {
         <Button
           type="primary"
           onClick={() => {
-            navigate(`/admin/post/detail/pending/${value}`);
+            navigate(`/admin/post/details/pending/${value}`);
           }}
         >
           Details
@@ -222,7 +222,7 @@ function PostManage() {
         <Button
           type="primary"
           onClick={() => {
-            navigate(`/admin/post/detail/approved/${value}`);
+            navigate(`/admin/post/details/approved/${value}`);
           }}
         >
           Details

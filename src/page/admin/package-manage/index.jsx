@@ -1,15 +1,35 @@
 import React, { useEffect, useState } from "react";
 import api from "../../../config/axios";
 import { render } from "react-dom";
-import { Button, Table } from "antd";
+import { Button, Form, Input, InputNumber, Modal, Select, Table } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "antd/es/form/Form";
 
 function Package() {
   const [shopPackage, setShopPackage] = useState([]);
   const [memberPackage, setMemberPackage] = useState([]);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
+  const [form] = useForm();
   const navigate = useNavigate();
 
+  const handleSubmit = async () => {
+    try {
+      await api.post("admin/package/create", form.getFieldsValue()).then(() => {
+        fetchShopPackage();
+        fetchMemberPackage();
+      });
+      alert("Package added successfully!");
+      form.resetFields();
+      setIsOpenModal(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleCancel = () => {
+    form.resetFields();
+    setIsOpenModal(false);
+  };
   const fetchShopPackage = async () => {
     try {
       const responseShopPackage = await api.get(
@@ -34,18 +54,23 @@ function Package() {
     fetchShopPackage();
     fetchMemberPackage();
   }, []);
+  const VND = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
   const shopPackageColumns = [
     {
       title: "Package Name",
       dataIndex: "name",
       key: "name",
-      render: (text) => text.charAt(0).toUpperCase() + text.slice(1),
+      render: (text) =>
+        text ? text.charAt(0).toUpperCase() + text.slice(1) : "N/A",
     },
     {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: (text) => `${text} VND`,
+      render: (value) => VND.format(value),
     },
     {
       title: "Duration",
@@ -74,13 +99,14 @@ function Package() {
       title: "Package Name",
       dataIndex: "name",
       key: "name",
-      render: (text) => text.charAt(0).toUpperCase() + text.slice(1),
+      render: (text) =>
+        text ? text.charAt(0).toUpperCase() + text.slice(1) : "N/A",
     },
     {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: (text) => `${text} VND`,
+      render: (value) => VND.format(value),
     },
     {
       title: "Duration",
@@ -107,6 +133,130 @@ function Package() {
   return (
     <>
       <h1>Package Manage</h1>
+      <br />
+      <div style={{ textAlign: "center" }}>
+        <Button
+          type="primary"
+          onClick={() => setIsOpenModal(true)}
+          style={{ width: "25%" }}
+        >
+          Add Package
+        </Button>
+        <Modal
+          title="Add Package"
+          open={isOpenModal}
+          style={{ textAlign: "center", display: "flex" }}
+          footer={null}
+          closable={false}
+          onCancel={handleCancel}
+        >
+          <Form
+            form={form}
+            onFinish={handleSubmit}
+            labelAlign="left"
+            initialValues={{ role: "MEMBER" }}
+          >
+            <Form.Item
+              label="Role"
+              name="role"
+              rules={[{ required: true, message: "Please select role!" }]}
+            >
+              <Select
+                placeholder="Please select role"
+                rules={[{ required: true, message: "Please select role!" }]}
+              >
+                <Select.Option value="MEMBER">MEMBER</Select.Option>
+                <Select.Option value="SHOP">SHOP</Select.Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              label="Package Name"
+              name="name"
+              rules={[
+                { required: true, message: "Please input package name!" },
+              ]}
+            >
+              <Input placeholder="Name" />
+            </Form.Item>
+            <Form.Item
+              label="Price"
+              name="price"
+              rules={[{ required: true, message: "Please input price!" }]}
+            >
+              <InputNumber
+                placeholder="Price (₫)"
+                formatter={(value) =>
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+              />
+            </Form.Item>
+            <Form.Item
+              label="Duration"
+              name="duration"
+              rules={[{ required: true, message: "Please input duration!" }]}
+            >
+              <InputNumber
+                placeholder="Months"
+                formatter={(value) =>
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+              />
+            </Form.Item>
+            <Form.Item
+              label="Description"
+              name="description"
+              rules={[{ required: true, message: "Please input description!" }]}
+            >
+              <Input.TextArea
+                placeholder="Description"
+                autoSize={{ minRows: 4, maxRows: 6 }}
+              />
+            </Form.Item>
+            <Form.Item
+              label="Number of posts (available for shop only)"
+              name="numberOfPosts"
+              rules={[
+                { required: true, message: "Please input number of posts!" },
+              ]}
+            >
+              <InputNumber
+                style={{ width: "100%" }}
+                placeholder="Number of posts"
+                formatter={(value) =>
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+              />
+            </Form.Item>
+          </Form>
+          <Button
+            type="primary"
+            onClick={handleSubmit}
+            style={{
+              background: "green",
+              width: "100px",
+              marginTop: "10px",
+            }}
+          >
+            Yes
+          </Button>
+          <Button
+            type="primary"
+            onClick={handleCancel}
+            style={{
+              background: "white",
+              color: "black",
+              border: "0.5px solid black",
+              width: "100px",
+              marginLeft: "50px",
+            }}
+          >
+            No
+          </Button>
+        </Modal>
+      </div>
       <br />
       <br />
       <h2>Member Package</h2>

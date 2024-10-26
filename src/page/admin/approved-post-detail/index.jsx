@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import api from "../../../config/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
-import { Button, Modal, Tag } from "antd";
+import { Button, Card, Modal, Tag } from "antd";
 
 function ApprovedPostDetail() {
   const { id } = useParams();
@@ -41,72 +41,118 @@ function ApprovedPostDetail() {
     fetchPostDetail();
   }, []);
 
+  const VND = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
   return (
     <>
-      <div>
+      <div style={{ textAlign: "center" }}>
         <h1>Post Detail</h1>
+        <br />
         {!loading && (
-          <div>
-            <h2>{post?.productName}</h2>
-            <img
-              src={post?.image}
-              alt={post?.productName}
-              style={{ width: "100px" }}
-            />
-            <p>Description: {post?.description}</p>
-            <p>Price: {post?.productPrice} VND</p>
-            <p>
-              Post Date: {dayjs(post?.postDate).format("MMMM D, YYYY h:mm A")}
-            </p>
-            <p>
-              Expiration Date:{" "}
+          <Card style={{ backgroundColor: "#6495ed" }}>
+            <Card>
+              <h2>{post?.productName}</h2>
+              <img
+                src={post?.image}
+                alt={post?.productName}
+                style={{ width: "100px" }}
+              />
+            </Card>
+
+            <Card>
+              <b>Description: </b>
+              <p>{post?.description}</p>
+            </Card>
+
+            <Card>
+              <b>Price: </b>
+              {VND.format(post?.productPrice)}
+            </Card>
+
+            <Card>
+              <b>Post Date: </b>
+              {dayjs(post?.postDate).format("MMMM D, YYYY h:mm A")}
+            </Card>
+            <Card>
+              <b>Expiration Date: </b>
               {dayjs(post?.expiredDate).format("MMMM D, YYYY h:mm A")}
-            </p>
-            <p>
-              Post Status:{" "}
+            </Card>
+            <Card>
+              <b>Post Status: </b>
               <Tag color={post.postStatus ? "green" : "red"}>
                 {post.postStatus ? "Approved" : "Pending"}
               </Tag>
-            </p>
-            <Button
-              type="primary"
-              danger
-              onClick={() => {
-                showModal();
-              }}
-              style={{
-                float: "left",
-                marginTop: "10px",
-                width: "100px",
-              }}
-            >
-              Remove
-            </Button>
-            <Modal
-              title="Remove Post"
-              open={isOpenModal}
-              onOk={() => {
-                handleSubmit();
-                api
-                  .delete(`/admin/post/reject/${postId}`)
-                  .then(() => {
-                    fetchPostDetail();
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                  });
-                alert("Post removed successfully! Please wait for a while!");
-                setTimeout(() => {
-                  navigate("/admin/post");
-                }, 5000);
-              }}
-              onCancel={() => {
-                handleCancel();
-              }}
-            >
-              Are you sure you want to remove this post?
-            </Modal>
-          </div>
+            </Card>
+
+            <Card>
+              <Button
+                type="primary"
+                danger
+                onClick={() => {
+                  showModal();
+                }}
+                style={{
+                  marginTop: "10px",
+                  width: "100px",
+                }}
+              >
+                Remove
+              </Button>
+              <Modal
+                style={{
+                  textAlign: "center",
+                }}
+                title="Are you sure you want to REMOVE this post?"
+                open={isOpenModal}
+                footer={null}
+                closeIcon={null}
+                onCancel={handleCancel}
+              >
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    handleSubmit();
+                    api
+                      .delete(`/admin/post/delete/${postId}`)
+                      .then(() => {
+                        fetchPostDetail();
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                      });
+                    alert(
+                      "Post removed successfully! Please wait for a while!"
+                    );
+                    setTimeout(() => {
+                      navigate("/admin/post");
+                    }, 5000);
+                  }}
+                  style={{
+                    background: "green",
+                    width: "100px",
+                    marginTop: "10px",
+                  }}
+                >
+                  Yes
+                </Button>
+                <Button
+                  type="primary"
+                  onClick={handleCancel}
+                  style={{
+                    background: "white",
+                    color: "black",
+                    border: "0.5px solid black",
+                    width: "100px",
+                    marginLeft: "50px",
+                  }}
+                >
+                  No
+                </Button>
+              </Modal>
+            </Card>
+          </Card>
         )}
       </div>
     </>

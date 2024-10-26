@@ -45,7 +45,8 @@ function PostView() {
       setIsModalOpen(false);
       form.resetFields();
     } catch (error) {
-      console.log("post adding failed", error);
+      // console.log("post adding failed", error);
+      alert(error.response.data.message);
     }
   };
   const handleCancel = () => {
@@ -154,6 +155,10 @@ function PostView() {
     fetchPayment();
     fetchProductType();
   }, []);
+  const VND = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
   const columns = [
     {
       title: "Product Name",
@@ -164,7 +169,7 @@ function PostView() {
       title: "Product Price",
       dataIndex: "productPrice",
       key: "productPrice",
-      render: (value) => value + " VND",
+      render: (value) => VND.format(value),
     },
     {
       title: "Image",
@@ -217,7 +222,11 @@ function PostView() {
 
   return (
     <>
-      <Button type="primary" onClick={showModal}>
+      <Button
+        type="primary"
+        onClick={showModal}
+        style={{ width: "25%", marginLeft: "40%" }}
+      >
         New Post
       </Button>
       <Modal

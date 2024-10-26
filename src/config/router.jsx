@@ -45,6 +45,10 @@ import MemberPackage from "../page/admin/user-package";
 import ProductDetail from "../page/product-detail";
 import StatisticsPond from "../page/statistic-pond";
 import ProtectedRoute from "../components/ProtectedRoute";
+import AccountDetails from "../page/admin/account-detail";
+import PondStandard from "../page/admin/pond-standard";
+import WaterStandard from "../page/admin/water-standard";
+import PondStandardDetails from "../page/admin/pond-standard-details";
 
 export const router = createBrowserRouter([
   {
@@ -191,7 +195,7 @@ export const router = createBrowserRouter([
             element: <PostManage />,
           },
           {
-            path: "detail",
+            path: "details",
             children: [
               {
                 path: "pending/:id",
@@ -206,8 +210,17 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: "userManager",
-        element: <UserManage />,
+        path: "userManage",
+        children: [
+          {
+            path: "",
+            element: <UserManage />,
+          },
+          {
+            path: "details/:id",
+            element: <AccountDetails />,
+          },
+        ],
       },
       {
         path: "package",
@@ -225,6 +238,23 @@ export const router = createBrowserRouter([
             element: <MemberPackage />,
           },
         ],
+      },
+      {
+        path: "pondStandard",
+        children: [
+          {
+            path: "",
+            element: <PondStandard />,
+          },
+          {
+            path: "details/:id",
+            element: <PondStandardDetails />,
+          },
+        ],
+      },
+      {
+        path: "waterStandard",
+        element: <WaterStandard />,
       },
     ],
   },

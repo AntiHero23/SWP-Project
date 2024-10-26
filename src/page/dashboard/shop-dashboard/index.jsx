@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import {
   DesktopOutlined,
   FileOutlined,
+  HistoryOutlined,
+  HomeOutlined,
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
-import { Link, Outlet } from "react-router-dom";
+import { Breadcrumb, Button, Layout, Menu, theme } from "antd";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import Footer from "../../../component/footer";
+import { useAuthStore } from "../../../zustand/useAuthStore";
 
 const { Header, Content, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -20,16 +23,23 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem("Home", "", <FileOutlined />),
+  getItem("Home", "", <HomeOutlined />),
   getItem("Post Manage", "post", <FileOutlined />),
-  getItem("History Transaction", "historyTransaction", <FileOutlined />),
-  getItem("Profile", "profile", <FileOutlined />),
+  getItem("History Transaction", "historyTransaction", <HistoryOutlined />),
+  getItem("Profile", "profile", <UserOutlined />),
 ];
 const ShopDashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const { user, logout } = useAuthStore();
+  const navigate = useNavigate();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const handleLogout = () => {
+    logout();
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
   return (
     <>
       <Layout
@@ -49,27 +59,39 @@ const ShopDashboard = () => {
             mode="inline"
             items={items}
           />
+          <Button
+            type="primary"
+            danger
+            style={{
+              width: "96%",
+              marginLeft: "2%",
+            }}
+            className="profile-button profile-button-logout"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
         </Sider>
         <Layout>
-          <Header
+          {/* <Header
             style={{
               padding: 0,
               background: colorBgContainer,
             }}
-          />
+          /> */}
           <Content
             style={{
               margin: "0 16px",
             }}
           >
-            <Breadcrumb
+            {/* <Breadcrumb
               style={{
                 margin: "16px 0",
               }}
             >
               <Breadcrumb.Item>Manage</Breadcrumb.Item>
               <Breadcrumb.Item>Post</Breadcrumb.Item>
-            </Breadcrumb>
+            </Breadcrumb> */}
             <div
               style={{
                 padding: 24,

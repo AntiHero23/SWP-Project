@@ -31,7 +31,6 @@ function Register() {
       return;
     }
 
-
     try {
       const response = await api.post("register", values);
       alert("Register successfully");
@@ -46,7 +45,7 @@ function Register() {
   return (
     <div className="register">
       <div className="register-form-container">
-        <Form layout="vertical"form={form} onFinish={onFinish}>
+        <Form layout="vertical" form={form} onFinish={onFinish}>
           <div className="register-title">Register</div>
           <Form.Item
             className="register-form-inputbox"
@@ -85,10 +84,12 @@ function Register() {
           <Form.Item
             label="Phone"
             name="phone"
-
             rules={[
               { required: true, message: "Please input your phone!" },
-              { pattern: /^0[0-9]{9}$/, message: "Phone must start with 0 and have 10 numbers" },
+              {
+                pattern: /^0[0-9]{9}$/,
+                message: "Phone must start with 0 and have 10 numbers",
+              },
             ]}
           >
             <Input />

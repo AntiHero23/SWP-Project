@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Table } from "antd";
+import { Button, Table, Tag } from "antd";
 import api from "../../../config/axios";
 import { render } from "react-dom";
 import { useNavigate } from "react-router-dom";
@@ -32,11 +32,11 @@ function UserManage() {
     //   dataIndex: "password",
     //   key: "password",
     // },
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
+    // {
+    //   title: "Name",
+    //   dataIndex: "name",
+    //   key: "name",
+    // },
     // {
     //   title: "Phone",
     //   dataIndex: "phone",
@@ -63,6 +63,14 @@ function UserManage() {
     //   key: "expiredDate",
     // },
     {
+      title: "Validation",
+      dataIndex: "status",
+      key: "status",
+      render: (value) => (
+        <Tag color={value ? "green" : "red"}>{value ? "Valid" : "Banned"}</Tag>
+      ),
+    },
+    {
       title: "Details",
       dataIndex: "accountID",
       key: "accountID",
@@ -70,7 +78,7 @@ function UserManage() {
         <Button
           type="primary"
           onClick={() => {
-            // navigate(`/admin/user/${value}`);
+            navigate(`/admin/userManage/details/${value}`);
           }}
         >
           Details
@@ -81,7 +89,10 @@ function UserManage() {
 
   return (
     <>
-      <h1>User Account Table</h1>
+      <h1>User Manage</h1>
+      <br />
+      <br />
+      <h2>User Account Table</h2>
       <Table dataSource={dataSourceAccount} columns={accountColumns} />
     </>
   );

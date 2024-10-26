@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import {
   DesktopOutlined,
+  ExperimentOutlined,
   FileOutlined,
+  FolderOutlined,
+  HomeOutlined,
   PieChartOutlined,
+  RadarChartOutlined,
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
-import { Link, Outlet } from "react-router-dom";
+import { Breadcrumb, Button, Layout, Menu, theme } from "antd";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../../zustand/useAuthStore";
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -18,16 +23,25 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem("Home", "", <FileOutlined />),
-  getItem("Post Manager", "post", <FileOutlined />),
-  getItem("User", "userManager", <FileOutlined />),
-  getItem("Packages", "package", <FileOutlined />),
+  getItem("Home", "", <HomeOutlined />),
+  getItem("Post Manage", "post", <FileOutlined />),
+  getItem("Users Manage", "userManage", <TeamOutlined />),
+  getItem("Packages", "package", <FolderOutlined />),
+  getItem("Pond Standard", "pondStandard", <RadarChartOutlined />),
+  getItem("Water Standard", "waterStandard", <ExperimentOutlined />),
 ];
 const AdminDashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const { user, logout } = useAuthStore();
+  const navigate = useNavigate();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const handleLogout = () => {
+    logout();
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
   return (
     <Layout
       style={{
@@ -46,27 +60,39 @@ const AdminDashboard = () => {
           mode="inline"
           items={items}
         />
+        <Button
+          type="primary"
+          danger
+          style={{
+            width: "96%",
+            marginLeft: "2%",
+          }}
+          className="profile-button profile-button-logout"
+          onClick={handleLogout}
+        >
+          Logout
+        </Button>
       </Sider>
       <Layout>
-        <Header
+        {/* <Header
           style={{
             padding: 0,
             background: colorBgContainer,
           }}
-        />
+        /> */}
         <Content
           style={{
             margin: "0 16px",
           }}
         >
-          <Breadcrumb
+          {/* <Breadcrumb
             style={{
               margin: "16px 0",
             }}
           >
             <Breadcrumb.Item>Manage</Breadcrumb.Item>
             <Breadcrumb.Item>Post</Breadcrumb.Item>
-          </Breadcrumb>
+          </Breadcrumb> */}
           <div
             style={{
               padding: 24,
@@ -83,7 +109,7 @@ const AdminDashboard = () => {
             textAlign: "center",
           }}
         >
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          Sunside Koi Care ©{new Date().getFullYear()} Created by G7 SE1863
         </Footer>
       </Layout>
     </Layout>
