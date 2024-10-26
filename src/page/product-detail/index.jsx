@@ -30,27 +30,21 @@ function ProductDetail() {
 
   return (
     <div className="product-detail">
-      {/* <h1 style={{ textAlign: "center" }}>Product Detail</h1> */}
-      
+      <h1 style={{ textAlign: "center" }}>Product Detail</h1>
       {!loading && postDetail && (
-        <div className="product-info">
-          <div className="product-info-header">
-          <h2 className="product-name">{postDetail.productName}</h2>
+        <div>
+          <h2>{postDetail.productName}</h2>
           <img
             src={postDetail.image}
             alt={postDetail.productName}
             className="product-image"
           />
-          </div>
-          <div className="product-info-body">
-            <p className="product-desc">
-              {postDetail.description}
-            </p>
+          <p className="product-desc">Description: {postDetail.description}</p>
+
           <p className="product-price">Price: {postDetail.productPrice} VND</p>
           <a href={postDetail.link} className="product-link">
             Product Link
           </a>
-          </div>
         </div>
       )}
     </div>

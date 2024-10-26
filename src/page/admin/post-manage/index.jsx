@@ -248,7 +248,7 @@ function PostManage() {
   ];
 
   return (
-    <div className="post-manage">
+    <>
       {/* <Modal
         title="Reject Post"
         open={isRejectModal}
@@ -270,7 +270,7 @@ function PostManage() {
       <Table dataSource={dataSourcePending} columns={pendingColumns} />
       <h2>Post Approved Table</h2>
       <Table dataSource={dataSourceApproved} columns={approvedColumns} />
-    </div>
+    </>
   );
 }
 

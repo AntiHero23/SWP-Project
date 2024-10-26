@@ -18,8 +18,7 @@ function CalculateSalt() {
   const [currentSalt, setCurrentSalt] = useState(0);
   const [expectSalt, setExpectSalt] = useState(0);
   const [waterChange, setWaterChange] = useState(0);
-  const [neededSalt, setNeededSalt] = useState("");
-  const [perChange, setPerChange] = useState("");
+  const [alert, setAlert] = useState("");
 
   useEffect(() => {
     const fetchPonds = async () => {
@@ -56,9 +55,14 @@ function CalculateSalt() {
         api.post("salt/calculateSalt", values),
         api.post("salt/calculateSalt-per-water-change", values),
       ]);
-      setNeededSalt(`Amount of Salt: ${ExpSaltresponse.data} kg`)
-      setPerChange (`Salt per Water Change: ${WaterChangeresponse.data} kg`);
-
+      setAlert(
+        "Amount of Salt : " +
+          ExpSaltresponse.data +
+          " kg" +
+          " and Per water change (refill) " +
+          WaterChangeresponse.data +
+          " kg"
+      );
     } catch (error) {
       console.log(error);
     }
@@ -116,7 +120,6 @@ function CalculateSalt() {
             <Row>
               <Col span={12}>
                 <Slider
-                  style={{ width: "300px" }}
                   min={0}
                   max={2}
                   onChange={(value) => setCurrentSalt(value)}
@@ -142,7 +145,6 @@ function CalculateSalt() {
             <Row>
               <Col span={12}>
                 <Slider
-                  style={{ width: "300px" }}
                   min={0}
                   max={2}
                   onChange={(value) => setExpectSalt(value)}
@@ -180,7 +182,6 @@ function CalculateSalt() {
             <Row>
               <Col span={12}>
                 <Slider
-                  style={{ width: "300px" }}
                   min={0}
                   max={100}
                   value={waterChange}
@@ -210,14 +211,7 @@ function CalculateSalt() {
             </Space>
           </Form.Item>
         </Form>
-        <div className="salt-result">
-            <h3>
-              {neededSalt}
-            </h3>
-            <h3>
-              {perChange}
-            </h3>
-        </div>
+        {alert && <h1 className="salt-result">{alert}</h1>}
       </div>
     </div>
   );

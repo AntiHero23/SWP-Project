@@ -55,9 +55,6 @@ function StatisticKoi() {
       });
       console.log("Koi standard fetched:", response.data.result);
       setKoiStandard(response.data.result); // Store koi standard data
-      // const { hiLength, lowLength, hiWeight, lowWeight } = response.data.result;
-      // const avgLength = ((hiLength + lowLength) / 2).toFixed(2);
-      // const avgWeight = ((hiWeight + lowWeight) / 2).toFixed(2);
     } catch (error) {
       console.error("Error fetching koi standard data:", error);
     }
@@ -99,12 +96,12 @@ function StatisticKoi() {
       console.log("Start of month:", startOfMonth, "End of month:", endOfMonth);
   
       const sortedReports = koiReport
-  .filter((report) => {
-    const reportDate = dayjs(report.updateDate);
-    return reportDate.month() === selectedMonth && reportDate.year() === selectedYear;
-  })
-  .sort((a, b) => dayjs(a.updateDate).diff(dayjs(b.updateDate)));
-
+        .filter((report) => {
+          const reportDate = dayjs(report.updateDate);
+          return reportDate.month() === selectedMonth && reportDate.year() === selectedYear;
+        })
+        .sort((a, b) => new Date(a.updateDate) - new Date(b.updateDate));
+  
       console.log("Filtered and sorted koi report:", sortedReports);
   
       let interpolatedChartData = [];
@@ -181,8 +178,8 @@ function StatisticKoi() {
       // Interpolate low/high values
       const lowValueStart = koiStandard[`low${capitalize(selectedType)}`];
       const highValueStart = koiStandard[`hi${capitalize(selectedType)}`];
-      const lowValueEnd = koiStandard[`low${capitalize(selectedType)}to`];
-      const highValueEnd = koiStandard[`hi${capitalize(selectedType)}to`];
+      const lowValueEnd = koiStandard[`low${capitalize(selectedType)}`] + (selectedType === "weight" ? 100.0 : 1);
+      const highValueEnd = koiStandard[`hi${capitalize(selectedType)}`] + (selectedType === "weight" ? 100.0 : 1);
   
       const interpolatedLow = interpolate(startOfMonth, endOfMonth, lowValueStart, lowValueEnd);
       const interpolatedHigh = interpolate(startOfMonth, endOfMonth, highValueStart, highValueEnd);
@@ -212,13 +209,8 @@ function StatisticKoi() {
         }
       });
   
-      console.log("Full chart data:", fullChartData);
-      // setChartData(fullChartData);
-          // Sort final chart data by updateDate
-      const sortedFinalChartData = fullChartData.sort((a, b) => dayjs(a.updateDate).diff(dayjs(b.updateDate)));
-
-      console.log("Final sorted chart data:", sortedFinalChartData);
-      setChartData(sortedFinalChartData);
+      console.log("Final chart data:", fullChartData);
+      setChartData(fullChartData);
     }
   }, [koiReport, koiStandard, selectedDate, selectedType]);
 
@@ -277,9 +269,9 @@ function StatisticKoi() {
             <YAxis tickFormatter={(value) => value.toFixed(2)} /> {/* Format YAxis values */}
             <Tooltip formatter={(value) => value.toFixed(2)} /> {/* Format Tooltip values */}
             <Legend />
-            <Line type="monotone" dataKey="value" stroke="#1890ff" name={capitalize(selectedType)} dot={false} />
-            <Line type="monotone" dataKey="lowValue" stroke="#00FF02" name="Low Value" dot={false} />
-            <Line type="monotone" dataKey="highValue" stroke="#ff7300" name="High Value"  dot={false} />
+            <Line type="monotone" dataKey="value" stroke="#1890ff" name={capitalize(selectedType)} />
+            <Line type="monotone" dataKey="lowValue" stroke="#00FF02" name="Low Value" strokeDasharray="3 3" />
+            <Line type="monotone" dataKey="highValue" stroke="#ff7300" name="High Value" strokeDasharray="3 3" />
           </LineChart>
         </ResponsiveContainer>
       )}
