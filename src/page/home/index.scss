@@ -1,4 +1,3 @@
-
 .home-container {
   background: url("../../assets/background.png") no-repeat center center fixed;
   background-size: cover;
@@ -8,12 +7,124 @@
   align-items: center;
 
   .home-content-container {
-    background-color: rgba(255, 255, 255, 0.9); /* Adding a semi-transparent background for readability */
+    background-color: rgba(255, 255, 255, 0.9); /* A  dding a semi-transparent background for readability */
     border-radius: 25px;
     padding: 40px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    max-width: 1200px;
+    max-width: 800px; // Reduced max-width for better single column readability
     margin: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; // Adds spacing between sections
+  }
+
+  .hero-section {
+    min-height: 600px;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('/path-to-your-hero-image.jpg') center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+
+    .hero-content {
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+      }
+    }
+  }
+
+  .section-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 1rem;
+
+    h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+    }
+  }
+
+  .feature-card {
+    height: 100%;
+    text-align: center;
+    transition: transform 0.3s;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .pricing-card {
+    height: 100%;
+    text-align: center;
+    
+    &.featured {
+      transform: scale(1.05);
+      border-color: #1890ff;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .price {
+      font-size: 2rem;
+      color: #1890ff;
+      margin-bottom: 1.5rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+
+      li {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+
+  .cta-section {
+    background-color: #f0f2f5;
+    text-align: center;
+    padding: 4rem 1rem;
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  // Add consistent spacing between all sections
+  .hero-section,
+  .feature-section,
+  .statistics-section,
+  .testimonials-section,
+  .pricing-section,
+  .cta-section {
+    width: 100%;
+    margin-bottom: 2rem;
   }
 }
 
@@ -64,3 +175,98 @@
   }
 }
 
+.statistics-section {
+  background-color: #f8f9fa;
+  
+  .stat-card {
+    text-align: center;
+    padding: 2rem;
+    
+    h2 {
+      font-size: 2.5rem;
+      color: #1890ff;
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+.testimonials-section {
+  .testimonial-card {
+    height: 100%;
+    text-align: center;
+    
+    p {
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+    
+    h4 {
+      color: #666;
+    }
+  }
+}
+
+.pricing-section {
+  padding: 4rem 0;
+  background-color: #f8f9fa;
+
+  .section-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .pricing-card {
+    height: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    
+    &.featured {
+      border-color: #1890ff;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      
+      @media (min-width: 768px) {
+        transform: scale(1.05);
+      }
+    }
+
+    .ant-card-body {
+      padding: 24px;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .price {
+      font-size: 2rem;
+      color: #1890ff;
+      margin-bottom: 1.5rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+
+      li {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    .ant-btn {
+      width: 100%;
+      margin-top: 1rem;
+    }
+  }
+
+  // Add responsive adjustments
+  @media (max-width: 767px) {
+    .pricing-card {
+      &.featured {
+        transform: none;
+      }
+    }
+  }
+}

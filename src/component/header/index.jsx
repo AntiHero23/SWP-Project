@@ -39,9 +39,9 @@ function Header() {
         <Menu.Item onClick={() => navigate("/calculateFood")}>
           Calculate Food
         </Menu.Item>
-        <Menu.Item onClick={() => navigate("/recommendation")}>
+        {/* <Menu.Item onClick={() => navigate("/recommendation")}>
           Shopping Recommendation
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item onClick={() => navigate("/statisticsKoi")}>
           Koi Statistics
         </Menu.Item>
@@ -88,6 +88,7 @@ function Header() {
             </a>
           </Dropdown>
         </li>
+        <li onClick={() => navigate("/recommendation")}>Shopping</li>
         <li>About Us</li>
         <li onClick={() => navigate("/contact")}>Contact Us</li>
         <li>Blog</li>
