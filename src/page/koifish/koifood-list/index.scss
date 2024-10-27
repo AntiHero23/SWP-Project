@@ -1,8 +1,56 @@
-.koi-fish-image {
-    width: 50%;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    
-    
+.koi-food-page {
+    background-image: url('../../../assets/LoginBg.png');
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+    padding: 20px;
+
+    .koi-food-container {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 40px;
+        border-radius: 15px;
+        max-width: 1200px;
+        margin: 0 auto;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            font-family: 'Oswald', sans-serif;
+            color: #4d5fff; // Red tone for title
+        }
+
+        .site-card-wrapper {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+
+            .ant-card {
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+                .ant-card-head-title {
+                    color: #ff4d4f; // Highlighted red tone for koi name
+                    font-weight: bold;
+                    font-size: 1.2rem;
+                }
+
+                .ant-card-extra {
+                    font-size: 1rem;
+                    color: #333;
+                }
+
+                p {
+                    font-size: 1rem;
+                    color: #333;
+
+                    span {
+                        font-weight: bold;
+                        color: #555;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -116,7 +116,6 @@ function CalculateSalt() {
             <Row>
               <Col span={12}>
                 <Slider
-                  style={{ width: "300px" }}
                   min={0}
                   max={2}
                   onChange={(value) => setCurrentSalt(value)}
@@ -142,7 +141,6 @@ function CalculateSalt() {
             <Row>
               <Col span={12}>
                 <Slider
-                  style={{ width: "300px" }}
                   min={0}
                   max={2}
                   onChange={(value) => setExpectSalt(value)}
@@ -180,7 +178,6 @@ function CalculateSalt() {
             <Row>
               <Col span={12}>
                 <Slider
-                  style={{ width: "300px" }}
                   min={0}
                   max={100}
                   value={waterChange}
@@ -193,13 +190,19 @@ function CalculateSalt() {
                   min={0}
                   max={100}
                   step={1}
+                  style={{
+                    margin: "0 16px",
+                  }}
                   value={waterChange}
                   onChange={(value) => setWaterChange(value)}
                 />
               </Col>
             </Row>
           </Form.Item>
-          <Form.Item>
+          <Form.Item style={{ 
+            textAlign: "center",
+            alignItems: "center",
+           }}>
             <Space>
               <Button type="primary" htmlType="submit">
                 Calculate
