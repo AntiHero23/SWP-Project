@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../config/axios";
 import dayjs from "dayjs";
-import { Tag } from "antd";
+import { Card, Tag } from "antd";
 
 function PostDetail() {
   const { id } = useParams();
@@ -34,75 +34,57 @@ function PostDetail() {
   return (
     <div style={{ textAlign: "center" }}>
       <h1>Post Detail</h1>
-      <p>
-        ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-      </p>
       <br />
       {!loading && (
-        <div>
-          <h2>{postDetail.productName}</h2>
-          <img
-            src={postDetail?.image}
-            alt={postDetail.productName}
-            style={{ width: "100px" }}
-          />
-          <p>
-            ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-          </p>
-          <br />
-          <b>Product Type: </b>
-          {postDetail.productTypeName}
-          <p>
-            ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-          </p>
-          <br />
-          <b>Description: </b>
-          <p>{postDetail.description}</p>
-          <p>
-            ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-          </p>
-          <br />
-          <b>Link: </b>
-          <a
-            href={postDetail.link}
-            style={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {postDetail.link}
-          </a>
-          <p>
-            ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-          </p>
-          <br />
-          <b>Price: </b>
-          {VND.format(postDetail.productPrice)}
-          <p>
-            ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-          </p>
-          <br />
-          <b>Post Date: </b>
-          {dayjs(postDetail.postDate).format("MMMM D, YYYY h:mm A")}
-          <p>
-            ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-          </p>
-          <br />
-          <b>Expiration Date: </b>
-          {dayjs(postDetail.expiredDate).format("MMMM D, YYYY h:mm A")}
-          <p>
-            ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-          </p>
-          <br />
-          <b>Post Status: </b>
-          <Tag color={postDetail.postStatus ? "green" : "red"}>
-            {postDetail.postStatus ? "Approve" : "Pending"}
-          </Tag>
-          <p>
-            ______________________________________________________________________________________________________________________________________________________________________________________________________________________
-          </p>
-        </div>
+        <Card style={{ background: "#6495ed" }}>
+          <Card>
+            <h2>{postDetail.productName}</h2>
+            <img
+              src={postDetail?.image}
+              alt={postDetail.productName}
+              style={{ width: "100px" }}
+            />
+          </Card>
+          <Card>
+            <b>Product Type: </b>
+            {postDetail.productTypeName}
+          </Card>
+          <Card>
+            <b>Description: </b>
+            <p>{postDetail.description}</p>
+          </Card>
+          <Card>
+            <b>Link: </b>
+            <a
+              href={postDetail.link}
+              style={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {postDetail.link}
+            </a>
+          </Card>
+          <Card>
+            <b>Price: </b>
+            {VND.format(postDetail.productPrice)}
+          </Card>
+          <Card>
+            <b>Post Date: </b>
+            {dayjs(postDetail.postDate).format("MMMM D, YYYY h:mm A")}
+          </Card>
+          <Card>
+            <b>Expiration Date: </b>
+            {dayjs(postDetail.expiredDate).format("MMMM D, YYYY h:mm A")}
+          </Card>
+          <Card>
+            <b>Post Status: </b>
+            <Tag color={postDetail.postStatus ? "green" : "red"}>
+              {postDetail.postStatus ? "Approve" : "Pending"}
+            </Tag>
+          </Card>
+        </Card>
       )}
     </div>
   );

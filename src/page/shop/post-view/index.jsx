@@ -42,6 +42,9 @@ function PostView() {
       values.image = url;
       await api.post("post/create", values);
       alert("Post added successfully");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
       setIsModalOpen(false);
       form.resetFields();
     } catch (error) {
@@ -166,7 +169,7 @@ function PostView() {
       key: "productName",
     },
     {
-      title: "Product Price",
+      title: "Product Price (₫)",
       dataIndex: "productPrice",
       key: "productPrice",
       render: (value) => VND.format(value),
@@ -222,96 +225,140 @@ function PostView() {
 
   return (
     <>
-      <Button
-        type="primary"
-        onClick={showModal}
-        style={{ width: "25%", marginLeft: "40%" }}
-      >
-        New Post
-      </Button>
-      <Modal
-        title="Add New Post"
-        open={isModalOpen}
-        onOk={() => form.submit()}
-        onCancel={handleCancel}
-      >
-        <Form form={form} onFinish={handleSubmit}>
-          <Form.Item
-            label="Product Name: "
-            name="productName"
-            rules={[{ required: true, message: "Please input product name!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Description: "
-            name="description"
-            rules={[{ required: true, message: "Please input description!" }]}
-          >
-            <Input.TextArea autoSize={{ minRows: 4, maxRows: 6 }} />
-          </Form.Item>
-          <Form.Item
-            label="Link: "
-            name="link"
-            rules={[{ required: true, message: "Please input link!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Image: "
-            name="image"
-            rules={[{ required: true, message: "Please upload image!" }]}
-          >
-            <Upload
-              listType="picture-card"
-              fileList={fileList}
-              onPreview={handlePreview}
-              onChange={handleChange}
+      <div style={{ textAlign: "center" }}>
+        <Button type="primary" onClick={showModal} style={{ width: "10%" }}>
+          New Post
+        </Button>
+        <Modal
+          title="Add New Post"
+          open={isModalOpen}
+          style={{
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          footer={null}
+          closable={false}
+          onCancel={handleCancel}
+        >
+          <Form form={form} onFinish={handleSubmit}>
+            <Form.Item
+              label="Product Name: "
+              name="productName"
+              rules={[
+                { required: true, message: "Please input product name!" },
+              ]}
             >
-              {fileList.length >= 8 ? null : uploadButton}
-            </Upload>
-          </Form.Item>
-          <Form.Item
-            label="Product Price: "
-            name="productPrice"
-            rules={[{ required: true, message: "Please input price!" }]}
-          >
-            <InputNumber />
-          </Form.Item>
-          {/* <Form.Item
+              <Input placeholder="Enter product name" />
+            </Form.Item>
+            <Form.Item
+              label="Description: "
+              name="description"
+              rules={[{ required: true, message: "Please input description!" }]}
+            >
+              <Input.TextArea
+                autoSize={{ minRows: 4, maxRows: 6 }}
+                placeholder="Enter description"
+              />
+            </Form.Item>
+            <Form.Item
+              label="Link: "
+              name="link"
+              rules={[{ required: true, message: "Please input link!" }]}
+            >
+              <Input placeholder="Enter link" />
+            </Form.Item>
+            <Form.Item
+              label="Image: "
+              name="image"
+              rules={[{ required: true, message: "Please upload image!" }]}
+            >
+              <Upload
+                listType="picture-card"
+                fileList={fileList}
+                onPreview={handlePreview}
+                onChange={handleChange}
+              >
+                {fileList.length >= 8 ? null : uploadButton}
+              </Upload>
+            </Form.Item>
+            <Form.Item
+              label="Product Price (₫): "
+              name="productPrice"
+              rules={[{ required: true, message: "Please input price!" }]}
+            >
+              <InputNumber
+                style={{ width: "100%" }}
+                placeholder="Enter price (₫)"
+                min={0}
+                formatter={(value) =>
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+              />
+            </Form.Item>
+            {/* <Form.Item
             label="Payment: "
             name="paymentID"
             rules={[{ required: true, message: "Please input payment!" }]}
           >
-            <Select options={paymentOptions} />
+            <Select options={paymentOptions} placeholder="Enter payment" />
           </Form.Item> */}
-          <Form.Item
-            label="Product Type: "
-            name="producTypeID"
-            rules={[{ required: true, message: "Please input product type!" }]}
-          >
-            <Select options={productTypeOptions} />
-          </Form.Item>
-          {/* <Form.Item
+            <Form.Item
+              label="Product Type: "
+              name="producTypeID"
+              rules={[
+                { required: true, message: "Please input product type!" },
+              ]}
+            >
+              <Select
+                options={productTypeOptions}
+                placeholder="Enter product type"
+              />
+            </Form.Item>
+            {/* <Form.Item
             label="Price: "
             name="priceID"
             rules={[{ required: true, message: "Please input way to pay!" }]}
           >
-            <Select options={priceOptions} />
+            <Select options={priceOptions} placeholder="Enter way to pay" />
           </Form.Item> */}
-        </Form>
-        {previewImage && (
-          <Image
-            wrapperStyle={{ display: "none" }}
-            preview={{
-              visible: previewOpen,
-              onVisibleChange: (visible) => setPreviewOpen(visible),
-              afterOpenChange: (visible) => !visible && setPreviewImage(""),
+          </Form>
+          <Button
+            type="primary"
+            onClick={() => form.submit()}
+            style={{
+              width: "100px",
+              marginTop: "10px",
             }}
-            src={previewImage}
-          />
-        )}
-      </Modal>
+          >
+            Confirm
+          </Button>
+          <Button
+            type="primary"
+            danger
+            onClick={handleCancel}
+            style={{
+              width: "100px",
+              marginLeft: "50px",
+            }}
+          >
+            Cancel
+          </Button>
+          {previewImage && (
+            <Image
+              wrapperStyle={{ display: "none" }}
+              preview={{
+                visible: previewOpen,
+                onVisibleChange: (visible) => setPreviewOpen(visible),
+                afterOpenChange: (visible) => !visible && setPreviewImage(""),
+              }}
+              src={previewImage}
+            />
+          )}
+        </Modal>
+      </div>
+
       <h2>Pending</h2>
       <Table dataSource={dataSourcePending} columns={columns} />
       <h2>Approved</h2>

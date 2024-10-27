@@ -263,7 +263,7 @@ function PostManage() {
         onOk={handleOk}
         footer={null}
       ></Modal> */}
-      <h1>Post Manage</h1>
+      <h1>Posts Management</h1>
       <br />
       <br />
       <h2>Post Pending Table</h2>

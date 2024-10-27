@@ -174,7 +174,7 @@ function AdminHome() {
       title: "Date of purchase",
       dataIndex: "date",
       key: "date",
-      render: (value) => <p>{dayjs(value).format("MMMM D, YYYY h:mm A")}</p>,
+      render: (value) => <p>{dayjs(value).format("D/M/YY")}</p>,
     },
     {
       title: "Expiration date",
@@ -182,8 +182,14 @@ function AdminHome() {
       key: "duration",
       render: (value, record) => {
         const date = dayjs(record.date).add(record.duration, "month");
-        return date.format("MMMM D, YYYY h:mm A");
+        return date.format("D/M/YY");
       },
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (value) => <Tag color="blue">{value}</Tag>,
     },
   ];
 
@@ -202,7 +208,7 @@ function AdminHome() {
             bordered={false}
             style={{ backgroundColor: "#6495ed" }}
           >
-            {totalAccount}
+            {`${totalAccount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           </Card>
         </Col>
         <Col span={8}>

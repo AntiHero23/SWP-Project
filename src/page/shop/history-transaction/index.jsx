@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../../../config/axios";
 import dayjs from "dayjs";
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 
 function HistoryTransaction() {
   const [historyTranscation, setHistoryTransaction] = useState([]);
@@ -53,6 +53,12 @@ function HistoryTransaction() {
         const date = dayjs(record.date).add(record.duration, "month");
         return date.format("MMMM D, YYYY h:mm A");
       },
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (text) => <Tag color="blue">{text}</Tag>,
     },
   ];
   return (
