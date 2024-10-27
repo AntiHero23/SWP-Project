@@ -71,7 +71,7 @@
       }
   
       .report-latest h3 {
-        font-size: 18px;
+        font-size: 11px;
         margin-bottom: 10px;
       }
   
@@ -132,12 +132,14 @@
 
     .koi-report-latest{
       font-size: 13px;
-      background-color: #cecece;
+      background-color: #e4e4e4;
       border-radius: 8px;
       padding: 3px;
       text-wrap: wrap;
-      height: 250px;
+      margin-left:10px;
+      height: 170px;
     }
+
 
     .koi-form{
       display: flex;

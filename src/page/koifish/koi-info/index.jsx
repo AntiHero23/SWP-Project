@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../config/axios";
-import { useQueryClient } from "react-query";
 import {
   Button,
   Col,
-  DatePicker,
   Form,
   Image,
   Input,
@@ -233,13 +231,12 @@ function KoiInfo() {
                       </div>
                       {koiReportLatest && (
                         <div className="koi-report-latest">
-                          <h1>Koi Lastest Status</h1>
-                          <h3>
+                          <h4>
                             Koi Length: {koiReportLatest.length || "N/A"} cm
-                          </h3>
-                          <h3>
+                          </h4>
+                          <h4>
                             Koi Weight: {koiReportLatest.weight || "N/A"} g
-                          </h3>
+                          </h4>
                           <h3>
                             Koi Status: {koiReportLatest.koiStatus || "N/A"}
                           </h3>
@@ -344,7 +341,7 @@ function KoiInfo() {
                       <span>
                         Length
                         {koiStandard && (
-                          <span style={{ fontSize: '12px', color: '#666' }}>
+                          <span style={{ fontSize: "12px", color: "#666" }}>
                             {` (Standard: ${koiStandard.lowLength} - ${koiStandard.hiLength} cm)`}
                           </span>
                         )}
@@ -360,7 +357,7 @@ function KoiInfo() {
                       <span>
                         Weight
                         {koiStandard && (
-                          <span style={{ fontSize: '12px', color: '#666' }}>
+                          <span style={{ fontSize: "12px", color: "#666" }}>
                             {` (Standard: ${koiStandard.lowWeigh} - ${koiStandard.hiWeight} g)`}
                           </span>
                         )}

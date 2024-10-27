@@ -1,7 +1,10 @@
+
 import React from "react";
 import { Layout, Row, Col, Form, Input, Button } from "antd";
-import { MailOutlined, PhoneOutlined } from "@ant-design/icons";
+import { GlobalOutlined, MailOutlined, PhoneOutlined } from "@ant-design/icons";
 import api from "../../config/axios";
+import logo from "../../assets/icon.png"
+import "./index.scss";
 
 const Contact = () => {
   const [form] = Form.useForm();
@@ -23,11 +26,15 @@ const Contact = () => {
   };
 
   return (
+    <div className="contact">
+    <div className="contact-container">
     <Layout>
+      <div className="contact-container">
       <Row justify="center" style={{ marginTop: 50 }}>
-        <Col span={8}>
+        <Col  span={8}>
+        <div className="contact-form"> 
           <h1>Contact Us</h1>
-          <Form form={form} name="basic" onFinish={onFinish}>
+          <Form layout="vertical" form={form} name="basic" onFinish={onFinish}>
             <Form.Item
               label="Name"
               name="name"
@@ -60,9 +67,17 @@ const Contact = () => {
               </Button>
             </Form.Item>
           </Form>
+        </div>
         </Col>
-        <Col span={8} style={{ textAlign: "center" }}>
+        <Col className="contact-info" span={8} style={{ textAlign: "center" }}>
           <h1>Our Contact</h1>
+          <img 
+          src= {logo} 
+          className="contact-logo"
+          />
+          <p>
+            <GlobalOutlined /> Location: 123 pond street  Water city, 12345
+          </p>
           <p>
             <MailOutlined /> Email:{" "}
             <a href="mailto:contact@pondcompany.com">contact@pondcompany.com</a>
@@ -72,8 +87,13 @@ const Contact = () => {
           </p>
         </Col>
       </Row>
+      </div>
     </Layout>
+    </div>
+    </div>
   );
 };
+
+
 
 export default Contact;

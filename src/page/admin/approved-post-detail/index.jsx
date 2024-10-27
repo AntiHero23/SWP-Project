@@ -159,3 +159,4 @@ function ApprovedPostDetail() {
   );
 }
 
+export default ApprovedPostDetail;

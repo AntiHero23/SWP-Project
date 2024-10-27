@@ -1,5 +1,6 @@
+
 .calc-salt-page {
-    background-image: url('../../../assets/LoginBg.png'); // Adjust the path if necessary
+    background-image: url('../../../assets/LoginBg.png'); 
     background-size: cover;
     background-attachment: fixed;
     min-height: 100vh;
@@ -77,11 +78,17 @@
   
       .salt-result {
         margin-top: 20px;
-        color: #333;
+        padding: 20px; // More padding
+        color: #3d3d3d;
+        background-color: #ff6e0d; // Ensure this color is set
         font-size: 18px;
         font-weight: bold;
         text-align: center;
-      }
+        border: 2px dashed blue; // Debugging border
+        border-radius: 5px; // Optional: rounded corners
+    }
+    
+      
     }
   }
   
