@@ -30,44 +30,40 @@ const KoiFoodList = () => {
   }, []);
 
   return (
-    <div>
-      <h1 style={{ textAlign: "center" }}>Calculate Food List</h1>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <div>
+    <div className="koi-food-page">
+      <div className="koi-food-container">
+        <h1>Calculate Food List</h1>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
           <div className="site-card-wrapper">
-            <Row gutter={16}>
-              {koiFishList.map((koi) => (
-                <Col span={6} key={koi.koiFishID}>
-                  <Card title={koi.koiName} extra={<p>{koi.koiVariety}</p>}>
-                    <img
-                      src={koi.image}
-                      alt={koi.koiName}
-                      className="koi-fish-image"
-                    />
-                    <p>
-                      <span style={{ fontWeight: "bold" }}>Age:</span> {koi.age}
-                    </p>
-                    <p>
-                      <span style={{ fontWeight: "bold" }}>Weight:</span>{" "}
-                      {koi.weight} g
-                    </p>
-                    <p>
-                      <span style={{ fontWeight: "bold" }}>Length:</span>{" "}
-                      {koi.length} cm
-                    </p>
-                    <p>
-                      <span style={{ fontWeight: "bold" }}>Food:</span>{" "}
-                      {koi.food} g
-                    </p>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
+            {koiFishList.map((koi) => (
+              <Card
+                className="koi-card"
+                key={koi.koiFishID}
+                title={
+                  <div className="card-header">
+                    <span className="koi-name">{koi.koiName}</span>
+                    <span className="koi-variety">{koi.koiVariety}</span>
+                  </div>
+                }
+              >
+                <div className="card-content">
+                  <div className="info-section">
+                    <p><span>Age:</span> {koi.age}</p>
+                    <p><span>Weight:</span> {koi.weight} g</p>
+                    <p><span>Length:</span> {koi.length} cm</p>
+                    <p><span>Food:</span> {koi.food} g</p>
+                  </div>
+                  <div className="image-section">
+                    <img src={koi.image} alt={koi.koiName} className="koi-image" />
+                  </div>
+                </div>
+              </Card>
+            ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
