@@ -44,10 +44,10 @@ const WaterReportHistory = () => {
             errorMessage: `Oxygen should be between ${standards.minOxygenStandard} and ${standards.maxOxygenStandard} mg/L`,
           },
           pH: {
-            min: standards.minPhStandard,
-            max: standards.maxPhStandard,
+            min: standards.min_pH_Standard,
+            max: standards.max_pH_Standard,
             unit: "",
-            errorMessage: `pH should be between ${standards.minPhStandard} and ${standards.maxPhStandard}`,
+            errorMessage: `pH should be between ${standards.min_pH_Standard} and ${standards.max_pH_Standard}`,
           },
           hardness: {
             min: standards.minHardnessStandard,

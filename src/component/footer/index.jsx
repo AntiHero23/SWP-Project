@@ -1,19 +1,20 @@
-import React from 'react';
-import { Row, Col } from 'antd';
+import React from "react";
+import { Row, Col } from "antd";
 import logo from "../../assets/icon.png";
-import './index.scss'; // Import the SCSS file
+import "./index.scss"; // Import the SCSS file
+import { Navigate } from "react-router-dom";
 
 function Footer() {
   return (
     <footer className="footer">
-      <Row className="footer-content">
+      <Row className="footer-content">  
         <Col xs={8} className="footer-navigation">
           <ul>
-            <li onClick={() => navigate("/")}>Home</li>
-            <li onClick={() => navigate("/recommendation")}>Shopping</li>
-            <li onClick={() => navigate("/aboutUs")}>About Us</li>
-            <li onClick={() => navigate("/contact")}>Contact Us</li>
-            <li onClick={() => navigate("/blog")}>Blog</li>
+            <li onClick={() => Navigate("/")}>Home</li>
+            <li onClick={() => Navigate("/recommendation")}>Shopping</li>
+            <li onClick={() => Navigate("/aboutUs")}>About Us</li>
+            <li onClick={() => Navigate("/contact")}>Contact Us</li>
+            <li onClick={() => Navigate("/blog")}>Blog</li>
           </ul>
         </Col>
 
@@ -22,9 +23,9 @@ function Footer() {
             src={logo}
             alt="Koi Company Logo"
             className="header-left-logo"
-            onClick={() => navigate("/")}
+            onClick={() => Navigate("/")}
           />
-          <div className="header-left-title" onClick={() => navigate("/")}>
+          <div className="header-left-title" onClick={() => Navigate("/")}>
             SunSide Koi Care
           </div>
         </Col>
@@ -34,7 +35,9 @@ function Footer() {
           <p className="footer-email">
             <a href="mailto:contact@pondcompany.com">contact@pondcompany.com</a>
           </p>
-          <p className="footer-copy">© 2024 Pond Company. All rights reserved.</p>
+          <p className="footer-copy">
+            © 2024 Pond Company. All rights reserved.
+          </p>
         </Col>
       </Row>
     </footer>

@@ -45,6 +45,8 @@ function CalculateSalt() {
   const calWhenCurrentSalt = async (values) => {
     try {
       const response = await api.post("salt/per-water-change", values);
+      setNeededSalt("");
+      setPerChange("");
       setAlert("Number of water change should be " + response.data);
     } catch (error) {
       console.log(error);
@@ -59,6 +61,7 @@ function CalculateSalt() {
       ]);
       setNeededSalt(`Amount of Salt: ${ExpSaltresponse.data} kg`);
       setPerChange(`Salt per Water Change: ${WaterChangeresponse.data} kg`);
+      setAlert("");
     } catch (error) {
       console.log(error);
     }
@@ -70,6 +73,8 @@ function CalculateSalt() {
     values.waterchangePer = waterChange;
     if (values.currentSalt > values.expectSalt) {
       calWhenCurrentSalt(values);
+      setNeededSalt(neededSalt);
+      setPerChange(perChange);
     } else {
       calWhenExpectSaltAndWaterChange(values);
     }
@@ -199,10 +204,12 @@ function CalculateSalt() {
               </Col>
             </Row>
           </Form.Item>
-          <Form.Item style={{ 
-            textAlign: "center",
-            alignItems: "center",
-           }}>
+          <Form.Item
+            style={{
+              textAlign: "center",
+              alignItems: "center",
+            }}
+          >
             <Space>
               <Button type="primary" htmlType="submit">
                 Calculate
@@ -211,9 +218,9 @@ function CalculateSalt() {
           </Form.Item>
         </Form>
         <div className="salt-result">
-          <h3>{neededSalt}</h3>
-          <h3>{perChange}</h3>
-          <h3>{alert}</h3>
+          {neededSalt && <h3>{neededSalt}</h3>}
+          {perChange && <h3>{perChange}</h3>}
+          {alert && <h3>{alert}</h3>}
         </div>
       </div>
     </div>

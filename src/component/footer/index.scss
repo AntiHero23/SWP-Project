@@ -19,10 +19,11 @@
     font-weight: bold;
 
     li {
-      margin-right: 20px; // Space between navigation items
+      margin-right: 250px; // Space between navigation items
       cursor: pointer; // Change cursor to pointer on hover
       color: #fff; // Set navigation text color
       transition: color 0.3s; // Smooth color transition
+      list-style: none;
 
       &:hover {
         color: #ffa500; // Change color on hover

@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const ProtectedRoute = ({ children, allowedRoles, requirePremium }) => {
   const user = useSelector(selectUser);
 
-  console.log("User object:", user);
+  // console.log("User object:", user);
 
   if (!user) {
     return <Navigate to="/login" replace />;

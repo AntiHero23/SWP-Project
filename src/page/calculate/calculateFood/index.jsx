@@ -260,7 +260,7 @@ function CalculateFood() {
         {Food && (
           <div className="result">
             <h3>
-              Recommended food for this pond: {Number(Food).toFixed(4)} g/day
+              Recommended food for this pond: {Number(Food).toFixed(2)} g/day
             </h3>
           </div>
         )}

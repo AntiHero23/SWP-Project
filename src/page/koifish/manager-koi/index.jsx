@@ -97,16 +97,16 @@ function ManagerKoi() {
             value={selectedKoiVariety}
             onChange={handleSelectVariety}
             style={{ width: "100px" }}
-            options={[{ value: null, label: "All" }, ...varietyOptions]}
-            defaultValue={null}
+            options={[{ value: "", label: "All Variety " }, ...varietyOptions]}
+            placeholder="Variety"
           ></Select>
 
           <Select
             value={selectedPond}
             onChange={handleSelectPond}
             style={{ width: "100px", marginLeft: "10px" }}
-            options={[{ value: null, label: "All" }, ...pondOptions]}
-            defaultValue={null}
+            options={[{ value: "", label: "All Pond" }, ...pondOptions]}
+            placeholder="Pond"
           ></Select>
           <PlusCircleOutlined
             style={{ fontSize: "24px" }}
