@@ -18,7 +18,7 @@
             font-size: 2rem;
             margin-bottom: 30px;
             font-family: 'Oswald', sans-serif;
-            color: #4d5fff; // Red tone for title
+            color: #0a85f8; // Red tone for title
         }
 
         .site-card-wrapper {
@@ -26,28 +26,68 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
 
-            .ant-card {
+            .koi-card {
+                display: flex;
+                flex-direction: column;
+                padding: 0;
                 border-radius: 10px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
-                .ant-card-head-title {
-                    color: #ff4d4f; // Highlighted red tone for koi name
-                    font-weight: bold;
-                    font-size: 1.2rem;
-                }
+                .card-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 15px 20px;
+                    background-color: #fafafa;
+                    border-bottom: 1px solid #e8e8e8;
+                    border-radius: 10px 10px 0 0;
 
-                .ant-card-extra {
-                    font-size: 1rem;
-                    color: #333;
-                }
-
-                p {
-                    font-size: 1rem;
-                    color: #333;
-
-                    span {
+                    .koi-name {
+                        font-size: 1.2rem;
                         font-weight: bold;
+                        color: #ff4d4f; // Highlighted red tone for koi name
+                    }
+
+                    .koi-variety {
+                        font-size: 0.9rem;
                         color: #555;
+                        text-align: right;
+                    }
+                }
+
+                .card-content {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 20px;
+
+                    .info-section {
+                        width: 60%;
+                        color: #333;
+
+                        p {
+                            font-size: 1rem;
+                            color: #333;
+
+                            span {
+                                font-weight: bold;
+                                color: #555;
+                            }
+                        }
+                    }
+
+                    .image-section {
+                        width: 35%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        .koi-image {
+                            width: 100%;
+                            max-height: 100px ;
+                            border-radius: 8px;
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        }
                     }
                 }
             }

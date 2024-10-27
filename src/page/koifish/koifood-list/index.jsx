@@ -39,25 +39,26 @@ const KoiFoodList = () => {
           <div className="site-card-wrapper">
             {koiFishList.map((koi) => (
               <Card
-                title={koi.koiName}
+                className="koi-card"
                 key={koi.koiFishID}
-                extra={<p>{koi.koiVariety}</p>}
+                title={
+                  <div className="card-header">
+                    <span className="koi-name">{koi.koiName}</span>
+                    <span className="koi-variety">{koi.koiVariety}</span>
+                  </div>
+                }
               >
-                <div>
-                <p>
-                  <span>Age:</span> {koi.age}
-                </p>
-                <p>
-                  <span>Weight:</span> {koi.weight} g
-                </p>
-                <p>
-                  <span>Length:</span> {koi.length} cm
-                </p>
-                <p>
-                  <span>Food:</span> {koi.food} g
-                </p>
+                <div className="card-content">
+                  <div className="info-section">
+                    <p><span>Age:</span> {koi.age}</p>
+                    <p><span>Weight:</span> {koi.weight} g</p>
+                    <p><span>Length:</span> {koi.length} cm</p>
+                    <p><span>Food:</span> {koi.food} g</p>
+                  </div>
+                  <div className="image-section">
+                    <img src={koi.image} alt={koi.koiName} className="koi-image" />
+                  </div>
                 </div>
-                <image src={koi.image} alt={koi.koiName} />
               </Card>
             ))}
           </div>

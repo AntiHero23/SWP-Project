@@ -3,14 +3,53 @@
   color: #fff;
   padding: 40px 20px;
   height: 30vh;
-  
+
   .footer-content {
-    margin-bottom: 20px;
+    display: flex; // Use flexbox for layout
+    justify-content: space-between; // Space between items
+    align-items: center; // Center items vertically
+  }
+
+  .footer-navigation {
+    display: flex; // Use flexbox for navigation items
+    list-style: none; // Remove bullet points
+    padding: 0; // Remove default padding
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: bold;
+
+    li {
+      margin-right: 20px; // Space between navigation items
+      cursor: pointer; // Change cursor to pointer on hover
+      color: #fff; // Set navigation text color
+      transition: color 0.3s; // Smooth color transition
+
+      &:hover {
+        color: #ffa500; // Change color on hover
+      }
+    }
+  }
+
+  .footer-logo {
+    display: flex; // Use flexbox for logo and title
+    flex-direction: column; // Stack logo and title vertically
+    align-items: center; // Center vertically
+
+    img {
+      width: 100px; // Limit logo size
+      height: auto; // Maintain aspect ratio
+      margin-bottom: 10px; // Space between logo and title
+    }
+
+    .header-left-title {
+      font-size: 16px; // Adjust title font size if needed
+      color: #fff; // Change color to fit the footer theme
+      cursor: pointer; // Add cursor pointer for interaction
+    }
   }
 
   .footer-contact {
-    text-align: center;
-    margin-bottom: 10px;
+    text-align: center; // Align contact information to the right
 
     .footer-address {
       font-size: 14px;
@@ -32,13 +71,10 @@
     }
   }
 
-
-
-    .footer-copy {
-      font-size: 12px;
-      margin: 10px 0;
-      color: #ccc;
-    }
-  
+  .footer-copy {
+    font-size: 12px;
+    margin: 10px 0;
+    color: #ccc;
+    // Center the copyright text
+  }
 }
-
