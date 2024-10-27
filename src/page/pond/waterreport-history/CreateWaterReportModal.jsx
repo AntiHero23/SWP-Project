@@ -13,10 +13,6 @@ import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { WATER_PARAMETERS } from "../../../constants/waterValidation";
 import dayjs from "dayjs";
 
-const onChange = (date, dateString) => {
-  console.log(date, dateString);
-};
-
 const CreateWaterReportModal = ({
   isModalOpen,
   handleCancel,

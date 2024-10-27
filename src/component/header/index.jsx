@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser } from "../../redux/features/counterSlice";
 
+
 function Header() {
   const navigate = useNavigate();
   const dispath = useDispatch();
@@ -97,10 +98,10 @@ function Header() {
       <div className="header-right">
         {/* <IoIosNotifications className="header-right-notification-icon" /> */}
         <>
-          {avatar?.username ? (
+          {avatar?.name ? (
             <div className="dropdown" color="">
               <Dropdown {...menuProps_user}>
-                <a className="dropdown-link">{avatar?.username}</a>
+                <a className="dropdown-link">{avatar?.name}</a>
               </Dropdown>
             </div>
           ) : (
