@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card, Form, Popconfirm, message, Row, Col } from "antd";
+import { Button, Card, Form, Popconfirm, message, Row, Col, Select } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
@@ -19,6 +19,9 @@ const isOutOfRange = (value, paramName) => {
 const WaterReportHistory = () => {
   const { pondId } = useParams();
   const [waterReports, setWaterReports] = useState([]);
+  const [filteredReports, setFilteredReports] = useState([]);
+  const [koiVarieties, setKoiVarieties] = useState([]);
+  const [selectedVariety, setSelectedVariety] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingWaterReport, setEditingWaterReport] = useState(null);
@@ -99,15 +102,24 @@ const WaterReportHistory = () => {
     }
   };
 
+  const fetchKoiVarieties = async () => {
+    try {
+      const response = await api.get("koivariety");
+      setKoiVarieties(response.data);
+    } catch (error) {
+      console.error("Error fetching koi varieties:", error);
+      message.error("Failed to fetch koi varieties");
+    }
+  };
+
   const fetchWaterReports = async () => {
     try {
       const response = await api.get(`waterreport/view/${pondId}`);
       const sortedReports = response.data.sort(
-        (a, b) =>
-          new Date(b.waterReportUpdatedDate) -
-          new Date(a.waterReportUpdatedDate)
+        (a, b) => new Date(b.waterReportUpdatedDate) - new Date(a.waterReportUpdatedDate)
       );
       setWaterReports(sortedReports);
+      setFilteredReports(sortedReports); // Initialize filtered reports
       setLoading(false);
     } catch (error) {
       console.error("Error fetching water reports:", error);
@@ -117,9 +129,18 @@ const WaterReportHistory = () => {
   };
 
   useEffect(() => {
+    fetchKoiVarieties();
     fetchWaterReports();
     fetchWaterParameters();
   }, []);
+
+  useEffect(() => {
+    if (selectedVariety) {
+      setFilteredReports(waterReports.filter(report => report.koiVarietyID === selectedVariety));
+    } else {
+      setFilteredReports(waterReports);
+    }
+  }, [selectedVariety, waterReports]);
 
   const handleCreateWaterReport = async (values) => {
     try {
@@ -135,12 +156,8 @@ const WaterReportHistory = () => {
   };
 
   const handleEdit = async (values) => {
-    console.log(values);
     try {
-      await api.put(
-        `waterreport/update/${editingWaterReport.waterReportId}`,
-        values
-      );
+      await api.put(`waterreport/update/${editingWaterReport.waterReportId}`, values);
       message.success("Water report updated successfully");
       setIsEditModalOpen(false);
       setEditingWaterReport(null);
@@ -167,6 +184,18 @@ const WaterReportHistory = () => {
     <div className="waterreport-history">
       <div className="header">
         <h1>Water Report History</h1>
+        <Select
+          placeholder="Select Koi Variety"
+          style={{ width: 200, marginBottom: 16 }}
+          onChange={setSelectedVariety}
+          allowClear
+        >
+          {koiVarieties.map(variety => (
+            <Select.Option key={variety.koiVarietyID} value={variety.koiVarietyID}>
+              {variety.varietyName}
+            </Select.Option>
+          ))}
+        </Select>
         <Button
           type="primary"
           icon={<PlusOutlined />}
@@ -181,154 +210,23 @@ const WaterReportHistory = () => {
         <div className="loading-container">Loading...</div>
       ) : (
         <Row gutter={[16, 16]}>
-          {waterReports.map((report) => (
+          {filteredReports.map((report) => (
             <Col xs={24} sm={12} md={8} lg={6} key={report.waterReportId}>
               <Card className="water-report-card">
                 <h3>
-                  {dayjs(report.waterReportUpdatedDate).format("YYYY-MM-DD ")}
+                  {dayjs(report.waterReportUpdatedDate).format("YYYY-MM-DD HH:mm")}
                 </h3>
                 <div className="report-details">
-                  <p>
-                    Temperature:
-                    <span
-                      style={{
-                        color: isOutOfRange(
-                          report.waterReportTemperature,
-                          "temperature"
-                        )
-                          ? "red"
-                          : "inherit",
-                      }}
-                    >
-                      {report.waterReportTemperature}°C
-                    </span>
-                  </p>
-                  <p>
-                    Oxygen:
-                    <span
-                      style={{
-                        color: isOutOfRange(report.waterReportOxygen, "oxygen")
-                          ? "red"
-                          : "inherit",
-                      }}
-                    >
-                      {report.waterReportOxygen} mg/L
-                    </span>
-                  </p>
-                  <p>
-                    pH:
-                    <span
-                      style={{
-                        color: isOutOfRange(report.waterReport_pH, "pH")
-                          ? "red"
-                          : "inherit",
-                      }}
-                    >
-                      {report.waterReport_pH}
-                    </span>
-                  </p>
-                  <p>
-                    Hardness:
-                    <span
-                      style={{
-                        color: isOutOfRange(
-                          report.waterReportHardness,
-                          "hardness"
-                        )
-                          ? "red"
-                          : "inherit",
-                      }}
-                    >
-                      {report.waterReportHardness} dGH
-                    </span>
-                  </p>
-                  <p>
-                    Ammonia:
-                    <span
-                      style={{
-                        color: isOutOfRange(
-                          report.waterReportAmmonia,
-                          "ammonia"
-                        )
-                          ? "red"
-                          : "inherit",
-                      }}
-                    >
-                      {report.waterReportAmmonia} mg/L
-                    </span>
-                  </p>
-                  <p>
-                    Nitrite:
-                    <span
-                      style={{
-                        color: isOutOfRange(
-                          report.waterReportNitrite,
-                          "nitrite"
-                        )
-                          ? "red"
-                          : "inherit",
-                      }}
-                    >
-                      {report.waterReportNitrite} mg/L
-                    </span>
-                  </p>
-                  <p>
-                    Nitrate:
-                    <span
-                      style={{
-                        color: isOutOfRange(
-                          report.waterReportNitrate,
-                          "nitrate"
-                        )
-                          ? "red"
-                          : "inherit",
-                      }}
-                    >
-                      {report.waterReportNitrate} mg/L
-                    </span>
-                  </p>
-                  <p>
-                    Carbonate:
-                    <span
-                      style={{
-                        color: isOutOfRange(
-                          report.waterReportCarbonate,
-                          "carbonate"
-                        )
-                          ? "red"
-                          : "inherit",
-                      }}
-                    >
-                      {report.waterReportCarbonate} mg/L
-                    </span>
-                  </p>
-                  <p>
-                    Salt:
-                    <span
-                      style={{
-                        color: isOutOfRange(report.waterReportSalt, "salt")
-                          ? "red"
-                          : "inherit",
-                      }}
-                    >
-                      {report.waterReportSalt} %
-                    </span>
-                  </p>
-                  <p>
-                    CO₂:
-                    <span
-                      style={{
-                        color: isOutOfRange(
-                          report.waterReportCarbonDioxide,
-                          "carbonDioxide"
-                        )
-                          ? "red"
-                          : "inherit",
-                      }}
-                    >
-                      {report.waterReportCarbonDioxide} mg/L
-                    </span>
-                  </p>
+                  <p>Temperature: {report.waterReportTemperature}°C</p>
+                  <p>Oxygen: {report.waterReportOxygen} mg/L</p>
+                  <p>pH: {report.waterReport_pH}</p>
+                  <p>Hardness: {report.waterReportHardness} dGH</p>
+                  <p>Ammonia: {report.waterReportAmmonia} mg/L</p>
+                  <p>Nitrite: {report.waterReportNitrite} mg/L</p>
+                  <p>Nitrate: {report.waterReportNitrate} mg/L</p>
+                  <p>Carbonate: {report.waterReportCarbonate} mg/L</p>
+                  <p>Salt: {report.waterReportSalt} %</p>
+                  <p>CO₂: {report.waterReportCarbonDioxide} mg/L</p>
                 </div>
                 <div className="card-actions">
                   <Button

@@ -21,6 +21,10 @@ function KoiStandard() {
   const [form] = useForm();
   const navigate = useNavigate();
 
+  // Add new state variables
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedVariety, setSelectedVariety] = useState("");
+
   const handleSubmit = async () => {
     try {
       await api.post("koistandard/create", form.getFieldsValue());
@@ -57,6 +61,30 @@ function KoiStandard() {
     fetchVarietyName();
     fetchKoiStandard();
   }, []);
+
+  // Add filter handler
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+  };
+
+  const handleSelectVariety = (value) => {
+    setSelectedVariety(value);
+  };
+
+  // Modify the Table's dataSource to include filtering
+  const filteredKoiStandard = koiStandard
+    .filter((standard) => {
+      const variety = varietyName.find(
+        (v) => v.koiVarietyID === standard.koiVarietyID
+      );
+      const varietyNameStr = variety ? variety.varietyName : "";
+
+      return (
+        varietyNameStr.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (selectedVariety ? standard.koiVarietyID === selectedVariety : true)
+      );
+    })
+    .sort((a, b) => a.koiVarietyID - b.koiVarietyID || a.period - b.period);
 
   const columns = [
     {
@@ -448,12 +476,39 @@ function KoiStandard() {
         </Modal>
       </div>
       <br />
-      <Table
-        dataSource={koiStandard.sort(
-          (a, b) => a.koiVarietyID - b.koiVarietyID || a.period - b.period
-        )}
-        columns={columns}
-      />
+      <div
+        style={{
+          marginBottom: "20px",
+          display: "flex",
+          gap: "10px",
+          justifyContent: "center",
+        }}
+      >
+        <input
+          type="text"
+          onChange={(e) => handleSearch(e.target.value)}
+          placeholder="Search by variety name..."
+          style={{ padding: "4px 11px", width: "200px" }}
+        />
+        <Select
+          value={selectedVariety}
+          onChange={handleSelectVariety}
+          style={{ width: "150px" }}
+          placeholder="Select Variety"
+        >
+          <Select.Option value="">All Varieties</Select.Option>
+          {varietyName.map((variety) => (
+            <Select.Option
+              key={variety.koiVarietyID}
+              value={variety.koiVarietyID}
+            >
+              {variety.varietyName}
+            </Select.Option>
+          ))}
+        </Select>
+      </div>
+
+      <Table dataSource={filteredKoiStandard} columns={columns} />
     </>
   );
 }

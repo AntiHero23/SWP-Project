@@ -31,8 +31,10 @@ function BlogDetails() {
   };
   const handleSubmit = async (values) => {
     try {
-      const url = await uploadFile(fileList[0].originFileObj);
-      values.mainImage = url;
+      if (fileList.length > 0) {
+        const url = await uploadFile(fileList[0].originFileObj);
+        values.image = url;
+      }
       await api.put(`/blog/${id}`, values);
       alert("Blog updated successfully");
       setTimeout(() => {

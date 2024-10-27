@@ -20,15 +20,14 @@ const BlogPage = () => {
     };
 
     fetchPosts();
-
   }, []);
 
   const handleTitleClick = (post) => {
-    setSelectedPost(post); // Set the selected post to open in the modal
+    setSelectedPost(post);
   };
 
   const closeModal = () => {
-    setSelectedPost(null); // Close the modal
+    setSelectedPost(null);
   };
 
   return (
@@ -37,10 +36,21 @@ const BlogPage = () => {
         <h2>Our Blog</h2>
         {posts.map((post) => (
           <div className="blog-card" key={post.id}>
-            <div className="blog-image" style={{ backgroundImage: `url(${post.mainImage})` }}></div>
+            <div
+              className="blog-image"
+              style={{ backgroundImage: `url(${post.mainImage})` }}
+            ></div>
             <div className="blog-content">
-              <h3 onClick={() => handleTitleClick(post)} className="clickable-title">{post.title}</h3>
-              <p className="blog-author">By {post.author} - {new Date(post.publishedDate).toLocaleDateString()}</p>
+              <h3
+                onClick={() => handleTitleClick(post)}
+                className="clickable-title"
+              >
+                {post.title}
+              </h3>
+              <p className="blog-author">
+                By {post.author} -{" "}
+                {new Date(post.publishedDate).toLocaleDateString()}
+              </p>
               <p className="blog-text">{post.content}</p>
             </div>
           </div>
@@ -48,10 +58,23 @@ const BlogPage = () => {
         {selectedPost && (
           <div className="modal-overlay" onClick={closeModal}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <button className="close-button" onClick={closeModal}>X</button>
               <h3>{selectedPost.title}</h3>
-              <p className="modal-author">By {selectedPost.author} - {new Date(selectedPost.publishedDate).toLocaleDateString()}</p>
-              <p className="modal-text">{selectedPost.content}</p>
+              <p className="modal-author">
+                By {selectedPost.author} -{" "}
+                {new Date(selectedPost.publishedDate).toLocaleDateString()}
+              </p>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <img
+                  src={selectedPost.mainImage}
+                  alt={selectedPost.title}
+                  style={{ width: "100px" }}
+                />
+              </div>
+              {selectedPost.content.split("\n").map((line, index) => (
+                <p key={index} className="modal-text">
+                  {line}
+                </p>
+              ))}
             </div>
           </div>
         )}
