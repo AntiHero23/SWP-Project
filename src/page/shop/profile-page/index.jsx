@@ -157,9 +157,13 @@ function ShopProfile() {
                 <Modal
                   title="Update Profile"
                   open={isOpenModal}
-                  onOk={() => {
-                    handleSubmit(form.getFieldsValue());
+                  style={{
+                    textAlign: "center",
+                    display: "flex",
+                    justifyContent: "center",
                   }}
+                  footer={null}
+                  closable={false}
                   onCancel={handleCancel}
                 >
                   <Form
@@ -196,6 +200,27 @@ function ShopProfile() {
                       <Input defaultValue={userInfo?.phone} />
                     </Form.Item>
                   </Form>
+                  <Button
+                    type="primary"
+                    onClick={() => handleSubmit(form.getFieldsValue())}
+                    style={{
+                      width: "100px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    Confirm
+                  </Button>
+                  <Button
+                    type="primary"
+                    danger
+                    onClick={handleCancel}
+                    style={{
+                      width: "100px",
+                      marginLeft: "50px",
+                    }}
+                  >
+                    Cancel
+                  </Button>
                 </Modal>
                 <Button type="primary" onClick={showModalPassword}>
                   Change Password
@@ -203,9 +228,13 @@ function ShopProfile() {
                 <Modal
                   title="Change Password"
                   open={isOpenPasswordModal}
-                  onOk={() => {
-                    handleChangePassword(form.getFieldsValue());
+                  style={{
+                    textAlign: "center",
+                    display: "flex",
+                    justifyContent: "center",
                   }}
+                  footer={null}
+                  closable={false}
                   onCancel={handleCancelPassword}
                 >
                   <Form
@@ -251,6 +280,27 @@ function ShopProfile() {
                       <Input.Password />
                     </Form.Item>
                   </Form>
+                  <Button
+                    type="primary"
+                    onClick={() => handleChangePassword(form.getFieldsValue())}
+                    style={{
+                      width: "100px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    Confirm
+                  </Button>
+                  <Button
+                    type="primary"
+                    danger
+                    onClick={handleCancel}
+                    style={{
+                      width: "100px",
+                      marginLeft: "50px",
+                    }}
+                  >
+                    Cancel
+                  </Button>
                 </Modal>
                 {/* <Button
               type="primary"

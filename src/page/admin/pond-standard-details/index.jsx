@@ -145,7 +145,6 @@ function PondStandardDetails() {
                 </div>
               </div>
             </Card>
-
             <Button
               type="primary"
               onClick={() => {
@@ -432,25 +431,22 @@ function PondStandardDetails() {
                 type="primary"
                 onClick={() => form.submit()}
                 style={{
-                  background: "green",
                   width: "100px",
                   marginTop: "10px",
                 }}
               >
-                Yes
+                Confirm
               </Button>
               <Button
                 type="primary"
+                danger
                 onClick={handleCancel}
                 style={{
-                  background: "white",
-                  color: "black",
-                  border: "0.5px solid black",
                   width: "100px",
                   marginLeft: "50px",
                 }}
               >
-                No
+                Cancel
               </Button>
             </Modal>
             <Button
@@ -491,7 +487,6 @@ function PondStandardDetails() {
                   alert("Pond standard deleted successfully!");
                 }}
                 style={{
-                  background: "green",
                   width: "100px",
                   marginTop: "10px",
                 }}
@@ -500,11 +495,9 @@ function PondStandardDetails() {
               </Button>
               <Button
                 type="primary"
+                danger
                 onClick={() => setIsDeleteModal(false)}
                 style={{
-                  background: "white",
-                  color: "black",
-                  border: "0.5px solid black",
                   width: "100px",
                   marginLeft: "50px",
                 }}

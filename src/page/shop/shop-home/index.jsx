@@ -91,13 +91,12 @@ function ShopHome() {
       render: (text) => text + " posts",
     },
     {
-      title: "Duration",
+      title: "Duration (months)",
       dataIndex: "duration",
       key: "duration",
-      render: (text) => text + " months",
     },
     {
-      title: "Price",
+      title: "Price (₫)",
       dataIndex: "price",
       key: "price",
       render: (value) => VND.format(value),
@@ -118,32 +117,61 @@ function ShopHome() {
         To be able to post, you need to register for one of our service packages
         below.
       </h4>
-      <Table dataSource={dataPostPakage} columns={columns} />
-      <Button
-        type="primary"
-        onClick={showModal}
-        style={{ width: "35%", marginLeft: "32.5%" }}
-      >
-        Choose Post Package
-      </Button>
-      <Modal
-        style={{ textAlign: "center" }}
-        title="Post Package"
-        open={isOpenModal}
-        onOk={() => form.submit()}
-        onCancel={handleCancel}
-      >
-        <p style={{ textAlign: "left" }}>Please Chosse A Package</p>
-        <Form form={form} onFinish={handleSubmit}>
-          <Form.Item
-            label="Post Type: "
-            name="postType"
-            rules={[{ required: true, message: "Please select a post type!" }]}
+      <Table
+        dataSource={dataPostPakage.sort((a, b) => a.price - b.price)}
+        columns={columns}
+      />
+      <div style={{ textAlign: "center" }}>
+        <Button type="primary" onClick={showModal} style={{ width: "15%" }}>
+          Choose Post Package
+        </Button>
+        <Modal
+          style={{
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          title="Post Package"
+          open={isOpenModal}
+          footer={null}
+          closable={false}
+          onCancel={handleCancel}
+        >
+          <p style={{ textAlign: "left" }}>Please Chosse A Package</p>
+          <Form form={form} onFinish={handleSubmit}>
+            <Form.Item
+              label="Post Type: "
+              name="postType"
+              rules={[
+                { required: true, message: "Please select a post type!" },
+              ]}
+            >
+              <Select placeholder="Select a post type" options={postType} />
+            </Form.Item>
+          </Form>
+          <Button
+            type="primary"
+            onClick={() => form.submit()}
+            style={{
+              width: "100px",
+              marginTop: "10px",
+            }}
           >
-            <Select options={postType} />
-          </Form.Item>
-        </Form>
-      </Modal>
+            Confirm
+          </Button>
+          <Button
+            type="primary"
+            danger
+            onClick={handleCancel}
+            style={{
+              width: "100px",
+              marginLeft: "50px",
+            }}
+          >
+            Cancel
+          </Button>
+        </Modal>
+      </div>
     </>
   );
 }

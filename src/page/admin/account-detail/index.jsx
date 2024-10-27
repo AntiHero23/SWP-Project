@@ -117,7 +117,6 @@ function AccountDetails() {
                         setIsOpenModal(false);
                       }}
                       style={{
-                        background: "green",
                         width: "100px",
                         marginTop: "10px",
                       }}
@@ -126,11 +125,9 @@ function AccountDetails() {
                     </Button>
                     <Button
                       type="primary"
+                      danger
                       onClick={() => setIsOpenModal(false)}
                       style={{
-                        background: "white",
-                        color: "black",
-                        border: "0.5px solid black",
                         width: "100px",
                         marginLeft: "50px",
                       }}
@@ -174,7 +171,6 @@ function AccountDetails() {
                         setIsOpenModal(false);
                       }}
                       style={{
-                        background: "green",
                         width: "100px",
                         marginTop: "10px",
                       }}
@@ -183,11 +179,9 @@ function AccountDetails() {
                     </Button>
                     <Button
                       type="primary"
+                      danger
                       onClick={() => setIsOpenModal(false)}
                       style={{
-                        background: "white",
-                        color: "black",
-                        border: "0.5px solid black",
                         width: "100px",
                         marginLeft: "50px",
                       }}

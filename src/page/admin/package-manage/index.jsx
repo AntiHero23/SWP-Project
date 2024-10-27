@@ -73,10 +73,10 @@ function Package() {
       render: (value) => VND.format(value),
     },
     {
-      title: "Duration",
+      title: "Duration (months)",
       dataIndex: "duration",
       key: "duration",
-      render: (text) => `${text} months`,
+      render: (text) => `${text}`,
     },
     {
       title: "Detail",
@@ -109,10 +109,10 @@ function Package() {
       render: (value) => VND.format(value),
     },
     {
-      title: "Duration",
+      title: "Duration (months)",
       dataIndex: "duration",
       key: "duration",
-      render: (text) => `${text} months`,
+      render: (text) => `${text}`,
     },
     {
       title: "Detail",
@@ -132,7 +132,7 @@ function Package() {
   ];
   return (
     <>
-      <h1>Package Manage</h1>
+      <h1>Packages Management</h1>
       <br />
       <div style={{ textAlign: "center" }}>
         <Button
@@ -179,7 +179,7 @@ function Package() {
               <Input placeholder="Name" />
             </Form.Item>
             <Form.Item
-              label="Price"
+              label="Price (₫)"
               name="price"
               rules={[{ required: true, message: "Please input price!" }]}
             >
@@ -192,7 +192,7 @@ function Package() {
               />
             </Form.Item>
             <Form.Item
-              label="Duration"
+              label="Duration (in months)"
               name="duration"
               rules={[{ required: true, message: "Please input duration!" }]}
             >
@@ -235,34 +235,37 @@ function Package() {
             type="primary"
             onClick={handleSubmit}
             style={{
-              background: "green",
               width: "100px",
               marginTop: "10px",
             }}
           >
-            Yes
+            Confirm
           </Button>
           <Button
             type="primary"
+            danger
             onClick={handleCancel}
             style={{
-              background: "white",
-              color: "black",
-              border: "0.5px solid black",
               width: "100px",
               marginLeft: "50px",
             }}
           >
-            No
+            Cancel
           </Button>
         </Modal>
       </div>
       <br />
       <br />
       <h2>Member Package</h2>
-      <Table dataSource={memberPackage} columns={memberPackageColumns} />
+      <Table
+        dataSource={memberPackage.sort((a, b) => a.duration - b.duration)}
+        columns={memberPackageColumns}
+      />
       <h2>Shop Package</h2>
-      <Table dataSource={shopPackage} columns={shopPackageColumns} />
+      <Table
+        dataSource={shopPackage.sort((a, b) => a.duration - b.duration)}
+        columns={shopPackageColumns}
+      />
     </>
   );
 }

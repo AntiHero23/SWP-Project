@@ -47,6 +47,11 @@ import AccountDetails from "../page/admin/account-detail";
 import PondStandard from "../page/admin/pond-standard";
 import WaterStandard from "../page/admin/water-standard";
 import PondStandardDetails from "../page/admin/pond-standard-details";
+import TempStandard from "../page/admin/temp-standard";
+import FeedingStandard from "../page/admin/feeding-standard";
+import KoiStandard from "../page/admin/koi-standard";
+import KoiStandardDetails from "../page/admin/koi-standard-details";
+import FeedingStandardDetails from "../page/admin/feeding-standard-details";
 
 export const router = createBrowserRouter([
   {
@@ -143,7 +148,7 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: "pondStandard",
+        path: "pondStandards",
         children: [
           {
             path: "",
@@ -156,8 +161,47 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: "waterStandard",
+        path: "waterStandards",
         element: <WaterStandard />,
+      },
+      {
+        path: "koiStandards",
+        children: [
+          {
+            path: "",
+            element: <KoiStandard />,
+          },
+          {
+            path: "details/:id",
+            element: <KoiStandardDetails />,
+          },
+        ],
+      },
+      {
+        path: "feedingCoefficient",
+        children: [
+          {
+            path: "",
+            element: <FeedingStandard />,
+          },
+          {
+            path: "details/:id",
+            element: <FeedingStandardDetails />,
+          },
+        ],
+      },
+      {
+        path: "temperatureCoefficient",
+        children: [
+          {
+            path: "",
+            element: <TempStandard />,
+          },
+          {
+            path: "details/:id",
+            element: <PondStandardDetails />,
+          },
+        ],
       },
     ],
   },

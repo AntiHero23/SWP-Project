@@ -69,17 +69,14 @@ function PendingPostDetail() {
                 style={{ width: "100px" }}
               />
             </Card>
-
             <Card>
               <b>Description: </b>
               <p>{post?.description}</p>
             </Card>
-
             <Card>
               <b>Price: </b>
               {VND.format(post?.productPrice)}
             </Card>
-
             <Card>
               <b>Post Date: </b>
               {dayjs(post?.postDate).format("MMMM D, YYYY h:mm A")}
@@ -90,7 +87,6 @@ function PendingPostDetail() {
                 {post.postStatus ? "Approved" : "Pending"}
               </Tag>
             </Card>
-
             <Card>
               <Button
                 type="primary"
@@ -135,7 +131,6 @@ function PendingPostDetail() {
                     }, 1000);
                   }}
                   style={{
-                    background: "green",
                     width: "100px",
                     marginTop: "10px",
                   }}
@@ -144,11 +139,9 @@ function PendingPostDetail() {
                 </Button>
                 <Button
                   type="primary"
+                  danger
                   onClick={handleCancel}
                   style={{
-                    background: "white",
-                    color: "black",
-                    border: "0.5px solid black",
                     width: "100px",
                     marginLeft: "50px",
                   }}
@@ -200,7 +193,6 @@ function PendingPostDetail() {
                     }, 5000);
                   }}
                   style={{
-                    background: "green",
                     width: "100px",
                     marginTop: "10px",
                   }}
@@ -209,11 +201,9 @@ function PendingPostDetail() {
                 </Button>
                 <Button
                   type="primary"
+                  danger
                   onClick={handleCancel}
                   style={{
-                    background: "white",
-                    color: "black",
-                    border: "0.5px solid black",
                     width: "100px",
                     marginLeft: "50px",
                   }}

@@ -139,7 +139,7 @@ function ShopPackage() {
                     </Select>
                   </Form.Item>
                   <Form.Item
-                    label="Price"
+                    label="Price (₫)"
                     name="price"
                     rules={[
                       {
@@ -174,7 +174,7 @@ function ShopPackage() {
                     />
                   </Form.Item>
                   <Form.Item
-                    label="Duration"
+                    label="Duration (in months)"
                     name="duration"
                     rules={[
                       {
@@ -216,25 +216,22 @@ function ShopPackage() {
                   type="primary"
                   onClick={() => handleSubmitUpdate(form.getFieldValue())}
                   style={{
-                    background: "green",
                     width: "100px",
                     marginTop: "10px",
                   }}
                 >
-                  Yes
+                  Confirm
                 </Button>
                 <Button
                   type="primary"
+                  danger
                   onClick={handleCancelUpdate}
                   style={{
-                    background: "white",
-                    color: "black",
-                    border: "0.5px solid black",
                     width: "100px",
                     marginLeft: "50px",
                   }}
                 >
-                  No
+                  Cancel
                 </Button>
               </Modal>
               <Button
@@ -273,7 +270,6 @@ function ShopPackage() {
                     setIsDeleteModal(false);
                   }}
                   style={{
-                    background: "green",
                     width: "100px",
                     marginTop: "10px",
                   }}
@@ -282,11 +278,9 @@ function ShopPackage() {
                 </Button>
                 <Button
                   type="primary"
+                  danger
                   onClick={() => setIsDeleteModal(false)}
                   style={{
-                    background: "white",
-                    color: "black",
-                    border: "0.5px solid black",
                     width: "100px",
                     marginLeft: "50px",
                   }}

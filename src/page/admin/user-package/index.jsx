@@ -69,17 +69,14 @@ function MemberPackage() {
               <b>Description: </b>
               <p>{memberPackage.description}</p>
             </Card>
-
             <Card>
               <b>Price: </b>
               {VND.format(memberPackage.price)}
             </Card>
-
             <Card>
               <b>Duration: </b>
               {memberPackage.duration} months
             </Card>
-
             <Card>
               <Button
                 type="primary"
@@ -137,7 +134,7 @@ function MemberPackage() {
                     </Select>
                   </Form.Item>
                   <Form.Item
-                    label="Price"
+                    label="Price (₫)"
                     name="price"
                     rules={[
                       {
@@ -172,7 +169,7 @@ function MemberPackage() {
                     />
                   </Form.Item>
                   <Form.Item
-                    label="Duration"
+                    label="Duration (in months)"
                     name="duration"
                     rules={[
                       {
@@ -194,25 +191,22 @@ function MemberPackage() {
                     type="primary"
                     onClick={() => handleSubmitUpdate(form.getFieldsValue())}
                     style={{
-                      background: "green",
                       width: "100px",
                       marginTop: "10px",
                     }}
                   >
-                    Yes
+                    Confirm
                   </Button>
                   <Button
                     type="primary"
+                    danger
                     onClick={handleCancelUpdate}
                     style={{
-                      background: "white",
-                      color: "black",
-                      border: "0.5px solid black",
                       width: "100px",
                       marginLeft: "50px",
                     }}
                   >
-                    No
+                    Cancel
                   </Button>
                 </Form>
               </Modal>
@@ -252,7 +246,6 @@ function MemberPackage() {
                     setIsDeleteModal(false);
                   }}
                   style={{
-                    background: "green",
                     width: "100px",
                     marginTop: "10px",
                   }}
@@ -261,11 +254,9 @@ function MemberPackage() {
                 </Button>
                 <Button
                   type="primary"
+                  danger
                   onClick={() => setIsDeleteModal(false)}
                   style={{
-                    background: "white",
-                    color: "black",
-                    border: "0.5px solid black",
                     width: "100px",
                     marginLeft: "50px",
                   }}

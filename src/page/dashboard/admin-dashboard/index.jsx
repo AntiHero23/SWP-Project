@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import {
+  CalculatorOutlined,
+  ControlOutlined,
   DesktopOutlined,
   ExperimentOutlined,
   FileOutlined,
@@ -7,6 +9,7 @@ import {
   HomeOutlined,
   PieChartOutlined,
   RadarChartOutlined,
+  StarOutlined,
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -27,8 +30,15 @@ const items = [
   getItem("Post Manage", "post", <FileOutlined />),
   getItem("Users Manage", "userManage", <TeamOutlined />),
   getItem("Packages", "package", <FolderOutlined />),
-  getItem("Pond Standard", "pondStandard", <RadarChartOutlined />),
-  getItem("Water Standard", "waterStandard", <ExperimentOutlined />),
+  getItem("Pond Standards", "pondStandards", <RadarChartOutlined />),
+  getItem("Water Standards", "waterStandards", <ExperimentOutlined />),
+  getItem("Koi Standards", "koiStandards", <StarOutlined />),
+  getItem("Feeding Coefficient", "feedingCoefficient", <CalculatorOutlined />),
+  getItem(
+    "Temperature Coefficient",
+    "temperatureCoefficient",
+    <ControlOutlined />
+  ),
 ];
 const AdminDashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -60,6 +70,7 @@ const AdminDashboard = () => {
           mode="inline"
           items={items}
         />
+
         <Button
           type="primary"
           danger

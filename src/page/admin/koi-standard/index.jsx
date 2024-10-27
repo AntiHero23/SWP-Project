@@ -1,105 +1,107 @@
+import {
+  Button,
+  Col,
+  Form,
+  InputNumber,
+  Modal,
+  Row,
+  Select,
+  Table,
+} from "antd";
 import { useForm } from "antd/es/form/Form";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import api from "../../../config/axios";
-import { Button, Col, Form, InputNumber, Modal, Row, Table } from "antd";
+import { useNavigate } from "react-router-dom";
 
-function PondStandard() {
-  const [pondStandard, setPondStandard] = useState([]);
+function KoiStandard() {
+  const [koiStandard, setKoiStandard] = useState([]);
+  const [varietyName, setVarietyName] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const [form] = useForm();
   const navigate = useNavigate();
 
-  const fetchPondStandard = async () => {
-    try {
-      const response = await api.get("admin/viewall/pondstandard");
-      setPondStandard(response.data.result);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleSubmit = async () => {
     try {
-      await api
-        .post("admin/pondstandard/create", form.getFieldValue())
-        .then(() => {
-          fetchPondStandard();
-        });
-      alert("Pond standard created successfully!");
-      form.resetFields();
+      await api.post("koistandard/create", form.getFieldsValue());
       setIsOpenModal(false);
+      form.resetFields();
+      alert("Koi standard created successfully!");
+      fetchKoiStandard();
     } catch (error) {
       console.log(error);
     }
   };
   const handleCancel = () => {
-    form.resetFields();
     setIsOpenModal(false);
+    form.resetFields();
+  };
+  const fetchKoiStandard = async () => {
+    try {
+      const response = await api.get("koistandard/viewall");
+      setKoiStandard(response.data.result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchVarietyName = async () => {
+    try {
+      const response = await api.get(`koivariety`);
+      setVarietyName(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
-    fetchPondStandard();
+    fetchVarietyName();
+    fetchKoiStandard();
   }, []);
 
   const columns = [
     {
-      title: "Acreage (m²)",
-      dataIndex: "area",
-      key: "area",
+      title: "Variety",
+      dataIndex: "koiVarietyID",
+      key: "koiVarietyID",
+      render: (value) => {
+        const variety = varietyName.find((v) => v.koiVarietyID === value);
+        return variety ? variety.varietyName : "N/A";
+      },
+    },
+    {
+      title: "Period (days)",
+      dataIndex: "period",
+      key: "period",
       render: (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     },
     {
-      title: "Depth (m)",
-      dataIndex: ["minDepth", "maxDepth"],
-      key: ["minDepth", "maxDepth"],
+      title: "Length (cm)",
+      dataIndex: ["lowLengthMale", "hiLengthFemale"],
+      key: ["lowLengthMale", "hiLengthFemale"],
       render: (value, record) =>
-        `${record.minDepth}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+        `${record.lowLengthMale}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
         " - " +
-        `${record.maxDepth}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        `${record.hiLengthFemale}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     },
     {
-      title: "Volume (l)",
-      dataIndex: ["minVolume", "maxVolume"],
-      key: ["minVolume", "maxVolume"],
+      title: "Weight (g)",
+      dataIndex: ["lowWeightMale", "hiWeightFemale"],
+      key: ["lowWeightMale", "hiWeightFemale"],
       render: (value, record) =>
-        `${record.minVolume}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+        `${record.lowWeightMale}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
         " - " +
-        `${record.maxVolume}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        `${record.hiWeightFemale}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     },
-    // {
-    //   title: "Drain Count",
-    //   dataIndex: "drainCount",
-    //   key: "drainCount",
-    // },
-    // {
-    //   title: "Skimmer Count",
-    //   dataIndex: "skimmerCount",
-    //   key: "skimmerCount",
-    // },
-    // {
-    //   title: "Maximum Pumping Capacity",
-    //   dataIndex: "maxPumpingCapacity",
-    //   key: "maxPumpingCapacity",
-    //   render: (value) => `${value} l/h`,
-    // },
-    {
-      title: "Number of fish",
-      dataIndex: ["minAmountFish", "maxAmountFish"],
-      key: ["minAmountFish", "maxAmountFish"],
-      render: (value, record) =>
-        `${record.minAmountFish} - ${record.maxAmountFish}`,
-    },
+
     {
       title: "Details",
-      dataIndex: "pondStandardID",
-      key: "pondStandardID",
+      dataIndex: "koiStandID",
+      key: "koiStandID",
       render: (value) => (
         <Button
           type="primary"
           onClick={() => {
-            navigate(`/admin/pondStandards/details/${value}`);
+            navigate(`/admin/koiStandards/details/${value}`);
           }}
         >
           Details
@@ -109,7 +111,7 @@ function PondStandard() {
   ];
   return (
     <>
-      <h1>Pond Standards</h1>
+      <h1>Koi Standards</h1>
       <br />
       <div style={{ textAlign: "center" }}>
         <Button
@@ -117,10 +119,10 @@ function PondStandard() {
           style={{ width: "175px", textAlign: "center" }}
           onClick={() => setIsOpenModal(true)}
         >
-          Add Pond Standard
+          Add Koi Standard
         </Button>
         <Modal
-          title="Add Pond Standard"
+          title="Add Koi Standard"
           open={isOpenModal}
           style={{ textAlign: "center" }}
           onCancel={handleCancel}
@@ -128,7 +130,7 @@ function PondStandard() {
           closable={false}
         >
           <Row gutter={16}>
-            <Col span={8}>
+            <Col span={12}>
               <Form
                 form={form}
                 name="basic"
@@ -141,18 +143,36 @@ function PondStandard() {
                 onFinish={handleSubmit}
               >
                 <Form.Item
-                  label="Acreage"
-                  name="area"
+                  label="Koi Variety"
+                  name="koiVarietyID"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your area!",
+                      message: "Please choose koi variety!",
+                    },
+                  ]}
+                >
+                  <Select placeholder="Koi Variety" style={{ width: "50%" }}>
+                    <Select.Option value="1">Kohaku</Select.Option>
+                    <Select.Option value="2">Sanke</Select.Option>
+                    <Select.Option value="3">Showa</Select.Option>
+                    <Select.Option value="4">Chagoi</Select.Option>
+                    <Select.Option value="5">Ogon</Select.Option>
+                  </Select>
+                </Form.Item>
+                <Form.Item
+                  label="Male Low Length (cm)"
+                  name="lowLengthMale"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input male koi low length!",
                     },
                   ]}
                 >
                   <InputNumber
                     min={0}
-                    placeholder="m²"
+                    placeholder="cm"
                     formatter={(value) =>
                       `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     }
@@ -160,18 +180,18 @@ function PondStandard() {
                   />
                 </Form.Item>
                 <Form.Item
-                  label="Drain Count"
-                  name="drainCount"
+                  label="Male Medium Length (cm)"
+                  name="medLengthMale"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your drain count!",
+                      message: "Please input male koi medium length!",
                     },
                   ]}
                 >
                   <InputNumber
                     min={0}
-                    placeholder="drains"
+                    placeholder="cm"
                     formatter={(value) =>
                       `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     }
@@ -179,18 +199,75 @@ function PondStandard() {
                   />
                 </Form.Item>
                 <Form.Item
-                  label="Skimmer Count"
-                  name="skimmerCount"
+                  label="Male High Length (cm)"
+                  name="hiLengthMale"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your skimmer count!",
+                      message: "Please input male koi high length!",
                     },
                   ]}
                 >
                   <InputNumber
                     min={0}
-                    placeholder="skimmers"
+                    placeholder="cm"
+                    formatter={(value) =>
+                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }
+                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="Male Low Weight (g)"
+                  name="lowWeightMale"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input male koi low weight!",
+                    },
+                  ]}
+                >
+                  <InputNumber
+                    min={0}
+                    placeholder="g"
+                    formatter={(value) =>
+                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }
+                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="Male Medium Weight (g)"
+                  name="medWeightMale"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input male koi medium weight!",
+                    },
+                  ]}
+                >
+                  <InputNumber
+                    min={0}
+                    placeholder="g"
+                    formatter={(value) =>
+                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }
+                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="Male High Weight (g)"
+                  name="hiWeightMale"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input male koi high weight!",
+                    },
+                  ]}
+                >
+                  <InputNumber
+                    min={0}
+                    placeholder="g"
                     formatter={(value) =>
                       `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     }
@@ -199,7 +276,7 @@ function PondStandard() {
                 </Form.Item>
               </Form>
             </Col>
-            <Col span={8}>
+            <Col span={12}>
               <Form
                 form={form}
                 name="basic"
@@ -212,18 +289,18 @@ function PondStandard() {
                 onFinish={handleSubmit}
               >
                 <Form.Item
-                  label="Min Depth"
-                  name="minDepth"
+                  label="Period (days)"
+                  name="period"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your min depth!",
+                      message: "Please input koi period!",
                     },
                   ]}
                 >
                   <InputNumber
                     min={0}
-                    placeholder="m"
+                    placeholder="days"
                     formatter={(value) =>
                       `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     }
@@ -231,18 +308,18 @@ function PondStandard() {
                   />
                 </Form.Item>
                 <Form.Item
-                  label="Min Volume"
-                  name="minVolume"
+                  label="Female Low Length (cm)"
+                  name="lowLengthFemale"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your min volume!",
+                      message: "Please input female koi low length!",
                     },
                   ]}
                 >
                   <InputNumber
                     min={0}
-                    placeholder="l"
+                    placeholder="cm"
                     formatter={(value) =>
                       `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     }
@@ -250,18 +327,18 @@ function PondStandard() {
                   />
                 </Form.Item>
                 <Form.Item
-                  label="Min Number of Fish"
-                  name="minAmountFish"
+                  label="Female Medium Length (cm)"
+                  name="medLengthFemale"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your min amount of fish!",
+                      message: "Please input female koi medium length!",
                     },
                   ]}
                 >
                   <InputNumber
                     min={0}
-                    placeholder="fish"
+                    placeholder="cm"
                     formatter={(value) =>
                       `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     }
@@ -269,51 +346,18 @@ function PondStandard() {
                   />
                 </Form.Item>
                 <Form.Item
-                  label="Min Pumping Capacity"
-                  name="minPumpingCapacity"
+                  label="Female High Length (cm)"
+                  name="hiLengthFemale"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your min pumping capacity!",
+                      message: "Please input female koi high length!",
                     },
                   ]}
                 >
                   <InputNumber
                     min={0}
-                    placeholder="l/h"
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                  />
-                </Form.Item>
-              </Form>
-            </Col>
-            <Col span={8}>
-              <Form
-                form={form}
-                name="basic"
-                labelCol={{
-                  span: 24,
-                }}
-                wrapperCol={{
-                  span: 24,
-                }}
-                onFinish={handleSubmit}
-              >
-                <Form.Item
-                  label="Max Depth"
-                  name="maxDepth"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your max depth!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    min={0}
-                    placeholder="m"
+                    placeholder="cm"
                     formatter={(value) =>
                       `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     }
@@ -321,18 +365,18 @@ function PondStandard() {
                   />
                 </Form.Item>
                 <Form.Item
-                  label="Max Volume"
-                  name="maxVolume"
+                  label="Female Low Weight (g)"
+                  name="lowWeightFemale"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your max volume!",
+                      message: "Please input female koi low weight!",
                     },
                   ]}
                 >
                   <InputNumber
                     min={0}
-                    placeholder="l"
+                    placeholder="g"
                     formatter={(value) =>
                       `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     }
@@ -340,18 +384,18 @@ function PondStandard() {
                   />
                 </Form.Item>
                 <Form.Item
-                  label="Max Number of Fish"
-                  name="maxAmountFish"
+                  label="Female Medium Weight (g)"
+                  name="medWeightFemale"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your max amount of fish!",
+                      message: "Please input female koi medium weight!",
                     },
                   ]}
                 >
                   <InputNumber
                     min={0}
-                    placeholder="fish"
+                    placeholder="g"
                     formatter={(value) =>
                       `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     }
@@ -359,18 +403,18 @@ function PondStandard() {
                   />
                 </Form.Item>
                 <Form.Item
-                  label="Max Pumping Capacity"
-                  name="maxPumpingCapacity"
+                  label="Female High Weight (g)"
+                  name="hiWeightFemale"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your max pumping capacity!",
+                      message: "Please input female koi high weight!",
                     },
                   ]}
                 >
                   <InputNumber
                     min={0}
-                    placeholder="l/h"
+                    placeholder="g"
                     formatter={(value) =>
                       `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     }
@@ -380,15 +424,6 @@ function PondStandard() {
               </Form>
             </Col>
           </Row>
-          {/* <Form form={form} onFinish={handleSubmit} label="left">
-            <Form.Item
-              label=""
-              name=""
-              rules={[{ required: true, message: "Please select role!" }]}
-              >
-                <InputNumber />
-              </Form.Item>
-          </Form> */}
           <Button
             type="primary"
             onClick={handleSubmit}
@@ -413,13 +448,14 @@ function PondStandard() {
         </Modal>
       </div>
       <br />
-      <h2>Pond Standard Table</h2>
       <Table
-        dataSource={pondStandard.sort((a, b) => a.area - b.area)}
+        dataSource={koiStandard.sort(
+          (a, b) => a.koiVarietyID - b.koiVarietyID || a.period - b.period
+        )}
         columns={columns}
       />
     </>
   );
 }
 
-export default PondStandard;
+export default KoiStandard;

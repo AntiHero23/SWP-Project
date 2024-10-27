@@ -90,7 +90,7 @@ function UserManage() {
 
   return (
     <>
-      <h1>User Manage</h1>
+      <h1>Users Management</h1>
       <br />
       <br />
       <h2>User Account Table</h2>
