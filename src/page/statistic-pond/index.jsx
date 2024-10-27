@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Select, Button, Radio, ConfigProvider } from "antd";
-import enUS from 'antd/es/locale/en_US';
+import { Form, Select, Button, Radio } from "antd";
 import {
   LineChart,
   Line,
@@ -225,11 +224,11 @@ function StatisticsPond() {
                 ))}
               </Select>
             </Form.Item>
-          <ConfigProvider locale={enUS}>
+
             <Form.Item name="date" label="Month/Year">
               <input type="month" onChange={handleDateChange} />
             </Form.Item>
-          </ConfigProvider>
+
             <Form.Item>
               <Button type="primary" htmlType="submit">
                 Submit

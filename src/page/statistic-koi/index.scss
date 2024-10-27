@@ -77,11 +77,3 @@
         }
     }
 }
-
-
-input[type="month"] {
-    max-width: 100%;            // Ensures input doesn’t extend beyond parent width
-    box-sizing: border-box;      // Includes padding/border in the width
-    overflow: hidden;            // Prevents content spill
-    padding: 8px;                // Adjust padding as needed for styling
-  }
