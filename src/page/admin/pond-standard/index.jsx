@@ -45,13 +45,17 @@ function PondStandard() {
 
   const columns = [
     {
-      title: "Acreage (m²)",
+      title: (
+        <b style={{ fontSize: "18px" }}>
+          Area (m<sup>2</sup>)
+        </b>
+      ),
       dataIndex: "area",
       key: "area",
       render: (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     },
     {
-      title: "Depth (m)",
+      title: <b style={{ fontSize: "18px" }}>Depth (m)</b>,
       dataIndex: ["minDepth", "maxDepth"],
       key: ["minDepth", "maxDepth"],
       render: (value, record) =>
@@ -60,7 +64,7 @@ function PondStandard() {
         `${record.maxDepth}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     },
     {
-      title: "Volume (l)",
+      title: <b style={{ fontSize: "18px" }}>Volume (l)</b>,
       dataIndex: ["minVolume", "maxVolume"],
       key: ["minVolume", "maxVolume"],
       render: (value, record) =>
@@ -85,14 +89,14 @@ function PondStandard() {
     //   render: (value) => `${value} l/h`,
     // },
     {
-      title: "Number of fish",
+      title: <b style={{ fontSize: "18px" }}>Number of Fish</b>,
       dataIndex: ["minAmountFish", "maxAmountFish"],
       key: ["minAmountFish", "maxAmountFish"],
       render: (value, record) =>
         `${record.minAmountFish} - ${record.maxAmountFish}`,
     },
     {
-      title: "Details",
+      title: <b style={{ fontSize: "18px" }}>Details</b>,
       dataIndex: "pondStandardID",
       key: "pondStandardID",
       render: (value) => (
@@ -109,7 +113,7 @@ function PondStandard() {
   ];
   return (
     <>
-      <h1>Pond Standards</h1>
+      <h1 style={{ textAlign: "center" }}>Pond Standards</h1>
       <br />
       <div style={{ textAlign: "center" }}>
         <Button
@@ -413,7 +417,6 @@ function PondStandard() {
         </Modal>
       </div>
       <br />
-      <h2>Pond Standard Table</h2>
       <Table
         dataSource={pondStandard.sort((a, b) => a.area - b.area)}
         columns={columns}

@@ -478,7 +478,7 @@ function PondStandardDetails() {
                     .delete(`admin/deletePondStandard/${pondStandardId}`)
                     .then(() => {
                       fetchPondStandardDetail();
-                      navigate("/admin/pondStandard");
+                      navigate("/admin/pondStandards");
                       setIsDeleteModal(false);
                     })
                     .catch((error) => {

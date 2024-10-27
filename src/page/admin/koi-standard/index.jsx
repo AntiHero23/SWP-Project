@@ -60,7 +60,7 @@ function KoiStandard() {
 
   const columns = [
     {
-      title: "Variety",
+      title: <b style={{ fontSize: "18px" }}>Variety</b>,
       dataIndex: "koiVarietyID",
       key: "koiVarietyID",
       render: (value) => {
@@ -69,13 +69,13 @@ function KoiStandard() {
       },
     },
     {
-      title: "Period (days)",
+      title: <b style={{ fontSize: "18px" }}>Period (days)</b>,
       dataIndex: "period",
       key: "period",
       render: (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     },
     {
-      title: "Length (cm)",
+      title: <b style={{ fontSize: "18px" }}>Length (cm)</b>,
       dataIndex: ["lowLengthMale", "hiLengthFemale"],
       key: ["lowLengthMale", "hiLengthFemale"],
       render: (value, record) =>
@@ -84,7 +84,7 @@ function KoiStandard() {
         `${record.hiLengthFemale}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     },
     {
-      title: "Weight (g)",
+      title: <b style={{ fontSize: "18px" }}>Weight (g)</b>,
       dataIndex: ["lowWeightMale", "hiWeightFemale"],
       key: ["lowWeightMale", "hiWeightFemale"],
       render: (value, record) =>
@@ -94,7 +94,7 @@ function KoiStandard() {
     },
 
     {
-      title: "Details",
+      title: <b style={{ fontSize: "18px" }}>Details</b>,
       dataIndex: "koiStandID",
       key: "koiStandID",
       render: (value) => (
@@ -111,7 +111,7 @@ function KoiStandard() {
   ];
   return (
     <>
-      <h1>Koi Standards</h1>
+      <h1 style={{ textAlign: "center" }}>Koi Standards</h1>
       <br />
       <div style={{ textAlign: "center" }}>
         <Button

@@ -23,30 +23,30 @@ function HistoryTransaction() {
   });
   const columns = [
     {
-      title: "Order Code",
+      title: <b style={{ fontSize: "18px" }}>Order code</b>,
       dataIndex: "orderCode",
       key: "orderCode",
     },
     {
-      title: "Package",
+      title: <b style={{ fontSize: "18px" }}>Package</b>,
       dataIndex: "apackage",
       key: "apackage",
       render: (text) => text.charAt(0).toUpperCase() + text.slice(1),
     },
     {
-      title: "Price",
+      title: <b style={{ fontSize: "18px" }}>Price (₫)</b>,
       dataIndex: "price",
       key: "price",
       render: (value) => VND.format(value),
     },
     {
-      title: "Date of purchase",
+      title: <b style={{ fontSize: "18px" }}>Date of purchase</b>,
       dataIndex: "date",
       key: "date",
       render: (value) => <p>{dayjs(value).format("MMMM D, YYYY h:mm A")}</p>,
     },
     {
-      title: "Expiration date",
+      title: <b style={{ fontSize: "18px" }}>Expiration date</b>,
       dataIndex: "duration",
       key: "duration",
       render: (value, record) => {
@@ -55,15 +55,21 @@ function HistoryTransaction() {
       },
     },
     {
-      title: "Status",
+      title: <b style={{ fontSize: "18px" }}>Status</b>,
       dataIndex: "status",
       key: "status",
-      render: (text) => <Tag color="blue">{text}</Tag>,
+      render: (value) => {
+        if (value === "FAIL") {
+          return <Tag color="red">{value}</Tag>;
+        } else if (value === "SUCCESS") {
+          return <Tag color="green">{value}</Tag>;
+        }
+      },
     },
   ];
   return (
     <>
-      <h1>History Transaction</h1>
+      <h1 style={{ textAlign: "center" }}>History Transaction</h1>
       <Table dataSource={historyTranscation} columns={columns} />
     </>
   );

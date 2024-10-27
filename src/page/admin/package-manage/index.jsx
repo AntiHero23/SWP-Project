@@ -60,26 +60,26 @@ function Package() {
   });
   const shopPackageColumns = [
     {
-      title: "Package Name",
+      title: <b style={{ fontSize: "18px" }}>Package Name</b>,
       dataIndex: "name",
       key: "name",
       render: (text) =>
         text ? text.charAt(0).toUpperCase() + text.slice(1) : "N/A",
     },
     {
-      title: "Price",
+      title: <b style={{ fontSize: "18px" }}>Price (₫)</b>,
       dataIndex: "price",
       key: "price",
       render: (value) => VND.format(value),
     },
     {
-      title: "Duration (months)",
+      title: <b style={{ fontSize: "18px" }}>Duration (months)</b>,
       dataIndex: "duration",
       key: "duration",
       render: (text) => `${text}`,
     },
     {
-      title: "Detail",
+      title: <b style={{ fontSize: "18px" }}>Details</b>,
       dataIndex: "id",
       key: "id",
       render: (value) => (
@@ -89,33 +89,33 @@ function Package() {
             navigate(`/admin/package/shop/${value}`);
           }}
         >
-          Detail
+          Details
         </Button>
       ),
     },
   ];
   const memberPackageColumns = [
     {
-      title: "Package Name",
+      title: <b style={{ fontSize: "18px" }}>Package Name</b>,
       dataIndex: "name",
       key: "name",
       render: (text) =>
         text ? text.charAt(0).toUpperCase() + text.slice(1) : "N/A",
     },
     {
-      title: "Price",
+      title: <b style={{ fontSize: "18px" }}>Price (₫)</b>,
       dataIndex: "price",
       key: "price",
       render: (value) => VND.format(value),
     },
     {
-      title: "Duration (months)",
+      title: <b style={{ fontSize: "18px" }}>Duration (months)</b>,
       dataIndex: "duration",
       key: "duration",
       render: (text) => `${text}`,
     },
     {
-      title: "Detail",
+      title: <b style={{ fontSize: "18px" }}>Details</b>,
       dataIndex: "id",
       key: "id",
       render: (value) => (
@@ -125,20 +125,20 @@ function Package() {
             navigate(`/admin/package/member/${value}`);
           }}
         >
-          Detail
+          Details
         </Button>
       ),
     },
   ];
   return (
     <>
-      <h1>Packages Management</h1>
+      <h1 style={{ textAlign: "center" }}>Packages Management</h1>
       <br />
       <div style={{ textAlign: "center" }}>
         <Button
           type="primary"
           onClick={() => setIsOpenModal(true)}
-          style={{ width: "25%" }}
+          style={{ width: "15%" }}
         >
           Add Package
         </Button>

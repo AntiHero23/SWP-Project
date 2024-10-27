@@ -56,6 +56,8 @@ import FeedingStandard from "../page/admin/feeding-standard";
 import KoiStandard from "../page/admin/koi-standard";
 import KoiStandardDetails from "../page/admin/koi-standard-details";
 import FeedingStandardDetails from "../page/admin/feeding-standard-details";
+import Blog from "../page/admin/blog";
+import BlogDetails from "../page/admin/blog-details";
 
 export const router = createBrowserRouter([
   {
@@ -309,6 +311,19 @@ export const router = createBrowserRouter([
           {
             path: "details/:id",
             element: <PondStandardDetails />,
+          },
+        ],
+      },
+      {
+        path: "blogs",
+        children: [
+          {
+            path: "",
+            element: <Blog />,
+          },
+          {
+            path: "details/:id",
+            element: <BlogDetails />,
           },
         ],
       },

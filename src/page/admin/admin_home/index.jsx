@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Table } from "antd";
+import { Button, Card, Col, Row, Table, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import api from "../../../config/axios";
 import { useNavigate } from "react-router-dom";
@@ -14,8 +14,8 @@ import {
   ResponsiveContainer,
   PieChart,
   Pie,
-  Cell
-} from 'recharts';
+  Cell,
+} from "recharts";
 
 function AdminHome() {
   const [adminInfo, setAdminInfo] = useState([]);
@@ -36,11 +36,12 @@ function AdminHome() {
     "supervip-me": "Super VIP",
     "normal-sh": "Normal",
     "vip-sh": "VIP",
-    "supervip-sh": "Super VIP"
+    "supervip-sh": "Super VIP",
   };
 
   // Helper function to calculate percentages
-  const calculatePercentage = (value, total) => ((value / total) * 100).toFixed(2);
+  const calculatePercentage = (value, total) =>
+    ((value / total) * 100).toFixed(2);
 
   const getTotalAccount = async () => {
     try {
@@ -95,16 +96,18 @@ function AdminHome() {
       const currentMonth = dayjs().month();
       const currentYear = dayjs().year();
       const last11Months = [];
-      
+
       for (let i = 0; i < 11; i++) {
         const month = (currentMonth - i + 12) % 12;
         const year = currentYear - Math.floor((currentMonth - i) / 12);
-        const revenueObj = result.find(item => item.month === month && item.year === year);
+        const revenueObj = result.find(
+          (item) => item.month === month && item.year === year
+        );
         const revenue = revenueObj ? revenueObj.revenue : 0;
 
         if (revenue > 0) {
           last11Months.push({
-            month: dayjs().month(month).format('MMMM'),
+            month: dayjs().month(month).format("MMMM"),
             year: year,
             revenue: revenue,
           });
@@ -150,46 +153,52 @@ function AdminHome() {
     currency: "VND",
   });
 
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
 
   const columns = [
     {
-      title: "Order Code",
+      title: <b style={{ fontSize: "18px" }}>Order Code</b>,
       dataIndex: "orderCode",
       key: "orderCode",
     },
     {
-      title: "Package",
+      title: <b style={{ fontSize: "18px" }}>Package</b>,
       dataIndex: "apackage",
       key: "apackage",
       render: (text) => text.charAt(0).toUpperCase() + text.slice(1),
     },
     {
-      title: "Price",
+      title: <b style={{ fontSize: "18px" }}>Price</b>,
       dataIndex: "price",
       key: "price",
       render: (value) => VND.format(value),
     },
     {
-      title: "Date of purchase",
+      title: <b style={{ fontSize: "18px" }}>Date of purchase</b>,
       dataIndex: "date",
       key: "date",
-      render: (value) => <p>{dayjs(value).format("D/M/YY")}</p>,
+      render: (value) => <p>{dayjs(value).format("MMMM D, YYYY h:mm A")}</p>,
     },
     {
-      title: "Expiration date",
+      title: <b style={{ fontSize: "18px" }}>Expiration date</b>,
       dataIndex: "duration",
       key: "duration",
       render: (value, record) => {
         const date = dayjs(record.date).add(record.duration, "month");
-        return date.format("D/M/YY");
+        return date.format("MMMM D, YYYY h:mm A");
       },
     },
     {
-      title: "Status",
+      title: <b style={{ fontSize: "18px" }}>Status</b>,
       dataIndex: "status",
       key: "status",
-      render: (value) => <Tag color="blue">{value}</Tag>,
+      render: (value) => {
+        if (value === "FAIL") {
+          return <Tag color="red">{value}</Tag>;
+        } else if (value === "SUCCESS") {
+          return <Tag color="green">{value}</Tag>;
+        }
+      },
     },
   ];
 
@@ -204,7 +213,7 @@ function AdminHome() {
       <Row gutter={16} style={{ textAlign: "center" }}>
         <Col span={8}>
           <Card
-            title="Total Account"
+            title={<b style={{ fontSize: "24px" }}>Total Account</b>}
             bordered={false}
             style={{ backgroundColor: "#6495ed" }}
           >
@@ -213,7 +222,7 @@ function AdminHome() {
         </Col>
         <Col span={8}>
           <Card
-            title="Total Orders"
+            title={<b style={{ fontSize: "24px" }}>Total Order</b>}
             bordered={false}
             style={{ backgroundColor: "#6495ed" }}
           >
@@ -222,7 +231,7 @@ function AdminHome() {
         </Col>
         <Col span={8}>
           <Card
-            title="Total Revenue"
+            title={<b style={{ fontSize: "24px" }}>Total Revenue</b>}
             bordered={false}
             style={{ backgroundColor: "#6495ed" }}
           >
@@ -232,18 +241,18 @@ function AdminHome() {
       </Row>
       <br />
       <h2>Transaction Dashboard</h2>
-      
-      <div style={{ width: '100%', height: 400 }}>
+
+      <div style={{ width: "100%", height: 400 }}>
         <ResponsiveContainer>
           <BarChart data={revenueData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="month" />
             <YAxis />
-            <Tooltip 
+            <Tooltip
               formatter={(value, name, props) => {
                 const monthYear = `${props.payload.month} ${props.payload.year}`;
                 return [VND.format(value), `${name} (${monthYear})`];
-              }} 
+              }}
             />
             <Legend />
             <Bar dataKey="revenue" name="Revenue" fill="#82ca9d" />
@@ -251,7 +260,7 @@ function AdminHome() {
         </ResponsiveContainer>
       </div>
       <br />
-      
+
       {/* Package Statistics Section */}
       <h2>Package Statistics</h2>
       <Row gutter={16}>
@@ -266,19 +275,33 @@ function AdminHome() {
                 outerRadius={100}
                 fill="#8884d8"
                 label={(entry) => {
-                  const total = memberPackages.reduce((sum, item) => sum + item.numberOfPackage, 0);
-                  return `${packageMapping[entry.nameOfPackage]}: ${calculatePercentage(entry.numberOfPackage, total)}%`;
+                  const total = memberPackages.reduce(
+                    (sum, item) => sum + item.numberOfPackage,
+                    0
+                  );
+                  return `${
+                    packageMapping[entry.nameOfPackage]
+                  }: ${calculatePercentage(entry.numberOfPackage, total)}%`;
                 }}
               >
                 {memberPackages.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
                 ))}
               </Pie>
-              <Tooltip 
+              <Tooltip
                 formatter={(value, name, props) => {
-                  const total = memberPackages.reduce((sum, item) => sum + item.numberOfPackage, 0);
+                  const total = memberPackages.reduce(
+                    (sum, item) => sum + item.numberOfPackage,
+                    0
+                  );
                   const percentage = calculatePercentage(value, total);
-                  return [`${value} (${percentage}%)`, packageMapping[props.payload.nameOfPackage]];
+                  return [
+                    `${value} (${percentage}%)`,
+                    packageMapping[props.payload.nameOfPackage],
+                  ];
                 }}
               />
               <Legend
@@ -302,19 +325,33 @@ function AdminHome() {
                 outerRadius={100}
                 fill="#82ca9d"
                 label={(entry) => {
-                  const total = shopPackages.reduce((sum, item) => sum + item.numberOfPackage, 0);
-                  return `${packageMapping[entry.nameOfPackage]}: ${calculatePercentage(entry.numberOfPackage, total)}%`;
+                  const total = shopPackages.reduce(
+                    (sum, item) => sum + item.numberOfPackage,
+                    0
+                  );
+                  return `${
+                    packageMapping[entry.nameOfPackage]
+                  }: ${calculatePercentage(entry.numberOfPackage, total)}%`;
                 }}
               >
                 {shopPackages.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
                 ))}
               </Pie>
-              <Tooltip 
+              <Tooltip
                 formatter={(value, name, props) => {
-                  const total = shopPackages.reduce((sum, item) => sum + item.numberOfPackage, 0);
+                  const total = shopPackages.reduce(
+                    (sum, item) => sum + item.numberOfPackage,
+                    0
+                  );
                   const percentage = calculatePercentage(value, total);
-                  return [`${value} (${percentage}%)`, packageMapping[props.payload.nameOfPackage]];
+                  return [
+                    `${value} (${percentage}%)`,
+                    packageMapping[props.payload.nameOfPackage],
+                  ];
                 }}
               />
               <Legend
@@ -328,8 +365,8 @@ function AdminHome() {
           </ResponsiveContainer>
         </Col>
       </Row>
-      
-      <br/>
+
+      <br />
       <h2>History Transaction</h2>
       <Table dataSource={historyTransaction} columns={columns} />
     </>

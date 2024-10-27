@@ -71,7 +71,14 @@ function PendingPostDetail() {
             </Card>
             <Card>
               <b>Description: </b>
-              <p>{post?.description}</p>
+              <p>
+                {post?.description?.split("\n")?.map((item, index) => (
+                  <React.Fragment key={index}>
+                    {item}
+                    <br />
+                  </React.Fragment>
+                ))}
+              </p>
             </Card>
             <Card>
               <b>Price: </b>

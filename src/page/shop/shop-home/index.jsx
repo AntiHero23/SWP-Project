@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../../../config/axios";
-import { Button, Form, Image, Modal, Select, Table, Tag } from "antd";
+import { Button, Card, Form, Image, Modal, Select, Table, Tag } from "antd";
 import dayjs from "dayjs";
 import { useForm } from "antd/es/form/Form";
 import { useNavigate } from "react-router-dom";
@@ -74,29 +74,29 @@ function ShopHome() {
   });
   const columns = [
     {
-      title: "Package Type",
+      title: <b style={{ fontSize: "18px" }}>Package Type</b>,
       dataIndex: "name",
       key: "name",
       render: (text) => text.charAt(0).toUpperCase() + text.slice(1),
     },
     {
-      title: "Description",
+      title: <b style={{ fontSize: "18px" }}>Description</b>,
       dataIndex: "description",
       key: "description",
     },
     {
-      title: "Number of Posts",
+      title: <b style={{ fontSize: "18px" }}>Number of posts</b>,
       dataIndex: "numberOfPosts",
       key: "numberOfPosts",
       render: (text) => text + " posts",
     },
     {
-      title: "Duration (months)",
+      title: <b style={{ fontSize: "18px" }}>Duration (months)</b>,
       dataIndex: "duration",
       key: "duration",
     },
     {
-      title: "Price (₫)",
+      title: <b style={{ fontSize: "18px" }}>Price (₫)</b>,
       dataIndex: "price",
       key: "price",
       render: (value) => VND.format(value),
@@ -105,18 +105,23 @@ function ShopHome() {
 
   return (
     <>
-      <h1>Welcome to Sunside Koi Care!</h1>
+      <h1 style={{ textAlign: "center" }}>Welcome to Sunside Koi Care!</h1>
       <br />
-      <p>Thank you for trusting and choosing our service. </p>
-      <p>
-        From now on, you can post to our website by selecting the “Post Manage”
-        function on the navigation bar.
-      </p>
+      <Card style={{ background: "#f5f5f5" }}>
+        <p style={{ fontSize: "18px", textAlign: "center" }}>
+          Thank you for trusting and choosing our service.{" "}
+        </p>
+        <p style={{ fontSize: "18px", textAlign: "center" }}>
+          From now on, you can post to our website by selecting the “Post
+          Manage” function on the navigation bar.
+        </p>
+      </Card>
       <br />
-      <h4>
+      <h3 style={{ textAlign: "center" }}>
         To be able to post, you need to register for one of our service packages
         below.
-      </h4>
+      </h3>
+      <br />
       <Table
         dataSource={dataPostPakage.sort((a, b) => a.price - b.price)}
         columns={columns}
@@ -131,13 +136,12 @@ function ShopHome() {
             display: "flex",
             justifyContent: "center",
           }}
-          title="Post Package"
+          title="Please Chosse A Package"
           open={isOpenModal}
           footer={null}
           closable={false}
           onCancel={handleCancel}
         >
-          <p style={{ textAlign: "left" }}>Please Chosse A Package</p>
           <Form form={form} onFinish={handleSubmit}>
             <Form.Item
               label="Post Type: "

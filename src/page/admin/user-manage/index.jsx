@@ -23,7 +23,7 @@ function UserManage() {
 
   const accountColumns = [
     {
-      title: "User Name",
+      title: <b style={{ fontSize: "18px" }}>Username</b>,
       dataIndex: "username",
       key: "username",
     },
@@ -43,7 +43,7 @@ function UserManage() {
     //   key: "phone",
     // },
     {
-      title: "Role",
+      title: <b style={{ fontSize: "18px" }}>Role</b>,
       dataIndex: "role",
       key: "role",
     },
@@ -63,7 +63,7 @@ function UserManage() {
     //   key: "expiredDate",
     // },
     {
-      title: "Validation",
+      title: <b style={{ fontSize: "18px" }}>Validation</b>,
       dataIndex: "status",
       key: "status",
       render: (value) => (
@@ -71,7 +71,7 @@ function UserManage() {
       ),
     },
     {
-      title: "Details",
+      title: <b style={{ fontSize: "18px" }}>Details</b>,
       dataIndex: "accountID",
       key: "accountID",
       render: (value) => (
@@ -89,10 +89,8 @@ function UserManage() {
 
   return (
     <>
-      <h1>Users Management</h1>
+      <h1 style={{ textAlign: "center" }}>Users Management</h1>
       <br />
-      <br />
-      <h2>User Account Table</h2>
       <Table dataSource={dataSourceAccount} columns={accountColumns} />
     </>
   );

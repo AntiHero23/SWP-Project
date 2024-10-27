@@ -39,7 +39,7 @@ function FeedingStandard() {
   });
   const columns = [
     {
-      title: "Age Range (day)",
+      title: <b style={{ fontSize: "18px" }}>Age Range (days)</b>,
       dataIndex: ["ageFrom", "ageTo"],
       key: ["ageFrom", "ageTo"],
       render: (value, record) =>
@@ -48,22 +48,22 @@ function FeedingStandard() {
         `${record.ageTo}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     },
     {
-      title: "Low",
+      title: <b style={{ fontSize: "18px" }}>Low</b>,
       dataIndex: "low",
       key: "low",
     },
     {
-      title: "Medium",
+      title: <b style={{ fontSize: "18px" }}>Medium</b>,
       dataIndex: "medium",
       key: "medium",
     },
     {
-      title: "High",
+      title: <b style={{ fontSize: "18px" }}>High</b>,
       dataIndex: "high",
       key: "high",
     },
     {
-      title: "Details",
+      title: <b style={{ fontSize: "18px" }}>Details</b>,
       dataIndex: "feedCoefID",
       key: "feedCoefID",
       render: (value) => (
@@ -80,7 +80,7 @@ function FeedingStandard() {
   ];
   return (
     <>
-      <h1>Feeding Coefficient</h1>
+      <h1 style={{ textAlign: "center" }}>Feeding Coefficient</h1>
       <br />
       <div style={{ textAlign: "center" }}>
         <Button

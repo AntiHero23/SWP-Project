@@ -17,10 +17,14 @@ import api from "../../config/axios";
 import { UserOutlined } from "@ant-design/icons";
 import "./index.scss";
 import dayjs from "dayjs";
+import { logout, selectUser } from "../../redux/features/counterSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function Profile() {
   const navigate = useNavigate();
-  const { user, logout } = useAuthStore();
+  const dispath = useDispatch();
+  const [avatar, setAvatar] = useState({});
+  const user = useSelector(selectUser);
   const [userInfo, setUserInfo] = useState({});
   const [isModalVisibleUpdate, setIsModalVisibleUpdate] = useState(false);
   const [isModalVisibleChangePassword, setIsModalVisibleChangePassword] =
@@ -39,10 +43,17 @@ function Profile() {
   }, []);
 
   const handleLogout = () => {
-    logout();
+    dispath(logout());
     localStorage.removeItem("token");
-    navigate("/login");
+    setAvatar({});
+    navigate("/");
   };
+  function getAvatar() {
+    setAvatar(user);
+  }
+  useEffect(() => {
+    getAvatar();
+  }, [user]);
 
   const showModalUpdate = () => {
     setIsModalVisibleUpdate(true);
@@ -90,9 +101,12 @@ function Profile() {
       <Col xs={24} sm={20} md={18} lg={16} xl={14}>
         <Card title="Profile" className="profile-card">
           <Row gutter={[24, 24]}>
-           
             <Col xs={24} md={12} className="profile-left">
-              <Space direction="vertical" size="large" style={{width: '100%'}}>
+              <Space
+                direction="vertical"
+                size="large"
+                style={{ width: "100%" }}
+              >
                 <Avatar
                   size={120}
                   icon={<UserOutlined />}
@@ -101,7 +115,7 @@ function Profile() {
                 <Typography.Title level={3} className="profile-title">
                   {userInfo?.username}
                 </Typography.Title>
-                
+
                 <Typography.Text className="profile-text">
                   <strong>Name:</strong> {userInfo?.name || "-"}
                 </Typography.Text>
@@ -114,9 +128,12 @@ function Profile() {
               </Space>
             </Col>
 
-        
             <Col xs={24} md={12} className="profile-right">
-              <Space direction="vertical" size="large" style={{width: '100%'}}>
+              <Space
+                direction="vertical"
+                size="large"
+                style={{ width: "100%" }}
+              >
                 <Typography.Text className="profile-text">
                   <strong>Role:</strong> {userInfo?.role || "-"}
                 </Typography.Text>
@@ -128,7 +145,7 @@ function Profile() {
                     ? "Premium"
                     : "Unknown"}
                 </Typography.Text>
-                
+
                 {userInfo?.premiumStatus === 0 && (
                   <Button
                     type="primary"

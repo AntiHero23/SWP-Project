@@ -19,7 +19,7 @@ function Header() {
     dispath(logout());
     localStorage.removeItem("token");
     setAvatar({});
-    navigate("/login");
+    navigate("/");
   };
   function getAvatar() {
     setAvatar(user);

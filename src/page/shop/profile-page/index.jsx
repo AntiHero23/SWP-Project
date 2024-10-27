@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import api from "../../../config/axios";
 import { UserOutlined } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
-import { m } from "framer-motion";
 
 function ShopProfile() {
   const navigate = useNavigate();
@@ -111,16 +110,19 @@ function ShopProfile() {
     fetchUser();
   }, []);
 
-  const handleLogout = () => {
-    logout();
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
+  // const handleLogout = () => {
+  //   logout();
+  //   localStorage.removeItem("token");
+  //   navigate("/login");
+  // };
 
   return (
     <>
       {!loading && (
-        <Row className="profile-container" style={{ textAlign: "center" }}>
+        <Row
+          className="profile-container"
+          style={{ textAlign: "center", justifyContent: "center" }}
+        >
           <Col span={6}>
             <Card title="Profile" className="profile-card">
               <Space direction="vertical" size="large">
@@ -133,19 +135,24 @@ function ShopProfile() {
                   {userInfo?.username}
                 </Typography.Title>
                 <Typography.Text className="profile-text">
-                  Name: {userInfo?.name || "-"}
+                  <b>Name: </b>
+                  {userInfo?.name || "-"}
                 </Typography.Text>
                 <Typography.Text className="profile-text">
-                  Email: {userInfo?.email || "-"}
+                  <b>Email: </b>
+                  {userInfo?.email || "-"}
                 </Typography.Text>
                 <Typography.Text className="profile-text">
-                  Phone: {userInfo?.phone || "-"}
+                  <b>Phone: </b>
+                  {userInfo?.phone || "-"}
                 </Typography.Text>
                 <Typography.Text className="profile-text">
-                  Role: {userInfo?.role || "-"}
+                  <b>Role: </b>
+                  {userInfo?.role || "-"}
                 </Typography.Text>
                 <Typography.Text className="profile-text">
-                  Your Current Posts: {userInfo?.numberOfPosts || "-"}
+                  <b>Your Current Posts: </b>
+                  {userInfo?.numberOfPosts || "-"}
                 </Typography.Text>
                 <Button
                   type="primary"
@@ -176,7 +183,10 @@ function ShopProfile() {
                       label="Name"
                       name="name"
                       rules={[
-                        { required: true, message: "Please input your name!" },
+                        {
+                          required: true,
+                          message: "Please input your name!",
+                        },
                       ]}
                     >
                       <Input defaultValue={userInfo?.name} />
@@ -185,7 +195,10 @@ function ShopProfile() {
                       label="Email"
                       name="email"
                       rules={[
-                        { required: true, message: "Please input your email!" },
+                        {
+                          required: true,
+                          message: "Please input your email!",
+                        },
                       ]}
                     >
                       <Input defaultValue={userInfo?.email} />
@@ -194,7 +207,10 @@ function ShopProfile() {
                       label="Phone"
                       name="phone"
                       rules={[
-                        { required: true, message: "Please input your phone!" },
+                        {
+                          required: true,
+                          message: "Please input your phone!",
+                        },
                       ]}
                     >
                       <Input defaultValue={userInfo?.phone} />
