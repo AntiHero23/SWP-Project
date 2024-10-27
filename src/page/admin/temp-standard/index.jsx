@@ -43,18 +43,18 @@ function TempStandard() {
   }, []);
   const columns = [
     {
-      title: "Temperature Range (°C)",
+      title: <b style={{ fontSize: "18px" }}>Temperature Range (°C)</b>,
       dataIndex: ["tempFrom", "tempTo"],
       key: ["tempFrom", "tempTo"],
       render: (text, record) => `${record.tempFrom} - ${record.tempTo}`,
     },
     {
-      title: "Temperature Coefficient",
+      title: <b style={{ fontSize: "18px" }}>Coefficient</b>,
       dataIndex: "coef",
       key: "coef",
     },
     {
-      title: "Update",
+      title: <b style={{ fontSize: "18px" }}>Update</b>,
       dataIndex: "tempID",
       key: "tempID",
       render: (text, record) => (
@@ -76,7 +76,7 @@ function TempStandard() {
       ),
     },
     {
-      title: "Delete",
+      title: <b style={{ fontSize: "18px" }}>Delete</b>,
       dataIndex: "tempID",
       key: "tempID",
       render: (text, record) => (
@@ -101,7 +101,7 @@ function TempStandard() {
   ];
   return (
     <>
-      <h1>Temperature Coefficient</h1>
+      <h1 style={{ textAlign: "center" }}>Temperature Coefficient</h1>
       <br />
       <div style={{ textAlign: "center" }}>
         <Button

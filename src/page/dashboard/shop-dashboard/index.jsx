@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DesktopOutlined,
   FileOutlined,
@@ -12,6 +12,8 @@ import { Breadcrumb, Button, Layout, Menu, theme } from "antd";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Footer from "../../../component/footer";
 import { useAuthStore } from "../../../zustand/useAuthStore";
+import { logout, selectUser } from "../../../redux/features/counterSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const { Header, Content, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -30,16 +32,27 @@ const items = [
 ];
 const ShopDashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const { user, logout } = useAuthStore();
+  const [avatar, setAvatar] = useState({});
+  const user = useSelector(selectUser);
+
+  const dispath = useDispatch();
   const navigate = useNavigate();
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   const handleLogout = () => {
-    logout();
+    dispath(logout());
     localStorage.removeItem("token");
-    navigate("/login");
+    setAvatar({});
+    navigate("/");
   };
+  function getAvatar() {
+    setAvatar(user);
+  }
+  useEffect(() => {
+    getAvatar();
+  }, [user]);
   return (
     <>
       <Layout

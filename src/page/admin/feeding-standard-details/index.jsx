@@ -46,36 +46,52 @@ function FeedingStandardDetails() {
   }, []);
   const columns = [
     {
-      title: "Low Level",
+      title: (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <b style={{ fontSize: "18px" }}>Low Level</b>
+        </div>
+      ),
       dataIndex: "low",
       key: "low",
+      render: (value) => <p style={{ textAlign: "center" }}>{value}</p>,
     },
     {
-      title: "Medium Level",
+      title: (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <b style={{ fontSize: "18px" }}>Medium Level</b>
+        </div>
+      ),
       dataIndex: "medium",
       key: "medium",
+      render: (value) => <p style={{ textAlign: "center" }}>{value}</p>,
     },
     {
-      title: "High Level",
+      title: (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <b style={{ fontSize: "18px" }}>High Level</b>
+        </div>
+      ),
       dataIndex: "high",
       key: "high",
+      render: (value) => <p style={{ textAlign: "center" }}>{value}</p>,
     },
   ];
   return (
     <>
-      <h1>Feeding Coefficient Details</h1>
+      <h1 style={{ textAlign: "center" }}>Feeding Coefficient Details</h1>
       <br />
       <div style={{ textAlign: "center" }}>
         {data && (
           <Card style={{ backgroundColor: "#6495ed" }}>
             <Card>
-              <h3>Age Range (day): </h3>
+              <h3>Age Range (days): </h3>
               {`${data.ageFrom}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
                 " - " +
                 `${data.ageTo}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </Card>
             <Card>
               <h3>Feeding Level</h3>
+              <br />
               <Table pagination={false} dataSource={[data]} columns={columns} />
             </Card>
             <Button

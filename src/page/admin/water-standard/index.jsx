@@ -195,43 +195,43 @@ function WaterStandard() {
           }}
         >
           {waterStandardData.map((item, index) => (
-            <div key={index}>
+            <div style={{ width: "75%" }} key={index}>
               <Row gutter={[16, 16]}>
                 <Col span={12}>
                   <Card style={{ width: "100%", background: "#6495ed" }}>
-                    {"Temperature Standard (°C): " +
-                      item.minTempStandard.toFixed(2) +
+                    <b style={{ fontSize: "14px" }}>
+                      Temperature Standard (°C):{" "}
+                    </b>
+                    {item.minTempStandard.toFixed(2) +
                       " - " +
                       item.maxTempStandard.toFixed(2) +
                       " °C"}
                   </Card>
                   <br />
                   <Card style={{ width: "100%", background: "#6495ed" }}>
-                    {"Oxygen Standard (O₂): " +
-                      item.minOxygenStandard.toFixed(3) +
+                    <b style={{ fontSize: "14px" }}>Oxygen Standard (O₂): </b>
+                    {item.minOxygenStandard.toFixed(3) +
                       " - " +
                       item.maxOxygenStandard.toFixed(3) +
                       " mg/l"}
                   </Card>
                   <br />
                   <Card style={{ width: "100%", background: "#6495ed" }}>
-                    {"pH Standard: " +
-                      item.min_pH_Standard +
-                      " - " +
-                      item.max_pH_Standard}
+                    <b style={{ fontSize: "14px" }}>pH Standard: </b>
+                    {item.min_pH_Standard + " - " + item.max_pH_Standard}
                   </Card>
                   <br />
                   <Card style={{ width: "100%", background: "#6495ed" }}>
-                    {"Hardness Standard (GH): " +
-                      item.minHardnessStandard.toFixed(1) +
+                    <b style={{ fontSize: "14px" }}>Hardness Standard (GH): </b>
+                    {item.minHardnessStandard.toFixed(1) +
                       " - " +
                       item.maxHardnessStandard.toFixed(1) +
                       " °dH"}
                   </Card>
                   <br />
                   <Card style={{ width: "100%", background: "#6495ed" }}>
-                    {"Ammonia Standard (NH₃): " +
-                      item.minAmmoniaStandard.toFixed(3) +
+                    <b style={{ fontSize: "14px" }}>Ammonia Standard (NH₃): </b>
+                    {item.minAmmoniaStandard.toFixed(3) +
                       " - " +
                       item.maxAmmoniaStandard.toFixed(3) +
                       " mg/l"}
@@ -239,40 +239,44 @@ function WaterStandard() {
                 </Col>
                 <Col span={12}>
                   <Card style={{ width: "100%", background: "#6495ed" }}>
-                    {"Nitrite Standard (NO₂): " +
-                      item.minNitriteStandard.toFixed(3) +
+                    <b style={{ fontSize: "14px" }}>Nitrite Standard (NO₂): </b>
+                    {item.minNitriteStandard.toFixed(3) +
                       " - " +
                       item.maxNitriteStandard.toFixed(3) +
                       " mg/l"}
                   </Card>
                   <br />
                   <Card style={{ width: "100%", background: "#6495ed" }}>
-                    {"Nitrate Standard (NO₃): " +
-                      item.minNitrateStandard.toFixed(3) +
+                    <b style={{ fontSize: "14px" }}>Nitrate Standard (NO₃): </b>
+                    {item.minNitrateStandard.toFixed(3) +
                       " - " +
                       item.maxNitrateStandard.toFixed(3) +
                       " mg/l"}
                   </Card>
                   <br />
                   <Card style={{ width: "100%", background: "#6495ed" }}>
-                    {"Carbonate Standard (KH): " +
-                      item.minCarbonateStandard.toFixed(1) +
+                    <b style={{ fontSize: "14px" }}>
+                      Carbonate Standard (KH):{" "}
+                    </b>
+                    {item.minCarbonateStandard.toFixed(1) +
                       " - " +
                       item.maxCarbonateStandard.toFixed(1) +
                       " °dH"}
                   </Card>
                   <br />
                   <Card style={{ width: "100%", background: "#6495ed" }}>
-                    {"Salt Standard (%): " +
-                      item.minSaltStandard.toFixed(3) +
+                    <b style={{ fontSize: "14px" }}>Salt Standard (%): </b>
+                    {item.minSaltStandard.toFixed(3) +
                       " - " +
                       item.maxSaltStandard.toFixed(3) +
                       " %"}
                   </Card>
                   <br />
                   <Card style={{ width: "100%", background: "#6495ed" }}>
-                    {"Carbon Dioxide Standard (CO₂): " +
-                      item.minCarbonDioxideStandard.toFixed(3) +
+                    <b style={{ fontSize: "14px" }}>
+                      Carbon Dioxide Standard (CO₂):{" "}
+                    </b>
+                    {item.minCarbonDioxideStandard.toFixed(3) +
                       " - " +
                       item.maxCarbonDioxideStandard.toFixed(3) +
                       " mg/l"}

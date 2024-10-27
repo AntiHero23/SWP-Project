@@ -17,11 +17,15 @@ import api from "../../config/axios";
 import { UserOutlined } from "@ant-design/icons";
 import "./index.scss";
 import dayjs from "dayjs";
-import { useDispatch } from "react-redux";
 import { updateUser } from "../../redux/features/counterSlice";
+import { logout, selectUser } from "../../redux/features/counterSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 function Profile() {
   const navigate = useNavigate();
-  const { user, logout } = useAuthStore();
+  const dispath = useDispatch();
+  const [avatar, setAvatar] = useState({});
+  const user = useSelector(selectUser);
   const [userInfo, setUserInfo] = useState({});
   const [isModalVisibleUpdate, setIsModalVisibleUpdate] = useState(false);
   const [isModalVisibleChangePassword, setIsModalVisibleChangePassword] =
@@ -41,10 +45,17 @@ function Profile() {
   }, []);
 
   const handleLogout = () => {
-    logout();
+    dispath(logout());
     localStorage.removeItem("token");
-    navigate("/login");
+    setAvatar({});
+    navigate("/");
   };
+  function getAvatar() {
+    setAvatar(user);
+  }
+  useEffect(() => {
+    getAvatar();
+  }, [user]);
 
   const showModalUpdate = () => {
     setIsModalVisibleUpdate(true);

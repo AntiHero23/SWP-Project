@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   CalculatorOutlined,
   ControlOutlined,
@@ -6,6 +6,7 @@ import {
   ExperimentOutlined,
   FileOutlined,
   FolderOutlined,
+  FormOutlined,
   HomeOutlined,
   PieChartOutlined,
   RadarChartOutlined,
@@ -16,6 +17,8 @@ import {
 import { Breadcrumb, Button, Layout, Menu, theme } from "antd";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../../zustand/useAuthStore";
+import { logout, selectUser } from "../../../redux/features/counterSlice";
+import { useDispatch, useSelector } from "react-redux";
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -39,19 +42,31 @@ const items = [
     "temperatureCoefficient",
     <ControlOutlined />
   ),
+  getItem("Blogs", "blogs", <FormOutlined />),
 ];
 const AdminDashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const { user, logout } = useAuthStore();
+  const [avatar, setAvatar] = useState({});
+  const user = useSelector(selectUser);
+
+  const dispath = useDispatch();
   const navigate = useNavigate();
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   const handleLogout = () => {
-    logout();
+    dispath(logout());
     localStorage.removeItem("token");
-    navigate("/login");
+    setAvatar({});
+    navigate("/");
   };
+  function getAvatar() {
+    setAvatar(user);
+  }
+  useEffect(() => {
+    getAvatar();
+  }, [user]);
   return (
     <Layout
       style={{

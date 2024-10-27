@@ -53,7 +53,9 @@ function PostView() {
     }
   };
   const handleCancel = () => {
-    form.resetFields();
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
     setIsModalOpen(false);
   };
   const fetchPayment = async () => {
@@ -164,18 +166,18 @@ function PostView() {
   });
   const columns = [
     {
-      title: "Product Name",
+      title: <b style={{ fontSize: "18px" }}>Product Name</b>,
       dataIndex: "productName",
       key: "productName",
     },
     {
-      title: "Product Price (₫)",
+      title: <b style={{ fontSize: "18px" }}>Price (₫)</b>,
       dataIndex: "productPrice",
       key: "productPrice",
       render: (value) => VND.format(value),
     },
     {
-      title: "Image",
+      title: <b style={{ fontSize: "18px" }}>Image</b>,
       dataIndex: "image",
       key: "image",
       render: (value) => <Image src={value} style={{ width: "100px" }} />,
@@ -197,7 +199,7 @@ function PostView() {
     //   render: (value) => <p>{dayjs(value).format("MMMM D, YYYY h:mm A")}</p>,
     // },
     {
-      title: "Post Status",
+      title: <b style={{ fontSize: "18px" }}>Post Status</b>,
       dataIndex: "postStatus",
       key: "postStatus",
       render: (value) => (
@@ -207,7 +209,7 @@ function PostView() {
       ),
     },
     {
-      title: "Details",
+      title: <b style={{ fontSize: "18px" }}>Details</b>,
       dataIndex: "postDetailId",
       key: "postDetailId",
       render: (value) => (
@@ -225,6 +227,8 @@ function PostView() {
 
   return (
     <>
+      <h1 style={{ textAlign: "center" }}>Post Management</h1>
+      <br />
       <div style={{ textAlign: "center" }}>
         <Button type="primary" onClick={showModal} style={{ width: "10%" }}>
           New Post
@@ -358,7 +362,7 @@ function PostView() {
           )}
         </Modal>
       </div>
-
+      <br />
       <h2>Pending</h2>
       <Table dataSource={dataSourcePending} columns={columns} />
       <h2>Approved</h2>

@@ -157,44 +157,47 @@ function AdminHome() {
 
   const columns = [
     {
-      title: "Order Code",
+      title: <b style={{ fontSize: "18px" }}>Order Code</b>,
       dataIndex: "orderCode",
       key: "orderCode",
     },
     {
-      title: "Package",
+      title: <b style={{ fontSize: "18px" }}>Package</b>,
       dataIndex: "apackage",
       key: "apackage",
       render: (text) => text.charAt(0).toUpperCase() + text.slice(1),
     },
     {
-      title: "Price",
+      title: <b style={{ fontSize: "18px" }}>Price</b>,
       dataIndex: "price",
       key: "price",
       render: (value) => VND.format(value),
     },
     {
-      title: "Date of purchase",
+      title: <b style={{ fontSize: "18px" }}>Date of purchase</b>,
       dataIndex: "date",
       key: "date",
-      render: (value) => <p>{dayjs(value).format("D/M/YY")}</p>,
+      render: (value) => <p>{dayjs(value).format("MMMM D, YYYY h:mm A")}</p>,
     },
     {
-      title: "Expiration date",
+      title: <b style={{ fontSize: "18px" }}>Expiration date</b>,
       dataIndex: "duration",
       key: "duration",
       render: (value, record) => {
         const date = dayjs(record.date).add(record.duration, "month");
-        return date.format("D/M/YY");
+        return date.format("MMMM D, YYYY h:mm A");
       },
     },
     {
-      title: "Status",
+      title: <b style={{ fontSize: "18px" }}>Status</b>,
       dataIndex: "status",
       key: "status",
       render: (value) => {
-        const color = value === "SUCCESS" ? "green" : "red";
-        return <Tag color={color}>{value}</Tag>;
+        if (value === "FAIL") {
+          return <Tag color="red">{value}</Tag>;
+        } else if (value === "SUCCESS") {
+          return <Tag color="green">{value}</Tag>;
+        }
       },
     },
   ];
@@ -210,7 +213,7 @@ function AdminHome() {
       <Row gutter={16} style={{ textAlign: "center" }}>
         <Col span={8}>
           <Card
-            title="Total Account"
+            title={<b style={{ fontSize: "24px" }}>Total Account</b>}
             bordered={false}
             style={{ backgroundColor: "#6495ed" }}
           >
@@ -219,7 +222,7 @@ function AdminHome() {
         </Col>
         <Col span={8}>
           <Card
-            title="Total Orders"
+            title={<b style={{ fontSize: "24px" }}>Total Order</b>}
             bordered={false}
             style={{ backgroundColor: "#6495ed" }}
           >
@@ -228,7 +231,7 @@ function AdminHome() {
         </Col>
         <Col span={8}>
           <Card
-            title="Total Revenue"
+            title={<b style={{ fontSize: "24px" }}>Total Revenue</b>}
             bordered={false}
             style={{ backgroundColor: "#6495ed" }}
           >

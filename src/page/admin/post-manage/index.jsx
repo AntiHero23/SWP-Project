@@ -8,8 +8,10 @@ import { useNavigate } from "react-router-dom";
 function PostManage() {
   const [dataSourcePending, setDataSourcePending] = useState([]);
   const [dataSourceApproved, setDataSourceApproved] = useState([]);
+  const [shopPost, setShopPost] = useState([]);
   const [isRejectModal, setIsRejectModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
+
   const [form] = useForm();
   const navigate = useNavigate();
 
@@ -44,15 +46,33 @@ function PostManage() {
       console.log(error);
     }
   };
+  const fetchShopPost = async () => {
+    try {
+      const responseShopPost = await api.get("shop");
+      setShopPost(responseShopPost.data.result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
+    fetchShopPost();
     fetchDataApproved();
     fetchDataPending();
   }, []);
   const pendingColumns = [
     {
-      title: "Product Name",
+      title: <b style={{ fontSize: "18px" }}>Product Name</b>,
       dataIndex: "productName",
       key: "productName",
+    },
+    {
+      title: <b style={{ fontSize: "18px" }}>Posted By</b>,
+      dataIndex: "shopID",
+      key: "shopID",
+      render: (value) => {
+        const shop = shopPost.find((item) => item.shopID === value);
+        return shop ? shop.name : "N/A";
+      },
     },
     // {
     //   title: "Product Price",
@@ -61,7 +81,7 @@ function PostManage() {
     //   render: (value) => value + " VND",
     // },
     {
-      title: "Image",
+      title: <b style={{ fontSize: "18px" }}>Image</b>,
       dataIndex: "image",
       key: "image",
       render: (value) => <Image src={value} style={{ width: "100px" }} />,
@@ -96,7 +116,7 @@ function PostManage() {
     //   render: (value) => <p>{dayjs(value).format("MMMM D, YYYY h:mm A")}</p>,
     // },
     {
-      title: "Post Status",
+      title: <b style={{ fontSize: "18px" }}>Post Status</b>,
       dataIndex: "postStatus",
       key: "postStatus",
       render: (value) => (
@@ -106,7 +126,7 @@ function PostManage() {
       ),
     },
     {
-      title: "Details",
+      title: <b style={{ fontSize: "18px" }}>Details</b>,
       dataIndex: "postDetailId",
       key: "postDetailId",
       render: (value) => (
@@ -160,9 +180,18 @@ function PostManage() {
   ];
   const approvedColumns = [
     {
-      title: "Product Name",
+      title: <b style={{ fontSize: "18px" }}>Product Name</b>,
       dataIndex: "productName",
       key: "productName",
+    },
+    {
+      title: <b style={{ fontSize: "18px" }}>Posted By</b>,
+      dataIndex: "shopID",
+      key: "shopID",
+      render: (value) => {
+        const shop = shopPost.find((item) => item.shopID === value);
+        return shop ? shop.name : "N/A";
+      },
     },
     // {
     //   title: "Product Price",
@@ -171,7 +200,7 @@ function PostManage() {
     //   render: (value) => value + " VND",
     // },
     {
-      title: "Image",
+      title: <b style={{ fontSize: "18px" }}>Image</b>,
       dataIndex: "image",
       key: "image",
       render: (value) => <Image src={value} style={{ width: "100px" }} />,
@@ -205,7 +234,7 @@ function PostManage() {
     //   render: (value) => <p>{dayjs(value).format("MMMM D, YYYY h:mm A")}</p>,
     // },
     {
-      title: "Post Status",
+      title: <b style={{ fontSize: "18px" }}>Post Status</b>,
       dataIndex: "postStatus",
       key: "postStatus",
       render: (value) => (
@@ -215,7 +244,7 @@ function PostManage() {
       ),
     },
     {
-      title: "Details",
+      title: <b style={{ fontSize: "18px" }}>Details</b>,
       dataIndex: "postDetailId",
       key: "postDetailId",
       render: (value) => (
@@ -263,7 +292,7 @@ function PostManage() {
         onOk={handleOk}
         footer={null}
       ></Modal> */}
-      <h1>Posts Management</h1>
+      <h1 style={{ textAlign: "center" }}>Posts Management</h1>
       <br />
       <br />
       <h2>Post Pending Table</h2>
