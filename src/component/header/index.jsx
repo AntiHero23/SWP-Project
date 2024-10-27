@@ -89,9 +89,9 @@ function Header() {
           </Dropdown>
         </li>
         <li onClick={() => navigate("/recommendation")}>Shopping</li>
-        <li>About Us</li>
+        <li onClick={() => navigate("/aboutUs")}>About Us</li>
         <li onClick={() => navigate("/contact")}>Contact Us</li>
-        <li>Blog</li>
+        <li onClick={() => navigate("/blog")}>Blog</li>
       </ul>
 
       <div className="header-right">

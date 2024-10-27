@@ -1,0 +1,79 @@
+.koi-page {
+    background-image: url('../../assets/LoginBg.png');
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 120vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .koi-container {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        max-width: 1200px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px;
+
+        // Title style
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+            color: #1890ff;
+            font-size: 1.8rem;
+        }
+
+        // Form styles
+        .form-container {
+            background-color: #78a3ff; // Gray background
+            padding: 20px;
+            border-radius: 10px;
+            width: 25%; // Occupy 60% of the transparent container
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+
+            .ant-form-item {
+                width: 100%; // Make form items take full width
+
+                label {
+                    font-weight: bold;
+                }
+            }
+
+            .ant-select {
+                width: 100%;
+                background-color: #ff9318;
+            }
+
+            .ant-button{
+                background-color: #ff9318;
+            }
+        }
+
+        // Radio button styles
+        .radio-container {
+            margin-bottom: 20px;
+
+            .ant-radio-group {
+                .ant-radio-button-wrapper {
+                    border-radius: 5px;
+                }
+            }
+        }
+
+        // Chart container styles
+        .chart-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+    }
+}

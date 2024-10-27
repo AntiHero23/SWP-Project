@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import api from "../../config/axios";
 import dayjs from "dayjs";
+import "./index.scss";
 
 function StatisticsPond() {
   const [form] = Form.useForm();
@@ -261,6 +262,7 @@ function StatisticsPond() {
       )}
     </>
   );
+  
 }
 
 export default StatisticsPond;

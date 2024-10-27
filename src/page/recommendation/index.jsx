@@ -60,12 +60,14 @@ function Recommendation() {
       <div className="shop-container">
         <h2 className="shop-title">Recommendation Page</h2>
         <input
+          className="search-product"
           type="text"
           value={searchTerm}
           onChange={handleSearch}
           placeholder="Search product name"
         />
         <Select
+          className="select-product-type"
           value={selectedProductType}
           onChange={handleSelectChange}
           placeholder="Select product type"

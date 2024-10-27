@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import api from "../../config/axios";
 import dayjs from "dayjs";
+import "./index.scss";
 
 function StatisticKoi() {
   const [form] = Form.useForm();
@@ -286,69 +287,106 @@ function StatisticKoi() {
   };
 
   return (
-    <>
-      <Form form={form} onFinish={handleSubmit}>
-        <Form.Item name="koi" label="Koi">
-          <Select placeholder="Select a Koi" loading={loading}>
-            {kois.map((koi) => (
-              <Select.Option key={koi.koiFishID} value={koi.koiFishID}>
-                {koi.koiName}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
+    <div className="koi-page">
+      <div className="koi-container">
+        <h2 className="page-title">Koi Statistics</h2> {/* Added title */}
+        <Form className="form-container" form={form} onFinish={handleSubmit}>
+          <Form.Item name="koi" label="Koi">
+            <Select placeholder="Select a Koi" loading={loading}>
+              {kois.map((koi) => (
+                <Select.Option key={koi.koiFishID} value={koi.koiFishID}>
+                  {koi.koiName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
 
-        <Form.Item name="date" label="Month/Year">
-          <input type="month" onChange={handleDateChange} />
-        </Form.Item>
+          <Form.Item name="date" label="Month/Year">
+            <input type="month" onChange={handleDateChange} />
+          </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
-
-      <Radio.Group value={selectedType} onChange={handleTypeChange}>
-        <Radio.Button value="weight">Weight</Radio.Button>
-        <Radio.Button value="length">Length</Radio.Button>
-      </Radio.Group>
-
-      {/* Render chart using Recharts */}
-      {chartData.length > 0 && (
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="updateDate" />
-            <YAxis tickFormatter={(value) => value.toFixed(2)} />{" "}
-            {/* Format YAxis values */}
-            <Tooltip formatter={(value) => value.toFixed(2)} />{" "}
-            {/* Format Tooltip values */}
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="value"
-              stroke="#1890ff"
-              name={capitalize(selectedType)}
-            />
-            <Line
-              type="monotone"
-              dataKey="lowValue"
-              stroke="#00FF02"
-              name="Low Value"
-              strokeDasharray="3 3"
-            />
-            <Line
-              type="monotone"
-              dataKey="highValue"
-              stroke="#ff7300"
-              name="High Value"
-              strokeDasharray="3 3"
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      )}
-    </>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+        <div className="radio-container">
+          <Radio.Group value={selectedType} onChange={handleTypeChange}>
+            <Radio.Button value="weight">Weight</Radio.Button>
+            <Radio.Button value="length">Length</Radio.Button>
+          </Radio.Group>
+        </div>
+        {/* Render chart using Recharts */}
+        {chartData.length > 0 && (
+          <ResponsiveContainer width="100%" height={400}>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="updateDate" />
+              <YAxis tickFormatter={(value) => value.toFixed(2)} />{" "}
+              {/* Format YAxis values */}
+              <Tooltip formatter={(value) => value.toFixed(2)} />{" "}
+              {/* Format Tooltip values */}
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="#1890ff"
+                name={capitalize(selectedType)}
+              />
+              <Line
+                type="monotone"
+                dataKey="lowValue"
+                stroke="#00FF02"
+                name="Low Value"
+                strokeDasharray="3 3"
+              />
+              <Line
+                type="monotone"
+                dataKey="highValue"
+                stroke="#ff7300"
+                name="High Value"
+                strokeDasharray="3 3"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
+      </div>
+      {/* Chart Container */}
+      <div className="chart-container">
+        {chartData.length > 0 && (
+          <ResponsiveContainer width="100%" height={400}>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="updateDate" />
+              <YAxis tickFormatter={(value) => value.toFixed(2)} />
+              <Tooltip formatter={(value) => value.toFixed(2)} />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="#1890ff"
+                name={capitalize(selectedType)}
+              />
+              <Line
+                type="monotone"
+                dataKey="lowValue"
+                stroke="#00FF02"
+                name="Low Value"
+                strokeDasharray="3 3"
+              />
+              <Line
+                type="monotone"
+                dataKey="highValue"
+                stroke="#ff7300"
+                name="High Value"
+                strokeDasharray="3 3"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
+      </div>
+    </div>
   );
 }
 
