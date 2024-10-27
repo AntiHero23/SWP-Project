@@ -56,9 +56,6 @@ const CreateWaterReportModal = ({
             <Popover
               content={
                 <div>
-                  <p>
-                    Valid range: {param.min} - {param.max} {param.unit}
-                  </p>
                   <p>{param.errorMessage}</p>
                 </div>
               }

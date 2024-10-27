@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import useGetParams from "../../../assets/hook/useGetParams";
 import api from "../../../config/axios";
 import { updateUser } from "../../../redux/features/counterSlice";
+import { useDispatch } from "react-redux";
 
 function CheckOut() {
   const getParams = useGetParams();

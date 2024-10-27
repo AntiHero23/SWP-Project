@@ -90,7 +90,7 @@ function Profile() {
       <Col xs={24} sm={20} md={18} lg={16} xl={14}>
         <Card title="Profile" className="profile-card">
           <Row gutter={[24, 24]}>
-            {/* Left Column */}
+           
             <Col xs={24} md={12} className="profile-left">
               <Space direction="vertical" size="large" style={{width: '100%'}}>
                 <Avatar
@@ -114,7 +114,7 @@ function Profile() {
               </Space>
             </Col>
 
-            {/* Right Column */}
+        
             <Col xs={24} md={12} className="profile-right">
               <Space direction="vertical" size="large" style={{width: '100%'}}>
                 <Typography.Text className="profile-text">
