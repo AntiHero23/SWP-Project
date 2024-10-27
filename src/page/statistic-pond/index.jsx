@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Form, Select, Button, Radio } from "antd";
-import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  CartesianGrid,
+  ResponsiveContainer,
+} from "recharts";
 import api from "../../config/axios";
 import dayjs from "dayjs";
 
@@ -11,27 +20,42 @@ function StatisticsPond() {
   const [loading, setLoading] = useState(false);
   const [chartData, setChartData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [selectedType, setSelectedType] = useState("temperature");
-  const [waterStandard, setWaterStandard] = useState({
-    waterStandardID: 3,
-    standards: {
-      temperature: { min: 0, max: 30 },
-      dissolvedOxygen: { min: 7, max: 10 },
-      pH: { min: 6.5, max: 9 },
-      hardness: { min: 4, max: 15 },
-      ammonia: { min: 0, max: 0.02 },
-      nitrite: { min: 0, max: 50 },
-      nitrate: { min: 0, max: 0.25 },
-      carbonate: { min: 0, max: 20 },
-      salt: { min: 0.1, max: 0.3 },
-      carbonDioxide: { min: 1, max: 20 },
-    },
-  });
+  const [selectedType, setSelectedType] = useState("temp");
+  const [waterStandard, setWaterStandard] = useState(null);
+  const [highValue, setHighValue] = useState(null);
+  const [lowValue, setLowValue] = useState(null);
+
+  const typeKeyMapping = {
+    temp: "waterReportTemperature",
+    dissolvedOxygen: "waterReportOxygen",
+    pH: "waterReport_pH",
+    hardness: "waterReportHardness",
+    ammonia: "waterReportAmmonia",
+    nitrite: "waterReportNitrite",
+    nitrate: "waterReportNitrate",
+    carbonate: "waterReportCarbonate",
+    salt: "waterReportSalt",
+    carbonDioxide: "waterReportCarbonDioxide",
+  };
+
+  const standardKeyMapping = {
+    temp: { min: "minTempStandard", max: "maxTempStandard" },
+    dissolvedOxygen: { min: "minOxygenStandard", max: "maxOxygenStandard" },
+    pH: { min: "min_pH_Standard", max: "max_pH_Standard" },
+    hardness: { min: "minHardnessStandard", max: "maxHardnessStandard" },
+    ammonia: { min: "minAmmoniaStandard", max: "maxAmmoniaStandard" },
+    nitrite: { min: "minNitriteStandard", max: "maxNitriteStandard" },
+    nitrate: { min: "minNitrateStandard", max: "maxNitrateStandard" },
+    carbonate: { min: "minCarbonateStandard", max: "maxCarbonateStandard" },
+    salt: { min: "minSaltStandard", max: "maxSaltStandard" },
+    carbonDioxide: { min: "minCarbonDioxideStandard", max: "maxCarbonDioxideStandard" },
+  };
 
   const fetchPonds = async () => {
     setLoading(true);
     try {
       const { data } = await api.get("pond");
+      console.log("Fetched ponds:", data);
       setPonds(data);
     } catch (error) {
       console.error("Error fetching pond list:", error);
@@ -44,9 +68,8 @@ function StatisticsPond() {
     setLoading(true);
     try {
       const { data } = await api.get(`waterreport/view/${pondID}`);
-      console.log("Water Report fetched:", data);
+      console.log("Fetched water report:", data);
       setWaterReport(data || []);
-      processWaterData(data);
     } catch (error) {
       console.error("Error fetching water report:", error);
     } finally {
@@ -54,92 +77,142 @@ function StatisticsPond() {
     }
   };
 
-  const processWaterData = (data) => {
-    const startOfMonth = dayjs(selectedDate).startOf('month');
-    const endOfMonth = dayjs(selectedDate).endOf('month');
-
-    // Create a map to hold data indexed by date
-    const reportMap = {};
-    let lastReport = null;
-    let firstReportDate = null;
-
-    data.forEach(report => {
-        const dateKey = dayjs(report.waterReportUpdatedDate).format('YYYY-MM-DD');
-        reportMap[dateKey] = report;
-        
-        // Track the first report date and last report value
-        if (!firstReportDate || dayjs(report.waterReportUpdatedDate).isBefore(firstReportDate)) {
-            firstReportDate = dayjs(report.waterReportUpdatedDate);
-        }
-        lastReport = report; // Update lastReport for later use
-    });
-
-    // Create an array to hold the interpolated chart data
-    const interpolatedData = [];
-    let lastReportedValue = null;
-
-    for (let date = startOfMonth; date.isBefore(endOfMonth.add(1, 'day')); date = date.add(1, 'day')) {
-        const dateKey = date.format('YYYY-MM-DD');
-        const report = reportMap[dateKey];
-        let currentValue = report ? report[selectedType] : null; // Use let here
-
-        // Interpolation logic
-        if (currentValue !== null) {
-            // If there's a report, update lastReportedValue
-            lastReportedValue = currentValue;
-        } else if (lastReportedValue !== null) {
-            // If no report, but we have a last value, use that
-            currentValue = lastReportedValue;
-        } else if (firstReportDate && date.isBefore(firstReportDate)) {
-            // If before the first report date, use the first report value
-            if (firstReportDate && reportMap[firstReportDate.format('YYYY-MM-DD')]) {
-                currentValue = reportMap[firstReportDate.format('YYYY-MM-DD')][selectedType];
-            }
-        }
-        
-        // Add data to the interpolated data array
-        interpolatedData.push({
-            waterReportUpdatedDate: dateKey,
-            value: currentValue,
-            lowValue: waterStandard.standards[selectedType].min,
-            highValue: waterStandard.standards[selectedType].max,
-        });
+  const fetchWaterStandard = async () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get("/admin/viewall/waterstandard");
+      console.log("Fetched water standard:", data.result[0]);
+      setWaterStandard(data.result[0]);
+    } catch (error) {
+      console.error("Error fetching water standard:", error);
+    } finally {
+      setLoading(false);
     }
-
-    setChartData(interpolatedData);
-    console.log("Chart Data:", interpolatedData);
-};
-
+  };
 
   const handleSubmit = async (values) => {
     if (!values.pond) return;
+    console.log("Form submitted with values:", values);
     await fetchWaterReport(values.pond);
-  };
+    
+    const minKey = standardKeyMapping[selectedType].min;
+    const maxKey = standardKeyMapping[selectedType].max;
+    const highStandard = waterStandard ? waterStandard[maxKey] : null;
+    const lowStandard = waterStandard ? waterStandard[minKey] : null;
 
-  const handleDateChange = (e) => {
-    const selected = dayjs(e.target.value);
-    setSelectedDate(selected);
-    if (waterReport.length > 0) {
-      processWaterData(waterReport);
-    }
-  };
-
-  const handleTypeChange = (e) => {
-    setSelectedType(e.target.value);
-    if (waterReport.length > 0) {
-      processWaterData(waterReport);
-    }
+    console.log("High standard:", highStandard);
+    console.log("Low standard:", lowStandard);
+    setLowValue(highStandard ? highStandard : null);
+    setHighValue(lowStandard ? lowStandard : null);
   };
 
   useEffect(() => {
+    console.log("Fetching ponds and water standard...");
     fetchPonds();
+    fetchWaterStandard();
   }, []);
+
+  useEffect(() => {
+
+    if (waterReport.length > 0 && waterStandard) {
+      const reportMap = {};
+      waterReport.forEach((report) => {
+        const dateKey = dayjs(report.waterReportUpdatedDate).format("YYYY-MM-DD");
+        reportMap[dateKey] = report;
+      });
+      console.log("Mapped water report by date:", reportMap);
+
+      const sortedDates = Object.keys(reportMap).sort((a, b) => dayjs(a).diff(dayjs(b)));
+      const interpolatedData = [];
+      let lastReportedValue = null;
+
+      // Iterate over sorted dates and fill in gaps
+      for (let i = 0; i < sortedDates.length; i++) {
+        const currentDateKey = sortedDates[i];
+        const report = reportMap[currentDateKey];
+        const currentKey = typeKeyMapping[selectedType];
+        let currentValue = report ? report[currentKey] : null;
+
+        // Ensure currentValue is parsed as a number
+        currentValue = currentValue !== null ? parseFloat(currentValue) : null;
+
+        const minKey = standardKeyMapping[selectedType].min;
+        const maxKey = standardKeyMapping[selectedType].max;
+        const lowValueFromStandard = waterStandard[minKey] !== undefined ? parseFloat(waterStandard[minKey]) : null;
+        const highValueFromStandard = waterStandard[maxKey] !== undefined ? parseFloat(waterStandard[maxKey]) : null;
+
+        // If there's a reported value, use it
+        if (currentValue !== null) {
+          lastReportedValue = Math.round(currentValue * 100) / 100; // Round to 2 decimal points
+          interpolatedData.push({
+            waterReportUpdatedDate: currentDateKey,
+            value: lastReportedValue,
+            lowValue: Math.round(lowValueFromStandard * 100) / 100,
+            highValue: Math.round(highValueFromStandard * 100) / 100,
+          });
+        } else if (lastReportedValue !== null) {
+          // Interpolate between last reported value and the next report
+          const nextDateKey = sortedDates[i + 1];
+          if (nextDateKey) {
+            const nextValue = reportMap[nextDateKey][currentKey];
+            const nextParsedValue = nextValue !== undefined ? parseFloat(nextValue) : null;
+
+            if (nextParsedValue !== null) {
+              const daysDifference = dayjs(nextDateKey).diff(dayjs(currentDateKey), 'day');
+
+              // Calculate interpolated values for each day between last and next
+              const step = (nextParsedValue - lastReportedValue) / (daysDifference + 1); // Include the current day
+              for (let j = 1; j <= daysDifference; j++) {
+                const interpolatedValue = Math.round((lastReportedValue + step * j) * 100) / 100;
+                const interpolatedDate = dayjs(currentDateKey).add(j, 'day').format("YYYY-MM-DD");
+                interpolatedData.push({
+                  waterReportUpdatedDate: interpolatedDate,
+                  value: interpolatedValue,
+                  lowValue: Math.round(lowValueFromStandard * 100) / 100,
+                  highValue: Math.round(highValueFromStandard * 100) / 100,
+                });
+              }
+            }
+          }
+        }
+      }
+
+      console.log("Final interpolated chart data:", interpolatedData);
+      setChartData(interpolatedData);
+    }
+  }, [waterReport, selectedDate, selectedType, waterStandard]);
+
+  const handleDateChange = (event) => {
+    const dateString = event.target.value;
+    const date = dayjs(dateString, "YYYY-MM");
+    console.log("Selected date:", dateString);
+    setSelectedDate(date);
+  };
+
+  const handleTypeChange = (event) => {
+    setLoading(true);
+    const newType = event.target.value;
+    console.log("Selected type:", newType);
+    setSelectedType(newType);
+
+    const minKey = standardKeyMapping[newType].min;
+    const maxKey = standardKeyMapping[newType].max;
+
+    console.log("Standard values for type:", {
+      min: waterStandard ? waterStandard[minKey] : null,
+      max: waterStandard ? waterStandard[maxKey] : null,
+    });
+
+    setLowValue(waterStandard ? waterStandard[minKey] : null);
+    setHighValue(waterStandard ? waterStandard[maxKey] : null);
+    setLoading(false);
+  };
 
   return (
     <>
       <Form form={form} onFinish={handleSubmit}>
-        <Form.Item name="pond" label="Pond">
-          <Select placeholder="Select a Pond" loading={loading}>
+        <Form.Item name="pond" label="Select Pond" rules={[{ required: true }]}>
+          <Select loading={loading}>
             {ponds.map((pond) => (
               <Select.Option key={pond.pondID} value={pond.pondID}>
                 {pond.pondName}
@@ -160,7 +233,7 @@ function StatisticsPond() {
       </Form>
 
       <Radio.Group value={selectedType} onChange={handleTypeChange}>
-        <Radio.Button value="temperature">Temperature</Radio.Button>
+        <Radio.Button value="temp">Temperature</Radio.Button>
         <Radio.Button value="dissolvedOxygen">Oxygen</Radio.Button>
         <Radio.Button value="pH">pH</Radio.Button>
         <Radio.Button value="hardness">Hardness</Radio.Button>
@@ -172,7 +245,6 @@ function StatisticsPond() {
         <Radio.Button value="carbonDioxide">Carbon Dioxide</Radio.Button>
       </Radio.Group>
 
-      {/* Render chart using Recharts */}
       {chartData.length > 0 && (
         <ResponsiveContainer width="100%" height={400}>
           <LineChart data={chartData}>
@@ -193,6 +265,4 @@ function StatisticsPond() {
 
 export default StatisticsPond;
 
-function capitalize(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
