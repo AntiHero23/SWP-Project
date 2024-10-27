@@ -49,6 +49,8 @@ import AccountDetails from "../page/admin/account-detail";
 import PondStandard from "../page/admin/pond-standard";
 import WaterStandard from "../page/admin/water-standard";
 import PondStandardDetails from "../page/admin/pond-standard-details";
+import AboutUs from "../page/about-us";
+import BlogPage from "../page/blog";
 
 export const router = createBrowserRouter([
   {
@@ -59,7 +61,9 @@ export const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Resgiter /> },
+      { path: "/aboutUs", element: <AboutUs /> },
       { path: "/contact", element: <Contact /> },
+      { path: "/blog", element: <BlogPage /> },
       { path: "/recommendation", element: <Recommendation /> },
       { path: "/productDetail/:id", element: <ProductDetail /> },
       // Member-only routes

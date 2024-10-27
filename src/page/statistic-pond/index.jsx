@@ -3,6 +3,7 @@ import { Form, Select, Button, Radio } from "antd";
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer } from "recharts";
 import api from "../../config/axios";
 import dayjs from "dayjs";
+import "./index.scss";
 
 function StatisticsPond() {
   const [form] = Form.useForm();
@@ -136,59 +137,67 @@ function StatisticsPond() {
   }, []);
 
   return (
-    <>
-      <Form form={form} onFinish={handleSubmit}>
-        <Form.Item name="pond" label="Pond">
-          <Select placeholder="Select a Pond" loading={loading}>
-            {ponds.map((pond) => (
-              <Select.Option key={pond.pondID} value={pond.pondID}>
-                {pond.pondName}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-
-        <Form.Item name="date" label="Month/Year">
-          <input type="month" onChange={handleDateChange} />
-        </Form.Item>
-
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
-
-      <Radio.Group value={selectedType} onChange={handleTypeChange}>
-        <Radio.Button value="temperature">Temperature</Radio.Button>
-        <Radio.Button value="dissolvedOxygen">Oxygen</Radio.Button>
-        <Radio.Button value="pH">pH</Radio.Button>
-        <Radio.Button value="hardness">Hardness</Radio.Button>
-        <Radio.Button value="ammonia">Ammonia</Radio.Button>
-        <Radio.Button value="nitrite">Nitrite</Radio.Button>
-        <Radio.Button value="nitrate">Nitrate</Radio.Button>
-        <Radio.Button value="carbonate">Carbonate</Radio.Button>
-        <Radio.Button value="salt">Salt</Radio.Button>
-        <Radio.Button value="carbonDioxide">Carbon Dioxide</Radio.Button>
-      </Radio.Group>
-
-      {/* Render chart using Recharts */}
-      {chartData.length > 0 && (
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="waterReportUpdatedDate" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="value" stroke="#1890ff" name={capitalize(selectedType)} />
-            <Line type="monotone" dataKey="lowValue" stroke="#00FF02" name="Low Value" strokeDasharray="3 3" />
-            <Line type="monotone" dataKey="highValue" stroke="#ff7300" name="High Value" strokeDasharray="3 3" />
-          </LineChart>
-        </ResponsiveContainer>
-      )}
-    </>
+    <div className="pond-page">
+      <div className="pond-container">
+        <h1 className="page-title">Pond Statistics</h1>
+  
+        <Form form={form} onFinish={handleSubmit} className="form-container">
+          <Form.Item name="pond" label="Pond">
+            <Select placeholder="Select a Pond" loading={loading}>
+              {ponds.map((pond) => (
+                <Select.Option key={pond.pondID} value={pond.pondID}>
+                  {pond.pondName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+  
+          <Form.Item name="date" label="Month/Year">
+            <input type="month" onChange={handleDateChange} />
+          </Form.Item>
+  
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+  
+        <div className="radio-container">
+          <Radio.Group value={selectedType} onChange={handleTypeChange}>
+            <Radio.Button value="temperature">Temperature</Radio.Button>
+            <Radio.Button value="dissolvedOxygen">Oxygen</Radio.Button>
+            <Radio.Button value="pH">pH</Radio.Button>
+            <Radio.Button value="hardness">Hardness</Radio.Button>
+            <Radio.Button value="ammonia">Ammonia</Radio.Button>
+            <Radio.Button value="nitrite">Nitrite</Radio.Button>
+            <Radio.Button value="nitrate">Nitrate</Radio.Button>
+            <Radio.Button value="carbonate">Carbonate</Radio.Button>
+            <Radio.Button value="salt">Salt</Radio.Button>
+            <Radio.Button value="carbonDioxide">Carbon Dioxide</Radio.Button>
+          </Radio.Group>
+        </div>
+  
+        <div className="chart-container">
+          {chartData.length > 0 && (
+            <ResponsiveContainer width="100%" height={400}>
+              <LineChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="waterReportUpdatedDate" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="value" stroke="#1890ff" name={capitalize(selectedType)} />
+                <Line type="monotone" dataKey="lowValue" stroke="#00FF02" name="Low Value" strokeDasharray="3 3" />
+                <Line type="monotone" dataKey="highValue" stroke="#ff7300" name="High Value" strokeDasharray="3 3" />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
+        </div>
+      </div>
+    </div>
   );
+  
 }
 
 export default StatisticsPond;

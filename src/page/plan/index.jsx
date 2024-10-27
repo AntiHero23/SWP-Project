@@ -40,8 +40,6 @@ function Plan() {
       });
       window.open(response.data);
       message.success("Processing your order...");
-      // Optionally redirect to a confirmation page
-      // navigate(`/confirmation/${packageId}`);
     } catch (error) {
       console.error("There was a problem with the buy operation:", error);
       message.error("Failed to process your order.");
@@ -56,21 +54,27 @@ function Plan() {
       {isLoading ? (
         <Spin tip="Loading packages..." />
       ) : (
-        <Row gutter={16}>
+        <Row gutter={[24, 24]} className="pricing-row">
           {packages.map((pkg) => (
             <Col span={8} key={pkg.id}>
-              <Card title={pkg.name} bordered={false}>
-                <p>{pkg.description}</p>
-                <p>Duration: {pkg.duration} months</p>
-                <p>Price: {pkg.price}</p>
-                <Button
-                  type="primary"
-                  onClick={() => handleBuyPlan(pkg.id)}
-                  loading={loadingPurchase}
-                >
-                  Buy Plan
-                </Button>
-              </Card>
+              <div className="pricing-card-wrapper">
+                <Card className="pricing-card">
+                  <div className="pricing-card-content">
+                    <h3 className="package-title">{pkg.name}</h3>
+                    <p className="package-description">{pkg.description}</p>
+                    <p className="package-duration">Duration: {pkg.duration} months</p>
+                    <p className="package-price">Price: ${pkg.price}</p>
+                    <Button
+                      type="primary"
+                      className="buy-button"
+                      onClick={() => handleBuyPlan(pkg.id)}
+                      loading={loadingPurchase}
+                    >
+                      Buy Plan
+                    </Button>
+                  </div>
+                </Card>
+              </div>
             </Col>
           ))}
         </Row>

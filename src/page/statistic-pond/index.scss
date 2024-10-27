@@ -1,0 +1,70 @@
+.pond-page {
+    background-image: url('../../assets/LoginBg.png');
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 120vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .pond-container {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        max-width: 1200px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px;
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+            color: #1890ff;
+            font-size: 1.8rem;
+        }
+
+        .form-container {
+            background-color: #78a3ff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 25%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+
+            .ant-form-item {
+                width: 100%;
+                label {
+                    font-weight: bold;
+                }
+            }
+
+            .ant-select, .ant-button {
+                width: 100%;
+                background-color: #ff9318;
+            }
+        }
+
+        .radio-container {
+            margin-bottom: 20px;
+
+            .ant-radio-group {
+                .ant-radio-button-wrapper {
+                    border-radius: 5px;
+                }
+            }
+        }
+
+        .chart-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+    }
+}
