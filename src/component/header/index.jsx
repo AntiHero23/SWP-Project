@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser } from "../../redux/features/counterSlice";
 
-
 function Header() {
   const navigate = useNavigate();
   const dispath = useDispatch();
@@ -40,9 +39,6 @@ function Header() {
         <Menu.Item onClick={() => navigate("/calculateFood")}>
           Calculate Food
         </Menu.Item>
-        {/* <Menu.Item onClick={() => navigate("/recommendation")}>
-          Shopping Recommendation
-        </Menu.Item> */}
         <Menu.Item onClick={() => navigate("/statisticsKoi")}>
           Koi Statistics
         </Menu.Item>
@@ -51,7 +47,7 @@ function Header() {
         </Menu.Item>
       </Menu>
     ),
-    trigger: ["click"],
+    trigger: ["hover"],
     placement: "bottomRight",
   };
 

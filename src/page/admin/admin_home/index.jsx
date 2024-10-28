@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Table, Tag } from "antd";
+import { Button, Card, Col, Row, Table, Tag, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import api from "../../../config/axios";
 import { useNavigate } from "react-router-dom";
@@ -26,6 +26,7 @@ function AdminHome() {
   const [revenueData, setRevenueData] = useState([]);
   const [memberPackages, setMemberPackages] = useState([]);
   const [shopPackages, setShopPackages] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(dayjs().year());
 
   const navigate = useNavigate();
 
@@ -93,27 +94,27 @@ function AdminHome() {
       const response = await api.get("statistic/revenue");
       const result = response.data.result;
 
-      const currentMonth = dayjs().month();
-      const currentYear = dayjs().year();
-      const last11Months = [];
-
-      for (let i = 0; i < 11; i++) {
-        const month = (currentMonth - i + 12) % 12;
-        const year = currentYear - Math.floor((currentMonth - i) / 12);
-        const revenueObj = result.find(
-          (item) => item.month === month && item.year === year
+      // Create an array of all 12 months for the selected year
+      const fullYearData = Array.from({ length: 12 }, (_, index) => {
+        const monthData = result.find(
+          (item) => item.month === index + 1 && item.year === selectedYear
         );
-        const revenue = revenueObj ? revenueObj.revenue : 0;
 
-        if (revenue > 0) {
-          last11Months.push({
-            month: dayjs().month(month).format("MMMM"),
-            year: year,
-            revenue: revenue,
-          });
-        }
-      }
-      setRevenueData(last11Months.reverse());
+        return {
+          month: dayjs().month(index).format("MMMM"), // This ensures all months (0-11) are included
+          year: selectedYear,
+          revenue: monthData ? monthData.revenue : 0,
+        };
+      });
+
+      // Sort the data to ensure months are in correct order
+      const sortedData = fullYearData.sort(
+        (a, b) =>
+          dayjs().month(a.month).format("M") -
+          dayjs().month(b.month).format("M")
+      );
+
+      setRevenueData(sortedData);
     } catch (error) {
       console.log(error);
     }
@@ -147,6 +148,10 @@ function AdminHome() {
     fetchMemberPackages();
     fetchShopPackages();
   }, []);
+
+  useEffect(() => {
+    fetchRevenueData();
+  }, [selectedYear]);
 
   const VND = new Intl.NumberFormat("vi-VN", {
     style: "currency",
@@ -241,7 +246,19 @@ function AdminHome() {
       </Row>
       <br />
       <h2>Transaction Dashboard</h2>
-
+      <div style={{ marginBottom: "20px" }}>
+        <Select
+          value={selectedYear}
+          onChange={setSelectedYear}
+          style={{ width: 120 }}
+        >
+          {Array.from({ length: 5 }, (_, i) => (
+            <Select.Option key={i} value={dayjs().year() - 2 + i}>
+              {dayjs().year() - 2 + i}
+            </Select.Option>
+          ))}
+        </Select>
+      </div>
       <div style={{ width: "100%", height: 400 }}>
         <ResponsiveContainer>
           <BarChart data={revenueData}>
