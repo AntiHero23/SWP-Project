@@ -85,7 +85,7 @@ function ManagerKoi() {
   return (
     <div className="manager-koi">
       <div className="ManagerKoi-container">
-        <h1 style={{ textAlign: "center" }}>Manage Koi Fish</h1>
+        <h1 style={{ textAlign: "center" }}>Koi Fish Management</h1>
         <div className="filter-search">
           <input
             type="text"

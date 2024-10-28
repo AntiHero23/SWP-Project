@@ -28,6 +28,10 @@ function ProductDetail() {
     fetchPostDetail();
   }, []);
 
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('vi-VN').format(price);
+  };
+
   return (
     <div className="product-detail">
       {/* <h1 style={{ textAlign: "center" }}>Product Detail</h1> */}
@@ -43,9 +47,16 @@ function ProductDetail() {
             />
           </div>
           <div className="product-info-body">
-            <p className="product-desc">{postDetail.description}</p>
+            <p className="product-desc">
+              {postDetail.description.split('\n').map((line, index) => (
+                <React.Fragment key={index}>
+                  {line}
+                  <br />
+                </React.Fragment>
+              ))}
+            </p>
             <p className="product-price">
-              Price: {postDetail.productPrice} VND
+              Price: {formatPrice(postDetail.productPrice)} VND
             </p>
             <a href={postDetail.link} className="product-link">
               Product Link

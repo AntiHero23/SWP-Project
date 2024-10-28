@@ -2,19 +2,20 @@ import React from "react";
 import { Row, Col } from "antd";
 import logo from "../../assets/icon.png";
 import "./index.scss"; // Import the SCSS file
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Footer() {
+  const navigate = useNavigate();
   return (
     <footer className="footer">
-      <Row className="footer-content">  
+      <Row className="footer-content">
         <Col xs={8} className="footer-navigation">
           <ul>
-            <li onClick={() => Navigate("/")}>Home</li>
-            <li onClick={() => Navigate("/recommendation")}>Shopping</li>
-            <li onClick={() => Navigate("/aboutUs")}>About Us</li>
-            <li onClick={() => Navigate("/contact")}>Contact Us</li>
-            <li onClick={() => Navigate("/blog")}>Blog</li>
+            <li onClick={() => navigate("/")}>Home</li>
+            <li onClick={() => navigate("/recommendation")}>Shopping</li>
+            <li onClick={() => navigate("/aboutUs")}>About Us</li>
+            <li onClick={() => navigate("/contact")}>Contact Us</li>
+            <li onClick={() => navigate("/blog")}>Blog</li>
           </ul>
         </Col>
 
@@ -23,9 +24,9 @@ function Footer() {
             src={logo}
             alt="Koi Company Logo"
             className="header-left-logo"
-            onClick={() => Navigate("/")}
+            onClick={() => navigate("/")}
           />
-          <div className="header-left-title" onClick={() => Navigate("/")}>
+          <div className="header-left-title" onClick={() => navigate("/")}>
             SunSide Koi Care
           </div>
         </Col>

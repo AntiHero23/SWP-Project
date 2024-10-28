@@ -91,7 +91,7 @@ function CalculateFood() {
   return (
     <div className="calc-food-page">
       <div className="calc-container">
-        <h1>Calculate Food</h1>
+        <h1>Food Calculator</h1>
         <div style={{ marginBottom: 20 }}>
           <Checkbox
             onChange={() => {

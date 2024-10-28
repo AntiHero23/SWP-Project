@@ -9,7 +9,7 @@
   
     .koi-container {
       background-color: rgba(255, 255, 255, 0.9);
-      padding: 40px;
+      padding: 20px;
       border-radius: 25px;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
       max-width: 1200px;
@@ -32,7 +32,7 @@
   
       .koi-info, .koi-report {
         width: 48%; 
-        max-height: 600px;
+        height: 800px;
         background-color: white;
         padding: 20px;
         border-radius: 15px;
@@ -121,13 +121,13 @@
     }
 
     .koi-form{
-    padding: 20px; /* Add padding to provide spacing inside the koi stats box */
+    padding: 20px;
     width: 100%;
     display: flex;
-    flex-direction: column; /* Ensure items stack vertically */
-    align-items: center; /* Center items horizontally */
-    justify-content: center; /* Center items vertically */
-    text-align: left; /* Ensure text aligns properly inside the flex items */
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    text-align: left; 
     }
 
     .koi-report-latest{
@@ -135,7 +135,6 @@
       background-color: #e4e4e4;
       border-radius: 8px;
       padding: 3px;
-      text-wrap: wrap;
       margin-left:10px;
       height: 170px;
     }

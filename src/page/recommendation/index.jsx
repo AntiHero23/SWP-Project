@@ -26,8 +26,11 @@ function Recommendation() {
   const fetchProductType = async () => {
     try {
       const response = await api.get("productType/view");
-      console.log(response.data);
-      setProductTypes(response.data || []);
+      const formattedTypes = response.data.map((type) => ({
+        value: type.productTypeName,
+        label: type.productTypeName,
+      }));
+      setProductTypes(formattedTypes);
     } catch (error) {
       console.log(error);
     }

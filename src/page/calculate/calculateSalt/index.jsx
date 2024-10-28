@@ -84,7 +84,7 @@ function CalculateSalt() {
     <div className="calc-salt-page">
       <div className="salt-calc-container">
         <h1 className="salt-title" style={{ textAlign: "center" }}>
-          Calculate Salt
+          Salt Calculator
         </h1>
         <Form
           name="calculate-salt"

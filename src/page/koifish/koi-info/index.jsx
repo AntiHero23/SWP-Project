@@ -100,12 +100,14 @@ function KoiInfo() {
       reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
+
   const handleDeleteKoiReport = async (koiReportID) => {
     if (!window.confirm("Are you sure you want to delete this koi report?"))
       return;
     try {
       await api.delete(`koireport/${koiReportID}`);
       fetchKoiReport();
+      fetchAllData();
     } catch (error) {
       console.error("Failed to delete koi report:", error);
     }
@@ -132,6 +134,7 @@ function KoiInfo() {
       await api.post("koireport/create", values);
       setIsModalOpen(false);
       fetchKoiReport();
+      fetchAllData();
     } catch (error) {
       alert(error.response.data.message);
     } finally {
@@ -147,37 +150,38 @@ function KoiInfo() {
       await api.put(`koifish/${id}`, values);
       alert("Koi updated successfully");
       navigate("/managerKoi");
+      fetchAllData();
     } catch (error) {
       console.log("koi updating failed", error);
     }
   };
+  const fetchAllData = async () => {
+    try {
+      const [
+        pondResponse,
+        koiVarietyResponse,
+        koiResponse,
+        koiReportResponse,
+        koiReportLatestResponse,
+      ] = await Promise.all([
+        api.get("pond"),
+        api.get("koivariety"),
+        api.get(`koifish/${id}`),
+        api.get(`koireport/koiReports/${id}`),
+        api.get(`koireport/latestKoiReport/${id}`),
+      ]);
+      setPonds(pondResponse.data);
+      setKoiVarieties(koiVarietyResponse.data);
+      setKoi(koiResponse.data.result || null);
+      setKoiReport(koiReportResponse.data.result || []);
+      setKoiReportLatest(koiReportLatestResponse.data.result || null);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchAllData = async () => {
-      try {
-        const [
-          pondResponse,
-          koiVarietyResponse,
-          koiResponse,
-          koiReportResponse,
-          koiReportLatestResponse,
-        ] = await Promise.all([
-          api.get("pond"),
-          api.get("koivariety"),
-          api.get(`koifish/${id}`),
-          api.get(`koireport/koiReports/${id}`),
-          api.get(`koireport/latestKoiReport/${id}`),
-        ]);
-        setPonds(pondResponse.data);
-        setKoiVarieties(koiVarietyResponse.data);
-        setKoi(koiResponse.data.result || null);
-        setKoiReport(koiReportResponse.data.result || []);
-        setKoiReportLatest(koiReportLatestResponse.data.result || null);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
     setLoading(true);
     fetchAllData();
   }, []);

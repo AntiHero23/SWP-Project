@@ -51,8 +51,8 @@ function ManagerPond() {
   return (
     <div className="ManagerPond-container">
       <div className="pond-card-container">
-        <h1>Manager Pond</h1>
-        
+        <h1>Pond Management</h1>
+
         <div className="search-container">
           <input
             type="text"
@@ -60,7 +60,7 @@ function ManagerPond() {
             placeholder="Search by name..."
             className="search-input"
           />
-          <PlusCircleOutlined 
+          <PlusCircleOutlined
             className="add-button"
             onClick={() => navigate("/addPond")}
           />
