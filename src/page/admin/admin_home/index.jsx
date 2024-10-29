@@ -27,6 +27,7 @@ function AdminHome() {
   const [memberPackages, setMemberPackages] = useState([]);
   const [shopPackages, setShopPackages] = useState([]);
   const [selectedYear, setSelectedYear] = useState(dayjs().year());
+  const [selectedMonth, setSelectedMonth] = useState(dayjs().month() + 1);
 
   const navigate = useNavigate();
 
@@ -122,8 +123,13 @@ function AdminHome() {
 
   const fetchMemberPackages = async () => {
     try {
-      const response = await api.get("statistic/memberpackage");
-      setMemberPackages(response.data.result);
+      const response = await api.get("statistic/memberpackage", {
+        params: { month: selectedMonth, year: selectedYear },
+      });
+      const filteredMemberPackages = response.data.result.filter(
+        (pkg) => pkg.month === selectedMonth && pkg.year === selectedYear
+      );
+      setMemberPackages(filteredMemberPackages);
     } catch (error) {
       console.log(error);
     }
@@ -131,8 +137,13 @@ function AdminHome() {
 
   const fetchShopPackages = async () => {
     try {
-      const response = await api.get("statistic/shoppackage");
-      setShopPackages(response.data.result);
+      const response = await api.get("statistic/shoppackage", {
+        params: { month: selectedMonth, year: selectedYear },
+      });
+      const filteredShopPackages = response.data.result.filter(
+        (pkg) => pkg.month === selectedMonth && pkg.year === selectedYear
+      );
+      setShopPackages(filteredShopPackages);
     } catch (error) {
       console.log(error);
     }
@@ -152,6 +163,11 @@ function AdminHome() {
   useEffect(() => {
     fetchRevenueData();
   }, [selectedYear]);
+
+  useEffect(() => {
+    fetchMemberPackages();
+    fetchShopPackages();
+  }, [selectedMonth, selectedYear]);
 
   const VND = new Intl.NumberFormat("vi-VN", {
     style: "currency",
@@ -255,6 +271,17 @@ function AdminHome() {
           {Array.from({ length: 5 }, (_, i) => (
             <Select.Option key={i} value={dayjs().year() - 2 + i}>
               {dayjs().year() - 2 + i}
+            </Select.Option>
+          ))}
+        </Select>
+        <Select
+          value={selectedMonth}
+          onChange={setSelectedMonth}
+          style={{ width: 120, marginLeft: "10px" }}
+        >
+          {Array.from({ length: 12 }, (_, i) => (
+            <Select.Option key={i} value={i + 1}>
+              {dayjs().month(i).format("MMMM")}
             </Select.Option>
           ))}
         </Select>
