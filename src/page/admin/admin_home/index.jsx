@@ -28,6 +28,7 @@ function AdminHome() {
   const [shopPackages, setShopPackages] = useState([]);
   const [selectedYear, setSelectedYear] = useState(dayjs().year());
   const [selectedMonth, setSelectedMonth] = useState(dayjs().month() + 1);
+  const [selectedPackageYear, setSelectedPackageYear] = useState(dayjs().year());
 
   const navigate = useNavigate();
 
@@ -124,10 +125,10 @@ function AdminHome() {
   const fetchMemberPackages = async () => {
     try {
       const response = await api.get("statistic/memberpackage", {
-        params: { month: selectedMonth, year: selectedYear },
+        params: { month: selectedMonth, year: selectedPackageYear },
       });
       const filteredMemberPackages = response.data.result.filter(
-        (pkg) => pkg.month === selectedMonth && pkg.year === selectedYear
+        (pkg) => pkg.month === selectedMonth && pkg.year === selectedPackageYear
       );
       setMemberPackages(filteredMemberPackages);
     } catch (error) {
@@ -138,10 +139,10 @@ function AdminHome() {
   const fetchShopPackages = async () => {
     try {
       const response = await api.get("statistic/shoppackage", {
-        params: { month: selectedMonth, year: selectedYear },
+        params: { month: selectedMonth, year: selectedPackageYear },
       });
       const filteredShopPackages = response.data.result.filter(
-        (pkg) => pkg.month === selectedMonth && pkg.year === selectedYear
+        (pkg) => pkg.month === selectedMonth && pkg.year === selectedPackageYear
       );
       setShopPackages(filteredShopPackages);
     } catch (error) {
@@ -167,7 +168,7 @@ function AdminHome() {
   useEffect(() => {
     fetchMemberPackages();
     fetchShopPackages();
-  }, [selectedMonth, selectedYear]);
+  }, [selectedMonth, selectedPackageYear]);
 
   const VND = new Intl.NumberFormat("vi-VN", {
     style: "currency",
@@ -274,17 +275,6 @@ function AdminHome() {
             </Select.Option>
           ))}
         </Select>
-        <Select
-          value={selectedMonth}
-          onChange={setSelectedMonth}
-          style={{ width: 120, marginLeft: "10px" }}
-        >
-          {Array.from({ length: 12 }, (_, i) => (
-            <Select.Option key={i} value={i + 1}>
-              {dayjs().month(i).format("MMMM")}
-            </Select.Option>
-          ))}
-        </Select>
       </div>
       <div style={{ width: "100%", height: 400 }}>
         <ResponsiveContainer>
@@ -307,6 +297,30 @@ function AdminHome() {
 
       {/* Package Statistics Section */}
       <h2>Package Statistics</h2>
+      <div style={{ marginBottom: "20px" }}>
+      <Select
+          value={selectedMonth}
+          onChange={setSelectedMonth}
+          style={{ width: 120, marginLeft: "10px" }}
+        >
+          {Array.from({ length: 12 }, (_, i) => (
+            <Select.Option key={i} value={i + 1}>
+              {dayjs().month(i).format("MMMM")}
+            </Select.Option>
+          ))}
+        </Select>
+        <Select
+          value={selectedPackageYear}
+          onChange={setSelectedPackageYear}
+          style={{ width: 120, marginLeft: "10px" }}
+        >
+          {Array.from({ length: 5 }, (_, i) => (
+            <Select.Option key={i} value={dayjs().year() - 2 + i}>
+              {dayjs().year() - 2 + i}
+            </Select.Option>
+          ))}
+        </Select>
+        </div>
       <Row gutter={16}>
         <Col span={12}>
           <h3>Member Packages</h3>
