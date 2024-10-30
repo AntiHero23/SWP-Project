@@ -1,6 +1,6 @@
 import api from "../config/axios";
 
-let WATER_PARAMETERS = {
+export let WATER_PARAMETERS = {
   temperature: {
     min: 0,
     max: 0,
@@ -63,7 +63,7 @@ let WATER_PARAMETERS = {
   }
 };
 
-const fetchWaterParameters = async () => {
+export const fetchWaterParameters = async () => {
   try {
     const response = await api.get("admin/viewall/waterstandard");
     if (response.data.code === 1000 && response.data.result.length > 0) {
@@ -136,5 +136,3 @@ const fetchWaterParameters = async () => {
   }
   return WATER_PARAMETERS;
 };
-
-export { fetchWaterParameters };

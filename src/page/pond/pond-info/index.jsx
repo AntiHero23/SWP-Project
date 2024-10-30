@@ -6,7 +6,10 @@ import "./index.scss";
 import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../../assets/hook/useUpload";
 import dayjs from "dayjs";
-import { fetchWaterParameters } from "../../../constants/waterValidation";
+import {
+  WATER_PARAMETERS,
+  fetchWaterParameters,
+} from "../../../constants/waterValidation";
 
 function PondInfo() {
   const { id } = useParams();
@@ -15,7 +18,7 @@ function PondInfo() {
   const [waterReport, setWaterReport] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [waterParameters, setWaterParameters] = useState(null);
+  const [parameters, setParameters] = useState(WATER_PARAMETERS);
   const navigate = useNavigate();
   const [fileList, setFileList] = useState([]);
   const [previewImage, setPreviewImage] = useState("");
@@ -23,8 +26,8 @@ function PondInfo() {
 
   useEffect(() => {
     const initialize = async () => {
-      const parameters = await fetchWaterParameters();
-      setWaterParameters(parameters);
+      const updatedParameters = await fetchWaterParameters();
+      setParameters(updatedParameters);
       fetchData();
     };
     initialize();
@@ -102,7 +105,7 @@ function PondInfo() {
     }
   };
 
-  if (loading || !waterParameters) return <div>Loading...</div>;
+  if (loading || !parameters) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
   return (
@@ -205,7 +208,7 @@ function PondInfo() {
         )}
 
         <div className="water-report">
-          <h2>Water Report Latest</h2>
+          <h2>Latest Water Report</h2>
           <p>
             <span>Updated Date:</span>
             <span>
@@ -216,38 +219,36 @@ function PondInfo() {
             style={{
               color:
                 waterReport.waterReportTemperature <
-                  waterParameters.temperature.min ||
-                waterReport.waterReportTemperature >
-                  waterParameters.temperature.max
+                  parameters.temperature.min ||
+                waterReport.waterReportTemperature > parameters.temperature.max
                   ? "red"
                   : "",
             }}
           >
             <span>Temperature:</span>
             <span>
-              {waterReport.waterReportTemperature}{" "}
-              {waterParameters.temperature.unit}
+              {waterReport.waterReportTemperature} {parameters.temperature.unit}
             </span>
           </p>
           <p
             style={{
               color:
-                waterReport.waterReportOxygen < waterParameters.oxygen.min ||
-                waterReport.waterReportOxygen > waterParameters.oxygen.max
+                waterReport.waterReportOxygen < parameters.oxygen.min ||
+                waterReport.waterReportOxygen > parameters.oxygen.max
                   ? "red"
                   : "",
             }}
           >
             <span>Oxygen:</span>
             <span>
-              {waterReport.waterReportOxygen} {waterParameters.oxygen.unit}
+              {waterReport.waterReportOxygen} {parameters.oxygen.unit}
             </span>
           </p>
           <p
             style={{
               color:
-                waterReport.waterReport_pH < waterParameters.pH.min ||
-                waterReport.waterReport_pH > waterParameters.pH.max
+                waterReport.waterReport_pH < parameters.pH.min ||
+                waterReport.waterReport_pH > parameters.pH.max
                   ? "red"
                   : "",
             }}
@@ -258,16 +259,15 @@ function PondInfo() {
           <p
             style={{
               color:
-                waterReport.waterReportHardness <
-                  waterParameters.hardness.min ||
-                waterReport.waterReportHardness > waterParameters.hardness.max
+                waterReport.waterReportHardness < parameters.hardness.min ||
+                waterReport.waterReportHardness > parameters.hardness.max
                   ? "red"
                   : "",
             }}
           >
             <span>Hardness:</span>
             <span>
-              {waterReport.waterReportHardness} {waterParameters.hardness.unit}
+              {waterReport.waterReportHardness} {parameters.hardness.unit}
             </span>
           </p>
           <p

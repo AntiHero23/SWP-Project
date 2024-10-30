@@ -1,16 +1,8 @@
-import React from "react";
-import PropTypes from 'prop-types';
-import {
-  Modal,
-  Form,
-  InputNumber,
-  Row,
-  Col,
-  Popover,
-  Input,
-} from "antd";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { Modal, Form, InputNumber, Row, Col, Popover, Input } from "antd";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
-import { WATER_PARAMETERS } from "../../../constants/waterValidation";
+import { WATER_PARAMETERS, fetchWaterParameters } from "../../../constants/waterValidation";
 import dayjs from "dayjs";
 
 const CreateWaterReportModal = ({
@@ -20,6 +12,16 @@ const CreateWaterReportModal = ({
   handleCreateWaterReport,
   pondID,
 }) => {
+  const [parameters, setParameters] = useState(WATER_PARAMETERS);
+
+  useEffect(() => {
+    const initialize = async () => {
+      const updatedParameters = await fetchWaterParameters();
+      setParameters(updatedParameters);
+    };
+    initialize();
+  }, []);
+
   const onFinish = (values) => {
     const formattedData = {
       waterReportUpdatedDate: dayjs(values.waterUpdateDate).format(
@@ -42,8 +44,8 @@ const CreateWaterReportModal = ({
   };
 
   const renderFormItem = (name, label) => {
-    const param = WATER_PARAMETERS[name];
-    
+    const param = parameters[name];
+
     return (
       <Form.Item
         label={
@@ -72,16 +74,16 @@ const CreateWaterReportModal = ({
                 {
                   name,
                   errors: [param.errorMessage],
-                  status: 'error'
-                }
+                  status: "error",
+                },
               ]);
             } else {
               form.setFields([
                 {
                   name,
                   errors: [],
-                  status: 'success'
-                }
+                  status: "success",
+                },
               ]);
             }
           }}

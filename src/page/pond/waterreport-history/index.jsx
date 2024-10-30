@@ -3,18 +3,12 @@ import { Button, Card, Form, Row, Col, Modal } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
-import { fetchWaterParameters } from "../../../constants/waterValidation";
+import { WATER_PARAMETERS, fetchWaterParameters } from "../../../constants/waterValidation";
 
 import CreateWaterReportModal from "./CreateWaterReportModal";
 import EditWaterReportModal from "./EditWaterReportModal";
 import "./index.scss";
 import api from "../../../config/axios";
-
-const isOutOfRange = (value, paramName) => {
-  const param = WATER_PARAMETERS[paramName];
-  if (!param) return false;
-  return value !== null && (value < param.min || value > param.max);
-};
 
 const WaterReportHistory = () => {
   const { pondId } = useParams();
@@ -26,6 +20,7 @@ const WaterReportHistory = () => {
   const [loading, setLoading] = useState(true);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [reportToDelete, setReportToDelete] = useState(null);
+  const [parameters, setParameters] = useState(WATER_PARAMETERS);
 
   const fetchWaterReports = async () => {
     try {
@@ -46,12 +41,18 @@ const WaterReportHistory = () => {
 
   useEffect(() => {
     const initialize = async () => {
-      const parameters = await fetchWaterParameters();
-      // Use parameters as needed
+      const updatedParameters = await fetchWaterParameters();
+      setParameters(updatedParameters);
       fetchWaterReports();
     };
     initialize();
   }, []);
+
+  const isOutOfRange = (value, paramName) => {
+    const param = parameters[paramName];
+    if (!param) return false;
+    return value !== null && (value < param.min || value > param.max);
+  };
 
   const handleCreateWaterReport = async (values) => {
     try {
