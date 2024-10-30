@@ -63,13 +63,11 @@ let WATER_PARAMETERS = {
   }
 };
 
-(async () => {
+const fetchWaterParameters = async () => {
   try {
     const response = await api.get("admin/viewall/waterstandard");
-
     if (response.data.code === 1000 && response.data.result.length > 0) {
-      const standards = response.result[0];
-      console.log(standards);
+      const standards = response.data.result[0];
       WATER_PARAMETERS = {
         temperature: {
           min: standards.minTempStandard,
@@ -136,6 +134,7 @@ let WATER_PARAMETERS = {
   } catch (error) {
     console.error('Error fetching water parameters:', error);
   }
-})();
+  return WATER_PARAMETERS;
+};
 
-export { WATER_PARAMETERS };
+export { fetchWaterParameters };

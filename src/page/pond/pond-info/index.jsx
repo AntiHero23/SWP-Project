@@ -6,7 +6,7 @@ import "./index.scss";
 import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../../assets/hook/useUpload";
 import dayjs from "dayjs";
-import { WATER_PARAMETERS } from "../../../constants/waterValidation";
+import { fetchWaterParameters } from "../../../constants/waterValidation";
 
 function PondInfo() {
   const { id } = useParams();
@@ -15,10 +15,37 @@ function PondInfo() {
   const [waterReport, setWaterReport] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [waterParameters, setWaterParameters] = useState(null);
   const navigate = useNavigate();
   const [fileList, setFileList] = useState([]);
   const [previewImage, setPreviewImage] = useState("");
   const [previewOpen, setPreviewOpen] = useState(false);
+
+  useEffect(() => {
+    const initialize = async () => {
+      const parameters = await fetchWaterParameters();
+      setWaterParameters(parameters);
+      fetchData();
+    };
+    initialize();
+  }, []);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const [pondResponse, waterReportResponse] = await Promise.all([
+        api.get(`pond/${pondId}`),
+        api.get(`waterreport/view/latestreport/${pondId}`),
+      ]);
+      setPond(pondResponse.data.result);
+      setWaterReport(waterReportResponse.data.result);
+    } catch (error) {
+      setError("Failed to fetch pond data or water report.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -57,26 +84,6 @@ function PondInfo() {
       reader.onerror = (error) => reject(error);
     });
 
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const [pondResponse, waterReportResponse] = await Promise.all([
-        api.get(`pond/${pondId}`),
-        api.get(`waterreport/view/latestreport/${pondId}`),
-      ]);
-      setPond(pondResponse.data.result);
-      setWaterReport(waterReportResponse.data.result);
-    } catch (error) {
-      setError("Failed to fetch pond data or water report.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const handleDelete = async () => {
     if (pond.amountFish > 0) {
       alert("This pond has fish, you cannot delete it.");
@@ -95,7 +102,7 @@ function PondInfo() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading || !waterParameters) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
   return (
@@ -208,30 +215,39 @@ function PondInfo() {
           <p
             style={{
               color:
-                waterReport.waterReportTemperature < WATER_PARAMETERS.temperature.min ||
-                waterReport.waterReportTemperature > WATER_PARAMETERS.temperature.max
+                waterReport.waterReportTemperature <
+                  waterParameters.temperature.min ||
+                waterReport.waterReportTemperature >
+                  waterParameters.temperature.max
                   ? "red"
                   : "",
             }}
           >
             <span>Temperature:</span>
-            <span>{waterReport.waterReportTemperature} {WATER_PARAMETERS.temperature.unit}</span>
+            <span>
+              {waterReport.waterReportTemperature}{" "}
+              {waterParameters.temperature.unit}
+            </span>
           </p>
           <p
             style={{
-              color: waterReport.waterReportOxygen < WATER_PARAMETERS.oxygen.min ||
-                waterReport.waterReportOxygen > WATER_PARAMETERS.oxygen.max
+              color:
+                waterReport.waterReportOxygen < waterParameters.oxygen.min ||
+                waterReport.waterReportOxygen > waterParameters.oxygen.max
                   ? "red"
                   : "",
             }}
           >
             <span>Oxygen:</span>
-            <span>{waterReport.waterReportOxygen} {WATER_PARAMETERS.oxygen.unit}</span>
+            <span>
+              {waterReport.waterReportOxygen} {waterParameters.oxygen.unit}
+            </span>
           </p>
           <p
             style={{
-              color: waterReport.waterReport_pH < WATER_PARAMETERS.pH.min ||
-                waterReport.waterReport_pH > WATER_PARAMETERS.pH.max
+              color:
+                waterReport.waterReport_pH < waterParameters.pH.min ||
+                waterReport.waterReport_pH > waterParameters.pH.max
                   ? "red"
                   : "",
             }}
@@ -241,14 +257,18 @@ function PondInfo() {
           </p>
           <p
             style={{
-              color: waterReport.waterReportHardness < WATER_PARAMETERS.hardness.min ||
-                waterReport.waterReportHardness > WATER_PARAMETERS.hardness.max
+              color:
+                waterReport.waterReportHardness <
+                  waterParameters.hardness.min ||
+                waterReport.waterReportHardness > waterParameters.hardness.max
                   ? "red"
                   : "",
             }}
           >
             <span>Hardness:</span>
-            <span>{waterReport.waterReportHardness} {WATER_PARAMETERS.hardness.unit}</span>
+            <span>
+              {waterReport.waterReportHardness} {waterParameters.hardness.unit}
+            </span>
           </p>
           <p
             style={{ color: waterReport.waterReportAmmonia > 0.1 ? "red" : "" }}

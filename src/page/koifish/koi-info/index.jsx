@@ -11,6 +11,7 @@ import {
   Row,
   Select,
   Upload,
+  Spin,
 } from "antd";
 import { PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
@@ -18,6 +19,7 @@ import { MdDelete } from "react-icons/md";
 import "./index.scss";
 import dayjs from "dayjs";
 import uploadFile from "../../../assets/hook/useUpload";
+
 function KoiInfo() {
   const { id } = useParams();
   const [form] = useForm();
@@ -54,6 +56,7 @@ function KoiInfo() {
       console.error(error);
     }
   };
+
   const handleDelete = async () => {
     if (window.confirm("Are you sure?")) {
       try {
@@ -64,6 +67,7 @@ function KoiInfo() {
       }
     }
   };
+
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -93,6 +97,7 @@ function KoiInfo() {
       </div>
     </button>
   );
+
   const getBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -112,11 +117,14 @@ function KoiInfo() {
       console.error("Failed to delete koi report:", error);
     }
   };
+
   const handleCancel = () => {
     form.resetFields();
     setIsModalOpen(false);
   };
+
   const showModal = () => setIsModalOpen(true);
+
   const fetchKoiReport = async () => {
     setLoading(true);
     try {
@@ -124,11 +132,12 @@ function KoiInfo() {
       setKoiReport(koiReportResponse.data.result || []);
     } catch (error) {
       console.log(error);
-      setKoiReportError("You dont have any koi report yet");
+      setKoiReportError("You don't have any koi report yet");
     } finally {
       setLoading(false);
     }
   };
+
   const handleSubmit = async (values) => {
     try {
       await api.post("koireport/create", values);
@@ -141,6 +150,7 @@ function KoiInfo() {
       form.resetFields();
     }
   };
+
   const handleSubmitKoiInfo = async (values) => {
     try {
       if (fileList.length > 0) {
@@ -152,9 +162,10 @@ function KoiInfo() {
       navigate("/managerKoi");
       fetchAllData();
     } catch (error) {
-      console.log("koi updating failed", error);
+      console.log("Koi updating failed", error);
     }
   };
+
   const fetchAllData = async () => {
     try {
       const [
@@ -176,20 +187,24 @@ function KoiInfo() {
       setKoiReport(koiReportResponse.data.result || []);
       setKoiReportLatest(koiReportLatestResponse.data.result || null);
     } catch (error) {
-      setError(error);
+      setError("Failed to fetch data. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     setLoading(true);
     fetchAllData();
   }, []);
+
   return (
     <div className="koi-page">
       <div className="koi-container">
-        <h1 className="info-title">Koi Info</h1>
-        {!loading && (
+        <h1 className="info-title">Koi Information</h1>
+        {loading ? (
+          <Spin size="large" />
+        ) : (
           <div className="koi-info-container">
             <div className="koi-info">
               <div className="koi-stats">
@@ -409,9 +424,11 @@ function KoiInfo() {
                 </>
               )}
             </div>
-            <Button onClick={() => navigate(-1)}>Go Back </Button>
           </div>
         )}
+        <Button className="go-back-button" onClick={() => navigate(-1)}>
+          Go Back
+        </Button>
       </div>
     </div>
   );
