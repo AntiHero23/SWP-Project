@@ -75,6 +75,7 @@ const AdminDashboard = () => {
     >
       <Sider
         collapsible
+        style={{ textAlign: "center" }}
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
@@ -89,10 +90,7 @@ const AdminDashboard = () => {
         <Button
           type="primary"
           danger
-          style={{
-            width: "96%",
-            marginLeft: "2%",
-          }}
+          style={{ width: "90%" }}
           className="profile-button profile-button-logout"
           onClick={handleLogout}
         >

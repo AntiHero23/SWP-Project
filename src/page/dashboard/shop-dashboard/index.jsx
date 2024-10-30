@@ -62,6 +62,7 @@ const ShopDashboard = () => {
       >
         <Sider
           collapsible
+          style={{ textAlign: "center" }}
           collapsed={collapsed}
           onCollapse={(value) => setCollapsed(value)}
         >
@@ -75,10 +76,7 @@ const ShopDashboard = () => {
           <Button
             type="primary"
             danger
-            style={{
-              width: "96%",
-              marginLeft: "2%",
-            }}
+            style={{ width: "96%" }}
             className="profile-button profile-button-logout"
             onClick={handleLogout}
           >

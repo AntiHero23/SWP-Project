@@ -119,10 +119,7 @@ function ShopProfile() {
   return (
     <>
       {!loading && (
-        <Row
-          className="profile-container"
-          style={{ textAlign: "center", justifyContent: "center" }}
-        >
+        <Row style={{ textAlign: "center", justifyContent: "center" }}>
           <Col span={6}>
             <Card title="Profile" className="profile-card">
               <Space direction="vertical" size="large">

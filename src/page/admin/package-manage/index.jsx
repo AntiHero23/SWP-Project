@@ -184,6 +184,7 @@ function Package() {
               rules={[{ required: true, message: "Please input price!" }]}
             >
               <InputNumber
+                min={0}
                 placeholder="Price (₫)"
                 formatter={(value) =>
                   `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -197,6 +198,7 @@ function Package() {
               rules={[{ required: true, message: "Please input duration!" }]}
             >
               <InputNumber
+                min={0}
                 placeholder="Months"
                 formatter={(value) =>
                   `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -222,6 +224,7 @@ function Package() {
               ]}
             >
               <InputNumber
+                min={0}
                 style={{ width: "100%" }}
                 placeholder="Number of posts"
                 formatter={(value) =>
