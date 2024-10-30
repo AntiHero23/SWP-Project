@@ -149,7 +149,6 @@ function Blog() {
           open={isOpenModal}
           style={{
             textAlign: "center",
-            display: "flex",
             justifyContent: "center",
           }}
           footer={null}
@@ -211,7 +210,8 @@ function Blog() {
               ]}
             >
               <Input.TextArea
-                autoSize={{ minRows: 4, maxRows: 6 }}
+                style={{ width: "100%", maxWidth: "600px" }}
+                autoSize={{ minRows: 8, maxRows: 12 }}
                 placeholder="Enter content"
               />
             </Form.Item>

@@ -238,7 +238,6 @@ function PostView() {
           open={isModalOpen}
           style={{
             textAlign: "center",
-            display: "flex",
             justifyContent: "center",
           }}
           footer={null}
@@ -261,7 +260,7 @@ function PostView() {
               rules={[{ required: true, message: "Please input description!" }]}
             >
               <Input.TextArea
-                autoSize={{ minRows: 4, maxRows: 6 }}
+                autoSize={{ minRows: 8, maxRows: 12 }}
                 placeholder="Enter description"
               />
             </Form.Item>

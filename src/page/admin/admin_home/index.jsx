@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Table, Tag, Select } from "antd";
+import { Button, Card, Col, Row, Table, Tag, Select, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import api from "../../../config/axios";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +29,11 @@ function AdminHome() {
   const [selectedYear, setSelectedYear] = useState(dayjs().year());
   const [selectedMonth, setSelectedMonth] = useState(dayjs().month() + 1);
   const [selectedPackageYear, setSelectedPackageYear] = useState(dayjs().year());
+  const [filteredData, setFilteredData] = useState([]);
+  const [packageSearch, setPackageSearch] = useState("All");
+  const [dateSearch, setDateSearch] = useState("");
+  const [packageOptions, setPackageOptions] = useState([]);
+  const [searchCustomer, setSearchCustomer] = useState("");
 
   const navigate = useNavigate();
 
@@ -86,6 +91,14 @@ function AdminHome() {
     try {
       const responsePeding = await api.get("transaction/viewAll");
       setHistoryTransaction(responsePeding.data);
+      setFilteredData(responsePeding.data);
+      const uniquePackages = [
+        ...new Set(responsePeding.data.map((item) => item.apackage)),
+      ];
+      setPackageOptions([
+        { value: "All", label: "All" },
+        ...uniquePackages.map((pkg) => ({ value: pkg, label: pkg })),
+      ]);
     } catch (error) {
       console.log(error);
     }
@@ -162,6 +175,31 @@ function AdminHome() {
   }, []);
 
   useEffect(() => {
+    const filtered = historyTransaction.filter((item) => {
+      const matchesPackage = packageSearch
+        ? packageSearch === "All"
+          ? true
+          : item.apackage === packageSearch
+        : true;
+      const matchesDate = dateSearch
+        ? dayjs(item.date).format("YYYY-MM-DD").includes(dateSearch)
+        : true;
+      return matchesPackage && matchesDate;
+    });
+    setFilteredData(filtered);
+  }, [historyTransaction, packageSearch, dateSearch]);
+
+  useEffect(() => {
+    let name = historyTransaction;
+    if (searchCustomer) {
+      name = name.filter((data) =>
+        data.customer.toLowerCase().includes(searchCustomer.toLowerCase())
+      );
+    }
+    setFilteredData(name);
+  }, [searchCustomer, historyTransaction]);
+
+  useEffect(() => {
     fetchRevenueData();
   }, [selectedYear]);
 
@@ -221,6 +259,11 @@ function AdminHome() {
           return <Tag color="green">{value}</Tag>;
         }
       },
+    },
+    {
+      title: <b style={{ fontSize: "18px" }}>Customer</b>,
+      dataIndex: "customer",
+      key: "customer",
     },
   ];
 
@@ -426,7 +469,29 @@ function AdminHome() {
 
       <br />
       <h2>History Transaction</h2>
-      <Table dataSource={historyTransaction} columns={columns} />
+      <div style={{ textAlign: "center" }}>
+        <Select
+          placeholder="Select package"
+          value={packageSearch}
+          onChange={(value) => setPackageSearch(value)}
+          style={{ marginBottom: 20, width: 200 }}
+          options={packageOptions}
+        />
+        <Input
+          type="date"
+          placeholder="Search by date"
+          style={{ marginLeft: 10, marginBottom: 20, width: 200 }}
+          value={dateSearch}
+          onChange={(value) => setDateSearch(value.target.value)}
+        />
+        <Input
+          placeholder="Search by customer"
+          style={{ marginLeft: 10, marginBottom: 20, width: 200 }}
+          value={searchCustomer}
+          onChange={(value) => setSearchCustomer(value.target.value)}
+        />
+      </div>
+      <Table dataSource={filteredData} columns={columns} />
     </>
   );
 }

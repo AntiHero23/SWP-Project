@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Table, Tag } from "antd";
+import { Button, Table, Tag, Input, Select } from "antd";
 import api from "../../../config/axios";
-import { render } from "react-dom";
 import { useNavigate } from "react-router-dom";
 
 function UserManage() {
   const [dataSourceAccount, setDataSourceAccount] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchUser, setSearchUser] = useState("");
+  const [selectedRole, setSelectedRole] = useState("");
 
   const navigate = useNavigate();
 
@@ -13,13 +15,28 @@ function UserManage() {
     try {
       const responseAccount = await api.get("account");
       setDataSourceAccount(responseAccount.data);
+      setFilteredData(responseAccount.data);
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     fetchDataAccount();
   }, []);
+
+  useEffect(() => {
+    let data = dataSourceAccount;
+    if (searchUser) {
+      data = data.filter((account) =>
+        account.username.toLowerCase().includes(searchUser.toLowerCase())
+      );
+    }
+    if (selectedRole) {
+      data = data.filter((account) => account.role === selectedRole);
+    }
+    setFilteredData(data);
+  }, [searchUser, selectedRole, dataSourceAccount]);
 
   const accountColumns = [
     {
@@ -27,41 +44,11 @@ function UserManage() {
       dataIndex: "username",
       key: "username",
     },
-    // {
-    //   title: "Password",
-    //   dataIndex: "password",
-    //   key: "password",
-    // },
-    // {
-    //   title: "Name",
-    //   dataIndex: "name",
-    //   key: "name",
-    // },
-    // {
-    //   title: "Phone",
-    //   dataIndex: "phone",
-    //   key: "phone",
-    // },
     {
       title: <b style={{ fontSize: "18px" }}>Role</b>,
       dataIndex: "role",
       key: "role",
     },
-    // {
-    //   title: "Email",
-    //   dataIndex: "email",
-    //   key: "email",
-    // },
-    // {
-    //   title: "Premium Status",
-    //   dataIndex: "premiumStatus",
-    //   key: "premiumStatus",
-    // },
-    // {
-    //   title: " Expired Date",
-    //   dataIndex: "expiredDate",
-    //   key: "expiredDate",
-    // },
     {
       title: <b style={{ fontSize: "18px" }}>Validation</b>,
       dataIndex: "status",
@@ -91,7 +78,27 @@ function UserManage() {
     <>
       <h1 style={{ textAlign: "center" }}>Users Management</h1>
       <br />
-      <Table dataSource={dataSourceAccount} columns={accountColumns} />
+      <div style={{ textAlign: "center" }}>
+        <Input
+          placeholder="Search by Username"
+          value={searchUser}
+          onChange={(e) => setSearchUser(e.target.value)}
+          style={{ marginBottom: 20, width: 200 }}
+        />
+        <Select
+          placeholder="Filter by Role"
+          value={selectedRole}
+          onChange={(value) => setSelectedRole(value)}
+          style={{ marginLeft: 10, marginBottom: 20, width: 200 }}
+        >
+          <Select.Option value="">All</Select.Option>
+          <Select.Option value="ADMIN">ADMIN</Select.Option>
+          <Select.Option value="SHOP">SHOP</Select.Option>
+          <Select.Option value="MEMBER">MEMBER</Select.Option>
+          {/* Add more roles as needed */}
+        </Select>
+        <Table dataSource={filteredData} columns={accountColumns} />
+      </div>
     </>
   );
 }
