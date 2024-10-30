@@ -102,7 +102,7 @@ function Register() {
             <Input />
           </Form.Item>
           <Form.Item
-            label="Role"
+            label="You will be registered as"
             name="role"
             rules={[{ required: true, message: "Please select your role!" }]}
           >

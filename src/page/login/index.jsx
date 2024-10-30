@@ -9,28 +9,47 @@ import { login } from "../../redux/features/counterSlice";
 function Login() {
   const navigate = useNavigate();
   const [error, setError] = React.useState(null);
-  const dispath = useDispatch(login);
+  const [loading, setLoading] = React.useState(false);
+  const dispatch = useDispatch();
+
   const handleSubmit = async (values) => {
+    setLoading(true);
+    setError(null);
     try {
       const { data } = await api.post("login", values);
       const { token } = data;
-      dispath(login(data));
+      dispatch(login(data));
       localStorage.setItem("token", token);
-      if (data.role === "ADMIN") {
-        navigate("/admin");
-      } else if (data.role === "SHOP") {
-        navigate("/shop");
-      } else {
-        navigate("/");
-      }
+
+      const roleRoutes = {
+        ADMIN: "/admin",
+        SHOP: "/shop",
+        default: "/",
+      };
+      navigate(roleRoutes[data.role] || roleRoutes.default);
     } catch (err) {
-      setError(err.response.data.message);
+      setError(
+        err.response?.data?.message || "Login failed. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <div className="login">
       <div className="login-form-container">
-        <div className="loginForm-title">Login</div>
+        <div className="loginForm-header">
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <img
+              src="./src/assets/Icon.png"
+              style={{ width: "50px" }}
+              alt="Sunside Koi Care Logo"
+              className="loginForm-logo"
+            />
+          </div>
+          <h1 className="loginForm-title">Welcome to Sunside Koi Care</h1>
+        </div>
         <Form layout="vertical" onFinish={handleSubmit}>
           <Form.Item
             label="Username"
@@ -47,8 +66,8 @@ function Login() {
             <Input.Password />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Login
+            <Button type="primary" htmlType="submit" loading={loading} block>
+              {loading ? "Logging in..." : "Login"}
             </Button>
           </Form.Item>
           {error && <div className="loginForm-error">{error}</div>}
@@ -56,13 +75,11 @@ function Login() {
         <div className="loginForm-register">
           <p>
             Don't have an account?{" "}
-            <a onClick={() => navigate("/register")}>Register</a>{" "}
+            <Button type="link" onClick={() => navigate("/register")}>
+              Register now
+            </Button>
           </p>
         </div>
-        <hr />
-        <Form.Item>
-          <Button type="primary">Login with Google</Button>
-        </Form.Item>
       </div>
     </div>
   );

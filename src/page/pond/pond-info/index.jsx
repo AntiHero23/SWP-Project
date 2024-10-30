@@ -6,6 +6,7 @@ import "./index.scss";
 import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../../assets/hook/useUpload";
 import dayjs from "dayjs";
+import { WATER_PARAMETERS } from "../../../constants/waterValidation";
 
 function PondInfo() {
   const { id } = useParams();
@@ -123,61 +124,61 @@ function PondInfo() {
               updatePond();
             }}
           >
-            {" "}
-            <div className="pond-info-columns">
-              <div className="left-column">
-                <h2>Pond Report</h2>
-                <Form.Item label="Name" name="pondName">
-                  <Input />
-                </Form.Item>
-                <Form.Item label="Pond Image" name="pondImage">
-                  <img src={pond.pondImage} alt="pondImage" />
-                  <Upload
-                    // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-                    listType="picture-card"
-                    fileList={fileList}
-                    onPreview={handlePreview}
-                    onChange={handleChange}
-                    className="upload-container"
-                  >
-                    {fileList.length >= 8 ? null : uploadButton}
-                  </Upload>
-                </Form.Item>
-                <Form.Item label="Area: m2" name="area">
-                  <InputNumber min={0} />
-                </Form.Item>
-                <Form.Item label="Depth: m" name="depth">
-                  <InputNumber min={0} />
-                </Form.Item>
-              </div>
-              <div className="right-column">
-                <Form.Item label="Volume: L" name="volume">
-                  <InputNumber min={0} />
-                </Form.Item>
-                <Form.Item label="Drain Count: " name="drainCount">
-                  <InputNumber min={0} />
-                </Form.Item>
-                <Form.Item label="Skimmer Count: " name="skimmerCount">
-                  <InputNumber min={0} />
-                </Form.Item>
-                <Form.Item label="Pumping Capacity: L" name="pumpingCapacity">
-                  <InputNumber min={0} />
-                </Form.Item>
-                <Form.Item label="Amount of Fish: " name="amountFish">
-                  <InputNumber disabled min={0} />
-                </Form.Item>
-              </div>
+            <h2>Pond Information</h2>
+            <Form.Item label="Name" name="pondName">
+              <Input placeholder="Enter pond name" />
+            </Form.Item>
+
+            <div className="pond-image-section">
+              <Form.Item label="Pond Image" name="pondImage">
+                <img src={pond.pondImage} alt="Pond" />
+                <Upload
+                  listType="picture-card"
+                  fileList={fileList}
+                  onPreview={handlePreview}
+                  onChange={handleChange}
+                  className="upload-container"
+                >
+                  {fileList.length >= 1 ? null : uploadButton}
+                </Upload>
+              </Form.Item>
             </div>
+
+            <div className="form-grid">
+              <Form.Item label="Volume (L)" name="volume">
+                <InputNumber min={0} placeholder="Enter volume" />
+              </Form.Item>
+
+              <Form.Item label="Drain Count" name="drainCount">
+                <InputNumber min={0} placeholder="Enter drain count" />
+              </Form.Item>
+
+              <Form.Item label="Skimmer Count" name="skimmerCount">
+                <InputNumber min={0} placeholder="Enter skimmer count" />
+              </Form.Item>
+
+              <Form.Item label="Pumping Capacity (L)" name="pumpingCapacity">
+                <InputNumber min={0} placeholder="Enter capacity" />
+              </Form.Item>
+
+              <Form.Item label="Area (m²)" name="area">
+                <InputNumber min={0} placeholder="Enter area" />
+              </Form.Item>
+
+              <Form.Item label="Depth (m)" name="depth">
+                <InputNumber min={0} placeholder="Enter depth" />
+              </Form.Item>
+
+              <Form.Item label="Amount of Fish" name="amountFish">
+                <InputNumber disabled min={0} />
+              </Form.Item>
+            </div>
+
             <div className="button-container">
               <Button type="primary" htmlType="submit">
                 Update
               </Button>
-              <Button
-                className="delete-button"
-                danger
-                style={{ marginLeft: 8 }}
-                onClick={handleDelete}
-              >
+              <Button className="delete-button" onClick={handleDelete}>
                 Delete
               </Button>
             </div>
@@ -197,25 +198,100 @@ function PondInfo() {
         )}
 
         <div className="water-report">
-          <h2>Water Report Lastest</h2>
-          {/* <p>Water Report ID: {waterReport?.waterReportId}</p> */}
+          <h2>Water Report Latest</h2>
           <p>
-            Updated Date:{" "}
-            {dayjs(waterReport?.waterReportUpdatedDate).format("DD MMM YYYY")}
+            <span>Updated Date:</span>
+            <span>
+              {dayjs(waterReport?.waterReportUpdatedDate).format("DD MMM YYYY")}
+            </span>
           </p>
-          <p style={{ color: waterReport.waterReportTemperature < 5 || waterReport.waterReportTemperature > 26 ? "red" : "" }}>
-            Temperature: {waterReport.waterReportTemperature} &deg;C
+          <p
+            style={{
+              color:
+                waterReport.waterReportTemperature < WATER_PARAMETERS.temperature.min ||
+                waterReport.waterReportTemperature > WATER_PARAMETERS.temperature.max
+                  ? "red"
+                  : "",
+            }}
+          >
+            <span>Temperature:</span>
+            <span>{waterReport.waterReportTemperature} {WATER_PARAMETERS.temperature.unit}</span>
           </p>
-          <p style={{ color: waterReport.waterReportOxygen < 6.5 ? "red" : "" }}>Oxygen: {waterReport.waterReportOxygen} mg/L</p>
-          <p style={{ color: waterReport.waterReport_pH < 6.9 || waterReport.waterReport_pH > 8 ? "red" : "" }}>pH: {waterReport?.waterReport_pH}</p>
-          <p style={{ color: waterReport.waterReportHardness < 0 || waterReport.waterReportHardness > 21 ? "red" : "" }}>Hardness: {waterReport.waterReportHardness} dGH</p>
-          <p style={{ color: waterReport.waterReportAmmonia > 0.1 ? "red" : "" }}>Ammonia: {waterReport.waterReportAmmonia} mg/L</p>
-          <p style={{ color: waterReport.waterReportNitrite > 0.1 ? "red" : "" }}>Nitrite: {waterReport.waterReportNitrite} mg/L</p>
-          <p style={{ color: waterReport.waterReportNitrate > 20 ? "red" : "" }}>Nitrate: {waterReport.waterReportNitrate} mg/L</p>
-          <p style={{ color: waterReport.waterReportCarbonate > 180 ? "red" : "" }}>Carbonate: {waterReport.waterReportCarbonate} mg/L</p>
-          <p style={{ color: waterReport.waterReportSalt > 0.5 ? "red" : "" }}>Salt: {waterReport.waterReportSalt}%</p>
-          <p style={{ color: waterReport?.waterReportCarbonDioxide > 40 ? "red" : "" }}>Carbon Dioxide: {waterReport?.waterReportCarbonDioxide} mg/L</p>
-          <Button onClick={() => navigate(`/waterReportHistory/${pondId}`)}>
+          <p
+            style={{
+              color: waterReport.waterReportOxygen < WATER_PARAMETERS.oxygen.min ||
+                waterReport.waterReportOxygen > WATER_PARAMETERS.oxygen.max
+                  ? "red"
+                  : "",
+            }}
+          >
+            <span>Oxygen:</span>
+            <span>{waterReport.waterReportOxygen} {WATER_PARAMETERS.oxygen.unit}</span>
+          </p>
+          <p
+            style={{
+              color: waterReport.waterReport_pH < WATER_PARAMETERS.pH.min ||
+                waterReport.waterReport_pH > WATER_PARAMETERS.pH.max
+                  ? "red"
+                  : "",
+            }}
+          >
+            <span>pH:</span>
+            <span>{waterReport?.waterReport_pH}</span>
+          </p>
+          <p
+            style={{
+              color: waterReport.waterReportHardness < WATER_PARAMETERS.hardness.min ||
+                waterReport.waterReportHardness > WATER_PARAMETERS.hardness.max
+                  ? "red"
+                  : "",
+            }}
+          >
+            <span>Hardness:</span>
+            <span>{waterReport.waterReportHardness} {WATER_PARAMETERS.hardness.unit}</span>
+          </p>
+          <p
+            style={{ color: waterReport.waterReportAmmonia > 0.1 ? "red" : "" }}
+          >
+            <span>Ammonia:</span>
+            <span>{waterReport.waterReportAmmonia} mg/L</span>
+          </p>
+          <p
+            style={{ color: waterReport.waterReportNitrite > 0.1 ? "red" : "" }}
+          >
+            <span>Nitrite:</span>
+            <span>{waterReport.waterReportNitrite} mg/L</span>
+          </p>
+          <p
+            style={{ color: waterReport.waterReportNitrate > 20 ? "red" : "" }}
+          >
+            <span>Nitrate:</span>
+            <span>{waterReport.waterReportNitrate} mg/L</span>
+          </p>
+          <p
+            style={{
+              color: waterReport.waterReportCarbonate > 180 ? "red" : "",
+            }}
+          >
+            <span>Carbonate:</span>
+            <span>{waterReport.waterReportCarbonate} mg/L</span>
+          </p>
+          <p style={{ color: waterReport.waterReportSalt > 0.5 ? "red" : "" }}>
+            <span>Salt:</span>
+            <span>{waterReport.waterReportSalt}%</span>
+          </p>
+          <p
+            style={{
+              color: waterReport?.waterReportCarbonDioxide > 40 ? "red" : "",
+            }}
+          >
+            <span>Carbon Dioxide:</span>
+            <span>{waterReport?.waterReportCarbonDioxide} mg/L</span>
+          </p>
+          <Button
+            type="primary"
+            onClick={() => navigate(`/waterReportHistory/${pondId}`)}
+          >
             See Water Report History
           </Button>
         </div>

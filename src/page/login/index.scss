@@ -18,21 +18,27 @@
     min-height: 100vh;
 }
 
-.login-form-container {
-    margin-top: 0px;
-    width: 50%;
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+.login-form-container { 
+    max-width: 450px;
+    width: 90%;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    
+    &:hover {
+        transform: translateY(-5px);
+    }
 }
 
 .loginForm-title {
     font-family: 'Oswald', sans-serif;
-    font-size: 36px;
+    font-size: 2.25rem;
     color: #1890ff;
-    margin-bottom: 30px;
+    margin-bottom: 1.5rem;
     text-align: center;
+    font-weight: 600;
 }
 
 .loginForm-inputBox {
@@ -85,20 +91,34 @@
 }
 
 .loginForm-register {
-    margin-top: 20px;
+    margin-top: 1.5rem;
     text-align: center;
-    cursor: pointer;
+    
+    p {
+        color: #666;
+        font-size: 1rem;
+    }
+
+    button {
+        padding: 0;
+        height: auto;
+        
+        &:hover {
+            background: none;
+            color: #1890ff;
+            text-decoration: underline;
+        }
+    }
 }
 
-.loginForm-register p {
-    font-size: 16px;
-    color: #666;
-}
-
-.loginForm-register a {
-    font-size: 16px;
-    color: #337ab7;
-    text-decoration: none;
+.loginForm-error {
+    color: #ff4d4f;
+    text-align: center;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background-color: #fff1f0;
+    border: 1px solid #ffccc7;
+    border-radius: 4px;
 }
 
 button {
