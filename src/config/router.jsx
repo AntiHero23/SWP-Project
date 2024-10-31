@@ -141,11 +141,19 @@ export const router = createBrowserRouter([
       // Basic member routes
       {
         path: "/buyPlan",
-        element: <Plan />,
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]}>
+            <Plan />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/waterReportHistory/:pondId",
-        element: <WaterReportHistory />,
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]}>
+            <WaterReportHistory />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/statisticsKoi",
