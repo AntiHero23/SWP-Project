@@ -306,6 +306,7 @@ function KoiInfo() {
               {koiReportLatest && (
                 <div className="koi-report-latest">
                   <h2>Latest Koi Report</h2>
+                  <h4>Date: {koiReportLatest.updateDate || "N/A"}</h4>
                   <h4>Koi Length: {koiReportLatest.length || "N/A"} cm</h4>
                   <h4>Koi Weight: {koiReportLatest.weight || "N/A"} g</h4>
                   <h4>Koi Status: {koiReportLatest.koiStatus || "N/A"}</h4>
