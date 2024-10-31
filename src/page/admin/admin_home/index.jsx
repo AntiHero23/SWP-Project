@@ -213,7 +213,11 @@ function AdminHome() {
     currency: "VND",
   });
 
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
+  const COLORS = {
+    Normal: "#00C49F",   // Green for Normal
+    VIP: "#0088FE",      // Yellow for VIP
+    "Super VIP": "#FFBB28"  // Blue for Super VIP
+  };
 
   const columns = [
     {
@@ -368,101 +372,101 @@ function AdminHome() {
         <Col span={12}>
           <h3>Member Packages</h3>
           <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={memberPackages}
-                dataKey="numberOfPackage"
-                nameKey="nameOfPackage"
-                outerRadius={100}
-                fill="#8884d8"
-                label={(entry) => {
-                  const total = memberPackages.reduce(
-                    (sum, item) => sum + item.numberOfPackage,
-                    0
-                  );
-                  return `${
-                    packageMapping[entry.nameOfPackage]
-                  }: ${calculatePercentage(entry.numberOfPackage, total)}%`;
-                }}
-              >
-                {memberPackages.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip
-                formatter={(value, name, props) => {
-                  const total = memberPackages.reduce(
-                    (sum, item) => sum + item.numberOfPackage,
-                    0
-                  );
-                  const percentage = calculatePercentage(value, total);
-                  return [
-                    `${value} (${percentage}%)`,
-                    packageMapping[props.payload.nameOfPackage],
-                  ];
-                }}
-              />
-              <Legend
-                payload={[
-                  { value: "Normal", type: "square", color: COLORS[1] },
-                  { value: "VIP", type: "square", color: COLORS[2] },
-                  { value: "Super VIP", type: "square", color: COLORS[0] },
-                ]}
-              />
-            </PieChart>
+          <PieChart>
+  <Pie
+    data={memberPackages}
+    dataKey="numberOfPackage"
+    nameKey="nameOfPackage"
+    outerRadius={100}
+    label={(entry) => {
+      const total = memberPackages.reduce(
+        (sum, item) => sum + item.numberOfPackage,
+        0
+      );
+      return `${packageMapping[entry.nameOfPackage]}: ${calculatePercentage(
+        entry.numberOfPackage,
+        total
+      )}%`;
+    }}
+  >
+    {memberPackages.map((entry) => (
+      <Cell
+        key={`cell-${entry.nameOfPackage}`}
+        fill={COLORS[packageMapping[entry.nameOfPackage]]}
+      />
+    ))}
+  </Pie>
+  <Tooltip
+    formatter={(value, name, props) => {
+      const total = memberPackages.reduce(
+        (sum, item) => sum + item.numberOfPackage,
+        0
+      );
+      const percentage = calculatePercentage(value, total);
+      return [
+        `${value} (${percentage}%)`,
+        packageMapping[props.payload.nameOfPackage],
+      ];
+    }}
+  />
+  <Legend
+    payload={[
+      { value: "Normal", type: "square", color: COLORS.Normal },
+      { value: "VIP", type: "square", color: COLORS.VIP },
+      { value: "Super VIP", type: "square", color: COLORS["Super VIP"] },
+    ]}
+  />
+</PieChart>
           </ResponsiveContainer>
         </Col>
         <Col span={12}>
           <h3>Shop Packages</h3>
           <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={shopPackages}
-                dataKey="numberOfPackage"
-                nameKey="nameOfPackage"
-                outerRadius={100}
-                fill="#82ca9d"
-                label={(entry) => {
-                  const total = shopPackages.reduce(
-                    (sum, item) => sum + item.numberOfPackage,
-                    0
-                  );
-                  return `${
-                    packageMapping[entry.nameOfPackage]
-                  }: ${calculatePercentage(entry.numberOfPackage, total)}%`;
-                }}
-              >
-                {shopPackages.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip
-                formatter={(value, name, props) => {
-                  const total = shopPackages.reduce(
-                    (sum, item) => sum + item.numberOfPackage,
-                    0
-                  );
-                  const percentage = calculatePercentage(value, total);
-                  return [
-                    `${value} (${percentage}%)`,
-                    packageMapping[props.payload.nameOfPackage],
-                  ];
-                }}
-              />
-              <Legend
-                payload={[
-                  { value: "Normal", type: "square", color: COLORS[1] },
-                  { value: "VIP", type: "square", color: COLORS[2] },
-                  { value: "Super VIP", type: "square", color: COLORS[0] },
-                ]}
-              />
-            </PieChart>
+          <PieChart>
+        <Pie
+          data={shopPackages}
+          dataKey="numberOfPackage"
+          nameKey="nameOfPackage"
+          outerRadius={100}
+          label={(entry) => {
+            const total = shopPackages.reduce(
+              (sum, item) => sum + item.numberOfPackage,
+              0
+            );
+            return `${packageMapping[entry.nameOfPackage]}: ${calculatePercentage(
+              entry.numberOfPackage,
+              total
+            )}%`;
+          }}
+        >
+          {shopPackages.map((entry) => (
+            <Cell
+              key={`cell-${entry.nameOfPackage}`}
+              fill={COLORS[packageMapping[entry.nameOfPackage]]}
+            />
+          ))}
+        </Pie>
+        <Tooltip
+          formatter={(value, name, props) => {
+            const total = shopPackages.reduce(
+              (sum, item) => sum + item.numberOfPackage,
+              0
+            );
+            const percentage = calculatePercentage(value, total);
+            return [
+              `${value} (${percentage}%)`,
+              packageMapping[props.payload.nameOfPackage],
+            ];
+          }}
+        />
+        <Legend
+          payload={[
+            { value: "Normal", type: "square", color: COLORS.Normal },
+            { value: "VIP", type: "square", color: COLORS.VIP },
+            { value: "Super VIP", type: "square", color: COLORS["Super VIP"] },
+          ]}
+        />
+      </PieChart>
           </ResponsiveContainer>
         </Col>
       </Row>
