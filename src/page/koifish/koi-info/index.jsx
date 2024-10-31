@@ -116,6 +116,7 @@ function KoiInfo() {
       return;
     try {
       await api.delete(`koireport/${koiReportID}`);
+      alert("Koi report deleted successfully");
       fetchKoiReport();
       fetchAllData();
     } catch (error) {
@@ -146,6 +147,7 @@ function KoiInfo() {
   const handleSubmit = async (values) => {
     try {
       await api.post("koireport/create", values);
+      alert("Koi Report Add Successfully");
       setIsModalOpen(false);
       fetchKoiReport();
       fetchAllData();
@@ -325,6 +327,48 @@ function KoiInfo() {
                   <h2 className="report-title">Koi Report History</h2>
                   <PlusCircleOutlined onClick={showModal} />
                 </div>
+
+                <Modal
+                  title="Add Koi Report"
+                  open={isModalOpen}
+                  onCancel={handleCancel}
+                  footer={null}
+                >
+                  <Form form={form} onFinish={handleSubmit}>
+                    <Form.Item
+                      label="Date"
+                      name="updateDate"
+                      rules={[{ required: true }]}
+                    >
+                      <input
+                        type="date"
+                        onChange={(e) => handleDateChange(e.target.value)}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      label="Length (cm)"
+                      name="length"
+                      rules={[{ required: true }]}
+                    >
+                      <Input type="number" step="0.01" />
+                    </Form.Item>
+                    <Form.Item
+                      label="Weight (g)"
+                      name="weight"
+                      rules={[{ required: true }]}
+                    >
+                      <Input type="number" step="0.01" />
+                    </Form.Item>
+                    <Form.Item hidden name="koiFishID" initialValue={id}>
+                      <Input />
+                    </Form.Item>
+                    <Form.Item>
+                      <Button type="primary" htmlType="submit">
+                        Submit
+                      </Button>
+                    </Form.Item>
+                  </Form>
+                </Modal>
 
                 <div className="report-content">
                   {koiReport
