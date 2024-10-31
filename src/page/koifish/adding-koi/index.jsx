@@ -103,6 +103,7 @@ function AddKoi() {
   };
 
   const handleSubmit = async (values) => {
+    console.log(values);
     try {
       const url = await uploadFile(fileList[0].originFileObj);
       values.image = url;

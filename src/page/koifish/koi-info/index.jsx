@@ -3,15 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../config/axios";
 import {
   Button,
-  Col,
   Form,
-  Image,
   Input,
   Modal,
   Row,
   Select,
   Upload,
   Spin,
+  Image,
 } from "antd";
 import {
   PlusCircleOutlined,
@@ -19,7 +18,6 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
-import { MdDelete } from "react-icons/md";
 import "./index.scss";
 import dayjs from "dayjs";
 import uploadFile from "../../../assets/hook/useUpload";
@@ -30,17 +28,15 @@ function KoiInfo() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [koi, setKoi] = useState(null);
   const [koiReport, setKoiReport] = useState([]);
-  const [koiReportError, setKoiReportError] = useState(null);
   const [koiReportLatest, setKoiReportLatest] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [ponds, setPonds] = useState([]);
   const [koiVarieties, setKoiVarieties] = useState([]);
+  const [koistandard, setKoistandard] = useState([]);
   const navigate = useNavigate();
   const [fileList, setFileList] = useState([]);
   const [previewImage, setPreviewImage] = useState("");
   const [previewOpen, setPreviewOpen] = useState(false);
-  const [koiStandard, setKoiStandard] = useState(null);
   const [showKoiReport, setShowKoiReport] = useState(true);
 
   const handleDateChange = async (date) => {
@@ -49,7 +45,8 @@ function KoiInfo() {
         date,
         koiFishID: koi?.koiFishID,
       });
-      setKoiStandard(response.data.result);
+      setKoistandard(response.data.result);
+      console.log(response.data.result);
       const { hiLength, lowLength, hiWeight, lowWeigh } = response.data.result;
       const avgLength = ((hiLength + lowLength) / 2).toFixed(2);
       const avgWeight = ((hiWeight + lowWeigh) / 2).toFixed(2);
@@ -57,6 +54,7 @@ function KoiInfo() {
         length: avgLength || "",
         weight: avgWeight || "",
       });
+      fetchAllData();
     } catch (error) {
       console.error(error);
     }
@@ -138,7 +136,7 @@ function KoiInfo() {
       setKoiReport(koiReportResponse.data.result || []);
     } catch (error) {
       console.log(error);
-      setKoiReportError("You don't have any koi report yet");
+      alert("You don't have any koi report yet");
     } finally {
       setLoading(false);
     }
@@ -194,7 +192,7 @@ function KoiInfo() {
       setKoiReport(koiReportResponse.data.result || []);
       setKoiReportLatest(koiReportLatestResponse.data.result || null);
     } catch (error) {
-      setError("Failed to fetch data. Please try again later.");
+      alert("Failed to fetch data. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -303,109 +301,129 @@ function KoiInfo() {
                   </Row>
                 </Form>
               </div>
-              {koiReportLatest && (
-                <div className="koi-report-latest">
-                  <h2>Latest Koi Report</h2>
-                  <h4>Date: {koiReportLatest.updateDate || "N/A"}</h4>
-                  <h4>Koi Length: {koiReportLatest.length || "N/A"} cm</h4>
-                  <h4>Koi Weight: {koiReportLatest.weight || "N/A"} g</h4>
-                  <h4>Koi Status: {koiReportLatest.koiStatus || "N/A"}</h4>
-                </div>
-              )}
-            </div>
 
-            <Button
-              type="primary"
-              className="show-report-btn"
-              onClick={() => setShowKoiReport(!showKoiReport)}
-            >
-              {showKoiReport ? "Hide Koi Report" : "Show Koi Report"}
-            </Button>
+              <div className="koi-report-section">
+                {koiReportLatest && (
+                  <div className="koi-report-latest">
+                    <h2>Latest Koi Report</h2>
+                    <h4>Date: {koiReportLatest.updateDate || "N/A"}</h4>
+                    <h4>Koi Length: {koiReportLatest.length || "N/A"} cm</h4>
+                    <h4>Koi Weight: {koiReportLatest.weight || "N/A"} g</h4>
+                    <h4>Koi Status: {koiReportLatest.koiStatus || "N/A"}</h4>
+                  </div>
+                )}
 
-            {showKoiReport && (
-              <div className="koi-report">
-                <div className="report-header">
-                  <h2 className="report-title">Koi Report History</h2>
-                  <PlusCircleOutlined onClick={showModal} />
-                </div>
-
-                <Modal
-                  title="Add Koi Report"
-                  open={isModalOpen}
-                  onCancel={handleCancel}
-                  footer={null}
+                <Button
+                  type="primary"
+                  className="show-report-btn"
+                  onClick={() => setShowKoiReport(!showKoiReport)}
                 >
-                  <Form form={form} onFinish={handleSubmit}>
-                    <Form.Item
-                      label="Date"
-                      name="updateDate"
-                      rules={[{ required: true }]}
-                    >
-                      <input
-                        type="date"
-                        onChange={(e) => handleDateChange(e.target.value)}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      label="Length (cm)"
-                      name="length"
-                      rules={[{ required: true }]}
-                    >
-                      <Input type="number" step="0.01" />
-                    </Form.Item>
-                    <Form.Item
-                      label="Weight (g)"
-                      name="weight"
-                      rules={[{ required: true }]}
-                    >
-                      <Input type="number" step="0.01" />
-                    </Form.Item>
-                    <Form.Item hidden name="koiFishID" initialValue={id}>
-                      <Input />
-                    </Form.Item>
-                    <Form.Item>
-                      <Button type="primary" htmlType="submit">
-                        Submit
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                </Modal>
+                  {showKoiReport ? "Hide Koi Report" : "Show Koi Report"}
+                </Button>
 
-                <div className="report-content">
-                  {koiReport
-                    .sort(
-                      (a, b) => new Date(b.updateDate) - new Date(a.updateDate)
-                    )
-                    .map((report) => (
-                      <div
-                        className="report-history-card"
-                        key={report.koiReportID}
-                      >
-                        <div className="report-info">
-                          <p className="date">
-                            Date:{" "}
-                            {dayjs(report.updateDate).format("MMMM D, YYYY")}
-                          </p>
-                          <p>Length: {report.length} cm</p>
-                          <p>Weight: {report.weight} g</p>
-                        </div>
-                        <DeleteOutlined
-                          className="delete-icon"
-                          onClick={() =>
-                            handleDeleteKoiReport(report.koiReportID)
-                          }
-                        />
-                      </div>
-                    ))}
-                </div>
+                {showKoiReport && (
+                  <div className="koi-report">
+                    <div className="report-header">
+                      <h2 className="report-title">Koi Report History</h2>
+                      <PlusCircleOutlined onClick={showModal} />
+                    </div>
+
+                    <Modal
+                      title="Add Koi Report"
+                      open={isModalOpen}
+                      onCancel={handleCancel}
+                      footer={null}
+                    >
+                      <Form form={form} onFinish={handleSubmit}>
+                        <Form.Item
+                          label="Date"
+                          name="updateDate"
+                          rules={[{ required: true }]}
+                        >
+                          <input
+                            type="date"
+                            onChange={(e) => handleDateChange(e.target.value)}
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          label="Length (cm):"
+                          name="length"
+                          rules={[{ required: true }]}
+                          extra={`Recommended range: ${
+                            koistandard?.lowLength || 0
+                          } - ${koistandard?.hiLength || 0} cm`}
+                        >
+                          <Input type="number" step="0.01" />
+                        </Form.Item>
+                        <Form.Item
+                          label="Weight (g):"
+                          name="weight"
+                          rules={[{ required: true }]}
+                          extra={`Recommended range: ${
+                            koistandard?.lowWeigh || 0
+                          } - ${koistandard?.hiWeight || 0} g`}
+                        >
+                          <Input type="number" step="0.01" />
+                        </Form.Item>
+                        <Form.Item hidden name="koiFishID" initialValue={id}>
+                          <Input />
+                        </Form.Item>
+                        <Form.Item>
+                          <Button type="primary" htmlType="submit">
+                            Submit
+                          </Button>
+                        </Form.Item>
+                      </Form>
+                    </Modal>
+
+                    <div className="report-content">
+                      {koiReport
+                        .sort(
+                          (a, b) => new Date(b.updateDate) - new Date(a.updateDate)
+                        )
+                        .map((report) => (
+                          <div
+                            className="report-history-card"
+                            key={report.koiReportID}
+                          >
+                            <div className="report-info">
+                              <p className="date">
+                                Date:{" "}
+                                {dayjs(report.updateDate).format("MMMM D, YYYY")}
+                              </p>
+                              <p>Length: {report.length} cm</p>
+                              <p>Weight: {report.weight} g</p>
+                            </div>
+                            <DeleteOutlined
+                              className="delete-icon"
+                              onClick={() =>
+                                handleDeleteKoiReport(report.koiReportID)
+                              }
+                            />
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         )}
         <Button className="go-back-button" onClick={() => navigate(-1)}>
           Go Back
         </Button>
       </div>
+      {previewImage && (
+        <Image
+          wrapperStyle={{ display: "none" }}
+          preview={{
+            visible: previewOpen,
+            onVisibleChange: (visible) => setPreviewOpen(visible),
+            afterOpenChange: (visible) => !visible && setPreviewImage(""),
+          }}
+          src={previewImage}
+        />
+      )}
     </div>
   );
 }
