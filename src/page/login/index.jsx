@@ -5,6 +5,7 @@ import api from "../../config/axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/features/counterSlice";
+import logoIcon from "../../assets/Icon.png";
 
 function Login() {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ function Login() {
         <div className="loginForm-header">
           <div style={{ display: "flex", justifyContent: "center" }}>
             <img
-              src="./src/assets/Icon.png"
+              src={logoIcon}
               style={{ width: "50px" }}
               alt="Sunside Koi Care Logo"
               className="loginForm-logo"
