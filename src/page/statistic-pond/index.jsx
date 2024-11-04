@@ -117,11 +117,22 @@ function StatisticsPond() {
 
     if (waterReport.length > 0 && waterStandard) {
       const reportMap = {};
+      const formattedSelectedDate = selectedDate.format("YYYY-MM");
+
       waterReport.forEach((report) => {
-        const dateKey = dayjs(report.waterReportUpdatedDate).format("YYYY-MM-DD");
-        reportMap[dateKey] = report;
+        const reportDate = dayjs(report.waterReportUpdatedDate).format("YYYY-MM");
+        if (reportDate === formattedSelectedDate) { // Check if report date matches the selected date
+          const dateKey = dayjs(report.waterReportUpdatedDate).format("YYYY-MM-DD");
+          reportMap[dateKey] = report;
+        }
       });
+
+
       console.log("Mapped water report by date:", reportMap);
+
+
+
+
 
       const sortedDates = Object.keys(reportMap).sort((a, b) => dayjs(a).diff(dayjs(b)));
       const interpolatedData = [];

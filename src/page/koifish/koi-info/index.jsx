@@ -232,7 +232,7 @@ function KoiInfo() {
                       </Form.Item>
                       <Form.Item
                         className="koi-img-container"
-                        label="Pond Image"
+                        label="Koi Image"
                         name="image"
                       >
                         <img
