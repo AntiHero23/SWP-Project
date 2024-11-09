@@ -87,6 +87,9 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+
+
+    
   }
   
   .modal-content {
@@ -95,8 +98,48 @@
     border-radius: 10px;
     max-width: 600px;
     width: 100%;
+    max-height: 80vh;         
+    overflow-y: auto;          
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     position: relative;
+
+
+    .modal-content {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      position: relative;
+    
+      /* Custom Scrollbar Styling */
+      &::-webkit-scrollbar {
+        width: 10px;
+      }
+    
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+        margin: 15px; /* Space to allow rounded corners */
+      }
+    
+      &::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 10px;
+        border: 2px solid #f1f1f1; /* Padding around thumb */
+      }
+    
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+      }
+    
+      /* Firefox scrollbar styling */
+      scrollbar-width: thin;
+      scrollbar-color: #888 #f1f1f1;
+    }
   }
   
   .close-button {
