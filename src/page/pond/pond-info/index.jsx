@@ -271,38 +271,59 @@ function PondInfo() {
             </span>
           </p>
           <p
-            style={{ color: waterReport.waterReportAmmonia > 0.1 ? "red" : "" }}
+            style={{ 
+              color:
+              waterReport.waterReportAmmonia < parameters.ammonia.min ||
+              waterReport.waterReportAmmonia > parameters.ammonia.max 
+              ? "red" : "" }}
           >
             <span>Ammonia:</span>
             <span>{waterReport.waterReportAmmonia} mg/L</span>
           </p>
           <p
-            style={{ color: waterReport.waterReportNitrite > 0.1 ? "red" : "" }}
+            style={{ color:
+              waterReport.waterReportNitrite < parameters.nitrite.min ||
+              waterReport.waterReportNitrite > parameters.nitrite.max 
+              ? "red" : ""  }}
           >
             <span>Nitrite:</span>
             <span>{waterReport.waterReportNitrite} mg/L</span>
           </p>
           <p
-            style={{ color: waterReport.waterReportNitrate > 20 ? "red" : "" }}
+            style={{ color:
+              waterReport.waterReportNitrate < parameters.nitrate.min ||
+              waterReport.waterReportNitrate > parameters.nitrate.max 
+              ? "red" : "" }}
           >
             <span>Nitrate:</span>
             <span>{waterReport.waterReportNitrate} mg/L</span>
           </p>
           <p
             style={{
-              color: waterReport.waterReportCarbonate > 180 ? "red" : "",
+              color:
+              waterReport.waterReportCarbonate < parameters.carbonate.min ||
+              waterReport.waterReportCarbonate> parameters.carbonate.max 
+              ? "red" : "" 
             }}
           >
             <span>Carbonate:</span>
             <span>{waterReport.waterReportCarbonate} mg/L</span>
           </p>
-          <p style={{ color: waterReport.waterReportSalt > 0.5 ? "red" : "" }}>
+          <p style={{ 
+              color:
+              waterReport.waterReportSalt < parameters.salt.min ||
+              waterReport.waterReportSalt > parameters.salt.max 
+              ? "red" : ""  }}>
+            
             <span>Salt:</span>
             <span>{waterReport.waterReportSalt}%</span>
           </p>
           <p
             style={{
-              color: waterReport?.waterReportCarbonDioxide > 40 ? "red" : "",
+              color:
+              waterReport.waterReportCarbonDioxide < parameters.carbonDioxide.min ||
+              waterReport.waterReportCarbonDioxide > parameters.carbonDioxide.max 
+              ? "red" : "" 
             }}
           >
             <span>Carbon Dioxide:</span>

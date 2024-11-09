@@ -220,6 +220,18 @@ function StatisticsPond() {
     setLoading(false);
   };
 
+   // Unit mapping for different types
+   const unitMap = {
+    temp: "°C",
+    hardness: "dGH",
+    salt: "%",
+    pH: " ",
+    default: "mg/L",  // For other types
+  };
+
+  // Helper function to get the unit based on selectedType
+  const getUnit = () => unitMap[selectedType] || unitMap.default;
+
   return (
     <div className="pond-page">
       <div className="pond-container">
@@ -269,8 +281,8 @@ function StatisticsPond() {
               <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="waterReportUpdatedDate" />
-                <YAxis />
-                <Tooltip />
+                <YAxis label={{ value: `Value (${getUnit()})`, angle: -90, position: "insideLeft" }} />
+                <Tooltip formatter={(value) => `${value} ${getUnit()}`} />
                 <Legend />
                 <Line type="monotone" dataKey="value" stroke="#1890ff" name={capitalize(selectedType)} />
                 <Line type="monotone" dataKey="lowValue" stroke="#00FF02" name="Low Value" strokeDasharray="3 3" />

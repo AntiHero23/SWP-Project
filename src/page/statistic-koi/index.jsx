@@ -322,9 +322,10 @@ function StatisticKoi() {
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="updateDate" />
-              <YAxis tickFormatter={(value) => value.toFixed(2)} />{" "}
-              {/* Format YAxis values */}
-              <Tooltip formatter={(value) => value.toFixed(2)} />{" "}
+              <YAxis 
+              label={{ value: `Value (${selectedType === "weight" ? "g" : "cm"})`, angle: -90, position: "insideLeft" }} 
+              tickFormatter={(value) =>  `${value.toFixed()}`} />
+              <Tooltip formatter={(value) =>  `${value.toFixed(2)} ${selectedType === "weight" ? "g" : "cm"}`} />{" "}
               {/* Format Tooltip values */}
               <Legend />
               <Line
@@ -358,8 +359,10 @@ function StatisticKoi() {
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="updateDate" />
-              <YAxis tickFormatter={(value) => value.toFixed(2)} />
-              <Tooltip formatter={(value) => value.toFixed(2)} />
+              <YAxis 
+              label={{ value: `Value (${selectedType === "weight" ? "g" : "cm"})`, angle: -90, position: "insideLeft" }} 
+              tickFormatter={(value) =>  `${value.toFixed()}`} />
+              <Tooltip formatter={(value) =>  `${value.toFixed(2)} ${selectedType === "weight" ? "g" : "cm"}`} />
               <Legend />
               <Line
                 type="monotone"
