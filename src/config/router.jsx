@@ -142,7 +142,7 @@ export const router = createBrowserRouter([
       {
         path: "/buyPlan",
         element: (
-          <ProtectedRoute allowedRoles={["MEMBER"]}>
+          <ProtectedRoute allowedRoles={["MEMBER"]} requirePremium={false}>
             <Plan />
           </ProtectedRoute>
         ),
