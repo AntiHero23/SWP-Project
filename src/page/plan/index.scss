@@ -52,9 +52,26 @@ h1 {
 }
 
 .package-title {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 10px;
+  font-size: 32px;
+  color: #1890ff;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 15px;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: #1890ff;
+    border-radius: 2px;
+  }
 }
 
 .package-description {
@@ -63,24 +80,18 @@ h1 {
   margin-bottom: 15px;
 }
 
-.package-duration,
+.package-duration {
+  font-size: 20px;
+  color: #333;
+  margin: 15px 0;
+  font-weight: 600;
+}
+
 .package-price {
-  font-size: 14px;
-  color: #777;
-  margin: 5px 0;
+  font-size: 28px;
+  color: #1890ff;
+  margin: 15px 0;
+  font-weight: 700;
 }
 
-.buy-button {
-  background-color: #1890ff;
-  border: none;
-  color: #fff;
-  margin-top: 15px;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
 
-  &:hover {
-    background-color: #40a9ff;
-  }
-}

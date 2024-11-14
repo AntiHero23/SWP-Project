@@ -48,6 +48,10 @@ function Plan() {
     }
   };
 
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat("vi-VN").format(price) + " VND";
+  };
+
   return (
     <div className="pricing-page">
       <h1>Pricing</h1>
@@ -65,10 +69,11 @@ function Plan() {
                     <p className="package-duration">
                       Duration: {pkg.duration} months
                     </p>
-                    <p className="package-price">Price: {pkg.price} vnd</p>
+                    <p className="package-price">
+                      Price: {formatPrice(pkg.price)}
+                    </p>
                     <Button
                       type="primary"
-                      className="buy-button"
                       onClick={() => handleBuyPlan(pkg.id)}
                       loading={loadingPurchase}
                     >
