@@ -62,8 +62,10 @@ function Plan() {
                   <div className="pricing-card-content">
                     <h3 className="package-title">{pkg.name}</h3>
                     <p className="package-description">{pkg.description}</p>
-                    <p className="package-duration">Duration: {pkg.duration} months</p>
-                    <p className="package-price">Price: ${pkg.price}</p>
+                    <p className="package-duration">
+                      Duration: {pkg.duration} months
+                    </p>
+                    <p className="package-price">Price: {pkg.price} vnd</p>
                     <Button
                       type="primary"
                       className="buy-button"

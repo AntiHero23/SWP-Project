@@ -43,15 +43,17 @@ body {
   }
   
   .team-member {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
     max-width: 150px;
   }
   
   .profile-img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    margin-bottom: 10px;
+    font-size: 48px;
+    color: #333;
+    margin-bottom: 15px;
   }
   
   h3 {
@@ -86,5 +88,13 @@ body {
     font-size: 14px;
     color: #777;
     text-align: center;
+  }
+  
+  .simple-icon {
+    font-size: 48px;
+    color: #333;
+    margin-bottom: 15px;
+    opacity: 0.8;
+    transform: scale(1.2);
   }
   

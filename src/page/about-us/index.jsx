@@ -1,4 +1,12 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { 
+  faCode, 
+  faDatabase, 
+  faLaptop, 
+  faPaintBrush, 
+  faDesktop 
+} from "@fortawesome/free-solid-svg-icons";
 import "./index.scss";
 
 const AboutUs = () => {
@@ -8,27 +16,27 @@ const AboutUs = () => {
       <h2>About Our Team</h2>
       <div className="team-container">
         <div className="team-member">
-          <img className="profile-img" src="" alt="Hao" />
+          <FontAwesomeIcon icon={faCode} className="profile-img simple-icon" />
           <h3>Hao</h3>
           <p>Team Lead and Backend Developer</p>
         </div>
         <div className="team-member">
-          <img className="profile-img" src="" alt="Thien" />
+          <FontAwesomeIcon icon={faDatabase} className="profile-img simple-icon" />
           <h3>Thien</h3>
           <p>Backend Developer</p>
         </div>
         <div className="team-member">
-          <img className="profile-img" src="" alt="Hung" />
+          <FontAwesomeIcon icon={faLaptop} className="profile-img simple-icon" />
           <h3>Hung</h3>
           <p>Main Front end Dev</p>
         </div>
         <div className="team-member">
-          <img className="profile-img" src="" alt="Minh" />
+          <FontAwesomeIcon icon={faPaintBrush} className="profile-img simple-icon" />
           <h3>Minh</h3>
           <p>Front End and UI design</p>
         </div>
         <div className="team-member">
-          <img className="profile-img" src="" alt="An" />
+          <FontAwesomeIcon icon={faDesktop} className="profile-img simple-icon" />
           <h3>An</h3>
           <p>Front End development</p>
         </div>
