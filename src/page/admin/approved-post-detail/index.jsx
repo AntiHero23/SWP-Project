@@ -61,6 +61,10 @@ function ApprovedPostDetail() {
               />
             </Card>
             <Card>
+              <b>Product Type: </b>
+              {post?.productTypeName}
+            </Card>
+            <Card>
               <b>Description: </b>
               <p>
                 {post?.description?.split("\n")?.map((item, index) => (
@@ -70,6 +74,19 @@ function ApprovedPostDetail() {
                   </React.Fragment>
                 ))}
               </p>
+            </Card>
+            <Card>
+              <b>Link: </b>
+              <a
+                href={post.link}
+                style={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {post.link}
+              </a>
             </Card>
             <Card>
               <b>Price: </b>
